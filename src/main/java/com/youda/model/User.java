@@ -305,6 +305,7 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
+	/*定义默认构造函数*/
 	public User() {
 	}
 }

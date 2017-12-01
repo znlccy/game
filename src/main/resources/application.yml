@@ -28,8 +28,8 @@ spring:
     cache: true
   mail:
       host: stmp.126.com
-      username: yd@126.com
-      password: yd123456
+      username: 18237177660@163.com
+      password: csy520csy
       default-encoding: utf-8
 logging:
   file: logs/logback-${spring.profiles.active}.log

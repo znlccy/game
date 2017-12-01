@@ -1,11 +1,7 @@
 package com.youda.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import com.youda.model.MessageAuthCode;
+import org.springframework.web.bind.annotation.*;
 
 import com.youda.interceptor.AuthInterceptor;
 
@@ -30,5 +26,10 @@ public class MessageAuthCodeController extends AuthInterceptor{
 	@RequestMapping(value = "send", method = RequestMethod.GET)
 	public String sendMessageCode(@RequestParam String phone) {
 		return "发送短信验证码成功";
+	}
+
+	@GetMapping(value = "getAll")
+	public MessageAuthCode findAllMessageAuthCode() {
+		return null;
 	}
 }

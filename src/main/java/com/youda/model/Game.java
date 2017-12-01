@@ -99,6 +99,7 @@ public class Game {
 		this.gamePackage = gamePackage;
 	}
 
+	/*定义默认的构造函数*/
 	public Game() {
 	}
 }

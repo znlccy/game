@@ -271,6 +271,7 @@ public class Order {
 		this.orderSource = orderSource;
 	}
 
+	/*定义默认构造函数*/
 	public Order() {
 	}
 }

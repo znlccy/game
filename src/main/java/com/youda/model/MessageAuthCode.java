@@ -125,6 +125,7 @@ public class MessageAuthCode {
 		this.macodePhone = macodePhone;
 	}
 
+	/*定义默认构造函数*/
 	public MessageAuthCode() {
 
 	}

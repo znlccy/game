@@ -1,5 +1,7 @@
 package com.youda.serviceImpl;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +86,7 @@ public class UserServiceImpl implements UserService {
 	 * (non-Javadoc)
 	 * @see com.youda.service.UserService#getUserByUserId(java.lang.String)
 	 */
-	public User getUserByUserId(String userId) {
+	public User getUserByUserId(long userId) {
 		return userMapper.findByUserId(userId);
 	}
 	
@@ -98,16 +100,34 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userMapper.findByUserName(userName);
 	}
-	
+
 	/* 
 	 * 实现通过用户Id来修改用户信息
 	 * (non-Javadoc)
 	 * @see com.youda.service.UserService#modifyByUserId(java.lang.String)
 	 */
 	@Override
-	public boolean modifyByUserId(User user) {
+	public boolean modifyByUserId(long userId) {
 		// TODO Auto-generated method stub
-		return userMapper.updateByUserId(user);
+		User  user = userMapper.findByUserId(userId);
+		System.err.println("user："+user);
+		if(user==null)
+		{
+			return false;
+		}
+		else
+		{
+			user.setUserName("xiaolong");
+			boolean result = userMapper.modifyUserInfo(user);
+			if(result)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 	
 	/* 
@@ -116,9 +136,9 @@ public class UserServiceImpl implements UserService {
 	 * @see com.youda.service.UserService#modifyByUserName(java.lang.String)
 	 */
 	@Override
-	public boolean modifyByUserName(User user) {
+	public boolean modifyByUserName(String userName) {
 		// TODO Auto-generated method stub
-		return userMapper.updateByUserName(user);
+		return false;
 	}
 
 	/* 

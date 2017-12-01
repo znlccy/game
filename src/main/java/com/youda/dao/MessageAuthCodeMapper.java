@@ -26,7 +26,7 @@ public interface MessageAuthCodeMapper {
 	 * @param authCode
 	 * @return
 	 */
-	@Insert("insert into tb_messagecode(macodeId,macodeContent,macodeSendTime,macodePhone) values(#{authCode.macodeId},#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
+	@Insert("insert into tb_messagecode(macode_id,macode_content,macode_send_time,macode_phone) values(#{authCode.macodeId},#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
 	public boolean addMessageAuthCode(@Param("authCode") MessageAuthCode authCode);
 	
 	/**
@@ -35,14 +35,14 @@ public interface MessageAuthCodeMapper {
 	 * @return
 	 */
 	@Select("select macodeId,macodeContent,macodeSendTime,macodePhone from tb_messagecode where macodeId=#{macodeId}")
-	public MessageAuthCode findByMacodeId(@Param("macodeId") String macodeId);
+	public MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
 	
 	/**
 	 * 定义通过短息验证码内容来查找短信验证码的规范
 	 * @param macodeContent
 	 * @return
 	 */
-	@Select("select macodeId,macodeContent,macodeSendTime,macodePhone from tb_messagecode where macodeContent=#{macodeContent}")
+	@Select("select macode_id,macode_content,macode_send_time,macode_phone from tb_messagecode where macode_content=#{macodeContent}")
 	public MessageAuthCode findByMacodeContent(@Param("macodeContent") String macodeContent);
 	
 	/**
@@ -51,7 +51,7 @@ public interface MessageAuthCodeMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_messagecode where macodeId=#{macodeId}")
-	public boolean deleteByMacodeId(@Param("macodeId") String macodeId);
+	public boolean deleteByMacodeId(@Param("macodeId") long macodeId);
 	
 	/**
 	 * 定义通过短信验证码的内容来删除短信验证码的规范
@@ -83,6 +83,6 @@ public interface MessageAuthCodeMapper {
 	 * 定义列举所有短信验证码的规范
 	 * @return
 	 */
-	@Select("select macodeId,macodeContent,macodeSendTime,macodePhone from tb_messagecode")
+	@Select("select macode_id,macode_content,macode_send_time,macode_phone from tb_messagecode")
 	public List<MessageAuthCode> findAllMessageCode();
 }

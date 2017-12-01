@@ -14,7 +14,7 @@ import com.youda.interceptor.AuthInterceptor;
  */
 
 @RestController
-@RequestMapping(value = "/order")
+/*@RequestMapping(value = "/order")*/
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class OrderController extends AuthInterceptor {
 	

@@ -19,7 +19,7 @@ import com.youda.service.UserService;
  * @introduce 实现用户控制器
  */
 @RestController
-/*@RequestMapping(value = "/user")*/
+@RequestMapping(value = "/user")
 @CrossOrigin(maxAge=3600,origins="*")
 public class UserController implements ErrorController {
 
@@ -30,53 +30,13 @@ public class UserController implements ErrorController {
 	 */
 	@Autowired
 	public UserService userService;
-	
-	@RequestMapping(value=ERROR_PATH)  
-    public String handleError(){  
-        return "error/404.html";  
-    }  
-	
-	/**
-	 * 实现通过用户Id来查找用户
-	 * @param userId
-	 * @return
-	 */
-	/*@RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)*/
-	@Authorization
-	@GetMapping(value = "/user")
-	public User findByUserId(@PathVariable("userId") String userId) {
-		return userService.getUserByUserId(userId);
-	}
-	
-	/**
-	 * 实现通过用户名来查找用户
-	 * @param userName
-	 * @return
-	 */
-	@RequestMapping(value = "/getname", method = RequestMethod.GET)
-	public User findByUserName(@RequestParam("userName") String userName) {
-		return userService.findUserByUserName(userName);
-	}
-	
-	/**
-	 * @param userName
-	 * @return
-	 */
-	@RequestMapping(value = "/modifybyname", method = RequestMethod.PUT )
-	public boolean modifyByUserName(@RequestParam String userName) {
-		System.out.println(userService.findUserByUserName(userName));
-		User user = userService.findUserByUserName(userName);
-		user.setUserName("李小龙");
-		userService.modifyByUserName(user);
-		return false;
-	}
 
 	@Override
 	public String getErrorPath() {
 		// TODO Auto-generated method stub
 		return ERROR_PATH;
 	}
-	
+
 	/*1.首先实现后台数据用户注册的功能*/
 	/**
 	 * 实现前台和后台数据注册的功能
@@ -89,7 +49,7 @@ public class UserController implements ErrorController {
 		String userName = ((String) map.get("userName")).trim();
 		String userPassword = ((String) map.get("userPassword")).trim();
 		String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
-		
+
 		return null;
 	}
 	
@@ -115,5 +75,19 @@ public class UserController implements ErrorController {
 			return ResponseStatusCode.putOrGetSuccess(user);
 		}
 	}
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/modify/{userId}",method = RequestMethod.PUT)
+	public ResponseEntity userModify(@PathVariable("userId") long userId) {
+		boolean result = userService.modifyByUserId(userId);
+		return ResponseStatusCode.postSuccess(result);
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "/get/{userId}",method = RequestMethod.GET)
+	public ResponseEntity findUserByUserId(@PathVariable("userId") long userId) {
+		User user = userService.getUserByUserId(userId);
+		return ResponseStatusCode.postSuccess(user);
+	}
+
 }

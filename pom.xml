@@ -84,6 +84,14 @@
 		    <version>4.2.2</version>
 		</dependency>
 		
+		<!-- 获取Springboot的配置文件信息jar包 -->
+		<dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-configuration-processor</artifactId>
+		    <version>1.5.8.RELEASE</version>
+		</dependency>
+		
+
 	</dependencies>
 
 	<build>

@@ -49,7 +49,7 @@ public interface UserService {
 	 * 定义通过userId查询用户
 	 * @return
 	 */
-	User getUserByUserId(String userId);
+	User getUserByUserId(long userId);
 	
 	/**
 	 * 定义通过userName查询用户
@@ -63,14 +63,14 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	boolean modifyByUserId(User user);
+	boolean modifyByUserId(long userId);
 	
 	/**
 	 * 定义通过用户名修改用户信息
 	 * @param userName
 	 * @return
 	 */
-	boolean modifyByUserName(User user);
+	boolean modifyByUserName(String userName);
 	
 	/**
 	 * 定义验证登录的token
@@ -84,5 +84,7 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAllUser();
+
+
 	
 }

@@ -197,6 +197,7 @@ public class Channel {
 		this.channelRegion = channelRegion;
 	}
 
+	/*定义默认的构造函数*/
 	public Channel() {
 
 	}

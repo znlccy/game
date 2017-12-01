@@ -26,15 +26,15 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_id=#{user_id}")
-	public User findByUserId(@Param("user_id") String userId);
+	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_id=#{userId}")
+	public User findByUserId(@Param("userId") long userId);
 	
 	/**
 	 * 通过用户名来查询单个用户
 	 * @param userName
 	 * @return
 	 */
-	@Select("select userId,userName,userPassword,userLoginStatus,userLoginTime,userModifyTime,userRegisteredTime,userLogoutTime,userLoginType,userOnlineTime,userUseDevice from tb_user where userName=#{userName}")
+	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_name=#{userName}")
 	public User findByUserName(@Param("userName") String userName);
 	
 	/**
@@ -42,15 +42,15 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Delete("delete from tb_user where userId=#{userId}")
-	public boolean deleteByUserId(@Param("userId") String userId);
+	@Delete("delete from tb_user where user_id=#{userId}")
+	public boolean deleteByUserId(@Param("userId") long userId);
 	
 	/**
 	 * 通过用户名字来删除用户
 	 * @param userName
 	 * @return
 	 */
-	@Delete("delete from tb_user where userId=#{userName}")
+	@Delete("delete from tb_user where user_name=#{userName}")
 	public boolean deleteByUserName(@Param("userName") String userName);
 	
 	/**
@@ -58,16 +58,8 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Update("update tb_user set userName=#{user.userName} where userId=#{user.userId}")
-	public boolean updateByUserId(@Param("user") User user);
-	
-	/**
-	 * 定义通过用户名来修改用户
-	 * @param userName
-	 * @return
-	 */
-	@Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userLoginStatus=#{user.userLoginStatus},userLoginTime=#{user.userLoginTime},userModifyTime=#{user.userModifyTime},userRegisteredTime=#{user.userRegisteredTime},userLogoutTime=#{user.userLogoutTime},userLoginType=#{user.userLoginType},userOnlineTime=#{user.userOnlineTime},userUseDevice=#{user.userUseDevice} where userName=#{user.userName}")
-	public boolean updateByUserName(@Param("user") User user);
+	@Update("update tb_user set user_name=#{user.userName},user_password=#{user.userPassword},user_modify_time=#{user.userModifyTime} where user_id=#{userId}")
+	public boolean modifyUserInfo(@Param("user") User user);
 	
 	/**
 	 * 列举所有用户

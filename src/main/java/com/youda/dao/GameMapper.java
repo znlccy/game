@@ -68,7 +68,7 @@ public interface GameMapper {
 	 * @param gamePackage
 	 * @return
 	 */
-	@Update("update tb_game set gamePackage=#{gamePackage},gameName=#{gameName} where gameName=#{gameName}")
+	@Update("update tb_game set game_package=#{gamePackage},game_name=#{gameName} where game_name=#{gameName}")
 	public boolean modifyByGameName(@Param("gameName") String gameName,@Param("gamePackage") String gamePackage);
 	
 	/**
@@ -77,8 +77,8 @@ public interface GameMapper {
 	 * @param gameName
 	 * @return
 	 */
-	@Update("update tb_game set gamePackage=#{gamePackage},gameName=#{gameName} where gamePackage=#{gamePackage}")
-	public boolean modifyByGamePackage(@Param("gamePackage") String gamePackage,@Param("gameName") String gameName);
+	@Update("update tb_game set game_package=#{gamePackage},game_name=#{gameName} where game_package=#{gamePackage}")
+	public boolean modifyByGamePackage(@Param("gamePackage") String gamePackage);
 	
 	/**
 	 * 定义通过游戏主键Id来删除游戏的规范

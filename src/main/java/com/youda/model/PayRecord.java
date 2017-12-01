@@ -216,6 +216,7 @@ public class PayRecord {
 		this.payRecordUser = payRecordUser;
 	}
 
+	/*定义默认的构造函数*/
 	public PayRecord() {
 
 	}
