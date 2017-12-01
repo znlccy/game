@@ -5,15 +5,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.youda.annotation.Authorization;
 import com.youda.interceptor.ResponseStatusCode;
@@ -27,7 +19,7 @@ import com.youda.service.UserService;
  * @introduce 实现用户控制器
  */
 @RestController
-@RequestMapping(value = "/user")
+/*@RequestMapping(value = "/user")*/
 @CrossOrigin(maxAge=3600,origins="*")
 public class UserController implements ErrorController {
 
@@ -49,8 +41,9 @@ public class UserController implements ErrorController {
 	 * @param userId
 	 * @return
 	 */
-	@RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)*/
 	@Authorization
+	@GetMapping(value = "/user")
 	public User findByUserId(@PathVariable("userId") String userId) {
 		return userService.getUserByUserId(userId);
 	}

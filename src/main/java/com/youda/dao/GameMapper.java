@@ -25,7 +25,7 @@ public interface GameMapper {
 	 * 定义创建游戏的规范
 	 * @return
 	 */
-	@Insert("insert into tb_game(gameId,gameName,gamePackage) values(#{game.gameId},#{game.gameName},#{game.gamePackage})")
+	@Insert("insert into tb_game(game_id,game_name,game_package) values(#{game.gameId},#{game.gameName},#{game.gamePackage})")
 	public boolean addGame(@Param("game") Game game);
 	
 	/**
@@ -33,15 +33,15 @@ public interface GameMapper {
 	 * @param gameId
 	 * @return
 	 */
-	@Select("select gameId,gameName,gamePackage from tb_game where gameId=#{gameId}")
-	public Game findByGameId(@Param("gameId") String gameId);
+	@Select("select game_id,game_name,game_package from tb_game where game_id=#{gameId}")
+	public Game findByGameId(@Param("gameId") long gameId);
 	
 	/**
 	 * 定义通过游戏名称来查询游戏的规范
 	 * @param gameName
 	 * @return
 	 */
-	@Select("select gameId,gameName,gamePackage from tb_game where gameName=#{gameName}")
+	@Select("select game_id,game_name,game_package from tb_game where game_name=#{gameName}")
 	public Game findByGameName(@Param("gameName") String gameName);
 	
 	/**
@@ -49,7 +49,7 @@ public interface GameMapper {
 	 * @param gamePackage
 	 * @return
 	 */
-	@Select("select gameId,gameName,gamePackage from tb_game where gamePackage=#{gamePackage}")
+	@Select("select game_id,game_name,game_package from tb_game where game_package=#{gamePackage}")
 	public Game findByGamePackage(@Param("gamePackage") String gamePackage);
 	
 	/**
@@ -59,8 +59,8 @@ public interface GameMapper {
 	 * @param gameId
 	 * @return
 	 */
-	@Update("update tb_game set gameName=#{gameName},gamePackage=#{gamePackage} where gameId=#{gameId}")
-	public boolean modifyByGameId(@Param("gameName") String gameName,@Param("gamePackage") String gamePackage,@Param("gameId") String gameId);
+	@Update("update tb_game set game_name=#{game.gameName},game_package=#{game.gamePackage} where game_id=#{gameId}")
+	public boolean modifyByGameId(@Param("gameId") long gameId);
 	
 	/**
 	 * 定义通过游戏名称来更改游戏的规范

@@ -98,5 +98,7 @@ public class Game {
 		this.gameName = gameName;
 		this.gamePackage = gamePackage;
 	}
-	
+
+	public Game() {
+	}
 }

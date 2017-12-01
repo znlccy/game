@@ -214,6 +214,10 @@ public class PayRecord {
 		this.payRecordOrderId = payRecordOrderId;
 		this.outTradeNo = outTradeNo;
 		this.payRecordUser = payRecordUser;
-	}	
+	}
+
+	public PayRecord() {
+
+	}
 }
 

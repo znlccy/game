@@ -97,11 +97,11 @@ public class AuthInterceptor implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object object, ModelAndView modelAndView)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
         if(response.getStatus()==500){  
-            modelAndView.setViewName("/error/500.html");  
+            modelAndView.setViewName("/error/500.html");
         }else if(response.getStatus()==404){  
-            modelAndView.setViewName("/error/404.html");  
+            modelAndView.setViewName("/error/404.html");
         } 
 	}
 

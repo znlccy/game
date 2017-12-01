@@ -17,19 +17,20 @@ spring:
       testWhileIdle: true
       testOnBorrow: false
       testOnReturn: false
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+    show-sql: true
+  thymeleaf:
+    cache: true
   mail:
       host: stmp.126.com
       username: yd@126.com
       password: yd123456
       default-encoding: utf-8
-  jpa:
-    properties:
-      hibernate:
-        hdm2ddl:
-          auto: true
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    show-sql: true
-  thymeleaf:
-    cache: true
 logging:
-  file: logs/gamedata.log
+  file: logs/logback-${spring.profiles.active}.log
+#  config: classpath:log-${spring.profiles.active}.log

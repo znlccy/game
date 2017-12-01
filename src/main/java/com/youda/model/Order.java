@@ -270,5 +270,7 @@ public class Order {
 		this.createOrderUser = createOrderUser;
 		this.orderSource = orderSource;
 	}
-	
+
+	public Order() {
+	}
 }

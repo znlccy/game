@@ -124,5 +124,8 @@ public class MessageAuthCode {
 		this.macodeSendTime = macodeSendTime;
 		this.macodePhone = macodePhone;
 	}
-	
+
+	public MessageAuthCode() {
+
+	}
 }

@@ -196,5 +196,19 @@ public class Channel {
 	public void setChannelRegion(String channelRegion) {
 		this.channelRegion = channelRegion;
 	}
-	
+
+	public Channel() {
+
+	}
+
+	public Channel(long channelId, String channelName, byte[] channelPicture, String channelWebSite, String platformNature, String platformClass, String channelLabel, String channelRegion) {
+		this.channelId = channelId;
+		this.channelName = channelName;
+		this.channelPicture = channelPicture;
+		this.channelWebSite = channelWebSite;
+		this.platformNature = platformNature;
+		this.platformClass = platformClass;
+		this.channelLabel = channelLabel;
+		this.channelRegion = channelRegion;
+	}
 }

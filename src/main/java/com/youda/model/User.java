@@ -289,4 +289,22 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
+	/*构造函数*/
+	public User(long userId, String userName, String userPassword, String userLoginStatus, Timestamp userLoginTime, Timestamp userRegisteredTime, Timestamp userModifyTime, Timestamp userLogoutTime, String userUseDevice, String userLoginType, Timestamp userOnlineTime, String userEmail) {
+		this.userId = userId;
+		this.userName = userName;
+		this.userPassword = userPassword;
+		this.userLoginStatus = userLoginStatus;
+		this.userLoginTime = userLoginTime;
+		this.userRegisteredTime = userRegisteredTime;
+		this.userModifyTime = userModifyTime;
+		this.userLogoutTime = userLogoutTime;
+		this.userUseDevice = userUseDevice;
+		this.userLoginType = userLoginType;
+		this.userOnlineTime = userOnlineTime;
+		this.userEmail = userEmail;
+	}
+
+	public User() {
+	}
 }

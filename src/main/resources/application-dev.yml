@@ -1,2 +1,4 @@
+#开发环境
+name: game
 server:
   port: 8080
