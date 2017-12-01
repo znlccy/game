@@ -85,15 +85,15 @@ public interface GameMapper {
 	 * @param gameId
 	 * @return
 	 */
-	@Delete("delete from tb_game where gameId=#{gameId}")
-	public boolean deleteByGameId(@Param("gameId") String gameId);
+	@Delete("delete from tb_game where game_id=#{gameId}")
+	public boolean deleteByGameId(@Param("gameId") long gameId);
 	
 	/**
 	 * 定义通过游戏名称来删除游戏
 	 * @param gameName
 	 * @return
 	 */
-	@Delete("delete from tb_game where gameName=#{gameName}")
+	@Delete("delete from tb_game where game_name=#{gameName}")
 	public boolean deleteByGameName(@Param("gameName") String gameName);
 	
 	/**
@@ -101,13 +101,13 @@ public interface GameMapper {
 	 * @param gamePackage
 	 * @return
 	 */
-	@Delete("delete from tb_game where gamePackage=#{gamePackage}")
+	@Delete("delete from tb_game where game_package=#{gamePackage}")
 	public boolean deleteByGamePackage(@Param("gamePackage") String gamePackage);
 	
 	/**
 	 * 定义查询所有游戏的规范
 	 * @return
 	 */
-	@Select("select gameId,gameName,gamePackage from tb_game")
+	@Select("select game_id,game_name,game_package from tb_game")
 	public List<Game> findAllGame();
 }
