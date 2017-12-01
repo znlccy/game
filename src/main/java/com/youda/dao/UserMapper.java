@@ -65,7 +65,7 @@ public interface UserMapper {
 	 * 列举所有用户
 	 * @return
 	 */
-	@Select("select userId,userName,userPassword,userLoginStatus,userLoginTime,userModifyTime,userRegisteredTime,userLogoutTime,userLoginType,userOnlineTime,userUseDevice from tb_user")
+	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user")
 	public List<User> findAllUser();
 	
 	/**

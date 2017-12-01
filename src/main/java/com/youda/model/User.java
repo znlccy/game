@@ -289,7 +289,21 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
-	/*构造函数*/
+	/**
+	 * 实现带有参数的构造方法
+	 * @param userId
+	 * @param userName
+	 * @param userPassword
+	 * @param userLoginStatus
+	 * @param userLoginTime
+	 * @param userRegisteredTime
+	 * @param userModifyTime
+	 * @param userLogoutTime
+	 * @param userUseDevice
+	 * @param userLoginType
+	 * @param userOnlineTime
+	 * @param userEmail
+	 */
 	public User(long userId, String userName, String userPassword, String userLoginStatus, Timestamp userLoginTime, Timestamp userRegisteredTime, Timestamp userModifyTime, Timestamp userLogoutTime, String userUseDevice, String userLoginType, Timestamp userOnlineTime, String userEmail) {
 		this.userId = userId;
 		this.userName = userName;
@@ -305,7 +319,9 @@ public class User {
 		this.userEmail = userEmail;
 	}
 
-	/*定义默认构造函数*/
+	/**
+	 * 定义默认构造方法
+	 */
 	public User() {
 	}
 }
