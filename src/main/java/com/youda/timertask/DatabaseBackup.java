@@ -1,4 +1,4 @@
-package com.youda.timer;
+package com.youda.timertask;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,14 +24,5 @@ public class DatabaseBackup {
 		System.err.println(readConfiguration);
 		/*System.err.println(readConfiguration.getDatasource());*/
 	}
-	
-	public static void main(String[] args) {
-		DatabaseBackup backup = new DatabaseBackup();
-		try {
-			backup.BackupDatabase();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+
 }
