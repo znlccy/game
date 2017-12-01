@@ -37,15 +37,15 @@ public class MailController extends AuthInterceptor {
             message.setText("测试邮件内容");
             this.mailSender.send(mimeMessage);  
             
-            *//*WebResult resultMsg = new WebResult(ResultStatusCode.OK.getErrcode(),
+            /*//*WebResult resultMsg = new WebResult(ResultStatusCode.OK.getErrcode(),
                     ResultStatusCode.OK.getErrmsg(), null);  
-            return resultMsg;  *//*
+            return resultMsg; */
         }  
         catch(Exception ex)
         {  
-            *//*ResultMsg resultMsg = new ResultMsg(ResultStatusCode.SYSTEM_ERR.getErrcode(),
+            /*ResultMsg resultMsg = new ResultMsg(ResultStatusCode.SYSTEM_ERR.getErrcode(),
                     ResultStatusCode.SYSTEM_ERR.getErrmsg(), null);  
-            return resultMsg; *//*
+            return resultMsg;*/
         }
 		return null;
 	}
