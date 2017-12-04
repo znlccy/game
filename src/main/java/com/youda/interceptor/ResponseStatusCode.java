@@ -108,4 +108,14 @@ public class ResponseStatusCode {
                 .status(410)
                 .body(new ResponseResult("410", "空指针错误", "抱歉，存在空指针异常!"));
     }
+    
+    /**
+     * 实现删除失败
+     * @return
+     */
+    public static ResponseEntity deleteFialed() {
+        return ResponseEntity
+                .status(411)
+                .body(new ResponseResult("411", "删除失败", "抱歉，删除失败!"));
+    }
 }

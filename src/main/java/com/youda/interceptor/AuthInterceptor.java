@@ -98,11 +98,11 @@ public class AuthInterceptor implements HandlerInterceptor{
 			throws Exception {
 		// TODO Auto-generated method stub
 
-        if(response.getStatus()==500){  
-            modelAndView.setViewName("/error/500.html");
+        /*if(response.getStatus()==500){  
+            modelAndView.setViewName("500.html");
         }else if(response.getStatus()==404){  
-            modelAndView.setViewName("/error/404.html");
-        } 
+            modelAndView.setViewName("404.html");
+        } */
 	}
 
 	/**  

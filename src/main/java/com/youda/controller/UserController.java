@@ -2,8 +2,10 @@ package com.youda.controller;
 
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +46,7 @@ public class UserController implements ErrorController {
 	 * 实现前台和后台数据注册的功能
 	 * @return
 	 */
-	@RequestMapping(value = "/registered", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity userRegistered(@RequestBody Map map) {
 		
@@ -52,6 +54,8 @@ public class UserController implements ErrorController {
 		String userPassword = ((String) map.get("userPassword")).trim();
 		String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
 
+		System.err.println("用户名"+userName);
+		
 		return null;
 	}
 	
@@ -62,6 +66,7 @@ public class UserController implements ErrorController {
 	 */
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ResponseBody
+	/*@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason= "Server Error")*/
 	public ResponseEntity userLogin(@RequestParam String userName,String userPassword) {
 		
 		if(userName==null || userPassword==null)
@@ -73,25 +78,66 @@ public class UserController implements ErrorController {
 		} 
 		else
 		{
-			User user = userService.findUserByUserName(userName);
-			return ResponseStatusCode.putOrGetSuccess(user);
+			if(userService.login(userName, userPassword).getStatusCode().equals("404"))
+			{
+				return ResponseStatusCode.notFindError();
+			} else if(userService.login(userName, userPassword).getStatusCode().equals("200"))
+			{
+				User user = userService.findUserByUserName(userName);
+				return ResponseStatusCode.putOrGetSuccess(user);
+			}
+			return userService.login(userName, userPassword);
 		}
 	}
 
+	/**
+	 * 实现通过用户主键Id来更改用户信息
+	 * @param userId
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/modify/{userId}",method = RequestMethod.PUT)
+	@RequestMapping(value = "/{userId}",method = RequestMethod.PUT)
 	public ResponseEntity userModify(@PathVariable("userId") long userId) {
 		boolean result = userService.modifyByUserId(userId);
 		return ResponseStatusCode.postSuccess(result);
 	}
-
+	
+	/**
+	 * 实现通过用户主键Id来删除用户
+	 * @param userId
+	 * @return
+	 */
 	@ResponseBody
-	@RequestMapping(value = "/get/{userId}",method = RequestMethod.GET)
+	@RequestMapping(value = "{userId}",method = RequestMethod.DELETE)
+	public ResponseEntity userDelete(@PathVariable("userId") long userId) {
+		
+		userService.deleteByUserId(userId);
+			
+		return ResponseStatusCode.deleteSuccess();
+		
+	}
+
+	/**
+	 * 通过用户主键来获取用户所有信息
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "{userId}",method = RequestMethod.GET)
 	public ResponseEntity findUserByUserId(@PathVariable("userId") long userId) {
-		System.err.println(userId);
 		User user = userService.getUserByUserId(userId);
-		System.out.println("获得的用户信息是:"+user);
 		return ResponseStatusCode.postSuccess(user);
 	}
 
+	/**
+	 * 实现通过用户名来获取用户所有信息
+	 * @param userName
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "userName",method = RequestMethod.GET)
+	public ResponseEntity findUserByUserName(@Param("userName") String userName) {
+		User user = userService.findUserByUserName(userName);
+		return ResponseStatusCode.postSuccess(user);
+	}
 }

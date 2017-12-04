@@ -28,7 +28,6 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	/*@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_id=#{userId}")*/
 	@Select("select * from tb_user where userId=#{userId}")
 	public User findByUserId(@Param("userId") long userId);
 	
@@ -37,7 +36,7 @@ public interface UserMapper {
 	 * @param userName
 	 * @return
 	 */
-	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_name=#{userName}")
+	@Select("select * from tb_user where userName=#{userName}")
 	public User findByUserName(@Param("userName") String userName);
 	
 	/**
@@ -45,7 +44,7 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Delete("delete from tb_user where user_id=#{userId}")
+	@Delete("delete from tb_user where userId=#{userId}")
 	public boolean deleteByUserId(@Param("userId") long userId);
 	
 	/**
@@ -53,7 +52,7 @@ public interface UserMapper {
 	 * @param userName
 	 * @return
 	 */
-	@Delete("delete from tb_user where user_name=#{userName}")
+	@Delete("delete from tb_user where userName=#{userName}")
 	public boolean deleteByUserName(@Param("userName") String userName);
 	
 	/**
@@ -61,7 +60,7 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Update("update tb_user set user_name=#{user.userName},user_password=#{user.userPassword},user_modify_time=#{user.userModifyTime} where user_id=#{userId}")
+	@Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{userId} or userName=#{user.UserName}")
 	public boolean modifyUserInfo(@Param("user") User user);
 	
 	/**
@@ -77,7 +76,7 @@ public interface UserMapper {
 	 * @param userPassword
 	 * @return
 	 */
-	@Select("")
-	public User login(@Param("userName") String userName,@Param("userPassword") String userPassword);
+	@Select("select * from tb_user where userName=#{userName} and userPassword=#{userPassword}")
+	public ResponseEntity login(@Param("userName") String userName,@Param("userPassword") String userPassword);
 	
 }

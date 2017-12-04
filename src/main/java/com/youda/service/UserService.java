@@ -73,6 +73,13 @@ public interface UserService {
 	boolean modifyByUserName(String userName);
 	
 	/**
+	 * 定义通过用户的主键Id来删除用户
+	 * @param userId
+	 * @return
+	 */
+	boolean deleteByUserId(long userId);
+	
+	/**
 	 * 定义验证登录的token
 	 * @param accessToken
 	 * @return
@@ -84,7 +91,5 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAllUser();
-
-
 	
 }
