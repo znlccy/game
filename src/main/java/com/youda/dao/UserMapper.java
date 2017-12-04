@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.ResponseEntity;
 
 import com.youda.model.User;
@@ -19,6 +20,7 @@ import com.youda.model.User;
  */
 
 @Mapper
+@CacheConfig(cacheNames = "users")
 public interface UserMapper {
 
 	/**
