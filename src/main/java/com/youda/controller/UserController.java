@@ -12,6 +12,8 @@ import com.youda.interceptor.ResponseStatusCode;
 import com.youda.model.User;
 import com.youda.service.UserService;
 
+import aj.org.objectweb.asm.Type;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -86,7 +88,9 @@ public class UserController implements ErrorController {
 	@ResponseBody
 	@RequestMapping(value = "/get/{userId}",method = RequestMethod.GET)
 	public ResponseEntity findUserByUserId(@PathVariable("userId") long userId) {
+		System.err.println(userId);
 		User user = userService.getUserByUserId(userId);
+		System.out.println("获得的用户信息是:"+user);
 		return ResponseStatusCode.postSuccess(user);
 	}
 

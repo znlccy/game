@@ -28,7 +28,8 @@ public interface UserMapper {
 	 * @param userId
 	 * @return
 	 */
-	@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_id=#{userId}")
+	/*@Select("select user_id,user_name,user_password,user_login_status,user_login_time,user_modify_time,user_registered_time,user_logout_time,user_login_type,user_online_time,user_use_device from tb_user where user_id=#{userId}")*/
+	@Select("select * from tb_user where userId=#{userId}")
 	public User findByUserId(@Param("userId") long userId);
 	
 	/**

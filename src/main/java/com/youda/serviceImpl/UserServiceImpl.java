@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -38,6 +39,12 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Autowired
 	private UserMapper userMapper;
+	
+	/**
+	 * 实现自动依赖注入字符型Redis模板
+	 */
+	@Autowired
+	public StringRedisTemplate stringRedisTemplate;
 	
 	/**
 	 * 实现RedisTemplate模板自动依赖注入
@@ -101,7 +108,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	/* 
-	 * 实现用户主键Id来查询单个用户
+	 * 实现用户主键Id来查询单个用户,查询得到之后，把数据插入到Redis缓存中
 	 * (non-Javadoc)
 	 * @see com.youda.service.UserService#getUserByUserId(java.lang.String)
 	 */
@@ -128,7 +135,9 @@ public class UserServiceImpl implements UserService {
 			//缓存不存在，从MySQL数据库中查询获取,也就是从DB中获取
 			User user = userMapper.findByUserId(userId);
 			//插入到缓存中
-			operations.set(key, user, 10, TimeUnit.SECONDS);
+			operations.set(key, user);
+			stringRedisTemplate.opsForValue().set("bbb", "111");
+			LOGGER.info("UserServiceImpl.findUserByUserId() : 从数据库中获取用户信息并把用户插入缓存 >> " + user.toString());
 			//返回数据
 			return user;
 		}
@@ -142,6 +151,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserByUserName(String userName) {
 		// TODO Auto-generated method stub
+		String key = "userName_"+userName;
+		/*设置添加值得类型*/
+		ValueOperations<String, User> operations = redisTemplate.opsForValue();
+		
 		return userMapper.findByUserName(userName);
 	}
 
@@ -206,6 +219,5 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userMapper.findAllUser();
 	}
-	
 	
 }
