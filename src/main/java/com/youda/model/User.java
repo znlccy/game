@@ -1,5 +1,6 @@
 package com.youda.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Set;
 
@@ -16,12 +17,12 @@ import javax.persistence.Table;
  * @author Chencongye
  * @version 1.0.0
  * @date 2017-11-27
- * @introduce 定义用户实体类
+ * @introduce 定义用户实体类并实现序列化
  */
 
 @Entity
 @Table(name = "tb_user", catalog = "db_ydgame")
-public class User {
+public class User implements Serializable {
 	
 	/**
 	 * 定义用户主键Id

@@ -20,7 +20,7 @@ import redis.clients.jedis.JedisPoolConfig;
  */
 
 public class JRedisConnect {
-	JedisPool pool;
+	/*JedisPool pool;
 	Jedis jedis;
 	
 	@Before
@@ -28,21 +28,21 @@ public class JRedisConnect {
 		// TODO Auto-generated method stub
 		pool = new JedisPool(new JedisPoolConfig(),"127.0.0.1");
 		jedis = pool.getResource();
-	}
+	}*/
 	
 	/**
 	 * 测试获取键的值
 	 */
-	@Test
+	/*@Test
 	public void testGet() {
 		System.out.println(jedis.get("lu"));
-	}
+	}*/
 	
 	/** 
 	* Redis存储初级的字符串 
 	* CRUD 
 	*/ 
-	@Test 
+	/*@Test 
 	public void testBasicString(){ 
 	//-----添加数据---------- 
 		jedis.set("name","minxr");//向key-->name中放入了value-->minxr 
@@ -57,19 +57,19 @@ public class JRedisConnect {
 		//删除key对应的记录 
 		jedis.del("name"); 
 		System.out.println(jedis.get("name"));//执行结果：null     
-		/** 
+		*//** 
 		* mset相当于 
 		* jedis.set("name","minxr"); 
 		* jedis.set("jarorwar","闵晓荣"); 
-		*/ 
+		*//* 
 		jedis.mset("name","minxr","jarorwar","闵晓荣");            
 		System.out.println(jedis.mget("name","jarorwar"));  
-	} 
+	} */
 	
 	/** 
 	* jedis操作Map 
 	*/ 
-	@Test 
+	/*@Test 
 	public void testMap(){ 
 		Map<String,String> user=new HashMap<String,String>(); 
 		user.put("name","minxr"); 
@@ -91,11 +91,11 @@ public class JRedisConnect {
 			String key = iter.next();                
 			System.out.println(key+":"+jedis.hmget("user",key)); 
 		}     
-	} 
+	}*/ 
 	/** 
 	* jedis操作List 
 	*/ 
-	@Test 
+	/*@Test 
 	public void testList(){ 
 		//开始前，先移除所有的内容 
 		jedis.del("java framework"); 
@@ -107,11 +107,12 @@ public class JRedisConnect {
 		//再取出所有数据jedis.lrange是按范围取出， 
 		// 第一个是key，第二个是起始位置，第三个是结束位置，jedis.llen获取长度 -1表示取得所有 
 		System.out.println(jedis.lrange("java framework",0,-1)); 
-	} 
+	}*/ 
+	
 	/** 
 	* jedis操作Set 
 	*/ 
-	@Test 
+	/*@Test 
 	public void testSet(){ 
 		//添加 
 		jedis.sadd("sname","minxr"); 
@@ -124,31 +125,6 @@ public class JRedisConnect {
 		System.out.println(jedis.sismember("sname", "minxr"));//判断 minxr 是否是sname集合的元素 
 		System.out.println(jedis.srandmember("sname")); 
 		System.out.println(jedis.scard("sname"));//返回集合的元素个数 
-	}     
-	@Test 
-	public void test() throws InterruptedException { 
-		//keys中传入的可以用通配符 
-		System.out.println(jedis.keys("*")); //返回当前库中所有的key  [sose, sanme, name, jarorwar, foo, sname, java framework, user, braand] 
-		System.out.println(jedis.keys("*name"));//返回的sname   [sname, name] 
-		System.out.println(jedis.del("sanmdde"));//删除key为sanmdde的对象  删除成功返回1 删除失败（或者不存在）返回 0 
-		System.out.println(jedis.ttl("sname"));//返回给定key的有效时间，如果是-1则表示永远有效 
-		jedis.setex("timekey", 10, "min");//通过此方法，可以指定key的存活（有效时间） 时间为秒 
-		Thread.sleep(5000);//睡眠5秒后，剩余时间将为<=5 
-		System.out.println(jedis.ttl("timekey"));   //输出结果为5 
-		jedis.setex("timekey", 1, "min");        //设为1后，下面再看剩余时间就是1了 
-		System.out.println(jedis.ttl("timekey"));  //输出结果为1 
-		System.out.println(jedis.exists("key"));//检查key是否存在             System.out.println(jedis.rename("timekey","time")); 
-		System.out.println(jedis.get("timekey"));//因为移除，返回为null 
-		System.out.println(jedis.get("time")); //因为将timekey 重命名为time 所以可以取得值 min 
-		//jedis 排序 
-		//注意，此处的rpush和lpush是List的操作。是一个双向链表（但从表现来看的） 
-		jedis.del("a");//先清除数据，再加入数据进行测试 
-		jedis.rpush("a", "1"); 
-		jedis.lpush("a","6"); 
-		jedis.lpush("a","3"); 
-		jedis.lpush("a","9"); 
-		System.out.println(jedis.lrange("a",0,-1));// [9, 3, 6, 1] 
-		System.out.println(jedis.sort("a")); //[1, 3, 6, 9]  //输入排序后结果 
-		System.out.println(jedis.lrange("a",0,-1)); 
-	} 
+	}*/  
+	
 }

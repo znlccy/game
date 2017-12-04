@@ -3,8 +3,13 @@ package com.youda.serviceImpl;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -22,9 +27,23 @@ import com.youda.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService {
+	
+	/**
+	 * 定义日志打印输出变量
+	 */
+	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
+	/**
+	 * 实现UserMapper的自动依赖注入
+	 */
 	@Autowired
-	public UserMapper userMapper;
+	private UserMapper userMapper;
+	
+	/**
+	 * 实现RedisTemplate模板自动依赖注入
+	 */
+	@Autowired
+	private RedisTemplate redisTemplate; 
 	
 	/* 
 	 * 实现用户登录功能
@@ -87,7 +106,32 @@ public class UserServiceImpl implements UserService {
 	 * @see com.youda.service.UserService#getUserByUserId(java.lang.String)
 	 */
 	public User getUserByUserId(long userId) {
-		return userMapper.findByUserId(userId);
+		//从缓存中获取用户信息
+		String key = "user_"+userId;
+		ValueOperations<String, User> operations = redisTemplate.opsForValue();
+		
+		//判断缓存是否存在
+		boolean hasKey = redisTemplate.hasKey(key);
+		
+		//判断缓存是否存在，如果存在，直接从缓存中获取，如果不存在从数据库中查询
+		if(hasKey)
+		{
+			//获取键对应的值
+			User user = operations.get(key);
+			//日志打印输出
+			LOGGER.info("UserServiceImpl.getUserByUserId()：从缓存中获取用户信息>>"+user.toString());
+			//返回数据
+			return user;
+		}
+		else
+		{
+			//缓存不存在，从MySQL数据库中查询获取,也就是从DB中获取
+			User user = userMapper.findByUserId(userId);
+			//插入到缓存中
+			operations.set(key, user, 10, TimeUnit.SECONDS);
+			//返回数据
+			return user;
+		}
 	}
 	
 	/* 
@@ -162,4 +206,6 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userMapper.findAllUser();
 	}
+	
+	
 }
