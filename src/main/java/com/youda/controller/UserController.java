@@ -5,6 +5,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import aj.org.objectweb.asm.Type;
 @RestController
 @RequestMapping(value = "/user")
 @CrossOrigin(maxAge=3600,origins="*")
+@Scope(value = "singleton")
 public class UserController implements ErrorController {
 
 	private static final String ERROR_PATH = "/error";
@@ -46,17 +48,36 @@ public class UserController implements ErrorController {
 	 * 实现前台和后台数据注册的功能
 	 * @return
 	 */
-	@RequestMapping(method = RequestMethod.POST)
 	@ResponseBody
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity userRegistered(@RequestBody Map map) {
 		
 		String userName = ((String) map.get("userName")).trim();
 		String userPassword = ((String) map.get("userPassword")).trim();
 		String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
-
-		System.err.println("用户名"+userName);
 		
-		return null;
+		if(userName.equals("") || userPassword.equals("") || userConfirmPassword.equals(""))
+		{
+			return ResponseStatusCode.nullPointerError();
+		}
+		else if(!userPassword.equals(userConfirmPassword))
+		{
+			return ResponseStatusCode.illegalError();
+		}
+		else
+		{
+			
+			if(userService.findUserByUserName(userName)==null)
+			{
+				return ResponseStatusCode.nullPointerError();
+			}
+			else
+			{
+				User user = userService.findUserByUserName(userName);
+				return ResponseStatusCode.putOrGetSuccess(user);
+			}
+		}
+		
 	}
 	
 	/*2.实现后台数据登录的功能*/

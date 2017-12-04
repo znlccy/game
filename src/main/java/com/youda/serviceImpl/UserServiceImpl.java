@@ -186,10 +186,18 @@ public class UserServiceImpl implements UserService {
 		{
 			//缓存存在，那么就慈宁宫
 			User user = operations.get(key);
-			//输出日志信息
-			LOGGER.info("UserServiceImpl.findByUserName():从Redis缓存中获取用户信息:"+user.toString());
-			//返回用户信息
-			return user;
+			if(user==null)
+			{
+				return null;
+			}
+			else
+			{
+				//输出日志信息
+				LOGGER.info("UserServiceImpl.findByUserName():从Redis缓存中获取用户信息:"+user.toString());
+				//返回用户信息
+				return user;
+			}
+			
 		}
 		else
 		{
