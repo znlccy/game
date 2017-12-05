@@ -46,7 +46,11 @@ public class RedisConfig extends CachingConfigurerSupport {
 	@Value("${spring.redis.timeout}")
 	private int timeout;
 	
-	//自定义缓存key生成策略
+    /* 
+     * 自定义缓存key生成策略
+     * (non-Javadoc)
+     * @see org.springframework.cache.annotation.CachingConfigurerSupport#keyGenerator()
+     */
     @Bean
     public KeyGenerator keyGenerator() {
         return new KeyGenerator(){

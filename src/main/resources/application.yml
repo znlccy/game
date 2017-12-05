@@ -58,11 +58,34 @@ spring:
         min-idle: 0
       #连接超时时间
       timeout: 0
+  #生成163邮箱
+  #mail:
+      #host: stmp.163.com
+      #username: 18237177660@163.com
+      #password: csy520csy
+      #default-encoding: utf-8
+      #properties:
+        #mail:
+          #smtp:
+            #auth: true
+            #starttls: 
+                #enable: true 
+                #required: true
+  #生成qq邮箱
   mail:
-      host: stmp.126.com
-      username: 18237177660@163.com
-      password: csy520csy
+      host: stmp.qq.com
+      username: 12345678@163.com
+      password: 123456
+      port: 25
       default-encoding: utf-8
+      #test-connection: true
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls: 
+                enable: true 
+                required: true
 logging:
   file: logs/logback-${spring.profiles.active}.log
 #  config: classpath:log-${spring.profiles.active}.log
