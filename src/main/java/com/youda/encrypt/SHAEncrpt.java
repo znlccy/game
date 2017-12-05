@@ -3,6 +3,8 @@ package com.youda.encrypt;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -10,6 +12,7 @@ import java.security.MessageDigest;
  * @introduce 创建SHA的加密方式
  */
 
+@Component
 public class SHAEncrpt {
 	
 	/**
