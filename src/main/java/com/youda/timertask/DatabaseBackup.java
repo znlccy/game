@@ -2,12 +2,15 @@ package com.youda.timertask;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
@@ -17,31 +20,34 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @introduce 定义数据库备份实体类
  */
 
-@Configuration
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@Component
+/*@RunWith(SpringRunner.class)
+@SpringBootTest*/
 public class DatabaseBackup {
 	
 	@Autowired
 	private ReadConfiguration readConfiguration;
 	
+	//设置备份时间记录
+	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+	String backupTime = dateFormat.format(new Date());
+	
+	//设置备份地址
+	String backupDir = "d:/";
+	
 	/**
 	 * 定义并实现数据库备份
 	 * @throws Exception
 	 */
-	@Test
+	/*@Test*/
 	public void BackupDatabase() throws Exception {
 		// TODO Auto-generated method stub
-		/*readConfiguration.getDatasource();*/
-		System.err.println(readConfiguration);
-		System.err.println("数据库主机是:"+readConfiguration.getHost());
-		System.err.println("数据库端口是:"+readConfiguration.getPort());
-		System.err.println("数据库名称是:"+readConfiguration.getDatabase());
-		System.err.println("数据库密码是:"+readConfiguration.getPassword());
+		
+		System.err.println("备份时间："+backupTime);
 		
 		Runtime runtime = Runtime.getRuntime();
 		System.out.println("-----备份数据库开始了-----");
-		String cmd = "mysqldump -h"+readConfiguration.getHost()+" -u"+readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">d:/db_ydgame.sql";
+		String cmd = "mysqldump -h"+readConfiguration.getHost()+" -u"+readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">"+backupDir+backupTime+readConfiguration.getDatabase()+".sql";
 		
 		try {
 			Process process = runtime.exec("cmd /c"+cmd);
@@ -62,5 +68,4 @@ public class DatabaseBackup {
 		System.out.println("-----备份数据库任务结束了-----");
 		/*System.err.println(readConfiguration.getDatasource());*/
 	}
-
 }

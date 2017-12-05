@@ -24,8 +24,10 @@ public class ReadConfiguration {
 	
 	@Value("${spring.datasource.password}")
 	private String password;
+	/*@Value("yd123456")
+	private String password;*/
 	
-	@Value("127.0.0.1")
+	@Value("47.100.106.59")
 	private String host;
 
 	/**
