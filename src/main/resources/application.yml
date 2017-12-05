@@ -27,7 +27,7 @@ spring:
       hibernate:
         hbm2ddl:
           #生成规则
-          auto: create
+          auto: update
         #设置对应的方言
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     #设置显示SQL语句
