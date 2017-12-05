@@ -1,11 +1,23 @@
 package com.youda.model;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Cascade;
 
 
 /**
@@ -68,6 +80,13 @@ public class Channel {
 	 */
 	@Column(name = "channelRegion")
 	private String channelRegion;
+	
+	/**
+	 * 实现多对多的关系映射的注解和声明
+	 */
+	@ManyToMany
+	@JoinTable(name = "tb_channelgame",joinColumns=@JoinColumn(name="channelId"),inverseJoinColumns=@JoinColumn(name="gameId"))
+	private Set<Game> games = new HashSet<Game>();
 
 	/**
 	 * 定义渠道主键Id的get方法
@@ -197,12 +216,42 @@ public class Channel {
 		this.channelRegion = channelRegion;
 	}
 
+	/**
+	 * 实现渠道和游戏多对多关系的get方法
+	 * @return
+	 */
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	/**
+	 * 实现渠道和游戏多对多关系的set方法
+	 * @param games
+	 */
+	public void setGames(Set<Game> games) {
+		this.games = games;
+	}
+
 	/*定义默认的构造函数*/
 	public Channel() {
 
 	}
 
-	public Channel(long channelId, String channelName, byte[] channelPicture, String channelWebSite, String platformNature, String platformClass, String channelLabel, String channelRegion) {
+	/**
+	 * 实现带有参数的构造方法
+	 * @param channelId
+	 * @param channelName
+	 * @param channelPicture
+	 * @param channelWebSite
+	 * @param platformNature
+	 * @param platformClass
+	 * @param channelLabel
+	 * @param channelRegion
+	 * @param game
+	 */
+	public Channel(long channelId, String channelName, byte[] channelPicture, String channelWebSite,
+			String platformNature, String platformClass, String channelLabel, String channelRegion/*, List<Game> game*/) {
+		super();
 		this.channelId = channelId;
 		this.channelName = channelName;
 		this.channelPicture = channelPicture;
@@ -211,5 +260,7 @@ public class Channel {
 		this.platformClass = platformClass;
 		this.channelLabel = channelLabel;
 		this.channelRegion = channelRegion;
+		/*this.game = game;*/
 	}
+
 }

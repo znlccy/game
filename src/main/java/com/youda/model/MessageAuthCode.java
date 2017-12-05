@@ -2,11 +2,15 @@ package com.youda.model;
 
 import java.sql.Timestamp;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -45,7 +49,14 @@ public class MessageAuthCode {
 	 */
 	@Column(name = "macodePhone")
 	private String macodePhone;
-
+	
+	/**
+	 * 定义用户和短信验证码之间的一对多的关系
+	 */
+	@ManyToOne(cascade= {CascadeType.ALL})
+	@JoinColumn(name="userId")
+	private User user;
+	
 	/**
 	 * 实现短信验证码主键的get方法
 	 * @return
@@ -111,22 +122,44 @@ public class MessageAuthCode {
 	}
 
 	/**
-	 * 定义带有参数的构造函数
+	 * 实现用户和短信验证码之间的一对多关系的get方法
+	 * @return
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * 实现用户和短信验证码之间的一对多关系的set方法
+	 * @param user
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * 实现无参构造函数 
+	 */
+	public MessageAuthCode() {
+
+	}
+
+	/**
+	 * 实现带有参数的构造函数
 	 * @param macodeId
 	 * @param macodeContent
 	 * @param macodeSendTime
 	 * @param macodePhone
+	 * @param user
 	 */
-	public MessageAuthCode(long macodeId, String macodeContent, Timestamp macodeSendTime, String macodePhone) {
+	public MessageAuthCode(long macodeId, String macodeContent, Timestamp macodeSendTime, String macodePhone,
+			User user) {
 		super();
 		this.macodeId = macodeId;
 		this.macodeContent = macodeContent;
 		this.macodeSendTime = macodeSendTime;
 		this.macodePhone = macodePhone;
+		this.user = user;
 	}
 
-	/*定义默认构造函数*/
-	public MessageAuthCode() {
-
-	}
 }

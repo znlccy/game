@@ -2,14 +2,21 @@ package com.youda.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -97,6 +104,34 @@ public class User implements Serializable {
 	 */
 	@Column(name = "userEmail")
 	private String userEmail;
+	
+	/**
+	 * 一个人可以玩多个游戏，一个游戏可以被多个人玩
+	 */
+	@ManyToMany
+	@JoinTable(name="tb_usergame",joinColumns=@JoinColumn(name="userId"),
+            inverseJoinColumns=@JoinColumn(name="gameId"))
+	private Set<Game> games = new HashSet<Game>();
+	
+	/**
+	 * 定义用户和短信验证码一对多关系的关联关系
+	 */
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
+	private Set<MessageAuthCode> authCodes = new HashSet<MessageAuthCode>();
+	
+	/**
+	 * 定义用户和订单之间的一对多关系的关联关系
+	 */
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="user")
+	private Set<Order> orders = new HashSet<Order>();
+	
+	/**
+	 * 定义用户和Token之间的一对一关系
+	 */
+	@OneToOne
+	@JoinTable(name = "tb_usertoken",joinColumns=@JoinColumn(name="userId"),inverseJoinColumns=@JoinColumn(name="tokenId"))
+	/*@JoinColumn(name="userId")*/
+	private Token token;
 	
 	/**
 	 * 实现用户Id的get方法
@@ -289,6 +324,77 @@ public class User implements Serializable {
 	public void setUserEmail(String userEmail) {
 		this.userEmail = userEmail;
 	}
+	
+	/**
+	 * 实现游戏的get方法
+	 * @return
+	 */
+	public Set<Game> getGames() {
+		return games;
+	}
+
+	/**
+	 * 实现游戏的set方法
+	 * @param games
+	 */
+	public void setGames(Set<Game> games) {
+		this.games = games;
+	}
+
+	/**
+	 * 实现用户和短信验证码之间的一对多关系的get方法
+	 * @return
+	 */
+	public Set<MessageAuthCode> getAuthCodes() {
+		return authCodes;
+	}
+
+	/**
+	 * 实现用户和短信验证码之间的一对多关系的set方法
+	 * @param authCodes
+	 */
+	public void setAuthCodes(Set<MessageAuthCode> authCodes) {
+		this.authCodes = authCodes;
+	}
+	
+	/**
+	 * 实现用户和订单之间的一对多关系的get方法
+	 * @return
+	 */
+	public Set<Order> getOrders() {
+		return orders;
+	}
+
+	/**
+	 * 实现用户和订单之间的一对多关系的set方法
+	 * @param orders
+	 */
+	public void setOrders(Set<Order> orders) {
+		this.orders = orders;
+	}
+
+	/**
+	 * 实现用户和token之间的一对一关系的get方法
+	 * @return
+	 */
+	public Token getToken() {
+		return token;
+	}
+
+	/**
+	 * 实现用户和token之间的一对一关系的set方法
+	 * @param token
+	 */
+	public void setToken(Token token) {
+		this.token = token;
+	}
+
+	/**
+	 * 实现默认的构造方法
+	 */
+	public User() {
+		
+	}
 
 	/**
 	 * 实现带有参数的构造方法
@@ -304,8 +410,16 @@ public class User implements Serializable {
 	 * @param userLoginType
 	 * @param userOnlineTime
 	 * @param userEmail
+	 * @param games
+	 * @param authCodes
+	 * @param orders
+	 * @param token
 	 */
-	public User(long userId, String userName, String userPassword, String userLoginStatus, Timestamp userLoginTime, Timestamp userRegisteredTime, Timestamp userModifyTime, Timestamp userLogoutTime, String userUseDevice, String userLoginType, Timestamp userOnlineTime, String userEmail) {
+	public User(long userId, String userName, String userPassword, String userLoginStatus, Timestamp userLoginTime,
+			Timestamp userRegisteredTime, Timestamp userModifyTime, Timestamp userLogoutTime, String userUseDevice,
+			String userLoginType, Timestamp userOnlineTime, String userEmail, Set<Game> games,
+			Set<MessageAuthCode> authCodes, Set<Order> orders, Token token) {
+		super();
 		this.userId = userId;
 		this.userName = userName;
 		this.userPassword = userPassword;
@@ -318,11 +432,10 @@ public class User implements Serializable {
 		this.userLoginType = userLoginType;
 		this.userOnlineTime = userOnlineTime;
 		this.userEmail = userEmail;
+		this.games = games;
+		this.authCodes = authCodes;
+		this.orders = orders;
+		this.token = token;
 	}
 
-	/**
-	 * 定义默认构造方法
-	 */
-	public User() {
-	}
 }

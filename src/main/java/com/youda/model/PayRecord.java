@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -63,6 +66,13 @@ public class PayRecord {
 	 * 定义支付记录中的支付用户
 	 */
 	private String payRecordUser;
+	
+	/**
+	 * 实现订单和支付记录之间的一对一关系映射
+	 */
+	@OneToOne
+	@JoinTable(name="tb_orderpayrecord",joinColumns=@JoinColumn(name="payRecordId"),inverseJoinColumns=@JoinColumn(name="orderId"))
+	private Order order;
 
 	/**
 	 * 实现支付记录主键Id的get方法
@@ -193,6 +203,29 @@ public class PayRecord {
 	}
 
 	/**
+	 * 实现订单和支付记录之间的一对一关系的get方法
+	 * @return
+	 */
+	public Order getOrder() {
+		return order;
+	}
+
+	/**
+	 * 实现订单和支付记录之间的一对一关系的set方法
+	 * @param order
+	 */
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	/**
+	 * 实现默认的构造函数
+	 */
+	public PayRecord() {
+
+	}
+
+	/**
 	 * 实现带有参数的构造函数
 	 * @param payRecordId
 	 * @param payRecordTime
@@ -202,9 +235,11 @@ public class PayRecord {
 	 * @param payRecordOrderId
 	 * @param outTradeNo
 	 * @param payRecordUser
+	 * @param order
 	 */
 	public PayRecord(long payRecordId, String payRecordTime, String payRecordStyle, String payRecordStatus,
-			String payRecordTotalAmount, String payRecordOrderId, String outTradeNo, String payRecordUser) {
+			String payRecordTotalAmount, String payRecordOrderId, String outTradeNo, String payRecordUser,
+			Order order) {
 		super();
 		this.payRecordId = payRecordId;
 		this.payRecordTime = payRecordTime;
@@ -214,11 +249,8 @@ public class PayRecord {
 		this.payRecordOrderId = payRecordOrderId;
 		this.outTradeNo = outTradeNo;
 		this.payRecordUser = payRecordUser;
+		this.order = order;
 	}
-
-	/*定义默认的构造函数*/
-	public PayRecord() {
-
-	}
+	
 }
 

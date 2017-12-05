@@ -27,7 +27,7 @@ public class ReadConfiguration {
 	/*@Value("yd123456")
 	private String password;*/
 	
-	@Value("47.100.106.59")
+	@Value("127.0.0.1")
 	private String host;
 
 	/**

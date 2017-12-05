@@ -7,8 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
+import javax.persistence.CascadeType;
 /**
  * @author chencongye
  * @version 1.0.0
@@ -81,6 +85,26 @@ public class Order {
 	 */
 	@Column(name = "orderSource")
 	private String orderSource;
+	
+	/**
+	 * 定义用户和订单之间的一对多关系映射
+	 */
+	@ManyToOne(cascade ={CascadeType.ALL})
+	@JoinColumn(name="userId")
+	private User user;
+	
+	/**
+	 * 定义游戏和订单之间的一对多关系映射
+	 */
+	@ManyToOne(cascade = {CascadeType.ALL})
+	@JoinColumn(name="gameId")
+	private Game game;
+	
+	/**
+	 * 定义订单和支付记录之间的一对一关系映射
+	 */
+	@OneToOne(mappedBy="order")
+	private PayRecord payRecord;
 
 	/**
 	 * 定义订单主键Id的get方法
@@ -243,7 +267,62 @@ public class Order {
 	}
 
 	/**
-	 * 定义带有参数的构造函数
+	 * 实现用户和订单之间的一对多关系的get方法
+	 * @return
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * 实现用户和订单之间的一对多关系的set方法
+	 * @param user
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	/**
+	 * 实现游戏和订单之间的一对多关系的get方法
+	 * @return
+	 */
+	public Game getGame() {
+		return game;
+	}
+
+	/**
+	 * 实现游戏和订单之间的一对多关系的set方法
+	 * @param game
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
+	
+	/**
+	 * 实现订单和支付记录之间一对一关系的get方法
+	 * @return
+	 */
+	public PayRecord getPayRecord() {
+		return payRecord;
+	}
+
+	/**
+	 * 实现订单和支付记录之间一对一关系的set方法
+	 * @param payRecord
+	 */
+	public void setPayRecord(PayRecord payRecord) {
+		this.payRecord = payRecord;
+	}
+
+	/**
+	 * 实现默认的无参构造函数
+	 */
+	public Order() {
+		
+	}
+
+	/**
+	 * 实现带有参数的构造方法
 	 * @param orderId
 	 * @param orderTotalAmount
 	 * @param orderSubject
@@ -254,10 +333,13 @@ public class Order {
 	 * @param orderNumber
 	 * @param createOrderUser
 	 * @param orderSource
+	 * @param user
+	 * @param game
+	 * @param payRecord
 	 */
-	public Order(long orderId, String orderTotalAmount, String orderSubject, Timestamp createOrderTime,
-			String isPushed, String otherOrderId, Timestamp orderPayTime, String orderNumber, String createOrderUser,
-			String orderSource) {
+	public Order(long orderId, String orderTotalAmount, String orderSubject, Timestamp createOrderTime, String isPushed,
+			String otherOrderId, Timestamp orderPayTime, String orderNumber, String createOrderUser, String orderSource,
+			User user, Game game, PayRecord payRecord) {
 		super();
 		this.orderId = orderId;
 		this.orderTotalAmount = orderTotalAmount;
@@ -269,9 +351,8 @@ public class Order {
 		this.orderNumber = orderNumber;
 		this.createOrderUser = createOrderUser;
 		this.orderSource = orderSource;
-	}
-
-	/*定义默认构造函数*/
-	public Order() {
+		this.user = user;
+		this.game = game;
+		this.payRecord = payRecord;
 	}
 }

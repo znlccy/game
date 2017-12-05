@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -41,10 +42,10 @@ public class Token {
 	private Timestamp expirationTime;
 	
 	/**
-	 * 定义创建token的用户
+	 * 定义用户和Token之间的一对一关系
 	 */
-	@Column(name = "userId")
-	private String userId;
+	@OneToOne(mappedBy="token")
+	private User user;
 
 	/**
 	 * 实现token主键的get方法
@@ -93,21 +94,21 @@ public class Token {
 	public void setExpirationTime(Timestamp expirationTime) {
 		this.expirationTime = expirationTime;
 	}
-
+	
 	/**
-	 * 实现用户主键的get方法
+	 * 实现用户和Token之间的一对一关系的get方法
 	 * @return
 	 */
-	public String getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
 	/**
-	 * 实现用户主键Id的set方法
-	 * @param userId
+	 * 实现用户和token之间的一对一关系的set方法
+	 * @param user
 	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	/**
@@ -116,19 +117,20 @@ public class Token {
 	public Token() {
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
-	 * 实现带有参数的构造函数
+	 * 实现带有参数的构造方法
 	 * @param tokenId
-	 * @param token
+	 * @param accessToken
 	 * @param expirationTime
-	 * @param userId
+	 * @param user
 	 */
-	public Token(long tokenId, String accessToken, Timestamp expirationTime, String userId) {
+	public Token(long tokenId, String accessToken, Timestamp expirationTime, User user) {
 		super();
 		this.tokenId = tokenId;
 		this.accessToken = accessToken;
 		this.expirationTime = expirationTime;
-		this.userId = userId;
+		this.user = user;
 	}
+	
 }
