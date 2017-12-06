@@ -1,6 +1,6 @@
 package com.youda.encrypt;
 
-import static org.junit.Assert.assertTrue;
+/*import static org.junit.Assert.assertTrue;*/
 
 import java.security.Key;
 import java.security.KeyFactory;
@@ -17,11 +17,11 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
+/*import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest;*/
 import org.springframework.stereotype.Component;
-import org.springframework.test.context.junit4.SpringRunner;
+/*import org.springframework.test.context.junit4.SpringRunner;*/
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -229,6 +229,6 @@ public class DSAEncryt {
 		// 验证签名
 		boolean status = this.verify(data, publicKey, sign);
 		System.err.println("状态:\r" + status);
-		assertTrue(status);
+		/*assertTrue(status);*/
 	}
 }
