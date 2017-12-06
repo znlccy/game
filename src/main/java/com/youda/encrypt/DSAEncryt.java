@@ -207,7 +207,11 @@ public class DSAEncryt {
 		return encryptBASE64(key.getEncoded());
 	}
 	
+<<<<<<< HEAD
 	/*@Test*/
+=======
+	@Test
+>>>>>>> origin/master
 	public void test() throws Exception {
 		String inputStr = "abc";
 		byte[] data = inputStr.getBytes();

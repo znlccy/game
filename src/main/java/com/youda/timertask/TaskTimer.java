@@ -1,5 +1,7 @@
 package com.youda.timertask;
 
+import java.util.TimerTask;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -47,5 +49,9 @@ public class TaskTimer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	public void timeTask() {
+		
 	}
 }

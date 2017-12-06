@@ -151,20 +151,36 @@ public class UserServiceImpl implements UserService {
 		{
 			//获取键对应的值
 			User user = operations.get(key);
-			//日志打印输出
-			LOGGER.info("UserServiceImpl.getUserByUserId():从Redis缓存中获取用户信息>>"+user.toString());
-			//返回数据
-			return user;
+			if(user==null)
+			{
+				ResponseStatusCode.notFindError();
+				return null;
+			}
+			else
+			{
+				//日志打印输出
+				LOGGER.info("UserServiceImpl.getUserByUserId():从Redis缓存中获取用户信息>>"+user.toString());
+				//返回数据
+				return user;
+			}
 		}
 		else
 		{
 			//缓存不存在，从MySQL数据库中查询获取,也就是从DB中获取
 			User user = userMapper.findByUserId(userId);
-			//插入到缓存中
-			operations.set(key, user);
-			LOGGER.info("UserServiceImpl.findUserByUserId():从数据库中获取用户信息并把用户插入缓存 >>" + user.toString());
-			//返回数据
-			return user;
+			if(user==null)
+			{
+				ResponseStatusCode.notFindError();
+				return null;
+			}
+			else
+			{
+				//插入到缓存中
+				operations.set(key, user);
+				LOGGER.info("UserServiceImpl.findUserByUserId():从数据库中获取用户信息并把用户插入缓存 >>" + user.toString());
+				//返回数据
+				return user;
+			}
 		}
 	}
 	
