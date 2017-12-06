@@ -1,0 +1,86 @@
+2017-12-06 10:06:11.101  INFO 8188 --- [main] com.youda.GameApplication                : Starting GameApplication on Adminstrator-PC with PID 8188 (D:\JAVA-Project\game\target\classes started by Administrator in D:\JAVA-Project\game)
+2017-12-06 10:06:11.101  INFO 8188 --- [main] com.youda.GameApplication                : The following profiles are active: dev
+2017-12-06 10:06:11.132  INFO 8188 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@9597028: startup date [Wed Dec 06 10:06:11 CST 2017]; root of context hierarchy
+2017-12-06 10:06:11.538  INFO 8188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:06:11.554  INFO 8188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:06:12.101  INFO 8188 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-12-06 10:06:12.101  INFO 8188 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-12-06 10:06:12.101  INFO 8188 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2017-12-06 10:06:12.194  INFO 8188 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-12-06 10:06:12.194  INFO 8188 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1062 ms
+2017-12-06 10:06:12.303  INFO 8188 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-06 10:06:12.303  INFO 8188 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-06 10:06:12.303  INFO 8188 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-06 10:06:12.303  INFO 8188 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-06 10:06:12.303  INFO 8188 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-06 10:06:12.631  INFO 8188 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:06:12.631  INFO 8188 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-06 10:06:12.679  INFO 8188 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-06 10:06:12.679  INFO 8188 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-06 10:06:12.679  INFO 8188 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-06 10:06:12.694  INFO 8188 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-06 10:06:12.772  INFO 8188 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-06 10:06:13.147  INFO 8188 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-06 10:06:14.442  INFO 8188 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:06:14.848  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@9597028: startup date [Wed Dec 06 10:06:11 CST 2017]; root of context hierarchy
+2017-12-06 10:06:14.879  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/excel/download],methods=[GET]}" onto private void com.youda.controller.ExportExcelController.downloadExcel(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pdf/download],methods=[GET]}" onto private void com.youda.controller.ExportPDFController.downloadPDF(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/game/create],methods=[POST]}" onto public java.lang.String com.youda.controller.GameController.addGame()
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/getAll],methods=[GET]}" onto public com.youda.model.MessageAuthCode com.youda.controller.MessageAuthCodeController.findAllMessageAuthCode()
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/send],methods=[GET]}" onto public java.lang.String com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/userName],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserName(java.lang.String)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userRegistered(java.util.Map)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/login],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userLogin(java.lang.String,java.lang.String)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userModify(long)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userDelete(long)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserId(long)
+2017-12-06 10:06:14.895  INFO 8188 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/wechat/apppay],methods=[POST]}" onto public java.lang.String com.youda.controller.WeChatPayController.WeChatAppPay()
+2017-12-06 10:06:14.911  INFO 8188 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:06:14.911  INFO 8188 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:06:14.942  INFO 8188 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:06:15.207  INFO 8188 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-12-06 10:06:15.207  INFO 8188 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-12-06 10:06:15.238  INFO 8188 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-12-06 10:06:15.254  INFO 8188 --- [main] com.youda.GameApplication                : Started GameApplication in 4.371 seconds (JVM running for 4.784)
+2017-12-06 10:08:48.483  INFO 8188 --- [RMI TCP Connection(2)-127.0.0.1] inMXBeanRegistrar$SpringApplicationAdmin : Application shutdown requested.
+2017-12-06 10:08:48.483  INFO 8188 --- [RMI TCP Connection(2)-127.0.0.1] ationConfigEmbeddedWebApplicationContext : Closing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@9597028: startup date [Wed Dec 06 10:06:11 CST 2017]; root of context hierarchy
+2017-12-06 10:08:48.483  INFO 8188 --- [RMI TCP Connection(2)-127.0.0.1] o.s.j.e.a.AnnotationMBeanExporter        : Unregistering JMX-exposed beans on shutdown
+2017-12-06 10:08:48.483  INFO 8188 --- [RMI TCP Connection(2)-127.0.0.1] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:09:27.005  INFO 8024 --- [main] com.youda.encrypt.DSAEncryt              : Starting DSAEncryt on Adminstrator-PC with PID 8024 (started by Administrator in D:\JAVA-Project\game)
+2017-12-06 10:09:27.005  INFO 8024 --- [main] com.youda.encrypt.DSAEncryt              : The following profiles are active: dev
+2017-12-06 10:09:27.052  INFO 8024 --- [main] o.s.w.c.s.GenericWebApplicationContext   : Refreshing org.springframework.web.context.support.GenericWebApplicationContext@72c8e7b: startup date [Wed Dec 06 10:09:27 CST 2017]; root of context hierarchy
+2017-12-06 10:09:27.738  INFO 8024 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:09:27.785  INFO 8024 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:09:29.642  INFO 8024 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:09:29.657  INFO 8024 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-06 10:09:29.751  INFO 8024 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-06 10:09:29.751  INFO 8024 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-06 10:09:29.766  INFO 8024 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-06 10:09:29.799  INFO 8024 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-06 10:09:30.017  INFO 8024 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-06 10:09:31.452  INFO 8024 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-06 10:09:33.029  INFO 8024 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:09:35.229  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.web.context.support.GenericWebApplicationContext@72c8e7b: startup date [Wed Dec 06 10:09:27 CST 2017]; root of context hierarchy
+2017-12-06 10:09:35.308  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/excel/download],methods=[GET]}" onto private void com.youda.controller.ExportExcelController.downloadExcel(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pdf/download],methods=[GET]}" onto private void com.youda.controller.ExportPDFController.downloadPDF(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/game/create],methods=[POST]}" onto public java.lang.String com.youda.controller.GameController.addGame()
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/send],methods=[GET]}" onto public java.lang.String com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/getAll],methods=[GET]}" onto public com.youda.model.MessageAuthCode com.youda.controller.MessageAuthCodeController.findAllMessageAuthCode()
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userRegistered(java.util.Map)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/userName],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserName(java.lang.String)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/login],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userLogin(java.lang.String,java.lang.String)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userModify(long)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userDelete(long)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserId(long)
+2017-12-06 10:09:35.324  INFO 8024 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/wechat/apppay],methods=[POST]}" onto public java.lang.String com.youda.controller.WeChatPayController.WeChatAppPay()
+2017-12-06 10:09:35.355  INFO 8024 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:09:35.355  INFO 8024 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:09:35.402  INFO 8024 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-06 10:09:35.761  INFO 8024 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-12-06 10:09:35.776  INFO 8024 --- [main] com.youda.encrypt.DSAEncryt              : Started DSAEncryt in 9.131 seconds (JVM running for 9.831)
+2017-12-06 10:09:35.902  INFO 8024 --- [Thread-5] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@72c8e7b: startup date [Wed Dec 06 10:09:27 CST 2017]; root of context hierarchy
+2017-12-06 10:09:35.902  INFO 8024 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
