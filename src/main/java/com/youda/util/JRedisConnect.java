@@ -1,6 +1,6 @@
 package com.youda.util;
 
-import java.util.HashMap;
+/*import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.JedisPoolConfig;*/
 
 /**
  * @author chencongye

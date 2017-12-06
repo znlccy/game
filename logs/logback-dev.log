@@ -84,3 +84,76 @@
 2017-12-06 10:09:35.776  INFO 8024 --- [main] com.youda.encrypt.DSAEncryt              : Started DSAEncryt in 9.131 seconds (JVM running for 9.831)
 2017-12-06 10:09:35.902  INFO 8024 --- [Thread-5] o.s.w.c.s.GenericWebApplicationContext   : Closing org.springframework.web.context.support.GenericWebApplicationContext@72c8e7b: startup date [Wed Dec 06 10:09:27 CST 2017]; root of context hierarchy
 2017-12-06 10:09:35.902  INFO 8024 --- [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:21:13.881  INFO 2840 --- [main] com.youda.GameApplication                : Starting GameApplication on Adminstrator-PC with PID 2840 (D:\JAVA-Project\game\target\classes started by Administrator in D:\JAVA-Project\game)
+2017-12-06 10:21:13.884  INFO 2840 --- [main] com.youda.GameApplication                : The following profiles are active: dev
+2017-12-06 10:21:13.924  INFO 2840 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@67c27493: startup date [Wed Dec 06 10:21:13 CST 2017]; root of context hierarchy
+2017-12-06 10:21:14.334  INFO 2840 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:21:14.353  INFO 2840 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-06 10:21:14.900  INFO 2840 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-12-06 10:21:14.910  INFO 2840 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-12-06 10:21:14.910  INFO 2840 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2017-12-06 10:21:15.005  INFO 2840 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-12-06 10:21:15.005  INFO 2840 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1084 ms
+2017-12-06 10:21:15.100  INFO 2840 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-06 10:21:15.103  INFO 2840 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-06 10:21:15.105  INFO 2840 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-06 10:21:15.105  INFO 2840 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-06 10:21:15.105  INFO 2840 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-06 10:21:15.427  INFO 2840 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:21:15.442  INFO 2840 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-06 10:21:15.475  INFO 2840 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-06 10:21:15.475  INFO 2840 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-06 10:21:15.475  INFO 2840 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-06 10:21:15.506  INFO 2840 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-06 10:21:15.568  INFO 2840 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-06 10:21:15.958  INFO 2840 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-06 10:21:17.253  INFO 2840 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:21:17.410  WARN 2840 --- [main] ationConfigEmbeddedWebApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gameServiceImpl' defined in file [D:\JAVA-Project\game\target\classes\com\youda\serviceImpl\GameServiceImpl.class]: Post-processing of merged bean definition failed; nested exception is java.lang.IllegalStateException: Failed to introspect bean class [com.youda.serviceImpl.GameServiceImpl] for persistence metadata: could not find class that it depends on
+2017-12-06 10:21:17.410  INFO 2840 --- [main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2017-12-06 10:21:17.426  INFO 2840 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2017-12-06 10:21:17.426  INFO 2840 --- [main] utoConfigurationReportLoggingInitializer : 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2017-12-06 10:21:17.441 ERROR 2840 --- [main] o.s.boot.SpringApplication               : Application startup failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'gameServiceImpl' defined in file [D:\JAVA-Project\game\target\classes\com\youda\serviceImpl\GameServiceImpl.class]: Post-processing of merged bean definition failed; nested exception is java.lang.IllegalStateException: Failed to introspect bean class [com.youda.serviceImpl.GameServiceImpl] for persistence metadata: could not find class that it depends on
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:526) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory$1.getObject(AbstractBeanFactory.java:306) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:230) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:302) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:197) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:761) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:867) ~[spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:543) ~[spring-context-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.boot.context.embedded.EmbeddedWebApplicationContext.refresh(EmbeddedWebApplicationContext.java:122) ~[spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:693) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:360) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:303) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
+	at com.youda.GameApplication.main(GameApplication.java:34) [classes/:na]
+Caused by: java.lang.IllegalStateException: Failed to introspect bean class [com.youda.serviceImpl.GameServiceImpl] for persistence metadata: could not find class that it depends on
+	at org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor.findPersistenceMetadata(PersistenceAnnotationBeanPostProcessor.java:401) ~[spring-orm-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor.postProcessMergedBeanDefinition(PersistenceAnnotationBeanPostProcessor.java:333) ~[spring-orm-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyMergedBeanDefinitionPostProcessors(AbstractAutowireCapableBeanFactory.java:992) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:523) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	... 15 common frames omitted
+Caused by: java.lang.NoClassDefFoundError: Lcom/youda/dao/GameMapper;
+	at java.lang.Class.getDeclaredFields0(Native Method) ~[na:1.8.0_66]
+	at java.lang.Class.privateGetDeclaredFields(Class.java:2583) ~[na:1.8.0_66]
+	at java.lang.Class.getDeclaredFields(Class.java:1916) ~[na:1.8.0_66]
+	at org.springframework.util.ReflectionUtils.getDeclaredFields(ReflectionUtils.java:715) ~[spring-core-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.util.ReflectionUtils.doWithLocalFields(ReflectionUtils.java:656) ~[spring-core-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor.buildPersistenceMetadata(PersistenceAnnotationBeanPostProcessor.java:418) ~[spring-orm-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	at org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor.findPersistenceMetadata(PersistenceAnnotationBeanPostProcessor.java:397) ~[spring-orm-4.3.12.RELEASE.jar:4.3.12.RELEASE]
+	... 18 common frames omitted
+Caused by: java.lang.ClassNotFoundException: com.youda.dao.GameMapper
+	at java.net.URLClassLoader.findClass(URLClassLoader.java:381) ~[na:1.8.0_66]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:424) ~[na:1.8.0_66]
+	at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:331) ~[na:1.8.0_66]
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:357) ~[na:1.8.0_66]
+	... 25 common frames omitted
+
