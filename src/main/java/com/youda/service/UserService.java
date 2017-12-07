@@ -19,13 +19,13 @@ public interface UserService {
 	 * 定义用户登录功能
 	 * @return
 	 */
-	ResponseEntity login(String userName, String userPassword);
+	ResponseEntity userLogin(String userName, String userPassword);
 	
 	/**
 	 * 定义用户注册功能
 	 * @return
 	 */
-	ResponseEntity registered();
+	ResponseEntity userRegist(User user);
 	
 	/**
 	 * 定义忘记密码的第一步
@@ -91,5 +91,5 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAllUser();
-	
+
 }

@@ -105,8 +105,8 @@ public class ResponseStatusCode {
      */
     public static ResponseEntity nullPointerError() {
         return ResponseEntity
-                .status(410)
-                .body(new ResponseResult("410", "空指针错误", "抱歉，存在空指针异常!"));
+                .status(411)
+                .body(new ResponseResult("411", "空指针错误", "抱歉，存在空指针异常!"));
     }
     
     /**
@@ -115,18 +115,27 @@ public class ResponseStatusCode {
      */
     public static ResponseEntity deleteFialed() {
         return ResponseEntity
-                .status(411)
-                .body(new ResponseResult("411", "删除失败", "抱歉，删除失败!"));
+                .status(412)
+                .body(new ResponseResult("412", "删除失败", "抱歉，删除失败!"));
     }
 
     /**
-     *  实现密码不一致
+     * 实现密码不一致
      * @return
      */
     public static ResponseEntity passwordsNoMatch() {
         return ResponseEntity
-                .status(407)
-                .body(new ResponseResult("407","密码和确认密码不一致","抱歉,您输入的两次密码不一致"));
+                .status(413)
+                .body(new ResponseResult("413","密码和确认密码不一致","抱歉,您输入的两次密码不一致"));
     }
 
+    /**
+     * 实现用户已存在
+     * @return
+     */
+    public static ResponseEntity userAlreadyExists(Object bean) {
+        return ResponseEntity
+                .status(414)
+                .body(new ResponseResult("414","用户已存在",bean));
+    }
 }

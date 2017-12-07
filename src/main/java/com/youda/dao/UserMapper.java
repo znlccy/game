@@ -2,11 +2,7 @@ package com.youda.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.http.ResponseEntity;
 
@@ -77,6 +73,14 @@ public interface UserMapper {
 	 * @return
 	 */
 	@Select("select * from tb_user where userName=#{userName} and userPassword=#{userPassword}")
-	public User login(@Param("userName") String userName,@Param("userPassword") String userPassword);
+	public User userLogin(@Param("userName") String userName,@Param("userPassword") String userPassword);
+
+	/**
+	 * 定义用户注册功能的规范
+	 * @param user
+	 * @return
+	 */
+	@Insert("insert into tb_user(userName,userPassword,userEmail,userRegisteredTime,userUseDevice) values(#{user.userName},#{user.userPassword},#{user.userEmail},#{user.userRegisteredTime},#{user.userUseDevice})")
+	public boolean userRegistred(@Param("user") User user);
 	
 }

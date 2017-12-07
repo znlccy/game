@@ -1,5 +1,7 @@
 package com.youda.controller;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Map;
 
 import com.youda.encrypt.DSAEncryt;
@@ -7,11 +9,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.youda.annotation.Authorization;
 import com.youda.interceptor.ResponseStatusCode;
 import com.youda.model.User;
 import com.youda.service.UserService;
@@ -69,23 +69,23 @@ public class UserController implements ErrorController {
 			String userPassword = ((String) map.get("userPassword")).trim();
 
 			/*接收用户确认密码参数*/
-			String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
+			String verificationCode= ((String) map.get("verificationCode")).trim();
 
 			/*判断用户名或者用户密码，用户确认密码是否为空*/
-			if (userName==null || userPassword==null || userConfirmPassword == null)
+			if (userName==null || userPassword==null || verificationCode == null)
 			{
-				/**/
+				/*实现返回请求非法*/
 				return ResponseStatusCode.illegalError();
 			}
 			else
 			{
 			/*判断用户名，用户密码，用户确认密码*/
-				if(userName.equals("") || userPassword.equals("") || userConfirmPassword.equals(""))
+				if(userName.equals("") || userPassword.equals("") || verificationCode.equals(""))
 				{
 					/*如果三个参数都为空返回为空指针异常*/
 					return ResponseStatusCode.nullPointerError();
 				}
-				else if(!userPassword.equals(userConfirmPassword))
+				else if(!userPassword.equals(verificationCode))
 				{
 					return ResponseStatusCode.passwordsNoMatch();
 				}
@@ -93,7 +93,13 @@ public class UserController implements ErrorController {
 				{
 					if(userService.findUserByUserName(userName)==null)
 					{
-						return ResponseStatusCode.notFindError();
+						User user = new User();
+						user.setUserName(userName);
+						user.setUserPassword(userPassword);
+						user.setUserRegisteredTime(new Timestamp(System.currentTimeMillis()));
+						userService.userRegist(user);
+						User user_search = userService.findUserByUserName(user.getUserName());
+						return ResponseStatusCode.putOrGetSuccess(user_search);
 					}
 					else
 					{
@@ -116,26 +122,25 @@ public class UserController implements ErrorController {
 	/*@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason= "Server Error")*/
 	public ResponseEntity userLogin(@RequestParam String userName,String userPassword,@RequestHeader String sign) {
 
-
-
-		if(userName==null || userPassword==null)
+		if(userName==null && userPassword==null)
 		{
 			return ResponseStatusCode.illegalError();
+
 		} else if(userName.equals("") || "".equals(userPassword))
 		{
 			return ResponseStatusCode.nullPointerError();
 		} 
 		else
 		{
-			if(userService.login(userName, userPassword).getStatusCode().equals("404"))
+			if(userService.userLogin(userName, userPassword).getStatusCode().equals("404"))
 			{
 				return ResponseStatusCode.notFindError();
-			} else if(userService.login(userName, userPassword).getStatusCode().equals("200"))
+			} else if(userService.userLogin(userName, userPassword).getStatusCode().equals("200"))
 			{
 				User user = userService.findUserByUserName(userName);
 				return ResponseStatusCode.putOrGetSuccess(user);
 			}
-			return userService.login(userName, userPassword);
+			return userService.userLogin(userName, userPassword);
 		}
 	}
 
@@ -189,4 +194,5 @@ public class UserController implements ErrorController {
 		User user = userService.findUserByUserName(userName);
 		return ResponseStatusCode.postSuccess(user);
 	}
+
 }

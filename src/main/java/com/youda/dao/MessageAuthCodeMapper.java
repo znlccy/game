@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
 import com.youda.model.MessageAuthCode;
+import org.springframework.cache.annotation.CacheConfig;
 
 /**
  * @author chencongye
@@ -19,6 +20,7 @@ import com.youda.model.MessageAuthCode;
  */
 
 @Mapper
+@CacheConfig(cacheNames = "authCode")
 public interface MessageAuthCodeMapper {
 	
 	/**
@@ -34,7 +36,7 @@ public interface MessageAuthCodeMapper {
 	 * @param macodeId
 	 * @return
 	 */
-	@Select("select macodeId,macodeContent,macodeSendTime,macodePhone from tb_messagecode where macodeId=#{macodeId}")
+	@Select("select * from tb_messagecode where macodeId=#{macodeId}")
 	public MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
 	
 	/**
@@ -42,7 +44,7 @@ public interface MessageAuthCodeMapper {
 	 * @param macodeContent
 	 * @return
 	 */
-	@Select("select macode_id,macode_content,macode_send_time,macode_phone from tb_messagecode where macode_content=#{macodeContent}")
+	@Select("select * from tb_messagecode where macode_content=#{macodeContent}")
 	public MessageAuthCode findByMacodeContent(@Param("macodeContent") String macodeContent);
 	
 	/**
@@ -68,7 +70,7 @@ public interface MessageAuthCodeMapper {
 	 * @return
 	 */
 	@Update("update tb_messagecode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeId=#{macodeId}")
-	public boolean modifyByMacodeId(@Param("macodeId") String macodeId,@Param("authCode") MessageAuthCode authCode);
+	public boolean modifyByMacodeId(@Param("macodeId") long macodeId);
 	
 	/**
 	 * 定义通过短信内容来查找短信验证码的规范
