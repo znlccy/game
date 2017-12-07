@@ -118,4 +118,15 @@ public class ResponseStatusCode {
                 .status(411)
                 .body(new ResponseResult("411", "删除失败", "抱歉，删除失败!"));
     }
+
+    /**
+     *  实现密码不一致
+     * @return
+     */
+    public static ResponseEntity passwordsNoMatch() {
+        return ResponseEntity
+                .status(407)
+                .body(new ResponseResult("407","密码和确认密码不一致","抱歉,您输入的两次密码不一致"));
+    }
+
 }

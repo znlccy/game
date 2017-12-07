@@ -2,6 +2,7 @@ package com.youda.controller;
 
 import java.util.Map;
 
+import com.youda.encrypt.DSAEncryt;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -18,16 +19,20 @@ import com.youda.service.UserService;
 import aj.org.objectweb.asm.Type;
 
 /**
- * @author chencongye
- * @version 1.0.0
- * @date 2017-11-27
- * @introduce 实现用户控制器
+ * @Author Chencongye
+ * @Date 2017/12/7 10:02
+ * @Version 1.0.0
+ * @Instructions 实现用户控制器功能
  */
+
 @RestController
 @RequestMapping(value = "/user")
 @CrossOrigin(maxAge=3600,origins="*")
 @Scope(value = "singleton")
 public class UserController implements ErrorController {
+
+	@Autowired
+	private DSAEncryt dsaEncryt;
 
 	private static final String ERROR_PATH = "/error";
 	
@@ -51,33 +56,54 @@ public class UserController implements ErrorController {
 	@ResponseBody
 	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity userRegistered(@RequestBody Map map) {
-		
-		String userName = ((String) map.get("userName")).trim();
-		String userPassword = ((String) map.get("userPassword")).trim();
-		String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
-		
-		if(userName.equals("") || userPassword.equals("") || userConfirmPassword.equals(""))
-		{
-			return ResponseStatusCode.nullPointerError();
-		}
-		else if(!userPassword.equals(userConfirmPassword))
-		{
+
+		if (map.size()==0 || map.size()==1 || map.size()==2) {
 			return ResponseStatusCode.illegalError();
 		}
 		else
 		{
-			
-			if(userService.findUserByUserName(userName)==null)
+			/*接收用户名参数*/
+			String userName = ((String) map.get("userName")).trim();
+
+			/*接收用户密码参数*/
+			String userPassword = ((String) map.get("userPassword")).trim();
+
+			/*接收用户确认密码参数*/
+			String userConfirmPassword = ((String) map.get("userConfirmPassword")).trim();
+
+			/*判断用户名或者用户密码，用户确认密码是否为空*/
+			if (userName==null || userPassword==null || userConfirmPassword == null)
 			{
-				return ResponseStatusCode.nullPointerError();
+				/**/
+				return ResponseStatusCode.illegalError();
 			}
 			else
 			{
-				User user = userService.findUserByUserName(userName);
-				return ResponseStatusCode.putOrGetSuccess(user);
+			/*判断用户名，用户密码，用户确认密码*/
+				if(userName.equals("") || userPassword.equals("") || userConfirmPassword.equals(""))
+				{
+					/*如果三个参数都为空返回为空指针异常*/
+					return ResponseStatusCode.nullPointerError();
+				}
+				else if(!userPassword.equals(userConfirmPassword))
+				{
+					return ResponseStatusCode.passwordsNoMatch();
+				}
+				else
+				{
+					if(userService.findUserByUserName(userName)==null)
+					{
+						return ResponseStatusCode.notFindError();
+					}
+					else
+					{
+						User user = userService.findUserByUserName(userName);
+						return ResponseStatusCode.putOrGetSuccess(user);
+					}
+				}
 			}
 		}
-		
+
 	}
 	
 	/*2.实现后台数据登录的功能*/
@@ -88,8 +114,10 @@ public class UserController implements ErrorController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ResponseBody
 	/*@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason= "Server Error")*/
-	public ResponseEntity userLogin(@RequestParam String userName,String userPassword) {
-		
+	public ResponseEntity userLogin(@RequestParam String userName,String userPassword,@RequestHeader String sign) {
+
+
+
 		if(userName==null || userPassword==null)
 		{
 			return ResponseStatusCode.illegalError();
