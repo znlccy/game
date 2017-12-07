@@ -49,6 +49,30 @@ public class MessageAuthCode {
 	 */
 	@Column(name = "macodePhone")
 	private String macodePhone;
+
+	/**
+	 * 定义短信验证码的国家代码
+	 */
+	@Column(name = "conntryCode")
+	private String conntryCode;
+
+	/**
+	 * 定义短信验证码的国家名称
+	 */
+	@Column(name = "countryName")
+	private String countryName;
+
+	/**
+	 * 定义短信验证码的国家时区
+	 */
+	@Column(name = "timeZone")
+	private String timeZone;
+
+	/**
+	 * 定义短信验证码的接收电话
+	 */
+	@Column(name = "sendTime")
+	private Timestamp sendTime;
 	
 	/**
 	 * 定义用户和短信验证码之间的一对多的关系
@@ -138,6 +162,70 @@ public class MessageAuthCode {
 	}
 
 	/**
+	 * 实现获得国家代码的get方法
+	 * @return
+	 */
+	public String getConntryCode() {
+		return conntryCode;
+	}
+
+	/**
+	 * 实现获得国家代码的set方法
+	 * @param conntryCode
+	 */
+	public void setConntryCode(String conntryCode) {
+		this.conntryCode = conntryCode;
+	}
+
+	/**
+	 * 实现获得国家名称的get方法
+	 * @return
+	 */
+	public String getCountryName() {
+		return countryName;
+	}
+
+	/**
+	 * 实现获得国家名称的set方法
+	 * @param countryName
+	 */
+	public void setCountryName(String countryName) {
+		this.countryName = countryName;
+	}
+
+	/**
+	 * 实现获得国家时区的get方法
+	 * @return
+	 */
+	public String getTimeZone() {
+		return timeZone;
+	}
+
+	/**
+	 * 实现获得国家时区的set方法
+	 * @param timeZone
+	 */
+	public void setTimeZone(String timeZone) {
+		this.timeZone = timeZone;
+	}
+
+	/**
+	 * 实现获得发送时间的get方法
+	 * @return
+	 */
+	public Timestamp getSendTime() {
+		return sendTime;
+	}
+
+	/**
+	 * 实现获得发送时间的set方法
+	 * @param sendTime
+	 */
+	public void setSendTime(Timestamp sendTime) {
+		this.sendTime = sendTime;
+	}
+
+	/**
 	 * 实现无参构造函数 
 	 */
 	public MessageAuthCode() {
@@ -151,15 +239,19 @@ public class MessageAuthCode {
 	 * @param macodeSendTime
 	 * @param macodePhone
 	 * @param user
+	 * @param conntryCode
+	 * @param countryName
+	 * @param sendTime
 	 */
-	public MessageAuthCode(long macodeId, String macodeContent, Timestamp macodeSendTime, String macodePhone,
-			User user) {
-		super();
+	public MessageAuthCode(long macodeId, String macodeContent, Timestamp macodeSendTime, String macodePhone, String conntryCode, String countryName, String timeZone, Timestamp sendTime, User user) {
 		this.macodeId = macodeId;
 		this.macodeContent = macodeContent;
 		this.macodeSendTime = macodeSendTime;
 		this.macodePhone = macodePhone;
+		this.conntryCode = conntryCode;
+		this.countryName = countryName;
+		this.timeZone = timeZone;
+		this.sendTime = sendTime;
 		this.user = user;
 	}
-
 }

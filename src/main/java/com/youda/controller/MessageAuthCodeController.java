@@ -146,7 +146,7 @@ public class MessageAuthCodeController implements ErrorController {
 		else
 		{
 			int messageAuthCode = (int)((Math.random()*9+1)*100000);
-			String sendUrl = "http://apis.renxinl.com:8080/smsgate/varsend.do?"+"user="+domesticUser+"&"+"pwd="+domesticPassword+"&"+"params="+phone+","+messageAuthCode+"&"+"mid="+domesticMid;
+			String sendUrl = "http://apis.renxinl.com:8080/smsgate/wtemplatesend.do?"+"user="+foreignUser+"&"+"pwd="+foreignPassword+"&"+"phone="+countryCode+phone+","+messageAuthCode+"&"+"mid="+foreignMid;
 
 			try {
 				//创建连接
