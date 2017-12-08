@@ -1,10 +1,10 @@
 package com.youda.controller;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Map;
 
-import com.youda.encrypt.DSAEncryt;
+import com.youda.encrypt.RSAEncryt;
+import com.youda.service.MessageAuthCodeService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ErrorController;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import com.youda.interceptor.ResponseStatusCode;
 import com.youda.model.User;
 import com.youda.service.UserService;
-
-import aj.org.objectweb.asm.Type;
 
 /**
  * @Author Chencongye
@@ -31,9 +29,15 @@ import aj.org.objectweb.asm.Type;
 @Scope(value = "singleton")
 public class UserController implements ErrorController {
 
+	/*实现rsa加密解密验签的过程*/
 	@Autowired
-	private DSAEncryt dsaEncryt;
+	private RSAEncryt rsaEncryt;
 
+	/*实现短信验证码服务类的自动依赖注入*/
+	@Autowired
+	private MessageAuthCodeService messageAuthCodeService;
+
+	/*实现错误路径定义*/
 	private static final String ERROR_PATH = "/error";
 	
 	/**
@@ -46,6 +50,22 @@ public class UserController implements ErrorController {
 	public String getErrorPath() {
 		// TODO Auto-generated method stub
 		return ERROR_PATH;
+	}
+
+	/*声明公钥变量*/
+	private String publicKey;
+
+	/*声明私钥变量*/
+	private String privateKey;
+
+	/*声明初始化加密和解密*/
+	public void setUp() throws Exception {
+		Map<String, Object> keyMap = rsaEncryt.initKey();
+
+		publicKey = rsaEncryt.getPublicKey(keyMap);
+		privateKey = rsaEncryt.getPrivateKey(keyMap);
+		System.err.println("公钥: \n\r" + publicKey);
+		System.err.println("私钥： \n\r" + privateKey);
 	}
 
 	/*1.首先实现后台数据用户注册的功能*/
@@ -70,6 +90,13 @@ public class UserController implements ErrorController {
 
 			/*接收用户确认密码参数*/
 			String verificationCode= ((String) map.get("verificationCode")).trim();
+
+			if (verificationCode.equals("") || "".equals(verificationCode)) {
+				return ResponseStatusCode.nullPointerError();
+			} else {
+
+			}
+
 
 			/*判断用户名或者用户密码，用户确认密码是否为空*/
 			if (userName==null || userPassword==null || verificationCode == null)
@@ -120,9 +147,28 @@ public class UserController implements ErrorController {
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	@ResponseBody
 	/*@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason= "Server Error")*/
-	public ResponseEntity userLogin(@RequestParam String userName,String userPassword,@RequestHeader String sign) {
+	public void userLogin(@RequestParam String userName, String userPassword) throws Exception {
 
-		if(userName==null && userPassword==null)
+		System.err.println("私钥加密-公钥解密");
+
+		String inputStr = userName+userPassword;
+		byte[] data = inputStr.getBytes();
+		this.setUp();
+
+		byte[] encodedData = rsaEncryt.encryptByPrivateKey(data,privateKey);
+		byte[] decodedData = rsaEncryt.decryptByPublicKey(encodedData,publicKey);
+
+		String outputStr = new String(decodedData);
+
+		System.err.println("加密前:"+inputStr+"\n\r"+"解密后:"+outputStr);
+
+		String sign = RSAEncryt.sign(encodedData,privateKey);
+		System.err.println("签名:"+sign);
+
+		boolean status = RSAEncryt.verify(encodedData,publicKey,sign);
+		System.err.println("状态:"+status);
+
+		/*if(userName==null && userPassword==null)
 		{
 			return ResponseStatusCode.illegalError();
 
@@ -141,7 +187,7 @@ public class UserController implements ErrorController {
 				return ResponseStatusCode.putOrGetSuccess(user);
 			}
 			return userService.userLogin(userName, userPassword);
-		}
+		}*/
 	}
 
 	/**
