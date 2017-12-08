@@ -98,5 +98,6 @@ public interface TokenMapper {
      * @param userId
      * @return
      */
+    /*@Select("select")*/
     Token findTokenByUserId(String userId);
 }
