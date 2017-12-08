@@ -21,18 +21,6 @@ public class MessageAuthCodeServiceImpl implements MessageAuthCodeService {
     @Autowired
     private MessageAuthCodeMapper messageAuthCodeMapper;
 
-    /*通过电话来查询短信验证码*/
-    @Override
-    public MessageAuthCode findByPhone(String userName) {
-        MessageAuthCode messageAuthCode = new MessageAuthCode();
-        messageAuthCode = messageAuthCodeMapper.findByMacodeContent(userName);
-        if (messageAuthCode == null) {
-            return null;
-        } else {
-            return messageAuthCode;
-        }
-    }
-
     @Override
     public boolean isSuccess(String phone, String code) {
         MessageAuthCode messageAuthCode = messageAuthCodeMapper.findByMacodeContent(phone);

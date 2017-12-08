@@ -27,7 +27,7 @@ public class LoginRequest implements BaseRequest {
 
     @Override
     public boolean isEmpty() {
-        return userName != null && !userName.isEmpty()
-                && userPassword != null && !userPassword.isEmpty();
+        return userName == null || userName.isEmpty()
+                || userPassword == null || userPassword.isEmpty();
     }
 }

@@ -35,8 +35,8 @@ public class RegisterRequest implements BaseRequest {
 
     @Override
     public boolean isEmpty() {
-        return userName != null && !userName.isEmpty()
-                && userPassword != null && !userPassword.isEmpty()
-                && verificationCode != null && !verificationCode.isEmpty();
+        return userName == null || userName.isEmpty()
+                || userPassword == null || userPassword.isEmpty()
+                || verificationCode == null || verificationCode.isEmpty();
     }
 }
