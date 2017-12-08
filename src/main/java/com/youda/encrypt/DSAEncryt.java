@@ -17,11 +17,8 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.HashMap;
 import java.util.Map;
 
-/*import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;*/
+
 import org.springframework.stereotype.Component;
-/*import org.springframework.test.context.junit4.SpringRunner;*/
 
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;

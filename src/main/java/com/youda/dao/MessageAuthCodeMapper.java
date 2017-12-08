@@ -40,12 +40,12 @@ public interface MessageAuthCodeMapper {
 	public MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
 	
 	/**
-	 * 定义通过短息验证码内容来查找短信验证码的规范
+	 * 定义通过手机来查找短信验证码的规范
 	 * @param macodeContent
 	 * @return
 	 */
-	@Select("select * from tb_messagecode where macode_content=#{macodeContent}")
-	public MessageAuthCode findByMacodeContent(@Param("macodeContent") String macodeContent);
+	@Select("select * from tb_messagecode where macodePhone=#{userName}")
+	public MessageAuthCode findByMacodeContent(@Param("userName") String userName);
 	
 	/**
 	 * 定义通过短信验证码主键的规范

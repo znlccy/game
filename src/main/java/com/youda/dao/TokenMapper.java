@@ -1,16 +1,10 @@
 package com.youda.dao;
 
+import com.youda.model.Token;
+import org.apache.ibatis.annotations.*;
+
 import java.sql.Timestamp;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
-import com.youda.model.Token;
 
 /**
  * @author chencongye
@@ -89,5 +83,7 @@ public interface TokenMapper {
 	 */
 	@Select("select tokenId,token,createTokenTime,createTokenUser from tb_token")
 	public List<Token> findAllToken();
+
+	Token findTokenByUserId(String userId);
 	
 }
