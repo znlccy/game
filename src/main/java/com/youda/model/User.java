@@ -6,18 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.annotation.Generated;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 /**
@@ -109,8 +98,9 @@ public class User implements Serializable {
 	 * 一个人可以玩多个游戏，一个游戏可以被多个人玩
 	 */
 	@ManyToMany
-	@JoinTable(name="tb_usergame",joinColumns=@JoinColumn(name="userId"),
-            inverseJoinColumns=@JoinColumn(name="gameId"))
+	@MapKey(name = "userGameId")
+	@JoinTable(name="tb_usergame",joinColumns=@JoinColumn(name="gameId"),
+            inverseJoinColumns=@JoinColumn(name="userId"))
 	private Set<Game> games = new HashSet<Game>();
 	
 	/**

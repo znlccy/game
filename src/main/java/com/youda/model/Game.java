@@ -35,14 +35,6 @@ public class Game {
 	 */
 	@Column(name = "gamePackage")
 	private String gamePackage;
-	
-	/**
-	 * 实现用户和游戏的多对多关系,
-	 * 只需要设置mappedBy="games"表明Game实体是关系被维护端就可以了级联保存、级联删除等之类的属性在多对多关系中是不需要设置,
-	 * 不能说删了游戏,把玩家也删掉,玩家还可以玩其他的游戏
-	 */
-	@ManyToMany(mappedBy="games")
-	private Set<User> users = new HashSet<User>();
 
 	/**
 	 * 由游戏去维护多对多关系
@@ -107,22 +99,6 @@ public class Game {
 	}
 	
 	/**
-	 * 实现获取用户的get方法
-	 * @return
-	 */
-	public Set<User> getUsers() {
-		return users;
-	}
-
-	/**
-	 * 实现获取用户的set方法
-	 * @param users
-	 */
-	public void setUsers(Set<User> users) {
-		this.users = users;
-	}
-	
-	/**
 	 * 实现获取渠道的get方法
 	 * @return
 	 */
@@ -157,26 +133,6 @@ public class Game {
 	/*定义默认的构造函数*/
 	public Game() {
 		
-	}
-
-	/**
-	 * 实现带有参数的构造方法
-	 * @param gameId
-	 * @param gameName
-	 * @param gamePackage
-	 * @param users
-	 * @param channels
-	 * @param orders
-	 */
-	public Game(long gameId, String gameName, String gamePackage, Set<User> users, Set<Channel> channels,
-			Set<Order> orders) {
-		super();
-		this.gameId = gameId;
-		this.gameName = gameName;
-		this.gamePackage = gamePackage;
-		this.users = users;
-		this.channels = channels;
-		this.orders = orders;
 	}
 	
 }
