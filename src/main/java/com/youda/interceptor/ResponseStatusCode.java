@@ -1,23 +1,23 @@
 package com.youda.interceptor;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 
 /**
- * @author chencongye 
+ * @author chencongye
  * @version 1.0.0
- * @date 2017-11-27 
+ * @date 2017-11-27
  * @introduce 实现Web端响应的状态码
  */
 
 public class ResponseStatusCode {
-	
-	/**
-	 * 实现添加成功
-	 * @param bean
-	 * @return
-	 */
-	public static ResponseEntity postSuccess(Object bean) {
+
+    /**
+     * 实现添加成功
+     *
+     * @param bean
+     * @return
+     */
+    public static ResponseEntity postSuccess(Object bean) {
         return ResponseEntity
                 .status(201)
                 .body(new ResponseResult("201", "添加成功", bean));
@@ -25,6 +25,7 @@ public class ResponseStatusCode {
 
     /**
      * 实现操作成功
+     *
      * @param bean
      * @return
      */
@@ -33,14 +34,10 @@ public class ResponseStatusCode {
                 .status(200)
                 .body(new ResponseResult("200", "操作成功", bean));
     }
-	/*public static ResponseEntity putOrGetSuccess() {
-        return ResponseEntity
-                .status(200)
-                .body(new ResponseResult("200", "操作成功", null));
-    }*/
 
     /**
      * 实现修改成功
+     *
      * @return
      */
     public static ResponseEntity deleteSuccess() {
@@ -51,6 +48,7 @@ public class ResponseStatusCode {
 
     /**
      * 实现未通过验证
+     *
      * @return
      */
     public static ResponseEntity verifyError() {
@@ -61,6 +59,7 @@ public class ResponseStatusCode {
 
     /**
      * 实现资源不存在
+     *
      * @return
      */
     public static ResponseEntity notFindError() {
@@ -71,6 +70,7 @@ public class ResponseStatusCode {
 
     /**
      * 实现请求非法
+     *
      * @return
      */
     public static ResponseEntity illegalError() {
@@ -81,6 +81,7 @@ public class ResponseStatusCode {
 
     /**
      * 实现请求存在冲突
+     *
      * @return
      */
     public static ResponseEntity conflictError() {
@@ -88,9 +89,10 @@ public class ResponseStatusCode {
                 .status(409)
                 .body(new ResponseResult("409", "请求存在冲突", "对不起，您的请求存在冲突!"));
     }
-    
+
     /**
      * 实现服务器错误
+     *
      * @return
      */
     public static ResponseEntity cashError() {
@@ -98,9 +100,10 @@ public class ResponseStatusCode {
                 .status(410)
                 .body(new ResponseResult("500", "服务器错误", "抱歉，服务器内部出现错误!"));
     }
-    
+
     /**
      * 实现空指针错误
+     *
      * @return
      */
     public static ResponseEntity nullPointerError() {
@@ -108,9 +111,10 @@ public class ResponseStatusCode {
                 .status(411)
                 .body(new ResponseResult("411", "空指针错误", "抱歉，存在空指针异常!"));
     }
-    
+
     /**
      * 实现删除失败
+     *
      * @return
      */
     public static ResponseEntity deleteFialed() {
@@ -121,21 +125,23 @@ public class ResponseStatusCode {
 
     /**
      * 实现密码不一致
+     *
      * @return
      */
     public static ResponseEntity passwordsNoMatch() {
         return ResponseEntity
                 .status(413)
-                .body(new ResponseResult("413","密码和确认密码不一致","抱歉,您输入的两次密码不一致"));
+                .body(new ResponseResult("413", "密码和确认密码不一致", "抱歉,您输入的两次密码不一致"));
     }
 
     /**
      * 实现用户已存在
+     *
      * @return
      */
     public static ResponseEntity userAlreadyExists(Object bean) {
         return ResponseEntity
                 .status(414)
-                .body(new ResponseResult("414","用户已存在",bean));
+                .body(new ResponseResult("414", "用户已存在", bean));
     }
 }

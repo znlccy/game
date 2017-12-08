@@ -1,7 +1,5 @@
 package com.youda.service;
 
-import com.youda.model.MessageAuthCode;
-
 /**
  * @author chencongye
  * @version 1.0.0
@@ -12,6 +10,5 @@ import com.youda.model.MessageAuthCode;
 public interface MessageAuthCodeService {
 
     /*定义通过手机号来查询短信验证码*/
-    public MessageAuthCode findByPhone(String userName);
-
+    boolean isSuccess(String phone, String code);
 }

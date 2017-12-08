@@ -14,7 +14,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface TokenMapper {
+ public interface TokenMapper {
 	
 	/**
 	 * 定义添加token的规范
@@ -22,7 +22,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Insert("insert into tb_token(tokenId,token,createTokenTime,createTokenUser) values(#{token.tokenId},#{token.token},#{token.createTokenTime},#{token.createTokenUser})")
-	public boolean addToken(@Param("token") Token token);
+	 boolean addToken(@Param("token") Token token);
 	
 	/**
 	 * 定义通过tokenId来查询token的规范
@@ -30,7 +30,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Select("select tokenId,token,createTokenTime,createTokenUser from tb_token where tokenId=#{tokenId}")
-	public Token findByTokenId(@Param("tokenId") String tokenId);
+	 Token findByTokenId(@Param("tokenId") String tokenId);
 	
 	/**
 	 * 定义通过token值来查询token的规范
@@ -38,7 +38,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Select("select tokenId,token,createTokenTime,createTokenUser from tb_token where token=#{token}")
-	public Token findByToken(@Param("token") String token);
+	 Token findByToken(@Param("token") String token);
 	
 	/**
 	 * 定义通过token主键Id来更改token的值的规范
@@ -49,7 +49,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Update("update tb_token set token=#{token},createTokenTime=#{createTokenTime},createTokenUser=#{createTokenUser} where tokenId=#{tokenId}")
-	public boolean modifyByTokenId(@Param("tokenId") String tokenId,@Param("token") String token,@Param("createTokenTime") Timestamp createTokenTime,@Param("createTokenUser") String createTokenUser);
+	 boolean modifyByTokenId(@Param("tokenId") String tokenId,@Param("token") String token,@Param("createTokenTime") Timestamp createTokenTime,@Param("createTokenUser") String createTokenUser);
 	
 	/**
 	 * 定义通过token来更改token的值
@@ -59,7 +59,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Update("update tb_token set token=#{token},createTokenTime=#{createTokenTime},createTokenUser=#{createTokenUser} where token=#{token}")
-	public boolean modifyByToken(@Param("token") String token,@Param("createTokenTime") Timestamp createTokenTime,@Param("createTokenUser") String createTokenUser);
+	 boolean modifyByToken(@Param("token") String token,@Param("createTokenTime") Timestamp createTokenTime,@Param("createTokenUser") String createTokenUser);
 	
 	/**
 	 * 定义通过tokenId主键来删除token的规范
@@ -67,7 +67,7 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_token where tokenId=#{#tokenId}")
-	public boolean deleteByTokenId(@Param("tokenId") String tokenId);
+	 boolean deleteByTokenId(@Param("tokenId") String tokenId);
 	
 	/**
 	 * 定义通过token来删除token的规范
@@ -75,15 +75,26 @@ public interface TokenMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_token where token=#{token}")
-	public boolean deleteByToken(@Param("token") String token);
+	 boolean deleteByToken(@Param("token") String token);
 	
 	/**
 	 * 定义列举所有token的规范
 	 * @return
 	 */
 	@Select("select tokenId,token,createTokenTime,createTokenUser from tb_token")
+<<<<<<< Updated upstream
 	public List<Token> findAllToken();
 
 	Token findTokenByUserId(String userId);
 	
+=======
+	 List<Token> findAllToken();
+
+	/**
+	 * 通过用户ID查询token
+	 * @param userId
+	 * @return
+	 */
+	Token findTokenByUserId(String userId);
+>>>>>>> Stashed changes
 }

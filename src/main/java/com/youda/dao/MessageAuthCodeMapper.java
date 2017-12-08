@@ -1,16 +1,10 @@
 package com.youda.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.youda.model.MessageAuthCode;
+import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
+
+import java.util.List;
 
 /**
  * @author chencongye
@@ -22,69 +16,76 @@ import org.springframework.cache.annotation.CacheConfig;
 @Mapper
 @CacheConfig(cacheNames = "authCode")
 public interface MessageAuthCodeMapper {
-	
-	/**
-	 * 定义添加短信验证码的规范
-	 * @param authCode
-	 * @return
-	 */
-	@Insert("insert into tb_messagecode(macode_id,macode_content,macode_send_time,macode_phone) values(#{authCode.macodeId},#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
-	public boolean addMessageAuthCode(@Param("authCode") MessageAuthCode authCode);
-	
-	/**
-	 * 定义通过短信验证码主键Id来查找短信验证码的规范
-	 * @param macodeId
-	 * @return
-	 */
-	@Select("select * from tb_messagecode where macodeId=#{macodeId}")
-	public MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
-	
-	/**
-	 * 定义通过手机来查找短信验证码的规范
-	 * @param macodeContent
-	 * @return
-	 */
-	@Select("select * from tb_messagecode where macodePhone=#{userName}")
-	public MessageAuthCode findByMacodeContent(@Param("userName") String userName);
-	
-	/**
-	 * 定义通过短信验证码主键的规范
-	 * @param macodeId
-	 * @return
-	 */
-	@Delete("delete from tb_messagecode where macodeId=#{macodeId}")
-	public boolean deleteByMacodeId(@Param("macodeId") long macodeId);
-	
-	/**
-	 * 定义通过短信验证码的内容来删除短信验证码的规范
-	 * @param macodeContent
-	 * @return
-	 */
-	@Delete("delete from tb_messagecode where macodeContent=#{macodeContent}")
-	public boolean deleteByMacodeContent(@Param("macodeContent") String macodeContent);
 
-	/**
-	 * 定义通过短信验证码主键Id来
-	 * @param macodeId
-	 * @param authCode
-	 * @return
-	 */
-	@Update("update tb_messagecode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeId=#{macodeId}")
-	public boolean modifyByMacodeId(@Param("macodeId") long macodeId);
-	
-	/**
-	 * 定义通过短信内容来查找短信验证码的规范
-	 * @param macodeContent
-	 * @param authCode
-	 * @return
-	 */
-	@Update("update tb_messagecode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeContent=#{macodeContent}")
-	public boolean modifyByMacodeContent(@Param("macodeContent") String macodeContent,@Param("authCode") MessageAuthCode authCode);
-	
-	/**
-	 * 定义列举所有短信验证码的规范
-	 * @return
-	 */
-	@Select("select macode_id,macode_content,macode_send_time,macode_phone from tb_messagecode")
-	public List<MessageAuthCode> findAllMessageCode();
+    /**
+     * 定义添加短信验证码的规范
+     *
+     * @param authCode
+     * @return
+     */
+    @Insert("insert into tb_macode(macodeId,macodeContent,macodeSendTime,macodePhone) values(#{authCode.macodeId},#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
+    boolean addMessageAuthCode(@Param("authCode") MessageAuthCode authCode);
+
+    /**
+     * 定义通过短信验证码主键Id来查找短信验证码的规范
+     *
+     * @param macodeId
+     * @return
+     */
+    @Select("select * from tb_macode where macodeId=#{macodeId}")
+    MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
+
+    /**
+     * 定义通过手机来查找短信验证码的规范
+     * @param userName 用户名
+     * @return MessageAuthCode
+     */
+    @Select("select * from tb_macode where macodePhone=#{userName}")
+    MessageAuthCode findByMacodeContent(@Param("userName") String userName);
+
+    /**
+     * 定义通过短信验证码主键的规范
+     *
+     * @param macodeId
+     * @return
+     */
+    @Delete("delete from tb_macode where macodeId=#{macodeId}")
+    boolean deleteByMacodeId(@Param("macodeId") long macodeId);
+
+    /**
+     * 定义通过短信验证码的内容来删除短信验证码的规范
+     *
+     * @param macodeContent
+     * @return
+     */
+    @Delete("delete from tb_macode where macodeContent=#{macodeContent}")
+    boolean deleteByMacodeContent(@Param("macodeContent") String macodeContent);
+
+    /**
+     * 定义通过短信验证码主键Id来
+     *
+     * @param macodeId
+     * @param
+     * @return
+     */
+    @Update("update tb_macode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeId=#{macodeId}")
+    boolean modifyByMacodeId(@Param("macodeId") long macodeId);
+
+    /**
+     * 定义通过短信内容来查找短信验证码的规范
+     *
+     * @param macodeContent
+     * @param authCode
+     * @return
+     */
+    @Update("update tb_macode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeContent=#{macodeContent}")
+    boolean modifyByMacodeContent(@Param("macodeContent") String macodeContent, @Param("authCode") MessageAuthCode authCode);
+
+    /**
+     * 定义列举所有短信验证码的规范
+     *
+     * @return
+     */
+    @Select("select macodeId,macode_content,macode_send_time,macodePhone from tb_macode")
+    List<MessageAuthCode> findAllMessageCode();
 }

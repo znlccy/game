@@ -1,5 +1,7 @@
 package com.youda.service;
 
+import com.youda.model.Token;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -8,5 +10,6 @@ package com.youda.service;
  */
 
 public interface TokenService {
+    Token findTokenByUserId(Long id);
 
 }

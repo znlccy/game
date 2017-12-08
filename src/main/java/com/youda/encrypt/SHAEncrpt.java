@@ -1,9 +1,9 @@
 package com.youda.encrypt;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigInteger;
 import java.security.MessageDigest;
-
-import org.springframework.stereotype.Component;
 
 /**
  * @author chencongye
@@ -26,7 +26,7 @@ public class SHAEncrpt {
 	 * @return
 	 * @throws Exception
 	 */
-	public static byte[] encryptSHA(byte[] data) throws Exception {
+	private static byte[] encryptSHA(byte[] data) throws Exception {
 		MessageDigest sha = MessageDigest.getInstance(KEY_SHA);
 		sha.update(data);
 		return sha.digest();

@@ -1,5 +1,8 @@
 package com.youda.serviceImpl;
 
+import com.youda.dao.TokenMapper;
+import com.youda.model.Token;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.TokenService;
@@ -13,5 +16,10 @@ import com.youda.service.TokenService;
 
 @Service
 public class TokenServiceImpl implements TokenService {
-	
+    @Autowired
+    TokenMapper tokenMapper;
+    @Override
+    public Token findTokenByUserId(Long id) {
+        return null;
+    }
 }

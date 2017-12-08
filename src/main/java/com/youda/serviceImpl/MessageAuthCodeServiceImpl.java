@@ -26,13 +26,17 @@ public class MessageAuthCodeServiceImpl implements MessageAuthCodeService {
     public MessageAuthCode findByPhone(String userName) {
         MessageAuthCode messageAuthCode = new MessageAuthCode();
         messageAuthCode = messageAuthCodeMapper.findByMacodeContent(userName);
-        if (messageAuthCode==null)
-        {
+        if (messageAuthCode == null) {
             return null;
-        }
-        else
-        {
+        } else {
             return messageAuthCode;
         }
+    }
+
+    @Override
+    public boolean isSuccess(String phone, String code) {
+        MessageAuthCode messageAuthCode = messageAuthCodeMapper.findByMacodeContent(phone);
+        if (messageAuthCode == null || !messageAuthCode.getMacodeContent().equals(code)) return false;
+        return true;
     }
 }
