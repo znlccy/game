@@ -1,4 +1,4 @@
-package com.youda.interceptor;
+package com.youda.response;
 
 import org.springframework.http.ResponseEntity;
 

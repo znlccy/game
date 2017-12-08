@@ -1,23 +1,16 @@
 package com.youda.controller;
 
-import javax.mail.internet.MimeMessage;
-
-import com.youda.interceptor.ResponseResult;
-import com.youda.interceptor.ResponseStatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.web.bind.annotation.*;
 
-import com.youda.interceptor.AuthInterceptor;
+import com.youda.interceptor.UserInterceptor;
 
 @RestController
 @RequestMapping(value = "/mail")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class MailController extends AuthInterceptor {
+public class MailController extends UserInterceptor {
 
 	/**
 	 * 实现JavaMail自动依赖注入

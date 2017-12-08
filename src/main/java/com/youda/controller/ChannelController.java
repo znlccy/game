@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.youda.interceptor.AuthInterceptor;
+import com.youda.interceptor.UserInterceptor;
 
 /**
  * @author chencongye
@@ -16,6 +16,6 @@ import com.youda.interceptor.AuthInterceptor;
 @RestController
 @RequestMapping(value = "")
 @CrossOrigin(maxAge = 3600,origins = "*")
-public class ChannelController extends AuthInterceptor{
+public class ChannelController extends UserInterceptor {
 
 }

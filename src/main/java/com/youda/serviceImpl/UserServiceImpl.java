@@ -2,11 +2,12 @@ package com.youda.serviceImpl;
 
 import com.youda.dao.UserMapper;
 import com.youda.encrypt.SHAEncrpt;
-import com.youda.interceptor.ResponseStatusCode;
+import com.youda.response.ResponseStatusCode;
 import com.youda.model.Token;
 import com.youda.model.User;
 import com.youda.request.LoginRequest;
 import com.youda.request.RegisterRequest;
+import com.youda.response.TokenResponse;
 import com.youda.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,9 +68,13 @@ public class UserServiceImpl implements UserService {
             token.setAccessToken(UUID.randomUUID().toString());
             token.setUser(user);
             userMapper.addToken(token);
-            ValueOperations<String, Token> operations = redisTemplate.opsForValue();
-            operations.set("token_" + user.getUserName(), token);
-            return ResponseStatusCode.putOrGetSuccess(token);
+
+            redisTemplate.opsForValue().set("token_" + user.getUserName(), token);
+
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setToken(token.getAccessToken());
+            tokenResponse.setUserId(user.getUserId());
+            return ResponseStatusCode.putOrGetSuccess(tokenResponse);
         }
         return ResponseStatusCode.verifyError();
     }

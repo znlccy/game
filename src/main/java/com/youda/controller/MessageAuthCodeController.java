@@ -1,6 +1,6 @@
 package com.youda.controller;
 
-import com.youda.interceptor.ResponseStatusCode;
+import com.youda.response.ResponseStatusCode;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 
 import com.alibaba.fastjson.JSONObject;

@@ -1,10 +1,12 @@
 package com.youda.configure;
 
+import com.youda.interceptor.ChannelInterceptor;
+import com.youda.interceptor.SignInterceptor;
+import com.youda.interceptor.UserInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.youda.interceptor.AuthInterceptor;
 
 /**
  * @author chencongye
@@ -14,22 +16,19 @@ import com.youda.interceptor.AuthInterceptor;
  */
 
 @Configuration
-public class WebConfiguration extends WebMvcConfigurerAdapter{
-	
-	/* 
-	 * 添加自定义的拦截器
-	 * (non-Javadoc)
-	 * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter#addInterceptors(org.springframework.web.servlet.config.annotation.InterceptorRegistry)
-	 */
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		// TODO Auto-generated method stub\
-		// 多个拦截器组成一个拦截器链
-        // addPathPatterns 用于添加拦截规则
-        // excludePathPatterns 用户排除拦截
-		registry.addInterceptor(new AuthInterceptor()).addPathPatterns("/**");
-		/*registry.addInterceptor()*/
-		super.addInterceptors(registry);
-	}
+public class WebConfiguration extends WebMvcConfigurerAdapter {
+    @Autowired
+    private SignInterceptor signInterceptor;
+    @Autowired
+    private ChannelInterceptor channelInterceptor;
+    @Autowired
+    private UserInterceptor userInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(signInterceptor);
+        registry.addInterceptor(channelInterceptor);
+        registry.addInterceptor(userInterceptor);
+    }
 
 }

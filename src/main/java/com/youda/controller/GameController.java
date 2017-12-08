@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.youda.interceptor.AuthInterceptor;
+import com.youda.interceptor.UserInterceptor;
 import com.youda.service.GameService;
 
 
@@ -21,7 +21,7 @@ import com.youda.service.GameService;
 @RestController
 @RequestMapping(value = "/game")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class GameController extends AuthInterceptor {
+public class GameController extends UserInterceptor {
 	
 	/**
 	 * 实现游戏服务接口的自动依赖注入

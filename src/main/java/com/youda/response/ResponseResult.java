@@ -1,6 +1,4 @@
-package com.youda.interceptor;
-
-import org.springframework.context.annotation.Bean;
+package com.youda.response;
 
 /**
  * @author chencongye

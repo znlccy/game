@@ -1,7 +1,7 @@
 package com.youda.controller;
 
 import com.youda.encrypt.RSAEncryt;
-import com.youda.interceptor.ResponseStatusCode;
+import com.youda.response.ResponseStatusCode;
 import com.youda.model.User;
 import com.youda.request.LoginRequest;
 import com.youda.request.RegisterRequest;
