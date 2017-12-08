@@ -84,6 +84,7 @@ public interface TokenMapper {
 	@Select("select tokenId,token,createTokenTime,createTokenUser from tb_token")
 	public List<Token> findAllToken();
 
+	/*@Select("select")*/
 	Token findTokenByUserId(String userId);
 	
 }
