@@ -60,8 +60,8 @@ public interface UserMapper {
      * @param
      * @return
      */
-    @Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{user.userId} or userName=#{user.userName}")
-    boolean modifyUserInfo(@Param("user") User user);
+    @Update("update tb_user set userName=#{api.userName},userPassword=#{api.userPassword},userModifyTime=#{api.userModifyTime} where userId=#{api.userId} or userName=#{api.userName}")
+    boolean modifyUserInfo(@Param("api") User user);
 
     /**
      * 列举所有用户
@@ -87,8 +87,8 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Insert("insert into tb_user(userName,userPassword,userEmail,userRegisteredTime,userUseDevice) values(#{user.userName},#{user.userPassword},#{user.userEmail},#{user.userRegisteredTime},#{user.userUseDevice})")
-    boolean addUser(@Param("user") User user);
+    @Insert("insert into tb_user(userName,userPassword,userEmail,userRegisteredTime,userUseDevice) values(#{api.userName},#{api.userPassword},#{api.userEmail},#{api.userRegisteredTime},#{api.userUseDevice})")
+    boolean addUser(@Param("api") User user);
 
     /**
      * 定义添加token的规范

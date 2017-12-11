@@ -1,13 +1,10 @@
 package com.youda.service;
 
-import com.youda.model.User;
 import com.youda.request.ForgetFirstRequest;
 import com.youda.request.ForgetSecondRequest;
 import com.youda.request.LoginRequest;
 import com.youda.request.RegisterRequest;
 import org.springframework.http.ResponseEntity;
-
-import java.util.List;
 
 /**
  * @author chencongye
@@ -45,66 +42,5 @@ public interface UserService {
      * @return
      */
     ResponseEntity forgotPasswordEnd(ForgetSecondRequest request);
-
-    /**
-     * 定义用户获取验证码
-     *
-     * @return
-     */
-    ResponseEntity getVerificationCode();
-
-    /**
-     * 定义通过userId查询用户
-     *
-     * @return
-     */
-    User getUserByUserId(long userId);
-
-    /**
-     * 定义通过userName查询用户
-     *
-     * @param userName
-     * @return
-     */
-    User findUserByUserName(String userName);
-
-    /**
-     * 定义通过用户I的修改用户信息
-     *
-     * @param user
-     * @return
-     */
-    boolean modifyByUserId(User user);
-
-    /**
-     * 定义通过用户名修改用户信息
-     *
-     * @param user
-     * @return
-     */
-    boolean modifyByUserName(User user);
-
-    /**
-     * 定义通过用户的主键Id来删除用户
-     *
-     * @param userId
-     * @return
-     */
-    boolean deleteByUserId(long userId);
-
-    /**
-     * 定义验证登录的token
-     *
-     * @param accessToken
-     * @return
-     */
-    boolean validateAccessToken(String accessToken);
-
-    /**
-     * 定义查找所有用户
-     *
-     * @return
-     */
-    List<User> findAllUser();
 
 }
