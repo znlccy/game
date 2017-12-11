@@ -6,8 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.UnsupportedEncodingException;
-
 /**
  * @author chencongye
  * @version 1.0.0
@@ -18,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping(value = "message")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class MessageAuthCodeController   {
+public class MessageAuthCodeController {
 
     /*声明国内任信了账户号*/
     private String domesticUser = "13402040612";
@@ -37,6 +35,7 @@ public class MessageAuthCodeController   {
 
     /*声明国外任信了Mid编号*/
     private String foreignMid = "14337";
+
     /**
      * 实现发送短信验证码
      *
@@ -45,7 +44,7 @@ public class MessageAuthCodeController   {
      */
     @ResponseBody
     @RequestMapping(value = "/domestic", method = RequestMethod.GET)
-    public ResponseEntity sendMessageCode(@RequestParam String phone) throws UnsupportedEncodingException {
+    public ResponseEntity sendMessageCode(@RequestParam String phone) {
 
         if (phone == null || phone.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
@@ -66,7 +65,7 @@ public class MessageAuthCodeController   {
      */
     @ResponseBody
     @RequestMapping(value = "/foreign", method = RequestMethod.GET)
-    public ResponseEntity sendMessageCode(@RequestParam String phone, String countryCode) throws UnsupportedEncodingException {
+    public ResponseEntity sendMessageCode(@RequestParam String phone, String countryCode) {
 
         if (phone == null || phone.isEmpty()) {
             return ResponseStatusCode.nullPointerError();

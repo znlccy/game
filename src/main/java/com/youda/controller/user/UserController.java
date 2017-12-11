@@ -47,7 +47,8 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity userLogin(@RequestBody LoginRequest request) {
+    public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
