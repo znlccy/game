@@ -36,7 +36,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
      * 回值为false，当preHandle的返回值为false的时候整个请求就结束了。
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         // TODO Auto-generated method stub
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -50,8 +50,12 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
         }
         String id = request.getHeader("userId");
         String tokenText = request.getHeader("token");
+
+        String channelGameId = request.getHeader("channelGameId");
+        String channelKey = request.getHeader("channelKey");
+
         if (id != null && tokenText != null) {
-            Token token = tokenService.findTokenByUserId(Long.valueOf(id));
+            Token token = tokenService.findTokenByIDs(Long.valueOf(id),Long.valueOf(channelGameId));
             if (token.getAccessToken().equals(tokenText)) {
                 return true;
             }

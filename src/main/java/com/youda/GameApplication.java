@@ -1,17 +1,10 @@
 package com.youda;
 
-import org.apache.tomcat.util.descriptor.web.ErrorPage;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
-import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author chencongye
@@ -26,19 +19,15 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableCaching
 public class GameApplication {
 
-	/**
-	 * 定义SpringBoot主程序入口
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		SpringApplication.run(GameApplication.class, args);
-	}
-	
-	@RequestMapping(value = {"/",""})
-	public String helloboot() {
-		return "开启第一篇SpringBoot之旅!!";
-	}
-	
+    /**
+     * 定义SpringBoot主程序入口
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(GameApplication.class, args);
+    }
+
 	/*@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer() {
 

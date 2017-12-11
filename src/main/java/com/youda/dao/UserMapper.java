@@ -1,12 +1,11 @@
 package com.youda.dao;
 
-import java.util.List;
-
 import com.youda.model.Token;
+import com.youda.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
 
-import com.youda.model.User;
+import java.util.List;
 
 /**
  * @author Chencongye
@@ -58,7 +57,7 @@ public interface UserMapper {
     /**
      * 通过用户Id来修改用户
      *
-     * @param userId
+     * @param
      * @return
      */
     @Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{user.userId} or userName=#{user.userName}")

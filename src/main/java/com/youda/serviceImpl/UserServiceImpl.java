@@ -1,7 +1,12 @@
 package com.youda.serviceImpl;
 
+import com.youda.dao.MessageAuthCodeMapper;
+import com.youda.dao.TokenMapper;
 import com.youda.dao.UserMapper;
 import com.youda.encrypt.SHAEncrpt;
+import com.youda.model.MessageAuthCode;
+import com.youda.request.ForgetFirstRequest;
+import com.youda.request.ForgetSecondRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.model.Token;
 import com.youda.model.User;
@@ -42,6 +47,8 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MessageAuthCodeMapper codeMapper;
 
     /**
      * 实现自动依赖注入字符型Redis模板
@@ -95,15 +102,14 @@ public class UserServiceImpl implements UserService {
         return ResponseStatusCode.putOrGetSuccess(null);
     }
 
-    /*
-     * 实现忘记密码的第一步
-     * (non-Javadoc)
-     * @see com.youda.service.UserService#forgotPasswordStart()
-     */
     @Override
-    public ResponseEntity forgotPasswordStart() {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity forgotPasswordStart(ForgetFirstRequest request) {
+        if (userMapper.findByUserName(request.getUserName()) == null)
+            return ResponseStatusCode.notFindError();
+        MessageAuthCode code = codeMapper.findByMacodeContent(request.getUserName());
+        if (code == null || !request.getVerificationCode().equals(code.getMacodeContent()))
+            return ResponseStatusCode.verifyError();
+        return ResponseStatusCode.putOrGetSuccess(null);
     }
 
     /*
@@ -112,9 +118,12 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService#forgotPasswordEnd()
      */
     @Override
-    public ResponseEntity forgotPasswordEnd() {
-        // TODO Auto-generated method stub
-        return null;
+    public ResponseEntity forgotPasswordEnd(ForgetSecondRequest request) {
+        User user = userMapper.findByUserName(request.getUserName());
+        if (user == null) return ResponseStatusCode.verifyError();
+        user.setUserPassword(SHAEncrpt.SHAEncrption(request.getUserPassword()));
+        userMapper.modifyUserInfo(user);
+        return ResponseStatusCode.putOrGetSuccess(null);
     }
 
     /*
@@ -240,9 +249,13 @@ public class UserServiceImpl implements UserService {
         user = this.findUserByUserName(user.getUserName());
         user.setUserName("nihao");
         userMapper.modifyUserInfo(user);
-
-		/*查看缓存是否存在*/
+<<<<<<< Updated upstream
         String key = "userName_" + user.getUserName();
+=======
+
+        /*查看缓存是否存在*/
+        String key = "userName_" + userName;
+>>>>>>> Stashed changes
         boolean hasKey = redisTemplate.hasKey(key);
         if (hasKey) {
             redisTemplate.delete(key);
