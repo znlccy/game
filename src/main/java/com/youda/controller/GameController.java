@@ -1,5 +1,6 @@
 package com.youda.controller;
 
+import com.youda.model.Game;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,9 +36,9 @@ public class GameController extends UserInterceptor {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "create", method = RequestMethod.POST)
-	public String addGame() {
-		gameService.addGame();
-		return "添加成功";
+	public boolean addGame() {
+
+		return false;
 	}
 	
 }

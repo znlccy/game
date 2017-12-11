@@ -212,9 +212,9 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService#modifyByUserId(java.lang.String)
      */
     @Override
-    public boolean modifyByUserId(long userId) {
+    public boolean modifyByUserId(User user) {
         // TODO Auto-generated method stub
-        User user = userMapper.findByUserId(userId);
+        user = userMapper.findByUserId(user.getUserId());
         System.err.println("user：" + user);
         if (user == null) {
             return false;
@@ -235,14 +235,14 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService#modifyByUserName(java.lang.String)
      */
     @Override
-    public boolean modifyByUserName(String userName) {
+    public boolean modifyByUserName(User user) {
         // TODO Auto-generated method stub
-        User user = this.findUserByUserName(userName);
+        user = this.findUserByUserName(user.getUserName());
         user.setUserName("nihao");
         userMapper.modifyUserInfo(user);
 
 		/*查看缓存是否存在*/
-        String key = "userName_" + userName;
+        String key = "userName_" + user.getUserName();
         boolean hasKey = redisTemplate.hasKey(key);
         if (hasKey) {
             redisTemplate.delete(key);

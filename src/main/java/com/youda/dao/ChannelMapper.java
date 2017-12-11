@@ -28,7 +28,7 @@ public interface ChannelMapper {
 	 * @param channel
 	 * @return
 	 */
-	@Insert("insert into tb_channel(channel_id,channel_name,channel_web_site,platform_nature,platform_class,channel_label,channel_region) values(#{channel.channelId},#{channel.channelName},#{channel.channelWebSite},#{channel.platformNature},#{channel.platformClass},#{channel.channelLabel},#{channel.channelRegion})")
+	@Insert("insert into tb_channel(channelId,channelName,channelWebSite,platformNature,platformClass,channelLabel,channelRegion) values(#{channel.channelId},#{channel.channelName},#{channel.channelWebSite},#{channel.platformNature},#{channel.platformClass},#{channel.channelLabel},#{channel.channelRegion})")
 	public boolean addChannel(@Param("channel") Channel channel);
 	
 	/**
@@ -36,7 +36,7 @@ public interface ChannelMapper {
 	 * @param channelId
 	 * @return
 	 */
-	@Select("select channel_id,channel_name,channel_web_site,platform_nature,platform_class,channel_label,channel_region from tb_channel where channel_id=#{channelId}")
+	@Select("select channelId,channelName,channelWebSite,platformNature,platformClass,channelLabel,channelRegion from tb_channel where channelId=#{channelId}")
 	public Channel findByChannelId(@Param("channelId") long channelId);
 	
 	/**
@@ -44,7 +44,7 @@ public interface ChannelMapper {
 	 * @param channelName
 	 * @return
 	 */
-	@Select("select channel_id,channel_name,channel_web_site,platform_nature,platform_class,channel_label,channel_region from tb_channel where channel_name=#{channelName}")
+	@Select("select channelId,channelName,channelWebSite,platformNature,platformClass,channelLabel,channelRegion from tb_channel where channelName=#{channelName}")
 	public Channel findByChannelName(@Param("channalName") String channelName);
 	
 	/**
@@ -52,7 +52,7 @@ public interface ChannelMapper {
 	 * @param channelId
 	 * @return
 	 */
-	@Delete("delete from tb_channel where channel_id=#{channelId}")
+	@Delete("delete from tb_channel where channelId=#{channelId}")
 	public boolean deleteByChannelId(@Param("channelId") long channelId);
 	
 	/**
@@ -60,31 +60,29 @@ public interface ChannelMapper {
 	 * @param channelName
 	 * @return
 	 */
-	@Delete("delete from tb_channel where channel_name=#{channelName}")
+	@Delete("delete from tb_channel where channelName=#{channelName}")
 	public boolean deleteByChannelName(@Param("channelName") String channelName);
 
 	/**
 	 * 定义通过游戏渠道主键Id来修改渠道的规范
 	 * @param channelId
-	 * @param channel
 	 * @return
 	 */
-	@Update("update tb_channel set channel_name=#{channel.channelName},channel_web_site=#{channel.channelWebSite},channel_nature=#{channel.channelNature},platform_nature=#{channel.platformNature},platform_class=#{channel.platformClass},channel_label=#{channel.channalLabel},channel_region=#{channel.channelRegion} where channel_id=#{channel.channelId}")
-	public boolean modifyByChannelId(@Param("channel") Channel channel);
-	
+	@Update("update tb_channel set channelName=#{channel.channelName},channelWebSite=#{channel.channelWebSite},channelNature=#{channel.channelNature},platformNature=#{channel.platformNature},platformClass=#{channel.platformClass},channelLabel=#{channel.channalLabel},channelRegion=#{channel.channelRegion} where channelId=#{channel.channelId}")
+	public boolean modifyByChannelId(@Param("channelId") long channelId);
+
 	/**
 	 * 定义通过游戏渠道名称来修改渠道的规范
-	 * @param channelName
 	 * @param channel
 	 * @return
 	 */
-	@Update("update tb_channel set channel_name=#{channel.channelName},channel_web_site=#{channel.channelWebSite},channel_nature=#{channel.channelNature},platform_nature=#{channel.platformNature},platform_class=#{channel.platformClass},channel_label=#{channel.channalLabel},channel_region=#{channel.channelRegion} where channel_name=#{channel.channelName}")
+	@Update("update tb_channel set channelName=#{channel.channelName},channelWebSite=#{channel.channelWebSite},channelNature=#{channel.channelNature},platformNature=#{channel.platformNature},platformClass=#{channel.platformClass},channeLabel=#{channel.channalLabel},channelRegion=#{channel.channelRegion} where channelName=#{channel.channelName}")
 	public boolean modifyByChannelName(@Param("channel") Channel channel);
-	
+
 	/**
 	 * 定义列举所有游戏渠道的规范
 	 * @return
 	 */
-	@Select("select channel_id,channel_name,channel_web_site,platform_nature,platform_class,channel_label,channel_region from tb_channel")
+	@Select("select * from tb_channel")
 	public List<Channel> findAllChannel();
 }

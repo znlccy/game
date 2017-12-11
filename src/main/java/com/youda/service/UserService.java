@@ -69,18 +69,18 @@ public interface UserService {
     /**
      * 定义通过用户I的修改用户信息
      *
-     * @param userId
+     * @param user
      * @return
      */
-    boolean modifyByUserId(long userId);
+    boolean modifyByUserId(User user);
 
     /**
      * 定义通过用户名修改用户信息
      *
-     * @param userName
+     * @param user
      * @return
      */
-    boolean modifyByUserName(String userName);
+    boolean modifyByUserName(User user);
 
     /**
      * 定义通过用户的主键Id来删除用户

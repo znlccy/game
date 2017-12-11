@@ -86,6 +86,6 @@ public interface MessageAuthCodeMapper {
      *
      * @return
      */
-    @Select("select macodeId,macode_content,macode_send_time,macodePhone from tb_macode")
+    @Select("select * from tb_macode")
     List<MessageAuthCode> findAllMessageCode();
 }

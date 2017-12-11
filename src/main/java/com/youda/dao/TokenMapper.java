@@ -18,11 +18,10 @@ public interface TokenMapper {
 
     /**
      * 定义添加token的规范
-     *
      * @param token
      * @return
      */
-    @Insert("insert into tb_token(tokenId,token,createTokenTime,createTokenUser) values(#{token.tokenId},#{token.token},#{token.createTokenTime},#{token.createTokenUser})")
+    @Insert("insert into tb_token(tokenId,accessToken,expirationTime,createTokenUser) values(#{token.tokenId},#{token.token},#{token.createTokenTime},#{token.createTokenUser})")
     boolean addToken(@Param("token") Token token);
 
     /**
@@ -68,7 +67,6 @@ public interface TokenMapper {
 
     /**
      * 定义通过tokenId主键来删除token的规范
-     *
      * @param tokenId
      * @return
      */

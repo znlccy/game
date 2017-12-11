@@ -73,7 +73,7 @@ public interface GameMapper {
 	 * @param gamePackage
 	 * @return
 	 */
-	@Update("update tb_game set game_package=#{gamePackage},game_name=#{gameName} where game_package=#{gamePackage}")
+	@Update("update tb_game set gamePackage=#{gamePackage},gameName=#{gameName} where gamePackage=#{gamePackage}")
 	boolean modifyByGamePackage(@Param("gamePackage") String gamePackage);
 	
 	/**
@@ -81,7 +81,7 @@ public interface GameMapper {
 	 * @param gameId
 	 * @return
 	 */
-	@Delete("delete from tb_game where game_id=#{gameId}")
+	@Delete("delete from tb_game where gameId=#{gameId}")
 	public boolean deleteByGameId(@Param("gameId") long gameId);
 	
 	/**
@@ -89,7 +89,7 @@ public interface GameMapper {
 	 * @param gameName
 	 * @return
 	 */
-	@Delete("delete from tb_game where game_name=#{gameName}")
+	@Delete("delete from tb_game where gameName=#{gameName}")
 	boolean deleteByGameName(@Param("gameName") String gameName);
 	
 	/**
@@ -97,13 +97,13 @@ public interface GameMapper {
 	 * @param gamePackage
 	 * @return
 	 */
-	@Delete("delete from tb_game where game_package=#{gamePackage}")
+	@Delete("delete from tb_game where gamePackage=#{gamePackage}")
 	boolean deleteByGamePackage(@Param("gamePackage") String gamePackage);
 	
 	/**
 	 * 定义查询所有游戏的规范
 	 * @return
 	 */
-	@Select("select game_id,game_name,game_package from tb_game")
+	@Select("select gameId,gameName,gamePackage from tb_game")
 	List<Game> findAllGame();
 }
