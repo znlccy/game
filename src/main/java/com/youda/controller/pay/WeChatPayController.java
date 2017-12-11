@@ -11,5 +11,4 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class WeChatPayController {
 
-
 }
