@@ -10,7 +10,7 @@ import com.youda.interceptor.UserInterceptor;
 @RestController
 @RequestMapping(value = "/mail")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class MailController extends UserInterceptor {
+public class MailController   {
 
 	/**
 	 * 实现JavaMail自动依赖注入

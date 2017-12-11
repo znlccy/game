@@ -4,7 +4,7 @@ package com.youda.request;
  * Created by chenshengyu
  * on 2017/12/8.
  */
-public class LoginRequest implements BaseRequest {
+public class LoginRequest extends BaseRequest {
     private String userName;
     private String userPassword;
 
@@ -28,6 +28,7 @@ public class LoginRequest implements BaseRequest {
     @Override
     public boolean isEmpty() {
         return userName == null || userName.isEmpty()
+                || gameChannelId == null|| gameChannelId ==0
                 || userPassword == null || userPassword.isEmpty();
     }
 }

@@ -22,7 +22,7 @@ import com.youda.service.GameService;
 @RestController
 @RequestMapping(value = "/game")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class GameController extends UserInterceptor {
+public class GameController   {
 	
 	/**
 	 * 实现游戏服务接口的自动依赖注入

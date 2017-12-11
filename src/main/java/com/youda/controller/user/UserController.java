@@ -1,4 +1,4 @@
-package com.youda.controller;
+package com.youda.controller.user;
 
 import com.youda.model.User;
 import com.youda.request.LoginRequest;
@@ -32,8 +32,10 @@ public class UserController {
 
 
     @ResponseBody
+//    @CurrentChannel
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity userRegistered(@RequestBody RegisterRequest request) {
+    public ResponseEntity userRegistered(@RequestBody RegisterRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
@@ -45,7 +47,7 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity userLogin(@RequestBody LoginRequest request) throws Exception {
+    public ResponseEntity userLogin(@RequestBody LoginRequest request) {
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
@@ -82,4 +84,10 @@ public class UserController {
         return ResponseStatusCode.postSuccess(user);
     }
 
+    @ResponseBody
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public ResponseEntity test(@RequestParam String userName) {
+        User user = userService.findUserByUserName(userName);
+        return ResponseStatusCode.postSuccess(user);
+    }
 }

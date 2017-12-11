@@ -1,7 +1,8 @@
 package com.youda.interceptor;
 
 import com.youda.annotation.CurrentChannel;
-import com.youda.service.ChannelService;
+import com.youda.model.GameChannel;
+import com.youda.service.GameChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -22,13 +23,16 @@ import java.lang.reflect.Method;
 public class ChannelInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private ChannelService channelService;
+    private GameChannelService channelService;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // TODO Auto-generated method stub
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
             return true;
+        }
+        String url = request.getRequestURL().toString();
+        if (url.endsWith("error")){
+            return  true;
         }
         // 验证请求权限
         HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -36,12 +40,14 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
         if (method.getAnnotation(CurrentChannel.class) == null) {
             return true;
         }
-        String channelId = request.getHeader("channelId");
-        String gameId = request.getHeader("gameId");
+        String channelGameId = request.getHeader("channelGameId");
         String channelKey = request.getHeader("channelKey");
 
-        if (channelId != null && gameId != null && channelKey != null) {
-            //TODO: 2017/12/8 验证
+        if (channelGameId != null && channelKey != null) {
+            GameChannel gameChannel = channelService.findByIds(Long.valueOf(channelGameId));
+            if (gameChannel != null && gameChannel.getAppKey().equals(channelKey)) {
+                return true;
+            }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return false;

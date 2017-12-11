@@ -4,7 +4,7 @@ package com.youda.request;
  * Created by chenshengyu
  * on 2017/12/8.
  */
-public class RegisterRequest implements BaseRequest {
+public class RegisterRequest extends BaseRequest {
     private String userName;
     private String userPassword;
     private String verificationCode;
@@ -37,6 +37,7 @@ public class RegisterRequest implements BaseRequest {
     public boolean isEmpty() {
         return userName == null || userName.isEmpty()
                 || userPassword == null || userPassword.isEmpty()
+                || gameChannelId == null || gameChannelId == 0
                 || verificationCode == null || verificationCode.isEmpty();
     }
 }

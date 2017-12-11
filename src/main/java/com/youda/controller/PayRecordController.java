@@ -16,6 +16,6 @@ import com.youda.interceptor.UserInterceptor;
 @RestController
 @RequestMapping(value = "payrecord")
 @CrossOrigin(maxAge = 3600, origins="*")
-public class PayRecordController extends UserInterceptor {
+public class PayRecordController   {
 	
 }

@@ -1,5 +1,6 @@
 package com.youda.dao;
 
+import com.youda.model.GameChannel;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,4 +13,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GameChannelMapper {
 
+    // TODO: 2017/12/11 通过 id  查询
+    GameChannel findById(Long gameChannelId);
 }

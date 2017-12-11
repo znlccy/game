@@ -2,7 +2,6 @@ package com.youda.controller;
 
 import com.youda.response.MessageCode;
 import com.youda.response.ResponseStatusCode;
-import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -19,9 +18,7 @@ import java.io.UnsupportedEncodingException;
 @RestController
 @RequestMapping(value = "message")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class MessageAuthCodeController implements ErrorController {
-
-    private static final String ERROR_PATH = "/error";
+public class MessageAuthCodeController   {
 
     /*声明国内任信了账户号*/
     private String domesticUser = "13402040612";
@@ -40,13 +37,6 @@ public class MessageAuthCodeController implements ErrorController {
 
     /*声明国外任信了Mid编号*/
     private String foreignMid = "14337";
-
-    @Override
-    public String getErrorPath() {
-        // TODO Auto-generated method stub
-        return ERROR_PATH;
-    }
-
     /**
      * 实现发送短信验证码
      *

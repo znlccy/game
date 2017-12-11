@@ -1,6 +1,6 @@
 package com.youda.interceptor;
 
-import com.youda.annotation.CurrentChannel;
+import com.youda.annotation.CurrrentAdmin;
 import com.youda.encrypt.SHAEncrpt;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -18,7 +18,7 @@ public class SignInterceptor extends HandlerInterceptorAdapter {
     private static final String appKey = "sjghdhjfgdhgfhdgads";
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -30,7 +30,7 @@ public class SignInterceptor extends HandlerInterceptorAdapter {
         }
         if ("true".equals(request.getHeader("debug"))) return true;
         // 验证请求权限
-        if (((HandlerMethod) handler).getMethod().getAnnotation(CurrentChannel.class) == null) {
+        if (((HandlerMethod) handler).getMethod().getAnnotation(CurrrentAdmin.class) == null) {
             return true;
         }
         String timestamp = request.getHeader("timestamp");

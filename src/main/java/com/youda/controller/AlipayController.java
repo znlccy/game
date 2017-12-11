@@ -16,6 +16,6 @@ import com.youda.interceptor.UserInterceptor;
 @RestController
 @RequestMapping(value = "/alipay")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class AlipayController extends UserInterceptor {
+public class AlipayController   {
 
 }

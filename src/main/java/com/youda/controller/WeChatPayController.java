@@ -17,11 +17,10 @@ import com.youda.interceptor.UserInterceptor;
 @RestController
 @RequestMapping(value = "wechat")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class WeChatPayController extends UserInterceptor {
+public class WeChatPayController   {
 	
 	@RequestMapping(value = "apppay", method = RequestMethod.POST)
 	public String WeChatAppPay() {
-			
 		return "nihao";
 	}
 }
