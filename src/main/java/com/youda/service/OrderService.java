@@ -1,6 +1,8 @@
 package com.youda.service;
 
 import com.youda.model.Order;
+import com.youda.request.OrderRequest;
+import org.springframework.http.ResponseEntity;
 
 /**
  * @author chencongye
@@ -12,13 +14,13 @@ import com.youda.model.Order;
 public interface OrderService {
 
     /*创建订单*/
-    boolean createOrder(Order order);
+    ResponseEntity createOrder(OrderRequest orderRequest);
 
     /*删除订单*/
     boolean deleteOrderById(long orderId);
 
     /*查询订单*/
-    boolean queryOrderById(long orderId);
+    Order queryOrderById(long orderId);
 
     /*修改订单*/
     boolean modifyOrderById(long orderId);

@@ -1,6 +1,10 @@
 package com.youda.serviceImpl;
 
+import com.youda.dao.OrderMapper;
 import com.youda.model.Order;
+import com.youda.request.OrderRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
@@ -15,27 +19,72 @@ import com.youda.service.OrderService;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    @Autowired
+    private OrderMapper orderMapper;
+
     /*实现创建订单*/
     @Override
-    public boolean createOrder(Order order) {
-        return false;
+    public ResponseEntity createOrder(OrderRequest orderRequest) {
+
+        if(orderRequest==null)
+        {
+            orderMapper.createOrder(orderRequest);
+            return null;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /*实现删除订单*/
     @Override
     public boolean deleteOrderById(long orderId) {
-        return false;
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order!=null)
+        {
+            orderMapper.deleteByOrderId(orderId);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     /*实现查询订单*/
     @Override
-    public boolean queryOrderById(long orderId) {
-        return false;
+    public Order queryOrderById(long orderId) {
+
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order!=null)
+        {
+            return order;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     /*实现修改订单*/
     @Override
     public boolean modifyOrderById(long orderId) {
-        return false;
+
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order==null)
+        {
+            return false;
+        }
+        else
+        {
+            if (orderMapper.modifyByOrderId(order)) {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

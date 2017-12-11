@@ -38,7 +38,8 @@ public class OrderController {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.alipay(orderId);
+        /*return orderService.alipay(orderId);*/
+        return null;
     }
 
     @ResponseBody
@@ -47,7 +48,8 @@ public class OrderController {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.wechatpay(orderId);
+        /*return orderService.wechatpay(orderId);*/
+        return null;
     }
 
 }

@@ -1,14 +1,20 @@
 package com.youda.request;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 /**
  * Created by chenshengyu
  * on 2017/12/11.
  */
 public class OrderRequest extends BaseRequest {
+
     private Long userId;
     private String orderTotalAmount;
     private String orderSubject;
     private String otherOrderId;
+    private Long gameId;
+    private Timestamp createOrderTime;
 
     public Long getUserId() {
         return userId;
@@ -41,6 +47,23 @@ public class OrderRequest extends BaseRequest {
     public void setOtherOrderId(String otherOrderId) {
         this.otherOrderId = otherOrderId;
     }
+
+    public long getGameId() {
+        return gameId;
+    }
+
+    public void setGameId(long gameId) {
+        this.gameId = gameId;
+    }
+
+    public Timestamp getCreateOrderTime() {
+        return createOrderTime;
+    }
+
+    public void setCreateOrderTime(Timestamp createOrderTime) {
+        this.createOrderTime = createOrderTime;
+    }
+
     @Override
     public boolean isEmpty() {
         return orderTotalAmount == null || orderTotalAmount.isEmpty()
@@ -48,6 +71,8 @@ public class OrderRequest extends BaseRequest {
                 || userId == null || userId == 0
                 || !orderTotalAmount.matches("^(([1-9]\\d*)|([0]))(\\.(\\d){0,2})?$")
                 || orderSubject == null || orderSubject.isEmpty()
-                || otherOrderId == null || otherOrderId.isEmpty();
+                || otherOrderId == null || otherOrderId.isEmpty()
+                || gameId == null || gameId==0
+                || createOrderTime == null;
     }
 }
