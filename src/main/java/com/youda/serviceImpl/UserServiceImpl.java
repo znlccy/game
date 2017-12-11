@@ -249,7 +249,13 @@ public class UserServiceImpl implements UserService {
         user = this.findUserByUserName(user.getUserName());
         user.setUserName("nihao");
         userMapper.modifyUserInfo(user);
+<<<<<<< Updated upstream
         String key = "userName_" + user.getUserName();
+=======
+
+        /*查看缓存是否存在*/
+        String key = "userName_" + userName;
+>>>>>>> Stashed changes
         boolean hasKey = redisTemplate.hasKey(key);
         if (hasKey) {
             redisTemplate.delete(key);
