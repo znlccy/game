@@ -76,7 +76,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     public ResponseEntity userModify(@PathVariable("userId") long userId) {
-        boolean result = userService.modifyByUserId(userId);
+        User result = userService.getUserByUserId(userId);
         return ResponseStatusCode.postSuccess(result);
     }
 
