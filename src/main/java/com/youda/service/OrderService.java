@@ -1,5 +1,8 @@
 package com.youda.service;
 
+import com.youda.request.OrderRequest;
+import org.springframework.http.ResponseEntity;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -9,4 +12,9 @@ package com.youda.service;
 
 public interface OrderService {
 
+    ResponseEntity createOrder(OrderRequest orderRequest);
+
+    ResponseEntity alipay(Long orderId);
+
+    ResponseEntity wechatpay(Long orderId);
 }

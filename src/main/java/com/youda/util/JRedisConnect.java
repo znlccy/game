@@ -71,25 +71,25 @@ public class JRedisConnect {
 	*/ 
 	/*@Test 
 	public void testMap(){ 
-		Map<String,String> user=new HashMap<String,String>(); 
-		user.put("name","minxr"); 
-		user.put("pwd","password"); 
-		jedis.hmset("user",user); 
+		Map<String,String> api=new HashMap<String,String>();
+		api.put("name","minxr");
+		api.put("pwd","password");
+		jedis.hmset("api",api);
 		//取出user中的name，执行结果:[minxr]-->注意结果是一个泛型的List 
 		//第一个参数是存入redis中map对象的key，后面跟的是放入map中的对象的key，后面的key可以跟多个，是可变参数 
-		List<String> rsmap = jedis.hmget("user", "name"); 
+		List<String> rsmap = jedis.hmget("api", "name");
 		System.out.println(rsmap);  
 		//删除map中的某个键值 
-		//jedis.hdel("user","pwd"); 
-		System.out.println(jedis.hmget("user", "pwd")); //因为删除了，所以返回的是null 
-		System.out.println(jedis.hlen("user")); //返回key为user的键中存放的值的个数1 
-		System.out.println(jedis.exists("user"));//是否存在key为user的记录 返回true 
-		System.out.println(jedis.hkeys("user"));//返回map对象中的所有key  [pwd, name] 
-		System.out.println(jedis.hvals("user"));//返回map对象中的所有value  [minxr, password] 
-		Iterator<String> iter=jedis.hkeys("user").iterator(); 
+		//jedis.hdel("api","pwd");
+		System.out.println(jedis.hmget("api", "pwd")); //因为删除了，所以返回的是null
+		System.out.println(jedis.hlen("api")); //返回key为user的键中存放的值的个数1
+		System.out.println(jedis.exists("api"));//是否存在key为user的记录 返回true
+		System.out.println(jedis.hkeys("api"));//返回map对象中的所有key  [pwd, name]
+		System.out.println(jedis.hvals("api"));//返回map对象中的所有value  [minxr, password]
+		Iterator<String> iter=jedis.hkeys("api").iterator();
 		while (iter.hasNext()){ 
 			String key = iter.next();                
-			System.out.println(key+":"+jedis.hmget("user",key)); 
+			System.out.println(key+":"+jedis.hmget("api",key));
 		}     
 	}*/ 
 	/** 

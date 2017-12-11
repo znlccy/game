@@ -1,4 +1,4 @@
-package com.youda.controller.user;
+package com.youda.controller.api;
 
 import com.youda.response.MessageCode;
 import com.youda.response.ResponseStatusCode;
@@ -14,7 +14,7 @@ import org.springframework.web.client.RestTemplate;
  */
 
 @RestController
-@RequestMapping(value = "message")
+@RequestMapping(value = "/api/message")
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class MessageAuthCodeController {
 
@@ -50,7 +50,7 @@ public class MessageAuthCodeController {
             return ResponseStatusCode.nullPointerError();
         } else {
             int messageAuthCode = (int) ((Math.random() * 9 + 1) * 100000);
-            String sendUrl = "http://apis.renxinl.com:8080/smsgate/varsend.do?" + "user=" + domesticUser + "&" + "pwd=" + domesticPassword + "&" + "params=" + phone + "," + messageAuthCode + "&" + "mid=" + domesticMid;
+            String sendUrl = "http://apis.renxinl.com:8080/smsgate/varsend.do?" + "api=" + domesticUser + "&" + "pwd=" + domesticPassword + "&" + "params=" + phone + "," + messageAuthCode + "&" + "mid=" + domesticMid;
             MessageCode code = new RestTemplate().postForObject(sendUrl, null, MessageCode.class);
             if ("0000".equals(code.getCode())) return ResponseStatusCode.putOrGetSuccess(null);
             return ResponseStatusCode.verifyError();
@@ -71,7 +71,7 @@ public class MessageAuthCodeController {
             return ResponseStatusCode.nullPointerError();
         } else {
             int messageAuthCode = (int) ((Math.random() * 9 + 1) * 100000);
-            String sendUrl = "http://apis.renxinl.com:8080/smsgate/wtemplatesend.do?" + "user=" + foreignUser + "&" + "pwd=" + foreignPassword + "&" + "phone=" + countryCode + phone + "," + messageAuthCode + "&" + "mid=" + foreignMid;
+            String sendUrl = "http://apis.renxinl.com:8080/smsgate/wtemplatesend.do?" + "api=" + foreignUser + "&" + "pwd=" + foreignPassword + "&" + "phone=" + countryCode + phone + "," + messageAuthCode + "&" + "mid=" + foreignMid;
             MessageCode code = new RestTemplate().postForObject(sendUrl, null, MessageCode.class);
             if ("0000".equals(code.getCode())) return ResponseStatusCode.putOrGetSuccess(null);
             return ResponseStatusCode.verifyError();
