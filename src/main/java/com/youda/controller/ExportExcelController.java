@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -103,7 +104,7 @@ public class ExportExcelController {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 		HSSFSheet sheet = workbook.createSheet("用户统计表");
 		createTableTitle(workbook, sheet);
-		List<User> list = userService.findAllUser();
+		List<User> list = new ArrayList<User>();
 		
 		//设置日期格式
 		HSSFCellStyle style = workbook.createCellStyle();
@@ -124,9 +125,7 @@ public class ExportExcelController {
 			cell.setCellStyle(style);
 			rowNum++;
 		}
-		
-		
-		
+
 		//拼装blobName
 		String fileName	= "测试数据统计表.xlsx";
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
