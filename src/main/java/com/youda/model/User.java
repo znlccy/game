@@ -106,13 +106,13 @@ public class User implements Serializable {
 	/**
 	 * 定义用户和短信验证码一对多关系的关联关系
 	 */
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="api")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="macodeId")
 	private Set<MessageAuthCode> authCodes = new HashSet<MessageAuthCode>();
 	
 	/**
 	 * 定义用户和订单之间的一对多关系的关联关系
 	 */
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="api")
+	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderId")
 	private Set<Order> orders = new HashSet<Order>();
 	
 	/**

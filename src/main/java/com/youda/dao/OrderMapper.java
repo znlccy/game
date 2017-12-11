@@ -22,7 +22,7 @@ public interface OrderMapper {
      * @param order
      * @return
      */
-    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,isPushed,otherOrderId,userId,gameId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.orderCreateTime},#{order.isPushed},#{order.otherOrderId},#{order.userId},#{order.gameId})")
+    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId) values(#{orderRequest.orderTotalAmount},#{orderRequest.orderSubject},#{orderRequest.orderCreateTime},#{orderRequest.otherOrderId},#{orderRequest.userId},#{orderRequest.gameId})")
     @Options(useGeneratedKeys = true)
     public ResponseEntity createOrder(@Param("orderRequest") OrderRequest orderRequest);
 
@@ -63,7 +63,7 @@ public interface OrderMapper {
      * @param order
      * @return
      */
-    @Update("update tb_order set() values(#{},#{},#{},#{}) where orderId=#{order.orderId}")
+    /*@Update("update tb_order set() values(#{},#{},#{},#{}) where orderId=#{order.orderId}")*/
     public boolean modifyByOrderId(@Param("order") Order order);
 
     /**

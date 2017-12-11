@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -54,7 +55,7 @@ public class ExportPDFController {
 		PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();
 		/*查找所有用户信息*/
-		List<User> list = userService.findAllUser();
+		List<User> list = new ArrayList<User>();
 		for (User user : list) {
 			//实现pdf表格样式，以及设置表格几行几列
 			PdfPTable table = new PdfPTable(3);
