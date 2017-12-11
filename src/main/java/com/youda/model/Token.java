@@ -1,14 +1,7 @@
 package com.youda.model;
 
+import javax.persistence.*;
 import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 /**
  * @author chencongye
@@ -70,11 +63,13 @@ public class Token {
 	public String getAccessToken() {
 		return accessToken;
 	}
+<<<<<<< Updated upstream
+=======
 
 	/**
 	 * 实现token内容的set方法
-	 * @param accessToken
 	 */
+>>>>>>> Stashed changes
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 	}
