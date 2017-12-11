@@ -6011,14 +6011,14 @@ Caused by: java.sql.SQLException: Access denied for user 'root'@'localhost' (usi
 2017-12-08 18:44:30.402  INFO 6892 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
 2017-12-08 18:44:30.440  INFO 6892 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
 2017-12-08 18:44:30.581  INFO 6892 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2017-12-08 18:44:30.845  WARN 6892 --- [main] ationConfigEmbeddedWebApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+2017-12-08 18:44:30.845  WARN 6892 --- [main] ationConfigEmbeddedWebApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 2017-12-08 18:44:30.850  INFO 6892 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
 2017-12-08 18:44:30.869  INFO 6892 --- [main] utoConfigurationReportLoggingInitializer : 
 
 Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
 2017-12-08 18:44:30.877 ERROR 6892 --- [main] o.s.boot.SpringApplication               : Application startup failed
 
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
@@ -6036,7 +6036,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
 	at com.youda.GameApplication.main(GameApplication.java:34) [classes/:na]
-Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 	at org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:97) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
 	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processEndOfQueue(InFlightMetadataCollectorImpl.java:1786) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
 	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processFkSecondPassesInOrder(InFlightMetadataCollectorImpl.java:1730) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
@@ -6076,14 +6076,14 @@ Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.you
 2017-12-08 18:47:42.734  INFO 6684 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
 2017-12-08 18:47:42.776  INFO 6684 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
 2017-12-08 18:47:42.932  INFO 6684 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-2017-12-08 18:47:43.204  WARN 6684 --- [main] ationConfigEmbeddedWebApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+2017-12-08 18:47:43.204  WARN 6684 --- [main] ationConfigEmbeddedWebApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 2017-12-08 18:47:43.208  INFO 6684 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
 2017-12-08 18:47:43.228  INFO 6684 --- [main] utoConfigurationReportLoggingInitializer : 
 
 Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
 2017-12-08 18:47:43.238 ERROR 6684 --- [main] o.s.boot.SpringApplication               : Application startup failed
 
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaAutoConfiguration.class]: Invocation of init method failed; nested exception is org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1628) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:555) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
 	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:483) ~[spring-beans-4.3.12.RELEASE.jar:4.3.12.RELEASE]
@@ -6101,7 +6101,7 @@ org.springframework.beans.factory.BeanCreationException: Error creating bean wit
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1118) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
 	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1107) [spring-boot-1.5.8.RELEASE.jar:1.5.8.RELEASE]
 	at com.youda.GameApplication.main(GameApplication.java:34) [classes/:na]
-Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChnnel.channels references an unknown entity: java.util.Set
+Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.youda.model.GameChannel.channels references an unknown entity: java.util.Set
 	at org.hibernate.cfg.ToOneFkSecondPass.doSecondPass(ToOneFkSecondPass.java:97) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
 	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processEndOfQueue(InFlightMetadataCollectorImpl.java:1786) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
 	at org.hibernate.boot.internal.InFlightMetadataCollectorImpl.processFkSecondPassesInOrder(InFlightMetadataCollectorImpl.java:1730) ~[hibernate-core-5.0.12.Final.jar:5.0.12.Final]
@@ -6281,3 +6281,96 @@ Caused by: org.hibernate.AnnotationException: @OneToOne or @ManyToOne on com.you
 2017-12-08 18:52:34.740  INFO 7048 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
 2017-12-08 18:52:34.797  INFO 7048 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2017-12-08 18:52:34.801  INFO 7048 --- [main] com.youda.GameApplication                : Started GameApplication in 22.112 seconds (JVM running for 22.649)
+2017-12-08 19:03:38.145  INFO 7972 --- [main] com.youda.GameApplication                : Starting GameApplication on Adminstrator-PC with PID 7972 (D:\JAVA-Project\game\target\classes started by Administrator in D:\JAVA-Project\game)
+2017-12-08 19:03:38.148  INFO 7972 --- [main] com.youda.GameApplication                : The following profiles are active: dev
+2017-12-08 19:03:38.314  INFO 7972 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@77888435: startup date [Fri Dec 08 19:03:38 CST 2017]; root of context hierarchy
+2017-12-08 19:03:39.650  INFO 7972 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-08 19:03:39.690  INFO 7972 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-08 19:03:41.039  INFO 7972 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-12-08 19:03:41.058  INFO 7972 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-12-08 19:03:41.059  INFO 7972 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2017-12-08 19:03:41.183  INFO 7972 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-12-08 19:03:41.184  INFO 7972 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2873 ms
+2017-12-08 19:03:41.411  INFO 7972 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-08 19:03:41.416  INFO 7972 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-08 19:03:41.416  INFO 7972 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-08 19:03:41.417  INFO 7972 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-08 19:03:41.418  INFO 7972 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-08 19:03:42.145  INFO 7972 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-08 19:03:42.166  INFO 7972 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-08 19:03:42.361  INFO 7972 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-08 19:03:42.362  INFO 7972 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-08 19:03:42.364  INFO 7972 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-08 19:03:42.409  INFO 7972 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-08 19:03:42.552  INFO 7972 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-08 19:03:43.168  INFO 7972 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-08 19:03:46.267  INFO 7972 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-08 19:03:47.172  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@77888435: startup date [Fri Dec 08 19:03:38 CST 2017]; root of context hierarchy
+2017-12-08 19:03:47.264  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/excel/download],methods=[GET]}" onto private void com.youda.controller.ExportExcelController.downloadExcel(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException
+2017-12-08 19:03:47.269  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pdf/download],methods=[GET]}" onto private void com.youda.controller.ExportPDFController.downloadPDF(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-12-08 19:03:47.272  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/game/create],methods=[POST]}" onto public java.lang.String com.youda.controller.GameController.addGame()
+2017-12-08 19:03:47.276  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/foreign],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException
+2017-12-08 19:03:47.277  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/domestic],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String) throws java.io.UnsupportedEncodingException
+2017-12-08 19:03:47.279  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/userName],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserName(java.lang.String)
+2017-12-08 19:03:47.280  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userRegistered(com.youda.request.RegisterRequest)
+2017-12-08 19:03:47.280  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/login],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userLogin(com.youda.request.LoginRequest) throws java.lang.Exception
+2017-12-08 19:03:47.281  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userModify(long)
+2017-12-08 19:03:47.282  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userDelete(long)
+2017-12-08 19:03:47.282  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserId(long)
+2017-12-08 19:03:47.284  INFO 7972 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/wechat/apppay],methods=[POST]}" onto public java.lang.String com.youda.controller.WeChatPayController.WeChatAppPay()
+2017-12-08 19:03:47.315  INFO 7972 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:03:47.315  INFO 7972 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:03:47.357  INFO 7972 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:03:47.794  INFO 7972 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-12-08 19:03:47.816  INFO 7972 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-12-08 19:03:47.888  INFO 7972 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-12-08 19:03:47.902  INFO 7972 --- [main] com.youda.GameApplication                : Started GameApplication in 10.464 seconds (JVM running for 10.978)
+2017-12-08 19:09:02.790  INFO 7324 --- [main] com.youda.GameApplication                : Starting GameApplication on Adminstrator-PC with PID 7324 (D:\JAVA-Project\game\target\classes started by Administrator in D:\JAVA-Project\game)
+2017-12-08 19:09:02.794  INFO 7324 --- [main] com.youda.GameApplication                : The following profiles are active: dev
+2017-12-08 19:09:02.877  INFO 7324 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@409c54f: startup date [Fri Dec 08 19:09:02 CST 2017]; root of context hierarchy
+2017-12-08 19:09:04.443  INFO 7324 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-08 19:09:04.488  INFO 7324 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-08 19:09:05.698  INFO 7324 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-12-08 19:09:05.715  INFO 7324 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-12-08 19:09:05.716  INFO 7324 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2017-12-08 19:09:05.909  INFO 7324 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-12-08 19:09:05.909  INFO 7324 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3035 ms
+2017-12-08 19:09:06.154  INFO 7324 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-08 19:09:06.159  INFO 7324 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-08 19:09:06.160  INFO 7324 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-08 19:09:06.160  INFO 7324 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-08 19:09:06.160  INFO 7324 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-08 19:09:06.961  INFO 7324 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-08 19:09:06.978  INFO 7324 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-08 19:09:07.197  INFO 7324 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-08 19:09:07.199  INFO 7324 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-08 19:09:07.201  INFO 7324 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-08 19:09:07.249  INFO 7324 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-08 19:09:07.382  INFO 7324 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-08 19:09:08.151  INFO 7324 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-08 19:09:08.829  INFO 7324 --- [main] rmationExtractorJdbcDatabaseMetaDataImpl : HHH000262: Table not found: tb_gamechannel
+2017-12-08 19:09:12.281  INFO 7324 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-08 19:09:13.134  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@409c54f: startup date [Fri Dec 08 19:09:02 CST 2017]; root of context hierarchy
+2017-12-08 19:09:13.232  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/excel/download],methods=[GET]}" onto private void com.youda.controller.ExportExcelController.downloadExcel(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException
+2017-12-08 19:09:13.235  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pdf/download],methods=[GET]}" onto private void com.youda.controller.ExportPDFController.downloadPDF(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-12-08 19:09:13.236  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/game/create],methods=[POST]}" onto public java.lang.String com.youda.controller.GameController.addGame()
+2017-12-08 19:09:13.238  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/foreign],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String,java.lang.String) throws java.io.UnsupportedEncodingException
+2017-12-08 19:09:13.238  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/message/domestic],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.MessageAuthCodeController.sendMessageCode(java.lang.String) throws java.io.UnsupportedEncodingException
+2017-12-08 19:09:13.241  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userRegistered(com.youda.request.RegisterRequest)
+2017-12-08 19:09:13.241  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/login],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userLogin(com.youda.request.LoginRequest) throws java.lang.Exception
+2017-12-08 19:09:13.242  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/userName],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserName(java.lang.String)
+2017-12-08 19:09:13.242  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userModify(long)
+2017-12-08 19:09:13.242  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[DELETE]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.userDelete(long)
+2017-12-08 19:09:13.242  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/user/{userId}],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.UserController.findUserByUserId(long)
+2017-12-08 19:09:13.243  INFO 7324 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/wechat/apppay],methods=[POST]}" onto public java.lang.String com.youda.controller.WeChatPayController.WeChatAppPay()
+2017-12-08 19:09:13.280  INFO 7324 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:09:13.280  INFO 7324 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:09:13.328  INFO 7324 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-08 19:09:13.869  INFO 7324 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-12-08 19:09:13.883  INFO 7324 --- [main] s.a.ScheduledAnnotationBeanPostProcessor : No TaskScheduler/ScheduledExecutorService bean found for scheduled processing
+2017-12-08 19:09:14.109  INFO 7324 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-12-08 19:09:14.147  INFO 7324 --- [main] com.youda.GameApplication                : Started GameApplication in 11.85 seconds (JVM running for 12.349)

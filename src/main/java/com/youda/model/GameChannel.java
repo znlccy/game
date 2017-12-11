@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_gamechannel",catalog = "db_ydgame")
-public class GameChnnel {
+public class GameChannel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
