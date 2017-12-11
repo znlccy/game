@@ -98,7 +98,7 @@ public class ResponseStatusCode {
     public static ResponseEntity cashError() {
         return ResponseEntity
                 .status(410)
-                .body(new ResponseResult("500", "服务器错误", "抱歉，服务器内部出现错误!"));
+                .body(new ResponseResult("410", "服务器错误", "抱歉，服务器内部出现错误!"));
     }
 
     /**

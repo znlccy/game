@@ -22,4 +22,9 @@ public class TokenServiceImpl implements TokenService {
     public Token findTokenByUserId(Long id) {
         return null;
     }
+
+    @Override
+    public Token findTokenByIDs(Long userId, Long channelGameId) {
+        return tokenMapper.findTokenByUserId(userId,channelGameId);
+    }
 }

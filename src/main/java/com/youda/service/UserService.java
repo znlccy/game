@@ -1,6 +1,8 @@
 package com.youda.service;
 
 import com.youda.model.User;
+import com.youda.request.ForgetFirstRequest;
+import com.youda.request.ForgetSecondRequest;
 import com.youda.request.LoginRequest;
 import com.youda.request.RegisterRequest;
 import org.springframework.http.ResponseEntity;
@@ -35,14 +37,14 @@ public interface UserService {
      *
      * @return
      */
-    ResponseEntity forgotPasswordStart();
+    ResponseEntity forgotPasswordStart(ForgetFirstRequest request);
 
     /**
      * 定义忘记密码的第二步
      *
      * @return
      */
-    ResponseEntity forgotPasswordEnd();
+    ResponseEntity forgotPasswordEnd(ForgetSecondRequest request);
 
     /**
      * 定义用户获取验证码

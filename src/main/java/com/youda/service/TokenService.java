@@ -12,4 +12,5 @@ import com.youda.model.Token;
 public interface TokenService {
     Token findTokenByUserId(Long id);
 
+    Token findTokenByIDs(Long userId, Long channelGameId);
 }

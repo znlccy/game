@@ -41,7 +41,7 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
         String channelKey = request.getHeader("channelKey");
 
         if (channelId != null && gameId != null && channelKey != null) {
-            // TODO: 2017/12/8 验证 
+            //TODO: 2017/12/8 验证
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return false;
