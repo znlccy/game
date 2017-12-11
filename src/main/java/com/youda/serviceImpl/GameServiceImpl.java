@@ -8,6 +8,8 @@ import com.youda.dao.GameMapper;
 import com.youda.model.Game;
 import com.youda.service.GameService;
 
+import java.util.List;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -23,16 +25,52 @@ public class GameServiceImpl implements GameService {
 	 */
 	@Autowired
 	private GameMapper gameMapper;
-	
-	/* 
-	 * 实现创建游戏的方法
-	 * (non-Javadoc)
-	 * @see com.youda.service.GameService#createGame()
-	 */
+
+	/*添加游戏*/
 	@Override
-	public boolean addGame() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addGame(Game game) {
+		return gameMapper.addGame(game);
 	}
-	
+
+	/*通过游戏主键删除游戏*/
+	@Override
+	public boolean deleteByGameId(long gameId) {
+		return gameMapper.deleteByGameId(gameId);
+	}
+
+	/*通过游戏名称来删除游戏*/
+	@Override
+	public boolean deleteByGameName(String gameName) {
+		return gameMapper.deleteByGameName(gameName);
+	}
+
+	/*通过游戏主键Id来修改游戏*/
+	@Override
+	public boolean modifyByGameId(long gameId) {
+		return gameMapper.modifyByGameId(gameId);
+	}
+
+	/*通过游戏名称来修改游戏*/
+	@Override
+	public boolean modifyByGameName(String gameName) {
+		return gameMapper.modifyByGameName(gameName);
+	}
+
+	/*通过游戏主键Id来查找游戏*/
+	@Override
+	public Game findByGameId(long gameId) {
+		return gameMapper.findByGameId(gameId);
+	}
+
+	/*通过游戏名称来查找游戏*/
+	@Override
+	public Game findByGameName(String gameName) {
+		return gameMapper.findByGameName(gameName);
+	}
+
+	/*查询所有的游戏*/
+	@Override
+	public List<Game> findAllGames() {
+		return gameMapper.findAllGame();
+	}
 }
