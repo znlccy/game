@@ -51,7 +51,7 @@ public interface OrderMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_order where orderId=#{orderId}")
-	public boolean deleteByOrderId(@Param("orderId") String orderId);
+	public boolean deleteByOrderId(@Param("orderId") long orderId);
 	
 	/**
 	 * 定义通过第三方的订单编号来删除订单

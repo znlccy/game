@@ -61,7 +61,7 @@ public interface UserMapper {
      * @param userId
      * @return
      */
-    @Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{userId} or userName=#{user.UserName}")
+    @Update("update tb_user set userName=#{user.userName},userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{user.userId} or userName=#{user.userName}")
     boolean modifyUserInfo(@Param("user") User user);
 
     /**
