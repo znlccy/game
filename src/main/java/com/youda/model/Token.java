@@ -66,10 +66,6 @@ public class Token {
 
 	/**
 	 * 实现token内容的set方法
-<<<<<<< Updated upstream
-	 * @param accessToken
-=======
->>>>>>> Stashed changes
 	 */
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
