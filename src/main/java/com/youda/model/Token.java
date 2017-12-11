@@ -73,7 +73,7 @@ public class Token {
 
 	/**
 	 * 实现token内容的set方法
-	 * @param token
+	 * @param accessToken
 	 */
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;

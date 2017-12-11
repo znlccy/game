@@ -1,8 +1,6 @@
-package com.youda.controller.user;
+package com.youda.controller;
 
 import com.youda.model.User;
-import com.youda.request.ForgetFirstRequest;
-import com.youda.request.ForgetSecondRequest;
 import com.youda.request.LoginRequest;
 import com.youda.request.RegisterRequest;
 import com.youda.response.ResponseStatusCode;
@@ -47,37 +45,19 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity userLogin(@RequestBody LoginRequest request) {
+    public ResponseEntity userLogin(@RequestBody LoginRequest request) throws Exception {
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
         return userService.login(request);
     }
 
-    @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity forgetFirst(@RequestBody ForgetFirstRequest request) {
-        if (request.isEmpty()) {
-            return ResponseStatusCode.nullPointerError();
-        }
-        return userService.forgotPasswordStart(request);
-    }
-
-    @RequestMapping(value = "/forget/second", method = RequestMethod.PUT)
-    @ResponseBody
-    public ResponseEntity forgetSecond(@RequestBody ForgetSecondRequest request) {
-        if (request.isEmpty()) {
-            return ResponseStatusCode.nullPointerError();
-        }
-        return userService.forgotPasswordEnd(request);
-    }
-
-
     @ResponseBody
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     public ResponseEntity userModify(@PathVariable("userId") long userId) {
-        User result = userService.getUserByUserId(userId);
-        return ResponseStatusCode.postSuccess(result);
+        User user = userService.getUserByUserId(userId);
+        userService.modifyByUserId(user);
+        return ResponseStatusCode.postSuccess(user);
     }
 
     @ResponseBody
