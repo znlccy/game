@@ -104,12 +104,6 @@ public class User implements Serializable {
 	private Set<Game> games = new HashSet<Game>();
 	
 	/**
-	 * 定义用户和短信验证码一对多关系的关联关系
-	 */
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="macodeId")
-	private Set<MessageAuthCode> authCodes = new HashSet<MessageAuthCode>();
-	
-	/**
 	 * 定义用户和订单之间的一对多关系的关联关系
 	 */
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderId")
@@ -329,22 +323,6 @@ public class User implements Serializable {
 		this.games = games;
 	}
 
-	/**
-	 * 实现用户和短信验证码之间的一对多关系的get方法
-	 * @return
-	 */
-	public Set<MessageAuthCode> getAuthCodes() {
-		return authCodes;
-	}
-
-	/**
-	 * 实现用户和短信验证码之间的一对多关系的set方法
-	 * @param authCodes
-	 */
-	public void setAuthCodes(Set<MessageAuthCode> authCodes) {
-		this.authCodes = authCodes;
-	}
-	
 	/**
 	 * 实现用户和订单之间的一对多关系的get方法
 	 * @return

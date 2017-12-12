@@ -75,13 +75,6 @@ public class MessageAuthCode {
 	private Timestamp sendTime;
 	
 	/**
-	 * 定义用户和短信验证码之间的一对多的关系
-	 */
-	@ManyToOne(cascade= {CascadeType.ALL})
-	@JoinColumn(name="userId")
-	private User user;
-	
-	/**
 	 * 实现短信验证码主键的get方法
 	 * @return
 	 */
@@ -143,22 +136,6 @@ public class MessageAuthCode {
 	 */
 	public void setMacodePhone(String macodePhone) {
 		this.macodePhone = macodePhone;
-	}
-
-	/**
-	 * 实现用户和短信验证码之间的一对多关系的get方法
-	 * @return
-	 */
-	public User getUser() {
-		return user;
-	}
-
-	/**
-	 * 实现用户和短信验证码之间的一对多关系的set方法
-	 * @param user
-	 */
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 	/**
@@ -232,26 +209,4 @@ public class MessageAuthCode {
 
 	}
 
-	/**
-	 * 实现带有参数的构造函数
-	 * @param macodeId
-	 * @param macodeContent
-	 * @param macodeSendTime
-	 * @param macodePhone
-	 * @param user
-	 * @param conntryCode
-	 * @param countryName
-	 * @param sendTime
-	 */
-	public MessageAuthCode(long macodeId, String macodeContent, Timestamp macodeSendTime, String macodePhone, String conntryCode, String countryName, String timeZone, Timestamp sendTime, User user) {
-		this.macodeId = macodeId;
-		this.macodeContent = macodeContent;
-		this.macodeSendTime = macodeSendTime;
-		this.macodePhone = macodePhone;
-		this.conntryCode = conntryCode;
-		this.countryName = countryName;
-		this.timeZone = timeZone;
-		this.sendTime = sendTime;
-		this.user = user;
-	}
 }
