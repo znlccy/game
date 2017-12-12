@@ -15,6 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/alipay")
 @CrossOrigin(maxAge = 3600, origins = "*")
-public class AlipayController   {
+public class AlipayController {
 
 }
