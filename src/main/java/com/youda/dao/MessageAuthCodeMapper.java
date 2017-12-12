@@ -23,7 +23,7 @@ public interface MessageAuthCodeMapper {
      * @param authCode
      * @return
      */
-    @Insert("insert into tb_macode(macodeId,macodeContent,macodeSendTime,macodePhone) values(#{authCode.macodeId},#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
+    @Insert("insert into tb_macode(macodeContent,macodeSendTime,macodePhone) values(#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
     boolean addMessageAuthCode(@Param("authCode") MessageAuthCode authCode);
 
     /**
@@ -34,6 +34,10 @@ public interface MessageAuthCodeMapper {
      */
     @Select("select * from tb_macode where macodeId=#{macodeId}")
     MessageAuthCode findByMacodeId(@Param("macodeId") long macodeId);
+
+    /*通过手机号查找验证码*/
+    @Select("select * from tb_macode where macodePhone=#{macodePhone}")
+    MessageAuthCode findByMacodePhone(@Param("macodePhone") String macodePhone);
 
     /**
      * 定义通过手机来查找短信验证码的规范
@@ -68,8 +72,8 @@ public interface MessageAuthCodeMapper {
      * @param
      * @return
      */
-    @Update("update tb_macode set macodeContent=#{authCode.macodeContent},macodeSendTime=#{authCode.macodeSendTime},macodePhone=#{authCode.macodePhone} where macodeId=#{macodeId}")
-    boolean modifyByMacodeId(@Param("macodeId") long macodeId);
+    @Update("update tb_macode set macodeContent=#{messageAuthCode.macodeContent},macodeSendTime=#{messageAuthCode.macodeSendTime} where macodeId=#{messageAuthCode.macodeId}")
+    boolean modifyByMacodeInfo(@Param("messageAuthCode") MessageAuthCode messageAuthCode);
 
     /**
      * 定义通过短信内容来查找短信验证码的规范
