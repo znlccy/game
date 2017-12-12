@@ -2,6 +2,8 @@ package com.youda.controller.api;
 
 import com.youda.response.MessageCode;
 import com.youda.response.ResponseStatusCode;
+import com.youda.service.MessageAuthCodeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -18,6 +20,8 @@ import org.springframework.web.client.RestTemplate;
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class MessageAuthCodeController {
 
+    @Autowired
+    MessageAuthCodeService authCodeService;
     /*声明国内任信了账户号*/
     private String domesticUser = "13402040612";
 
@@ -50,9 +54,10 @@ public class MessageAuthCodeController {
             return ResponseStatusCode.nullPointerError();
         } else {
             int messageAuthCode = (int) ((Math.random() * 9 + 1) * 100000);
-            String sendUrl = "http://apis.renxinl.com:8080/smsgate/varsend.do?" + "api=" + domesticUser + "&" + "pwd=" + domesticPassword + "&" + "params=" + phone + "," + messageAuthCode + "&" + "mid=" + domesticMid;
+            String sendUrl = "http://apis.renxinl.com:8080/smsgate/varsend.do?" + "user=" + domesticUser + "&" + "pwd=" + domesticPassword + "&" + "params=" + phone + "," + messageAuthCode + "&" + "mid=" + domesticMid;
             MessageCode code = new RestTemplate().postForObject(sendUrl, null, MessageCode.class);
-            if ("0000".equals(code.getCode())) return ResponseStatusCode.putOrGetSuccess(null);
+            if ("0000".equals(code.getCode())) return authCodeService.saveCode(phone, messageAuthCode + "", "86");
+
             return ResponseStatusCode.verifyError();
         }
     }
@@ -71,9 +76,10 @@ public class MessageAuthCodeController {
             return ResponseStatusCode.nullPointerError();
         } else {
             int messageAuthCode = (int) ((Math.random() * 9 + 1) * 100000);
-            String sendUrl = "http://apis.renxinl.com:8080/smsgate/wtemplatesend.do?" + "api=" + foreignUser + "&" + "pwd=" + foreignPassword + "&" + "phone=" + countryCode + phone + "," + messageAuthCode + "&" + "mid=" + foreignMid;
+            String sendUrl = "http://apis.renxinl.com:8080/smsgate/wtemplatesend.do?" + "user=" + foreignUser + "&" + "pwd=" + foreignPassword + "&" + "phone=" + countryCode + phone + "," + messageAuthCode + "&" + "mid=" + foreignMid;
             MessageCode code = new RestTemplate().postForObject(sendUrl, null, MessageCode.class);
-            if ("0000".equals(code.getCode())) return ResponseStatusCode.putOrGetSuccess(null);
+            if ("0000".equals(code.getCode()))
+                return authCodeService.saveCode(phone, messageAuthCode + "", countryCode);
             return ResponseStatusCode.verifyError();
         }
     }

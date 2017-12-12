@@ -3,9 +3,12 @@ package com.youda.serviceImpl;
 import com.youda.dao.MessageAuthCodeMapper;
 import com.youda.model.MessageAuthCode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.MessageAuthCodeService;
+
+import java.sql.Timestamp;
 
 /**
  * @author chencongye
@@ -26,5 +29,16 @@ public class MessageAuthCodeServiceImpl implements MessageAuthCodeService {
         MessageAuthCode messageAuthCode = messageAuthCodeMapper.findByMacodeContent(phone);
         if (messageAuthCode == null || !messageAuthCode.getMacodeContent().equals(code)) return false;
         return true;
+    }
+
+    @Override
+    public ResponseEntity saveCode(String phone, String code, String country) {
+        MessageAuthCode messageAuthCode = new MessageAuthCode();
+        messageAuthCode.setMacodeContent(code);
+        messageAuthCode.setConntryCode(country);
+        messageAuthCode.setMacodePhone(phone);
+        messageAuthCode.setMacodeSendTime(new Timestamp(System.currentTimeMillis()));
+        messageAuthCodeMapper.addMessageAuthCode(messageAuthCode);
+        return null;
     }
 }
