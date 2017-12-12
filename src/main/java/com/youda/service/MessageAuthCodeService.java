@@ -15,4 +15,6 @@ public interface MessageAuthCodeService {
     boolean isSuccess(String phone, String code);
 
     ResponseEntity saveCode(String phone, String code, String country);
+
+    void delCodeByPhone(String phone);
 }

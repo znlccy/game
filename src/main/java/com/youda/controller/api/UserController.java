@@ -41,6 +41,7 @@ public class UserController {
         if (!messageAuthCodeService.isSuccess(request.getUserName(), request.getVerificationCode())) {
             return ResponseStatusCode.verifyError();
         }
+        messageAuthCodeService.delCodeByPhone(request.getUserName());
         return userService.register(request);
     }
 

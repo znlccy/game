@@ -68,9 +68,10 @@ public class UserServiceImpl implements UserService {
         if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
             Token token = new Token();
             token.setAccessToken(UUID.randomUUID().toString());
-            token.setUser(user);
+            token.setUserId(user.getUserId());
+            token.setGameChannelId(loginRequest.getGameChannelId());
             userMapper.addToken(token);
-            redisTemplate.opsForValue().set("token_" + user.getUserName(), token);
+//            redisTemplate.opsForValue().set("token_" + user.getUserName(), token);
             TokenResponse tokenResponse = new TokenResponse();
             tokenResponse.setToken(token.getAccessToken());
             tokenResponse.setUserId(user.getUserId());

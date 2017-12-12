@@ -2,7 +2,6 @@ package com.youda.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Set;
 
 /**
  * @author chencongye
@@ -12,88 +11,111 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name="tb_token", catalog="db_ydgame")
+@Table(name = "tb_token", catalog = "db_ydgame")
 public class Token {
 
-	/**
-	 * 定义token的主键 
-	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "tokenId")
-	private long tokenId;
-	
-	/**
-	 * 定义token的内容
-	 */
-	@Column(name = "accessToken")
-	private String accessToken;
-	
-	/**
-	 * 定义token的创建时间
-	 */
-	@Column(name = "expirationTime")
-	private Timestamp expirationTime;
-	
-	/**
-	 * 定义用户和Token之间的一对一关系
-	 */
-	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User user;
+    /**
+     * 定义token的主键
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "tokenId")
+    private long tokenId;
 
-	/**
-	 * 实现token主键的get方法
-	 * @return
-	 */
-	public long getTokenId() {
-		return tokenId;
-	}
+    /**
+     * 定义token的内容
+     */
+    @Column(name = "accessToken")
+    private String accessToken;
 
-	/**
-	 * 实现token主键的set方法
-	 * @param tokenId
-	 */
-	public void setTokenId(long tokenId) {
-		this.tokenId = tokenId;
-	}
+    @Column(name = "userId")
+    private Long userId;
 
-	/**
-	 * 实现token内容的get方法
-	 * @return
-	 */
-	public String getAccessToken() {
-		return accessToken;
-	}
+    @Column(name = "gameChannelId", unique = true)
+    private Long gameChannelId;
+    /**
+     * 定义token的创建时间
+     */
+    @Column(name = "expirationTime")
+    private Timestamp expirationTime;
 
-	/**
-	 * 实现token内容的set方法
-	 */
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
-	}
+//	/**
+//	 * 定义用户和Token之间的一对一关系
+//	 */
+//	@ManyToOne
+//	@JoinColumn(name = "userId")
+//	private User user;
 
-	public Timestamp getExpirationTime() {
-		return expirationTime;
-	}
+    /**
+     * 实现token主键的get方法
+     *
+     * @return
+     */
+    public long getTokenId() {
+        return tokenId;
+    }
 
-	public void setExpirationTime(Timestamp expirationTime) {
-		this.expirationTime = expirationTime;
-	}
+    /**
+     * 实现token主键的set方法
+     *
+     * @param tokenId
+     */
+    public void setTokenId(long tokenId) {
+        this.tokenId = tokenId;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    /**
+     * 实现token内容的get方法
+     *
+     * @return
+     */
+    public String getAccessToken() {
+        return accessToken;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+    /**
+     * 实现token内容的set方法
+     */
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
 
-	/**
-	 * 默认的无参构造方法
-	 */
-	public Token() {
-		// TODO Auto-generated constructor stub
-	}
-	
+    public Timestamp getExpirationTime() {
+        return expirationTime;
+    }
+
+    public void setExpirationTime(Timestamp expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getGameChannelId() {
+        return gameChannelId;
+    }
+
+    public void setGameChannelId(Long gameChannelId) {
+        this.gameChannelId = gameChannelId;
+    }
+    //	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
+
+    /**
+     * 默认的无参构造方法
+     */
+    public Token() {
+        // TODO Auto-generated constructor stub
+    }
+
 }

@@ -41,6 +41,7 @@ public interface MessageAuthCodeMapper {
 
     /**
      * 定义通过手机来查找短信验证码的规范
+     *
      * @param userName 用户名
      * @return MessageAuthCode
      */
@@ -92,4 +93,13 @@ public interface MessageAuthCodeMapper {
      */
     @Select("select * from tb_macode")
     List<MessageAuthCode> findAllMessageCode();
+
+    /**
+     * 定义通过短信验证码主键的规范
+     *
+     * @param phone
+     * @return
+     */
+    @Delete("delete from tb_macode where macodePhone=#{phone}")
+    void deleteByMacodePhone(@Param("phone") String phone);
 }

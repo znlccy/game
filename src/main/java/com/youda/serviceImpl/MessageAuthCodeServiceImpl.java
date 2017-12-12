@@ -41,4 +41,9 @@ public class MessageAuthCodeServiceImpl implements MessageAuthCodeService {
         messageAuthCodeMapper.addMessageAuthCode(messageAuthCode);
         return null;
     }
+
+    @Override
+    public void delCodeByPhone(String phone) {
+        messageAuthCodeMapper.deleteByMacodePhone(phone);
+    }
 }

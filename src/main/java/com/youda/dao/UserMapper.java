@@ -88,16 +88,18 @@ public interface UserMapper {
      * @return
      */
     @Insert("insert into tb_user(userName,userPassword,userRegisteredTime) values(#{user.userName},#{user.userPassword},#{user.userRegisteredTime})")
-    @Options(useGeneratedKeys = true,keyProperty = "userId")
+    @Options(useGeneratedKeys = true, keyProperty = "userId")
     boolean addUser(@Param("user") User user);
+
 
     /**
      * 定义添加token的规范
      *
-     * @param token token
+     * @param token
+     * @return
      */
-    @Insert("insert into tb_token(token,createTokenTime,createTokenUser) values(#{token.token},#{token.createTokenTime},#{token.createTokenUser})")
-    @Options(useGeneratedKeys = true,keyProperty = "tokenId")
-    void addToken(@Param("token") Token token);
+    @Insert("insert into tb_token(accessToken,expirationTime,userId,gameChannelId) values(#{token.accessToken},#{token.expirationTime},#{token.userId},#{token.gameChannelId})")
+    @Options(useGeneratedKeys = true, keyProperty = "tokenId")
+    boolean addToken(@Param("token") Token token);
 
 }
