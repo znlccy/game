@@ -24,16 +24,15 @@ public class OrderServiceImpl implements OrderService {
 
     /*实现创建订单*/
     @Override
-    public ResponseEntity createOrder(OrderRequest orderRequest) {
+    public ResponseEntity createOrder(OrderRequest orderRequest,long userId,long gameId) {
 
         if(orderRequest==null)
         {
-            orderMapper.createOrder(orderRequest);
             return null;
         }
         else
         {
-            return null;
+            return orderMapper.createOrder(orderRequest,userId,gameId);
         }
     }
 

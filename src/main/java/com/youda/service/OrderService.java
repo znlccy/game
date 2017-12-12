@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 public interface OrderService {
 
     /*创建订单*/
-    ResponseEntity createOrder(OrderRequest orderRequest);
+    ResponseEntity createOrder(OrderRequest orderRequest,long userId,long gameId);
 
     /*删除订单*/
     boolean deleteOrderById(long orderId);

@@ -14,7 +14,7 @@ public class OrderRequest extends BaseRequest {
     private String orderSubject;
     private String otherOrderId;
     private Long gameId;
-    private Timestamp createOrderTime;
+    private Timestamp orderCreateTime;
 
     public Long getUserId() {
         return userId;
@@ -52,16 +52,16 @@ public class OrderRequest extends BaseRequest {
         return gameId;
     }
 
-    public void setGameId(long gameId) {
+    public void setGameId(Long gameId) {
         this.gameId = gameId;
     }
 
-    public Timestamp getCreateOrderTime() {
-        return createOrderTime;
+    public Timestamp getOrderCreateTime() {
+        return orderCreateTime;
     }
 
-    public void setCreateOrderTime(Timestamp createOrderTime) {
-        this.createOrderTime = createOrderTime;
+    public void setOrderCreateTime(Timestamp orderCreateTime) {
+        this.orderCreateTime = orderCreateTime;
     }
 
     @Override
@@ -73,6 +73,6 @@ public class OrderRequest extends BaseRequest {
                 || orderSubject == null || orderSubject.isEmpty()
                 || otherOrderId == null || otherOrderId.isEmpty()
                 || gameId == null || gameId==0
-                || createOrderTime == null;
+                || orderCreateTime == null;
     }
 }

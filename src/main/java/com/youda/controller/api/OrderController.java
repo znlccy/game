@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -29,7 +31,9 @@ public class OrderController {
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.createOrder(request);
+        request.setOrderCreateTime(new Timestamp(System.currentTimeMillis()));
+        System.err.println(new Timestamp(System.currentTimeMillis()));
+        return orderService.createOrder(request,request.getUserId(),request.getGameId());
     }
 
     @ResponseBody
