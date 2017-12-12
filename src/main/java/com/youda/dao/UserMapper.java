@@ -87,8 +87,9 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Insert("insert into tb_user(userName,userPassword,userEmail,userRegisteredTime,userUseDevice) values(#{api.userName},#{api.userPassword},#{api.userEmail},#{api.userRegisteredTime},#{api.userUseDevice})")
-    boolean addUser(@Param("api") User user);
+    @Insert("insert into tb_user(userName,userPassword,userRegisteredTime,userUseDevice) values(#{user.userName},#{user.userPassword},#{user.userRegisteredTime},#{user.userUseDevice})")
+    @Options(useGeneratedKeys = true,keyProperty = "userId")
+    boolean addUser(@Param("user") User user);
 
     /**
      * 定义添加token的规范
@@ -96,7 +97,7 @@ public interface UserMapper {
      * @param token token
      */
     @Insert("insert into tb_token(token,createTokenTime,createTokenUser) values(#{token.token},#{token.createTokenTime},#{token.createTokenUser})")
-    @Options(useGeneratedKeys = true)
+    @Options(useGeneratedKeys = true,keyProperty = "tokenId")
     void addToken(@Param("token") Token token);
 
 }
