@@ -1,6 +1,5 @@
 package com.youda.dao;
 
-import com.youda.model.Token;
 import com.youda.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
@@ -92,14 +91,5 @@ public interface UserMapper {
     boolean addUser(@Param("user") User user);
 
 
-    /**
-     * 定义添加token的规范
-     *
-     * @param token
-     * @return
-     */
-    @Insert("insert into tb_token(accessToken,expirationTime,userId,gameChannelId) values(#{token.accessToken},#{token.expirationTime},#{token.userId},#{token.gameChannelId})")
-    @Options(useGeneratedKeys = true, keyProperty = "tokenId")
-    boolean addToken(@Param("token") Token token);
 
 }

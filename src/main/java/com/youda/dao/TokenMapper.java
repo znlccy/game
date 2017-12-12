@@ -3,7 +3,6 @@ package com.youda.dao;
 import com.youda.model.Token;
 import org.apache.ibatis.annotations.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -18,11 +17,14 @@ public interface TokenMapper {
 
     /**
      * 定义添加token的规范
+     *
      * @param token
      * @return
      */
-    @Insert("insert into tb_token(accessToken,expirationTime) values(#{token.accessToken},#{token.expirationTime})")
+    @Insert("replace into tb_token(accessToken,expirationTime,userId,gameChannelId) values(#{token.accessToken},#{token.expirationTime},#{token.userId},#{token.gameChannelId})")
+    @Options(useGeneratedKeys = true, keyProperty = "tokenId", keyColumn = "tokenId")
     boolean addToken(@Param("token") Token token);
+
 
     /**
      * 定义通过tokenId来查询token的规范
@@ -35,6 +37,7 @@ public interface TokenMapper {
 
     /**
      * 定义通过token值来查询token的规范
+     *
      * @return
      */
     @Select("select tokenId,accessToken,expirationTime from tb_token where token=#{accessToken}")
@@ -42,6 +45,7 @@ public interface TokenMapper {
 
     /**
      * 定义通过token主键Id来更改token的值的规范
+     *
      * @param token
      * @return
      */
@@ -59,6 +63,7 @@ public interface TokenMapper {
 
     /**
      * 定义通过tokenId主键来删除token的规范
+     *
      * @param tokenId
      * @return
      */
@@ -66,7 +71,18 @@ public interface TokenMapper {
     boolean deleteByTokenId(@Param("tokenId") String tokenId);
 
     /**
+     * 定义通过tokenId主键来删除token的规范
+     *
+     * @param userId
+     * @return
+     */
+    @Delete("delete from tb_token where userId=#{userId}")
+    boolean deleteByUserId(@Param("userId") Long userId);
+
+
+    /**
      * 定义通过token来删除token的规范
+     *
      * @param accessToken
      * @return
      */
@@ -83,6 +99,7 @@ public interface TokenMapper {
 
 
     // TODO: 2017/12/11  通过 用户id 渠道游戏ID 去查询token
+
     /**
      * 通过用户ID查询token
      *

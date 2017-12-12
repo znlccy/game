@@ -68,7 +68,7 @@ public class UserServiceImplTest {
         token.setAccessToken("wejriejrtjeiwrtewrt");
         token.setExpirationTime(new Timestamp(System.currentTimeMillis()));
         tokens.add(token);
-        user.setTokens(tokens);
+//        user.setTokens(tokens);
         userMapper.addUser(user);
     }
 

@@ -57,7 +57,8 @@ public class UserController {
 
     @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity forgetFirst(@RequestBody ForgetFirstRequest request) {
+    public ResponseEntity forgetFirst(@RequestBody ForgetFirstRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
@@ -66,7 +67,9 @@ public class UserController {
 
     @RequestMapping(value = "/forget/second", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity forgetSecond(@RequestBody ForgetSecondRequest request) {
+    public ResponseEntity forgetSecond(@RequestBody ForgetSecondRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
+
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }

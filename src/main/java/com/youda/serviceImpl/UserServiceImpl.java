@@ -44,7 +44,8 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
     @Autowired
     private MessageAuthCodeMapper codeMapper;
-
+    @Autowired
+    private TokenMapper tokenMapper;
     /**
      * 实现自动依赖注入字符型Redis模板
      */
@@ -69,13 +70,15 @@ public class UserServiceImpl implements UserService {
             Token token = new Token();
             token.setAccessToken(UUID.randomUUID().toString());
             token.setUserId(user.getUserId());
+            token.setExpirationTime(new Timestamp(System.currentTimeMillis()));
             token.setGameChannelId(loginRequest.getGameChannelId());
-            userMapper.addToken(token);
-//            redisTemplate.opsForValue().set("token_" + user.getUserName(), token);
+            tokenMapper.addToken(token);
+//            if (token.getTokenId() != 0) {
             TokenResponse tokenResponse = new TokenResponse();
             tokenResponse.setToken(token.getAccessToken());
             tokenResponse.setUserId(user.getUserId());
             return ResponseStatusCode.putOrGetSuccess(tokenResponse);
+
         }
         return ResponseStatusCode.verifyError();
     }
@@ -103,6 +106,9 @@ public class UserServiceImpl implements UserService {
         MessageAuthCode code = codeMapper.findByMacodeContent(request.getUserName());
         if (code == null || !request.getVerificationCode().equals(code.getMacodeContent()))
             return ResponseStatusCode.verifyError();
+
+        codeMapper.deleteByMacodePhone(request.getUserName());
+
         return ResponseStatusCode.putOrGetSuccess(null);
     }
 
@@ -116,6 +122,7 @@ public class UserServiceImpl implements UserService {
         if (user == null) return ResponseStatusCode.verifyError();
         user.setUserPassword(SHAEncrpt.SHAEncrption(request.getUserPassword()));
         userMapper.modifyUserInfo(user);
+        tokenMapper.deleteByUserId(user.getUserId());
         return ResponseStatusCode.putOrGetSuccess(null);
     }
 
