@@ -21,7 +21,7 @@ public interface TokenMapper {
      * @param token
      * @return
      */
-    @Insert("insert into tb_token(tokenId,accessToken,expirationTime) values(#{token.tokenId},#{token.accessToken},#{token.expirationTime})")
+    @Insert("insert into tb_token(accessToken,expirationTime) values(#{token.accessToken},#{token.expirationTime})")
     boolean addToken(@Param("token") Token token);
 
     /**
