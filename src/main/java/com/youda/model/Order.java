@@ -154,18 +154,10 @@ public class Order {
 		this.orderSubject = orderSubject;
 	}
 
-	/**
-	 * 定义创建订单时间的get方法
-	 * @return
-	 */
 	public Timestamp getCreateOrderTime() {
 		return createOrderTime;
 	}
 
-	/**
-	 * 定义创建订单时间的set方法
-	 * @param createOrderTime
-	 */
 	public void setCreateOrderTime(Timestamp createOrderTime) {
 		this.createOrderTime = createOrderTime;
 	}
@@ -319,40 +311,5 @@ public class Order {
 	 */
 	public Order() {
 		
-	}
-
-	/**
-	 * 实现带有参数的构造方法
-	 * @param orderId
-	 * @param orderTotalAmount
-	 * @param orderSubject
-	 * @param createOrderTime
-	 * @param isPushed
-	 * @param otherOrderId
-	 * @param orderPayTime
-	 * @param orderNumber
-	 * @param createOrderUser
-	 * @param orderSource
-	 * @param user
-	 * @param game
-	 * @param payRecord
-	 */
-	public Order(long orderId, String orderTotalAmount, String orderSubject, Timestamp createOrderTime, String isPushed,
-			String otherOrderId, Timestamp orderPayTime, String orderNumber, String createOrderUser, String orderSource,
-			User user, Game game, PayRecord payRecord) {
-		super();
-		this.orderId = orderId;
-		this.orderTotalAmount = orderTotalAmount;
-		this.orderSubject = orderSubject;
-		this.createOrderTime = createOrderTime;
-		this.isPushed = isPushed;
-		this.otherOrderId = otherOrderId;
-		this.orderPayTime = orderPayTime;
-		this.orderNumber = orderNumber;
-		this.createOrderUser = createOrderUser;
-		this.orderSource = orderSource;
-		this.user = user;
-		this.game = game;
-		this.payRecord = payRecord;
 	}
 }

@@ -31,9 +31,7 @@ public class OrderController {
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        request.setOrderCreateTime(new Timestamp(System.currentTimeMillis()));
-        System.err.println(new Timestamp(System.currentTimeMillis()));
-        return orderService.createOrder(request,request.getUserId(),request.getGameId());
+        return orderService.createOrder(request);
     }
 
     @ResponseBody

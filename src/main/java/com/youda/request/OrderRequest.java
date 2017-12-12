@@ -14,7 +14,6 @@ public class OrderRequest extends BaseRequest {
     private String orderSubject;
     private String otherOrderId;
     private Long gameId;
-    private Timestamp orderCreateTime;
 
     public Long getUserId() {
         return userId;
@@ -56,14 +55,6 @@ public class OrderRequest extends BaseRequest {
         this.gameId = gameId;
     }
 
-    public Timestamp getOrderCreateTime() {
-        return orderCreateTime;
-    }
-
-    public void setOrderCreateTime(Timestamp orderCreateTime) {
-        this.orderCreateTime = orderCreateTime;
-    }
-
     @Override
     public boolean isEmpty() {
         return orderTotalAmount == null || orderTotalAmount.isEmpty()
@@ -72,7 +63,6 @@ public class OrderRequest extends BaseRequest {
                 || !orderTotalAmount.matches("^(([1-9]\\d*)|([0]))(\\.(\\d){0,2})?$")
                 || orderSubject == null || orderSubject.isEmpty()
                 || otherOrderId == null || otherOrderId.isEmpty()
-                || gameId == null || gameId==0
-                || orderCreateTime == null;
+                || gameId == null || gameId==0;
     }
 }
