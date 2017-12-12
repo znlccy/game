@@ -23,7 +23,7 @@ public interface MessageAuthCodeMapper {
      * @param authCode
      * @return
      */
-    @Insert("insert into tb_macode(macodeContent,macodeSendTime,macodePhone) values(#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone})")
+    @Insert("insert into tb_macode(macodeContent,macodeSendTime,macodePhone,conntryCode) values(#{authCode.macodeContent},#{authCode.macodeSendTime},#{authCode.macodePhone},#{authCode.conntryCode})")
     boolean addMessageAuthCode(@Param("authCode") MessageAuthCode authCode);
 
     /**
