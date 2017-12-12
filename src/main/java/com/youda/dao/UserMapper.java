@@ -60,8 +60,8 @@ public interface UserMapper {
      * @param
      * @return
      */
-    @Update("update tb_user set userName=#{api.userName},userPassword=#{api.userPassword},userModifyTime=#{api.userModifyTime} where userId=#{api.userId} or userName=#{api.userName}")
-    boolean modifyUserInfo(@Param("api") User user);
+    @Update("update tb_user set userPassword=#{user.userPassword},userModifyTime=#{user.userModifyTime} where userId=#{user.userId} or userName=#{user.userName}")
+    boolean modifyUserInfo(@Param("user") User user);
 
     /**
      * 列举所有用户
@@ -87,7 +87,7 @@ public interface UserMapper {
      * @param user
      * @return
      */
-    @Insert("insert into tb_user(userName,userPassword,userRegisteredTime,userUseDevice) values(#{user.userName},#{user.userPassword},#{user.userRegisteredTime},#{user.userUseDevice})")
+    @Insert("insert into tb_user(userName,userPassword,userRegisteredTime) values(#{user.userName},#{user.userPassword},#{user.userRegisteredTime})")
     @Options(useGeneratedKeys = true,keyProperty = "userId")
     boolean addUser(@Param("user") User user);
 
