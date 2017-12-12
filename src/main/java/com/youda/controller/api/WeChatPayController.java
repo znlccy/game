@@ -1,4 +1,4 @@
-package com.youda.controller.pay;
+package com.youda.controller.api;
 
 
 import org.springframework.web.bind.annotation.CrossOrigin;
