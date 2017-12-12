@@ -32,8 +32,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOtherOrderId(request.getOtherOrderId());
         order.setOrderTotalAmount(request.getOrderTotalAmount());
         order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
-
-        orderMapper.createOrder(order,request.getUserId(),request.getGameId());
+        long userId= 1;
+        long gameId = 1001;
+        orderMapper.createOrder(order);
         if (order.getOrderId() == 0) {
             return ResponseStatusCode.conflictError();
         }

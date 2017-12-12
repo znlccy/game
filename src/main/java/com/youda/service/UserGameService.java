@@ -11,5 +11,6 @@ import org.springframework.stereotype.Service;
 
 public interface UserGameService {
 
+    void userLoginGame(long userId,long gameId);
 }
 

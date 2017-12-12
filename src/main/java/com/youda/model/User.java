@@ -106,8 +106,8 @@ public class User implements Serializable {
 	/**
 	 * 定义用户和订单之间的一对多关系的关联关系
 	 */
-	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderId")
-	private Set<Order> orders = new HashSet<Order>();
+	/*@OneToMany(cascade=CascadeType.ALL,mappedBy="orderId")
+	private Set<Order> orders = new HashSet<Order>();*/
 
 	/**
 	 * 实现用户Id的get方法
@@ -321,17 +321,18 @@ public class User implements Serializable {
 	 * 实现用户和订单之间的一对多关系的get方法
 	 * @return
 	 */
-	public Set<Order> getOrders() {
+	/*public Set<Order> getOrders() {
 		return orders;
-	}
+	}*/
 
 	/**
 	 * 实现用户和订单之间的一对多关系的set方法
+	 *
 	 * @param orders
 	 */
-	public void setOrders(Set<Order> orders) {
+	/*public void setOrders(Set<Order> orders) {
 		this.orders = orders;
-	}
+	}*/
 
 	/**
 	 * 实现默认的构造方法

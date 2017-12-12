@@ -22,9 +22,9 @@ public interface OrderMapper {
      * @param order
      * @return
      */
-    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{userId},#{gameId})")
-    @Options(useGeneratedKeys = true)
-    public ResponseEntity createOrder(@Param("order") Order order,@Param("userId") long userId,@Param("gameId") long gameId);
+    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId})")
+    @Options(useGeneratedKeys = true,keyProperty = "orderId")
+    public void createOrder(@Param("order") Order order);
 
     /**
      * 定义通过订单主键Id来查询订单的规范

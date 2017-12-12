@@ -75,30 +75,30 @@ public class Order {
 	private String orderNumber;
 	
 	/**
-	 * 定义订单的创建者
-	 */
-	@Column(name = "createOrderUser")
-	private String createOrderUser;
-	
-	/**
 	 * 创建订单来源
 	 */
 	@Column(name = "orderSource")
 	private String orderSource;
-	
+
+	@Column(name = "userId")
+	private long userId;
+
+	@Column(name = "gameId")
+	private long gameId;
+
 	/**
 	 * 定义用户和订单之间的一对多关系映射
 	 */
-	@ManyToOne(cascade ={CascadeType.ALL})
-	@JoinColumn(name="userId")
+	/*@ManyToOne(cascade ={CascadeType.ALL})
+	@JoinColumn(name = "userId")
 	private User user;
-	
-	/**
+
+	*//**
 	 * 定义游戏和订单之间的一对多关系映射
-	 */
+	 *//*
 	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name="gameId")
-	private Game game;
+	@JoinColumn(name = "gameId")
+	private Game game;*/
 	
 	/**
 	 * 定义订单和支付记录之间的一对一关系映射
@@ -227,22 +227,6 @@ public class Order {
 	}
 
 	/**
-	 * 定义创建订单用户的get方法
-	 * @return
-	 */
-	public String getCreateOrderUser() {
-		return createOrderUser;
-	}
-
-	/**
-	 * 定义创建订单用户的set方法
-	 * @param createOrderUser
-	 */
-	public void setCreateOrderUser(String createOrderUser) {
-		this.createOrderUser = createOrderUser;
-	}
-
-	/**
 	 * 定义订单来源的get方法
 	 * @return
 	 */
@@ -261,34 +245,34 @@ public class Order {
 	/**
 	 * 实现用户和订单之间的一对多关系的get方法
 	 * @return
-	 */
+	 *//*
 	public User getUser() {
 		return user;
 	}
 
-	/**
+	*//**
 	 * 实现用户和订单之间的一对多关系的set方法
 	 * @param user
-	 */
+	 *//*
 	public void setUser(User user) {
 		this.user = user;
 	}
 
-	/**
+	*//**
 	 * 实现游戏和订单之间的一对多关系的get方法
 	 * @return
-	 */
+	 *//*
 	public Game getGame() {
 		return game;
 	}
 
-	/**
+	*//**
 	 * 实现游戏和订单之间的一对多关系的set方法
 	 * @param game
-	 */
+	 *//*
 	public void setGame(Game game) {
 		this.game = game;
-	}
+	}*/
 	
 	/**
 	 * 实现订单和支付记录之间一对一关系的get方法
@@ -304,6 +288,22 @@ public class Order {
 	 */
 	public void setPayRecord(PayRecord payRecord) {
 		this.payRecord = payRecord;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	public long getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(long gameId) {
+		this.gameId = gameId;
 	}
 
 	/**

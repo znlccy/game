@@ -43,13 +43,17 @@ public class Game {
 	@MapKey(name = "gameChannelId")
 	@JoinTable(name = "tb_gamechannel",joinColumns = @JoinColumn(name = "gameId"),inverseJoinColumns = @JoinColumn(name = "channelId"))
 	private Set<Channel> channels = new HashSet<Channel>();
-	
-	/**
+
+/*
+	*/
+/**
 	 * 定义游戏和订单之间的一对多关系映射
-	 */
+	 *//*
+
 	@OneToMany(cascade= {CascadeType.ALL},mappedBy="game")
 	private Set<Order> orders = new HashSet<Order>();
-	
+*/
+
 	/**
 	 * 实现游戏主键Id的get方法
 	 * @return
@@ -118,18 +122,18 @@ public class Game {
 	 * 实现游戏和订单之间一对多关系的get方法
 	 * @return
 	 */
-	public Set<Order> getOrders() {
+	/*public Set<Order> getOrders() {
 		return orders;
 	}
 
-	/**
+	*//**
 	 * 实现游戏和订单之间一对多关系的set方法
 	 * @param orders
-	 */
+	 *//*
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
 	}
-
+*/
 	/*定义默认的构造函数*/
 	public Game() {
 		
