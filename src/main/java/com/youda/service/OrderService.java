@@ -13,15 +13,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface OrderService {
 
-    /*创建订单*/
-    ResponseEntity createOrder(OrderRequest orderRequest,long userId,long gameId);
+    ResponseEntity createOrder(OrderRequest orderRequest);
 
-    /*删除订单*/
-    boolean deleteOrderById(long orderId);
+    ResponseEntity alipay(Long orderId);
 
-    /*查询订单*/
-    Order queryOrderById(long orderId);
-
-    /*修改订单*/
-    boolean modifyOrderById(long orderId);
+    ResponseEntity wechatpay(Long orderId);
 }

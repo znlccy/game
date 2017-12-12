@@ -3,11 +3,15 @@ package com.youda.serviceImpl;
 import com.youda.dao.OrderMapper;
 import com.youda.model.Order;
 import com.youda.request.OrderRequest;
+import com.youda.response.OrderResponse;
+import com.youda.response.ResponseStatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
+
+import java.sql.Timestamp;
 
 /**
  * @author chencongye
@@ -20,70 +24,31 @@ import com.youda.service.OrderService;
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
-    private OrderMapper orderMapper;
+    OrderMapper orderMapper;
 
-    /*实现创建订单*/
     @Override
-    public ResponseEntity createOrder(OrderRequest orderRequest,long userId,long gameId) {
+    public ResponseEntity createOrder(OrderRequest request) {
+        Order order = new Order();
+        order.setOtherOrderId(request.getOtherOrderId());
+        order.setOrderTotalAmount(request.getOrderTotalAmount());
+        order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
 
-        if(orderRequest==null)
-        {
-            return null;
+        orderMapper.createOrder(order,request.getUserId(),request.getGameId());
+        if (order.getOrderId() == 0) {
+            return ResponseStatusCode.conflictError();
         }
-        else
-        {
-            return orderMapper.createOrder(orderRequest,userId,gameId);
-        }
+        return ResponseStatusCode.postSuccess(new OrderResponse(order.getOrderId()));
     }
 
-    /*实现删除订单*/
     @Override
-    public boolean deleteOrderById(long orderId) {
+    public ResponseEntity alipay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
-        if (order!=null)
-        {
-            orderMapper.deleteByOrderId(orderId);
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return null;
     }
 
-    /*实现查询订单*/
     @Override
-    public Order queryOrderById(long orderId) {
-
+    public ResponseEntity wechatpay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
-        if (order!=null)
-        {
-            return order;
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    /*实现修改订单*/
-    @Override
-    public boolean modifyOrderById(long orderId) {
-
-        Order order = orderMapper.findByOrderId(orderId);
-        if (order==null)
-        {
-            return false;
-        }
-        else
-        {
-            if (orderMapper.modifyByOrderId(order)) {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        return null;
     }
 }

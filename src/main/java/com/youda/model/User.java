@@ -118,10 +118,8 @@ public class User implements Serializable {
 	/**
 	 * 定义用户和Token之间的一对一关系
 	 */
-	@OneToOne
-	@JoinTable(name = "tb_usertoken",joinColumns=@JoinColumn(name="userId"),inverseJoinColumns=@JoinColumn(name="tokenId"))
-	/*@JoinColumn(name="userId")*/
-	private Token token;
+	@OneToMany(cascade = CascadeType.ALL,mappedBy = "tokenId")
+	private Set<Token> tokens = new HashSet<Token>();
 	
 	/**
 	 * 实现用户Id的get方法
@@ -363,20 +361,12 @@ public class User implements Serializable {
 		this.orders = orders;
 	}
 
-	/**
-	 * 实现用户和token之间的一对一关系的get方法
-	 * @return
-	 */
-	public Token getToken() {
-		return token;
+	public Set<Token> getTokens() {
+		return tokens;
 	}
 
-	/**
-	 * 实现用户和token之间的一对一关系的set方法
-	 * @param token
-	 */
-	public void setToken(Token token) {
-		this.token = token;
+	public void setTokens(Set<Token> tokens) {
+		this.tokens = tokens;
 	}
 
 	/**
@@ -384,48 +374,6 @@ public class User implements Serializable {
 	 */
 	public User() {
 		
-	}
-
-	/**
-	 * 实现带有参数的构造方法
-	 * @param userId
-	 * @param userName
-	 * @param userPassword
-	 * @param userLoginStatus
-	 * @param userLoginTime
-	 * @param userRegisteredTime
-	 * @param userModifyTime
-	 * @param userLogoutTime
-	 * @param userUseDevice
-	 * @param userLoginType
-	 * @param userOnlineTime
-	 * @param userEmail
-	 * @param games
-	 * @param authCodes
-	 * @param orders
-	 * @param token
-	 */
-	public User(long userId, String userName, String userPassword, String userLoginStatus, Timestamp userLoginTime,
-			Timestamp userRegisteredTime, Timestamp userModifyTime, Timestamp userLogoutTime, String userUseDevice,
-			String userLoginType, Timestamp userOnlineTime, String userEmail, Set<Game> games,
-			Set<MessageAuthCode> authCodes, Set<Order> orders, Token token) {
-		super();
-		this.userId = userId;
-		this.userName = userName;
-		this.userPassword = userPassword;
-		this.userLoginStatus = userLoginStatus;
-		this.userLoginTime = userLoginTime;
-		this.userRegisteredTime = userRegisteredTime;
-		this.userModifyTime = userModifyTime;
-		this.userLogoutTime = userLogoutTime;
-		this.userUseDevice = userUseDevice;
-		this.userLoginType = userLoginType;
-		this.userOnlineTime = userOnlineTime;
-		this.userEmail = userEmail;
-		this.games = games;
-		this.authCodes = authCodes;
-		this.orders = orders;
-		this.token = token;
 	}
 
 }

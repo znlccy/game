@@ -62,4 +62,6 @@ public class GameChannel {
     public void setChannel(Channel channel) {
         this.channel = channel;
     }
+
+
 }
