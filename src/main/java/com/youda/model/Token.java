@@ -103,13 +103,6 @@ public class Token {
     public void setGameChannelId(Long gameChannelId) {
         this.gameChannelId = gameChannelId;
     }
-    //	public User getUser() {
-//		return user;
-//	}
-//
-//	public void setUser(User user) {
-//		this.user = user;
-//	}
 
     /**
      * 默认的无参构造方法

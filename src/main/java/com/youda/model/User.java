@@ -108,13 +108,7 @@ public class User implements Serializable {
 	 */
 	@OneToMany(cascade=CascadeType.ALL,mappedBy="orderId")
 	private Set<Order> orders = new HashSet<Order>();
-	
-	/**
-	 * 定义用户和Token之间的一对一关系
-	 */
-	@OneToMany(cascade = CascadeType.ALL,mappedBy = "tokenId")
-	private Set<Token> tokens = new HashSet<Token>();
-	
+
 	/**
 	 * 实现用户Id的get方法
 	 * @return
@@ -337,14 +331,6 @@ public class User implements Serializable {
 	 */
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;
-	}
-
-	public Set<Token> getTokens() {
-		return tokens;
-	}
-
-	public void setTokens(Set<Token> tokens) {
-		this.tokens = tokens;
 	}
 
 	/**
