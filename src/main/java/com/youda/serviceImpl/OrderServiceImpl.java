@@ -13,12 +13,18 @@ import com.youda.model.*;
 import com.youda.request.OrderRequest;
 import com.youda.response.OrderResponse;
 import com.youda.response.ResponseStatusCode;
+import com.youda.response.WeChatPayResponse;
+import com.youda.util.MD5Util;
+import com.youda.util.PrepayIdRequestHandler;
+import com.youda.util.WXUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.management.MemoryUsage;
 import java.sql.Timestamp;
 
@@ -80,7 +86,7 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderMapper.findByOrderId(orderId);
         if (order==null)
         {
-            /*需要给出提示，后端手动配置支付宝支付的配置信息*/
+            /*需要给出提示,没有这个订单，需要重新创建*/
             return ResponseStatusCode.nullPointerError();
         }
         else
@@ -130,41 +136,106 @@ public class OrderServiceImpl implements OrderService {
                 PayRecord payRecord = new PayRecord();
                 payRecord.setPayRecordStyle("支付宝APP支付");
                 payRecord.setOutTradeNo(out_trade_no);
-                payRecord.getPayRecordTime();
-                payRecord.setPayRecordTotalAmount(total_amount  );
-                /*payRecord.setPayRecordUser();*/
-                payRecord.getPayRecordStatus();
+                payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                payRecord.setPayRecordTotalAmount(total_amount);
+                payRecord.setPayRecordUser(user.getUserName());
+                payRecord.setPayRecordStatus("0");
                 payRecordMapper.addPayRecord(payRecord);
             }
         }
-        return null;
+        return ResponseStatusCode.postSuccess(null);
     }
 
     /*实现微信支付*/
-    @Override
-    public ResponseEntity wechatpay(Long orderId) {
+    public ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response) {
         Order order = orderMapper.findByOrderId(orderId);
         if(order==null)
         {
+            /*不存在这个订单,需要有提示去重新生成一个订单*/
             return ResponseStatusCode.nullPointerError();
         }
         else
         {
             Game game = gameMapper.findByGameId(order.getGameId());
-            //获取订单一些属性
-            String subject = order.getOrderSubject();
-            String total_amount = order.getOrderTotalAmount();
-            String out_trade_no = order.getOtherOrderId();
+            User user = userMapper.findByUserId(order.getUserId());
             String gameName = game.getGameName();
-
             /*获取微信支付配置信息*/
             WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
-            String APP_ID = weChatConf.getAPP_ID();
-            String APP_KEY = weChatConf.getAPP_KEY();
-            String CALLBACK_URL = weChatConf.getCALLBACK_URL();
-            String NOTIFY_URL = weChatConf.getNOTIFY_URL();
+            if (weChatConf==null) {
+                return ResponseStatusCode.nullPointerError();
+                //需要后台去添加响应的微信支付配置信息
+            }
+            else
+            {
+                //获取订单一些属性
+                String GATEURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+                String BODY = order.getOrderSubject();
+                String TOTAL_FEE = order.getOrderTotalAmount();
+                String OUT_TRADE_NO = order.getOtherOrderId();
+                String APP_ID = weChatConf.getAPP_ID();
+                String APP_KEY = weChatConf.getAPP_KEY();
+                String CALLBACK_URL = weChatConf.getCALLBACK_URL();
+                String NOTIFY_URL = weChatConf.getNOTIFY_URL();
+                String MCH_ID = weChatConf.getMCH_ID();
+                String NONCE_STR = WXUtil.getNonceStr();
+                String PARTNER_ID = weChatConf.getPARTNER_ID();
+                String SPBILL_CREATE_IP = request.getRemoteAddr();
+                String TIMESTAMP = WXUtil.getTimeStamp();
+                PrepayIdRequestHandler prepayReqHandler = new PrepayIdRequestHandler(request,response);
+                prepayReqHandler.setParameter("appid",APP_ID);
+                prepayReqHandler.setParameter("body",BODY);
+                prepayReqHandler.setParameter("mch_id",MCH_ID);
+                prepayReqHandler.setParameter("nonce_str",NONCE_STR);
+                prepayReqHandler.setParameter("notify_url",NOTIFY_URL);
+                prepayReqHandler.setParameter("out_trade_no",OUT_TRADE_NO);
+                prepayReqHandler.setParameter("spbill_create_ip",SPBILL_CREATE_IP);
+                prepayReqHandler.setParameter("time_start",TIMESTAMP);
+                prepayReqHandler.setParameter("total_fee",TOTAL_FEE);
+                prepayReqHandler.setParameter("trade_type","APP");
+                /*生成签名*/
+                String SIGN = prepayReqHandler.createMD5Sign(APP_KEY);
+                prepayReqHandler.setParameter("sign",SIGN);
+                prepayReqHandler.setGateUrl(GATEURL);
+                try {
+                    String prepayid = prepayReqHandler.sendPrepay();
+                    if (prepayid != null && !prepayid.equals("")) {
+                        String signs = "appid=" + APP_ID + "&noncestr=" + NONCE_STR + "&package=Sign=WXPay&partnerid="
+                                + PARTNER_ID + "&prepayid=" + prepayid + "&timestamp=" + TIMESTAMP + "&key="
+                                + APP_KEY;
+                        //需要返回这些字段prepayid,sign,appid,timestamp,noncestr,package,partnerid,key
+                        WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
+                        weChatPayResponse.setPrepayid(prepayid);
+                        weChatPayResponse.setSign(MD5Util.MD5Encode(signs, "utf8").toUpperCase());
+                        weChatPayResponse.setAppid(APP_ID);
+                        weChatPayResponse.setTimestamp(TIMESTAMP);
+                        weChatPayResponse.setNoncestr(NONCE_STR);
+                        weChatPayResponse.setPackageName("Sign=WXPay");
+                        weChatPayResponse.setPartnerid(PARTNER_ID);
+                        weChatPayResponse.setKey(APP_KEY);
+                        weChatPayResponse.setGoodName(BODY);
+                        weChatPayResponse.setGoodPrice(TOTAL_FEE);
+                        weChatPayResponse.setOtherOrderId(OUT_TRADE_NO);
+                        /*生成支付记录*/
+                        PayRecord payRecord = new PayRecord();
+                        payRecord.setPayRecordStyle("微信APP支付");
+                        payRecord.setOutTradeNo(OUT_TRADE_NO);
+                        payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                        payRecord.setPayRecordTotalAmount(TOTAL_FEE);
+                        payRecord.setPayRecordUser(user.getUserName());
+                        payRecord.setPayRecordStatus("0");
+                        payRecordMapper.addPayRecord(payRecord);
+                        return ResponseStatusCode.postSuccess(weChatPayResponse);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
         }
+    }
 
+    @Override
+    public ResponseEntity wechatpay(Long orderId) {
         return null;
     }
 }
