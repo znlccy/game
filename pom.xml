@@ -131,6 +131,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--导入Erueka服务治理-->
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-eureka-server -->
+		<!--<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-eureka-server</artifactId>
+			<version>1.4.0.RELEASE</version>
+		</dependency>-->
+
+
 	</dependencies>
 
 	<build>
