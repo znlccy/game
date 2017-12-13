@@ -1,10 +1,13 @@
 package com.youda.serviceImpl;
 
-/*import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
-import com.alipay.api.response.AlipayOpenPublicTemplateMessageIndustryModifyResponse;*/
+import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.response.AlipayOpenPublicTemplateMessageIndustryModifyResponse;
+import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.youda.dao.*;
 import com.youda.model.*;
 import com.youda.request.OrderRequest;
@@ -18,8 +21,8 @@ import com.youda.service.OrderService;
 
 import java.sql.Timestamp;
 
-/*import static com.alipay.api.AlipayConstants.APP_ID;
-import static com.alipay.api.AlipayConstants.CHARSET;*/
+import static com.alipay.api.AlipayConstants.APP_ID;
+import static com.alipay.api.AlipayConstants.CHARSET;
 
 /**
  * @author chencongye
@@ -47,8 +50,13 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     AliPayConfMapper aliPayConfMapper;
 
+    /*实现微信支付的自动依赖注入*/
     @Autowired
     WeChatConfMapper weChatConfMapper;
+
+    /*实现支付记录的自动依赖注入*/
+    @Autowired
+    PayRecordMapper payRecordMapper;
 
     @Override
     public ResponseEntity createOrder(OrderRequest request) {
@@ -69,48 +77,64 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity alipay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
-        Game game = gameMapper.findByGameId(order.getGameId());
-        User user = userMapper.findByUserId(order.getUserId());
-        /*获取订单一些支付属性*/
-        String subject = order.getOrderSubject();
-        String total_amount = order.getOrderTotalAmount();
-        String out_trade_no = order.getOtherOrderId();
-        String gameName = game.getGameName();
-
-        AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
-        /*获取支付宝配置的基本信息*/
-        String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
-        String APP_ID=aliPayConf.getAPP_ID();
-        String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
-        String CHARSET="UTF-8";
-        String CallBackUrl = aliPayConf.getCALLBACK_URL();
-        String NotifyUrl = aliPayConf.getNOTIFY_URL();
-
-        //实例化客户端
-        /*AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
-        //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.open.public.template.message.industry.modify
-        AlipayOpenPublicTemplateMessageIndustryModifyRequest request = new AlipayOpenPublicTemplateMessageIndustryModifyRequest();
-        //SDK已经封装掉了公共参数，这里只需要传入业务参数
-        //此次只是参数展示，未进行字符串转义，实际情况下请转义
-        request.setNotifyUrl("http://www.baidu.com");
-        request.setReturnUrl("http://www.baidu.com");
-
-        request.setBizContent("  {" +
-                "    \"primary_industry_name\":\"IT科技/IT软件与服务\"," +
-                "    \"primary_industry_code\":\"10001/20102\"," +
-                "    \"secondary_industry_code\":\"10001/20102\"," +
-                "    \"secondary_industry_name\":\"IT科技/IT软件与服务\"" +
-                " }");
-        AlipayOpenPublicTemplateMessageIndustryModifyResponse response = null;
-        try {
-            response = alipayClient.execute(request);
-        } catch (AlipayApiException e) {
+        if (order==null)
+        {
+            /*需要给出提示，后端手动配置支付宝支付的配置信息*/
         }
-        //调用成功，则处理业务逻辑
-        if(response.isSuccess()){
-            //.....
-        }*/
+        else
+        {
+            Game game = gameMapper.findByGameId(order.getGameId());
+            User user = userMapper.findByUserId(order.getUserId());
+            /*获取订单一些支付属性*/
+            String subject = order.getOrderSubject();
+            String total_amount = order.getOrderTotalAmount();
+            String out_trade_no = order.getOtherOrderId();
+            String gameName = game.getGameName();
 
+            AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
+            /*获取支付宝配置的基本信息*/
+            String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
+            String APP_ID=aliPayConf.getAPP_ID();
+            String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
+            String CHARSET="UTF-8";
+            String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
+            String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
+            String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+
+            //实例化客户端
+            AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+            //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+            AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+            //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+            AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+            //SDK已经封装掉了公共参数，这里只需要传入业务参数
+            //此次只是参数展示，未进行字符串转义，实际情况下请转义
+            model.setBody(out_trade_no);
+            model.setSubject(subject);
+            model.setOutTradeNo(out_trade_no);
+            model.setTimeoutExpress("30m");
+            model.setTotalAmount(total_amount);
+            model.setProductCode("QUICK_MSECURITY_PAY");
+            request.setBizModel(model);
+            request.setNotifyUrl(NOTIFY_URL);
+            request.setReturnUrl(CALLBACK_URL);
+            AlipayTradeAppPayResponse response = null;
+            try {
+                response = alipayClient.execute(request);
+            } catch (AlipayApiException e) {
+            }
+            //调用成功，则处理业务逻辑
+            if(response.isSuccess()){
+                PayRecord payRecord = new PayRecord();
+                payRecord.setPayRecordStyle("支付宝APP支付");
+                payRecord.setOutTradeNo(out_trade_no);
+                payRecord.getPayRecordTime();
+                payRecord.setPayRecordTotalAmount(total_amount);
+                /*payRecord.setPayRecordUser();*/
+                payRecord.getPayRecordStatus();
+                payRecordMapper.addPayRecord(payRecord);
+            }
+        }
         return null;
     }
 
