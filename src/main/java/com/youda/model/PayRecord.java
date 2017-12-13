@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.sql.Timestamp;
 
 /**
  * @author chencongye
@@ -33,7 +34,7 @@ public class PayRecord {
 	 * 定义支付记录时间
 	 */
 	@Column(name = "payRecordTime")
-	private String payRecordTime;
+	private Timestamp payRecordTime;
 	
 	/**
 	 * 定义支付记录类型
@@ -90,19 +91,13 @@ public class PayRecord {
 		this.payRecordId = payRecordId;
 	}
 
-	/**
-	 * 实现支付记录时间的get方法
-	 * @return
-	 */
-	public String getPayRecordTime() {
+	/*实现支付记录时间的get方法*/
+	public Timestamp getPayRecordTime() {
 		return payRecordTime;
 	}
 
-	/**
-	 * 实现支付记录的set方法
-	 * @param payRecordTime
-	 */
-	public void setPayRecordTime(String payRecordTime) {
+	/*实现支付记录时间的set方法*/
+	public void setPayRecordTime(Timestamp payRecordTime) {
 		this.payRecordTime = payRecordTime;
 	}
 
@@ -225,32 +220,5 @@ public class PayRecord {
 
 	}
 
-	/**
-	 * 实现带有参数的构造函数
-	 * @param payRecordId
-	 * @param payRecordTime
-	 * @param payRecordStyle
-	 * @param payRecordStatus
-	 * @param payRecordTotalAmount
-	 * @param payRecordOrderId
-	 * @param outTradeNo
-	 * @param payRecordUser
-	 * @param order
-	 */
-	public PayRecord(long payRecordId, String payRecordTime, String payRecordStyle, String payRecordStatus,
-			String payRecordTotalAmount, String payRecordOrderId, String outTradeNo, String payRecordUser,
-			Order order) {
-		super();
-		this.payRecordId = payRecordId;
-		this.payRecordTime = payRecordTime;
-		this.payRecordStyle = payRecordStyle;
-		this.payRecordStatus = payRecordStatus;
-		this.payRecordTotalAmount = payRecordTotalAmount;
-		this.payRecordOrderId = payRecordOrderId;
-		this.outTradeNo = outTradeNo;
-		this.payRecordUser = payRecordUser;
-		this.order = order;
-	}
-	
 }
 

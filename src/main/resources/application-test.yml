@@ -1,7 +1,7 @@
-#开发环境
+#测试环境
 name: game
 server:
-  port: 8080
+  port: 8888
 spring:
   datasource:
       #数据库驱动类

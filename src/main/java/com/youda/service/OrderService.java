@@ -3,6 +3,9 @@ package com.youda.service;
 import com.youda.request.api.OrderRequest;
 import org.springframework.http.ResponseEntity;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -16,5 +19,5 @@ public interface OrderService {
 
     ResponseEntity alipay(Long orderId);
 
-    ResponseEntity wechatpay(Long orderId);
+    ResponseEntity wechatpay(Long orderId, HttpServletRequest request,HttpServletResponse response);
 }

@@ -85,9 +85,9 @@ spring:
         mail:
           smtp:
             auth: true
-            starttls: 
-                enable: true 
+            starttls:
+                enable: true
                 required: true
-logging:
-  file: logs/logback-${spring.profiles.active}.log
+#logging:
+#  file: logs/logback-${spring.profiles.active}.log
 #  config: classpath:log-${spring.profiles.active}.log

@@ -27,7 +27,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Insert("insert into tb_payrecord(payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser) values(#{payRecord.payRecordId},#{payRecord.payRecordTime},#{payRecord.payRecordStyle},#{payRecord.payRecordStatus},#{payRecord.payRecordTotalAmount},#{payRecord.payRecordOrderId},#{payRecord.outTradeNo},#{payRecord.payRecordUser})")
-	public boolean addPayRecord(@Param("payRecord") PayRecord payRecord);
+	boolean addPayRecord(@Param("payRecord") PayRecord payRecord);
 	
 	/**
 	 * 定义通过支付记录主键Id来查找支付记录的规范
@@ -35,7 +35,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where payRecordId=#{payRecordId}")
-	public PayRecord findByPayRecordId(@Param("payRecordId") String payRecordId);
+	PayRecord findByPayRecordId(@Param("payRecordId") String payRecordId);
 	
 	/**
 	 * 定义通过支付用户来查询支付记录的规范
@@ -43,7 +43,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where payRecordUser=#{payRecordUser}")
-	public PayRecord findPayRecordUser(@Param("payRecordUser") String payRecordUser);
+	PayRecord findPayRecordUser(@Param("payRecordUser") String payRecordUser);
 	
 	/**
 	 * 定义通过第三方订单号来查询支付记录的规范
@@ -51,7 +51,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where outTradeNo=#{outTradeNo}")
-	public PayRecord findOutTradeNo(@Param("outTradeNo") String outTradeNo);
+	PayRecord findOutTradeNo(@Param("outTradeNo") String outTradeNo);
 	
 	/**
 	 * 定义通过支付记录主键Id来删除支付记录的规范
@@ -59,7 +59,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_payrecord where payRecordId=#{payRecordId}")
-	public boolean deletePayRecordId(@Param("payRecordId") String payRecordId);
+	boolean deletePayRecordId(@Param("payRecordId") String payRecordId);
 	
 	/**
 	 * 定义通过支付用户来删除支付记录的规范
@@ -67,7 +67,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_payrecord where payRecordUser=#{payRecordUser}")
-	public boolean deletePayRecordUser(@Param("payRecordUser") String payRecordUser);
+	boolean deletePayRecordUser(@Param("payRecordUser") String payRecordUser);
 	
 	/**
 	 * 定义通过第三方订单号来删除支付记录的规范
@@ -75,7 +75,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Delete("delete from tb_payrecord where outTradeNo=#{outTradeNo}")
-	public boolean deleteOutTradeNo(@Param("outTradeNo") String outTradeNo);
+	boolean deleteOutTradeNo(@Param("outTradeNo") String outTradeNo);
 	
 	/**
 	 * 定义通过支付记录主键Id来修改支付记录的规范
@@ -84,7 +84,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordId=#{payRecordId}")
-	public boolean modifyByPayRecordId(@Param("payRecordId") String payRecordId,@Param("payRecord") PayRecord payRecord);
+	boolean modifyByPayRecordId(@Param("payRecordId") String payRecordId,@Param("payRecord") PayRecord payRecord);
 	
 	/**
 	 * 定义通过第三方订单号来修改支付记录的规范
@@ -93,7 +93,7 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where outTradeNo=#{outTradeNo}")
-	public boolean modifyByOutTradeNo(@Param("outTradeNo") String outTradeNo,@Param("payRecord") PayRecord payRecord);
+	boolean modifyByOutTradeNo(@Param("outTradeNo") String outTradeNo,@Param("payRecord") PayRecord payRecord);
 	
 	/**
 	 * 定义通过支付用户来修改支付记录的规范
@@ -102,13 +102,13 @@ public interface PayRecordMapper {
 	 * @return
 	 */
 	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordUser=#{payRecordUser}")
-	public boolean modifyByPayRecordUser(@Param("payRecordUser") String payRecordUser,@Param("payRecord") PayRecord payRecord);
+	boolean modifyByPayRecordUser(@Param("payRecordUser") String payRecordUser,@Param("payRecord") PayRecord payRecord);
 	
 	/**
 	 * 定义列举所有的支付记录的规范
 	 * @return
 	 */
 	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from tb_payrecord")
-	public List<PayRecord> findAllPayRecord();
+	List<PayRecord> findAllPayRecord();
 	
 }
