@@ -6,10 +6,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
 import com.alipay.api.response.AlipayOpenPublicTemplateMessageIndustryModifyResponse;*/
 import com.youda.dao.*;
-import com.youda.model.AliPayConf;
-import com.youda.model.Game;
-import com.youda.model.Order;
-import com.youda.model.User;
+import com.youda.model.*;
 import com.youda.request.OrderRequest;
 import com.youda.response.OrderResponse;
 import com.youda.response.ResponseStatusCode;
@@ -74,17 +71,21 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderMapper.findByOrderId(orderId);
         Game game = gameMapper.findByGameId(order.getGameId());
         User user = userMapper.findByUserId(order.getUserId());
-        order.getOrderSubject();
-        order.getOrderTotalAmount();
+        /*获取订单一些支付属性*/
+        String subject = order.getOrderSubject();
+        String total_amount = order.getOrderTotalAmount();
+        String out_trade_no = order.getOtherOrderId();
         String gameName = game.getGameName();
 
-        /*AliPayConf aliPayConf = aliPayConfMapper.
-*/
+        AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
+        /*获取支付宝配置的基本信息*/
+        String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
+        String APP_ID=aliPayConf.getAPP_ID();
+        String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
+        String CHARSET="UTF-8";
+        String CallBackUrl = aliPayConf.getCALLBACK_URL();
+        String NotifyUrl = aliPayConf.getNOTIFY_URL();
 
-        String APP_PRIVATE_KEY="";
-        String APP_ID="";
-        String ALIPAY_PUBLIC_KEY="";
-        String CHARSET="";
         //实例化客户端
         /*AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
         //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.open.public.template.message.industry.modify
@@ -116,8 +117,21 @@ public class OrderServiceImpl implements OrderService {
     /*实现微信支付*/
     @Override
     public ResponseEntity wechatpay(Long orderId) {
-        Order order = orderMapper.findByOrderId(orderId);
 
+        Order order = orderMapper.findByOrderId(orderId);
+        Game game = gameMapper.findByGameId(order.getGameId());
+        //获取订单一些属性
+        String subject = order.getOrderSubject();
+        String total_amount = order.getOrderTotalAmount();
+        String out_trade_no = order.getOtherOrderId();
+        String gameName = game.getGameName();
+
+        /*获取微信支付配置信息*/
+        WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
+        String APP_ID = weChatConf.getAPP_ID();
+        String APP_KEY = weChatConf.getAPP_KEY();
+        String CALLBACK_URL = weChatConf.getCALLBACK_URL();
+        String NOTIFY_URL = weChatConf.getNOTIFY_URL();
         return null;
     }
 }
