@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 
 /**
@@ -45,11 +47,11 @@ public class OrderController {
 
     @ResponseBody
     @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
-    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId) {
+    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, HttpServletRequest request, HttpServletResponse response) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.wechatpay(orderId);
+        return orderService.wechatpay(orderId,request,response);
     }
 
 }

@@ -15262,3 +15262,50 @@ Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'sp
 2017-12-13 15:17:26.095  INFO 7312 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
 2017-12-13 15:17:26.212  INFO 7312 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
 2017-12-13 15:17:26.216  INFO 7312 --- [main] com.youda.GameApplication                : Started GameApplication in 7.113 seconds (JVM running for 7.522)
+2017-12-13 16:01:24.605  INFO 9168 --- [main] com.youda.GameApplication                : Starting GameApplication on Adminstrator-PC with PID 9168 (D:\JAVA-Project\game\target\classes started by Administrator in D:\JAVA-Project\game)
+2017-12-13 16:01:24.608  INFO 9168 --- [main] com.youda.GameApplication                : The following profiles are active: dev
+2017-12-13 16:01:24.704  INFO 9168 --- [main] ationConfigEmbeddedWebApplicationContext : Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@639c2c1d: startup date [Wed Dec 13 16:01:24 CST 2017]; root of context hierarchy
+2017-12-13 16:01:25.661  INFO 9168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-13 16:01:25.699  INFO 9168 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2017-12-13 16:01:26.598  INFO 9168 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat initialized with port(s): 8080 (http)
+2017-12-13 16:01:26.610  INFO 9168 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2017-12-13 16:01:26.611  INFO 9168 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet Engine: Apache Tomcat/8.5.23
+2017-12-13 16:01:26.722  INFO 9168 --- [localhost-startStop-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2017-12-13 16:01:26.723  INFO 9168 --- [localhost-startStop-1] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 2028 ms
+2017-12-13 16:01:26.859  INFO 9168 --- [localhost-startStop-1] o.s.b.w.servlet.ServletRegistrationBean  : Mapping servlet: 'dispatcherServlet' to [/]
+2017-12-13 16:01:26.862  INFO 9168 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'characterEncodingFilter' to: [/*]
+2017-12-13 16:01:26.863  INFO 9168 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2017-12-13 16:01:26.863  INFO 9168 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2017-12-13 16:01:26.863  INFO 9168 --- [localhost-startStop-1] o.s.b.w.servlet.FilterRegistrationBean   : Mapping filter: 'requestContextFilter' to: [/*]
+2017-12-13 16:01:27.440  INFO 9168 --- [main] j.LocalContainerEntityManagerFactoryBean : Building JPA container EntityManagerFactory for persistence unit 'default'
+2017-12-13 16:01:27.457  INFO 9168 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [
+	name: default
+	...]
+2017-12-13 16:01:27.624  INFO 9168 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.0.12.Final}
+2017-12-13 16:01:27.625  INFO 9168 --- [main] org.hibernate.cfg.Environment            : HHH000206: hibernate.properties not found
+2017-12-13 16:01:27.626  INFO 9168 --- [main] org.hibernate.cfg.Environment            : HHH000021: Bytecode provider name : javassist
+2017-12-13 16:01:27.664  INFO 9168 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2017-12-13 16:01:27.780  INFO 9168 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+2017-12-13 16:01:28.272  INFO 9168 --- [main] org.hibernate.tool.hbm2ddl.SchemaUpdate  : HHH000228: Running hbm2ddl schema update
+2017-12-13 16:01:29.709  INFO 9168 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2017-12-13 16:01:30.393  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerAdapter : Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@639c2c1d: startup date [Wed Dec 13 16:01:24 CST 2017]; root of context hierarchy
+2017-12-13 16:01:30.489  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/message/domestic],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.MessageAuthCodeController.sendMessageCode(java.lang.String)
+2017-12-13 16:01:30.491  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/message/foreign],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.MessageAuthCodeController.sendMessageCode(java.lang.String,java.lang.String)
+2017-12-13 16:01:30.492  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/order/alipay],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.OrderController.aliPayOrder(java.lang.Long)
+2017-12-13 16:01:30.492  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/order],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.OrderController.createOrder(com.youda.request.OrderRequest,java.lang.String,java.lang.String)
+2017-12-13 16:01:30.493  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/order/wechatpay],methods=[GET]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.OrderController.wechatOrder(java.lang.Long,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-12-13 16:01:30.494  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/user],methods=[POST]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.UserController.userRegistered(com.youda.request.RegisterRequest,java.lang.String)
+2017-12-13 16:01:30.494  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/user/forget/first],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.UserController.forgetFirst(com.youda.request.ForgetFirstRequest,java.lang.String)
+2017-12-13 16:01:30.495  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/user],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.UserController.userLogin(com.youda.request.LoginRequest,java.lang.String)
+2017-12-13 16:01:30.495  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/api/user/forget/second],methods=[PUT]}" onto public org.springframework.http.ResponseEntity com.youda.controller.api.UserController.forgetSecond(com.youda.request.ForgetSecondRequest,java.lang.String)
+2017-12-13 16:01:30.496  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/excel/download],methods=[GET]}" onto private void com.youda.controller.ExportExcelController.downloadExcel(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException
+2017-12-13 16:01:30.496  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/pdf/download],methods=[GET]}" onto private void com.youda.controller.ExportPDFController.downloadPDF(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.lang.Exception
+2017-12-13 16:01:30.497  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/game/create],methods=[POST]}" onto public boolean com.youda.controller.GameController.addGame()
+2017-12-13 16:01:30.498  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2017-12-13 16:01:30.499  INFO 9168 --- [main] s.w.s.m.m.a.RequestMappingHandlerMapping : Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2017-12-13 16:01:30.522  INFO 9168 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-13 16:01:30.522  INFO 9168 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-13 16:01:30.554  INFO 9168 --- [main] o.s.w.s.handler.SimpleUrlHandlerMapping  : Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2017-12-13 16:01:30.897  INFO 9168 --- [main] o.s.j.e.a.AnnotationMBeanExporter        : Registering beans for JMX exposure on startup
+2017-12-13 16:01:30.959  INFO 9168 --- [main] s.b.c.e.t.TomcatEmbeddedServletContainer : Tomcat started on port(s): 8080 (http)
+2017-12-13 16:01:30.964  INFO 9168 --- [main] com.youda.GameApplication                : Started GameApplication in 6.822 seconds (JVM running for 7.258)

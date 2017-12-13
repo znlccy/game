@@ -2,6 +2,7 @@ package com.youda.serviceImpl;
 
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
+import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
 import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
@@ -11,6 +12,7 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.youda.dao.*;
 import com.youda.model.*;
 import com.youda.request.OrderRequest;
+import com.youda.response.AliPayResponse;
 import com.youda.response.OrderResponse;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.WeChatPayResponse;
@@ -84,6 +86,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity alipay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
+        AliPayResponse aliPayResponse = new AliPayResponse();
         if (order==null)
         {
             /*需要给出提示,没有这个订单，需要重新创建*/
@@ -141,14 +144,22 @@ public class OrderServiceImpl implements OrderService {
                 payRecord.setPayRecordUser(user.getUserName());
                 payRecord.setPayRecordStatus("0");
                 payRecordMapper.addPayRecord(payRecord);
+
+                aliPayResponse.setGoodName(subject);
+                aliPayResponse.setGoodPrice(total_amount);
+                aliPayResponse.setOtherOrderId(out_trade_no);
+                aliPayResponse.setOutTradeNo(out_trade_no);
+                aliPayResponse.setPayData(response.getBody());
             }
+            return ResponseStatusCode.postSuccess(aliPayResponse);
         }
-        return ResponseStatusCode.postSuccess(null);
     }
 
     /*实现微信支付*/
+    @Override
     public ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response) {
         Order order = orderMapper.findByOrderId(orderId);
+        WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
         if(order==null)
         {
             /*不存在这个订单,需要有提示去重新生成一个订单*/
@@ -203,7 +214,7 @@ public class OrderServiceImpl implements OrderService {
                                 + PARTNER_ID + "&prepayid=" + prepayid + "&timestamp=" + TIMESTAMP + "&key="
                                 + APP_KEY;
                         //需要返回这些字段prepayid,sign,appid,timestamp,noncestr,package,partnerid,key
-                        WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
+
                         weChatPayResponse.setPrepayid(prepayid);
                         weChatPayResponse.setSign(MD5Util.MD5Encode(signs, "utf8").toUpperCase());
                         weChatPayResponse.setAppid(APP_ID);
@@ -224,18 +235,13 @@ public class OrderServiceImpl implements OrderService {
                         payRecord.setPayRecordUser(user.getUserName());
                         payRecord.setPayRecordStatus("0");
                         payRecordMapper.addPayRecord(payRecord);
-                        return ResponseStatusCode.postSuccess(weChatPayResponse);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            return null;
+            return ResponseStatusCode.postSuccess(weChatPayResponse);
         }
     }
 
-    @Override
-    public ResponseEntity wechatpay(Long orderId) {
-        return null;
-    }
 }
