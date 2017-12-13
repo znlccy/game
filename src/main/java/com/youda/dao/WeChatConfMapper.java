@@ -24,6 +24,10 @@ public interface WeChatConfMapper {
     @Select("select * from tb_wechatconf where wechatId=#{wechatId}")
     WeChatConf findWeChatConfById(@Param("wechatId") long wechatId);
 
+    /*通过游戏名称来获取微信支付配置信息*/
+    @Select("select * from tb_wechatconf where GAME_NAME=#{gameName}")
+    WeChatConf findWeChatConfByGameName(@Param("gameName") String gameName);
+
     /*查询所有的微信配置*/
     @Select("select * from tb_wechatconf")
     List<WeChatConf> findAllWeChatConf();

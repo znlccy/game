@@ -5,10 +5,11 @@ import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
 import com.alipay.api.response.AlipayOpenPublicTemplateMessageIndustryModifyResponse;*/
-import com.youda.dao.GameMapper;
-import com.youda.dao.OrderMapper;
+import com.youda.dao.*;
+import com.youda.model.AliPayConf;
 import com.youda.model.Game;
 import com.youda.model.Order;
+import com.youda.model.User;
 import com.youda.request.OrderRequest;
 import com.youda.response.OrderResponse;
 import com.youda.response.ResponseStatusCode;
@@ -33,11 +34,24 @@ import static com.alipay.api.AlipayConstants.CHARSET;*/
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    /*实现订单dao层的自动依赖注入*/
     @Autowired
     OrderMapper orderMapper;
 
+    /*实现游戏dao层的自动依赖注入*/
     @Autowired
     GameMapper gameMapper;
+
+    /*实现用户dao层的自动依赖注入*/
+    @Autowired
+    UserMapper userMapper;
+
+    /*实现支付宝配置*/
+    @Autowired
+    AliPayConfMapper aliPayConfMapper;
+
+    @Autowired
+    WeChatConfMapper weChatConfMapper;
 
     @Override
     public ResponseEntity createOrder(OrderRequest request) {
@@ -59,6 +73,13 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity alipay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
         Game game = gameMapper.findByGameId(order.getGameId());
+        User user = userMapper.findByUserId(order.getUserId());
+        order.getOrderSubject();
+        order.getOrderTotalAmount();
+        String gameName = game.getGameName();
+
+        /*AliPayConf aliPayConf = aliPayConfMapper.
+*/
 
         String APP_PRIVATE_KEY="";
         String APP_ID="";
@@ -96,6 +117,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity wechatpay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
+
         return null;
     }
 }
