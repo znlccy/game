@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
 
+import java.lang.management.MemoryUsage;
 import java.sql.Timestamp;
 
 import static com.alipay.api.AlipayConstants.APP_ID;
@@ -80,6 +81,7 @@ public class OrderServiceImpl implements OrderService {
         if (order==null)
         {
             /*需要给出提示，后端手动配置支付宝支付的配置信息*/
+            return ResponseStatusCode.nullPointerError();
         }
         else
         {
@@ -129,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
                 payRecord.setPayRecordStyle("支付宝APP支付");
                 payRecord.setOutTradeNo(out_trade_no);
                 payRecord.getPayRecordTime();
-                payRecord.setPayRecordTotalAmount(total_amount);
+                payRecord.setPayRecordTotalAmount(total_amount  );
                 /*payRecord.setPayRecordUser();*/
                 payRecord.getPayRecordStatus();
                 payRecordMapper.addPayRecord(payRecord);
@@ -141,21 +143,28 @@ public class OrderServiceImpl implements OrderService {
     /*实现微信支付*/
     @Override
     public ResponseEntity wechatpay(Long orderId) {
-
         Order order = orderMapper.findByOrderId(orderId);
-        Game game = gameMapper.findByGameId(order.getGameId());
-        //获取订单一些属性
-        String subject = order.getOrderSubject();
-        String total_amount = order.getOrderTotalAmount();
-        String out_trade_no = order.getOtherOrderId();
-        String gameName = game.getGameName();
+        if(order==null)
+        {
+            return ResponseStatusCode.nullPointerError();
+        }
+        else
+        {
+            Game game = gameMapper.findByGameId(order.getGameId());
+            //获取订单一些属性
+            String subject = order.getOrderSubject();
+            String total_amount = order.getOrderTotalAmount();
+            String out_trade_no = order.getOtherOrderId();
+            String gameName = game.getGameName();
 
-        /*获取微信支付配置信息*/
-        WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
-        String APP_ID = weChatConf.getAPP_ID();
-        String APP_KEY = weChatConf.getAPP_KEY();
-        String CALLBACK_URL = weChatConf.getCALLBACK_URL();
-        String NOTIFY_URL = weChatConf.getNOTIFY_URL();
+            /*获取微信支付配置信息*/
+            WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
+            String APP_ID = weChatConf.getAPP_ID();
+            String APP_KEY = weChatConf.getAPP_KEY();
+            String CALLBACK_URL = weChatConf.getCALLBACK_URL();
+            String NOTIFY_URL = weChatConf.getNOTIFY_URL();
+        }
+
         return null;
     }
 }

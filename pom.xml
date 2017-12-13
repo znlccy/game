@@ -77,6 +77,13 @@
 			<version>1.5.8.RELEASE</version>
 		</dependency>-->
 
+		<!--添加Jdom解析jar包-->
+		<dependency>
+			<groupId>jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>1.0</version>
+		</dependency>
+
 		<!-- 导出Excel表格数据的jar包 -->
 		<dependency>
 		    <groupId>org.apache.poi</groupId>
