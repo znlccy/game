@@ -1,7 +1,9 @@
 package com.youda.dao;
 
 import com.youda.model.GameChannel;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @Author Chencongye
@@ -13,6 +15,21 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GameChannelMapper {
 
-    // TODO: 2017/12/11 通过 id  查询
-    GameChannel findById(Long gameChannelId);
+    @Select("select * from tb_gamechannel where gameChannelId = #{id})")
+    GameChannel findById(@Param("id") Long gameChannelId);
+
+    @Select("select * from tb_gamechannel where gameId = #{gameId} and channelId = #{channelId}")
+    GameChannel findByIds(@Param("gameId") Long gameId, @Param("channelId") Long channelId);
+
+    @Insert("insert into tb_gamechannel(appKey,channelId,gameId) values(#{gameChannel.appKey},#{gameChannel.channelId},#{gameChannel.gameId})")
+    @Options(useGeneratedKeys = true, keyProperty = "gameChannel.gameChannelId")
+    void add(@Param("gameChannel") GameChannel gameChannel);
+
+    @Select("select * from tb_gamechannel where channelId = #{channelId}")
+    @Results({
+            @Result(property = "game",
+                    column = "gameId",
+                    one = @One(select = "com.youda.dao.GameMapper.findByGameId"))
+    })
+    List<GameChannel> findByChannel(@Param("channelId") Long channelId);
 }

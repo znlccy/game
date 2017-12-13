@@ -1,7 +1,6 @@
 package com.youda.service;
 
-import com.youda.model.Order;
-import com.youda.request.OrderRequest;
+import com.youda.request.api.OrderRequest;
 import org.springframework.http.ResponseEntity;
 
 /**

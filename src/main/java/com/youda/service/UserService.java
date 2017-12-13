@@ -1,9 +1,9 @@
 package com.youda.service;
 
-import com.youda.request.ForgetFirstRequest;
-import com.youda.request.ForgetSecondRequest;
-import com.youda.request.LoginRequest;
-import com.youda.request.RegisterRequest;
+import com.youda.request.api.ForgetFirstRequest;
+import com.youda.request.api.ForgetSecondRequest;
+import com.youda.request.api.LoginRequest;
+import com.youda.request.api.RegisterRequest;
 import org.springframework.http.ResponseEntity;
 
 /**

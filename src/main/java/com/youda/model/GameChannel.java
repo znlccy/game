@@ -1,8 +1,6 @@
 package com.youda.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @Author Chencongye
@@ -12,7 +10,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "tb_gamechannel",catalog = "db_ydgame")
+@Table(name = "tb_gamechannel", catalog = "db_ydgame")
 public class GameChannel {
 
     @Id
@@ -23,13 +21,22 @@ public class GameChannel {
     @Column(name = "appKey")
     private String appKey;
 
-    @ManyToOne
-    @JoinColumn(name = "gameId")
+    @Column(name = "gameId")
+    private Long gameId;
+
+    @Column(name = "channelId")
+    private Long channelId;
+
+    @Transient
     private Game game;
 
-    @ManyToOne
-    @JoinColumn(name = "channelId")
-    private Channel channel;
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
 
     public long getGameChannelId() {
         return gameChannelId;
@@ -47,21 +54,19 @@ public class GameChannel {
         this.appKey = appKey;
     }
 
-    public Game getGame() {
-        return game;
+    public Long getGameId() {
+        return gameId;
     }
 
-    public void setGame(Game game) {
-        this.game = game;
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 
-    public Channel getChannel() {
-        return channel;
+    public Long getChannelId() {
+        return channelId;
     }
 
-    public void setChannel(Channel channel) {
-        this.channel = channel;
+    public void setChannelId(Long channelId) {
+        this.channelId = channelId;
     }
-
-
 }

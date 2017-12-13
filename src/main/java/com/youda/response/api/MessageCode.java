@@ -1,4 +1,4 @@
-package com.youda.response;
+package com.youda.response.api;
 
 /**
  * Created by chenshengyu

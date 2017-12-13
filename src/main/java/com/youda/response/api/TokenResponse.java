@@ -1,10 +1,12 @@
-package com.youda.response;
+package com.youda.response.api;
+
+import com.youda.response.BaseResponse;
 
 /**
  * Created by chenshengyu
  * on 2017/12/8.
  */
-public class TokenResponse implements BaseResponse{
+public class TokenResponse implements BaseResponse {
     private String token;
     private long userId;
 

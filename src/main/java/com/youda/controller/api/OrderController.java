@@ -1,13 +1,11 @@
 package com.youda.controller.api;
 
-import com.youda.request.OrderRequest;
+import com.youda.request.api.OrderRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
 
 /**
  * @author chencongye

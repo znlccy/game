@@ -1,4 +1,6 @@
-package com.youda.request;
+package com.youda.request.api;
+
+import com.youda.request.BaseRequest;
 
 /**
  * Created by chenshengyu

@@ -1,7 +1,6 @@
-package com.youda.request;
+package com.youda.request.api;
 
-import java.sql.Time;
-import java.sql.Timestamp;
+import com.youda.request.BaseRequest;
 
 /**
  * Created by chenshengyu

@@ -5,26 +5,22 @@ import com.youda.dao.TokenMapper;
 import com.youda.dao.UserMapper;
 import com.youda.encrypt.SHAEncrpt;
 import com.youda.model.MessageAuthCode;
-import com.youda.request.ForgetFirstRequest;
-import com.youda.request.ForgetSecondRequest;
+import com.youda.request.api.ForgetFirstRequest;
+import com.youda.request.api.ForgetSecondRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.model.Token;
 import com.youda.model.User;
-import com.youda.request.LoginRequest;
-import com.youda.request.RegisterRequest;
-import com.youda.response.TokenResponse;
+import com.youda.request.api.LoginRequest;
+import com.youda.request.api.RegisterRequest;
+import com.youda.response.api.TokenResponse;
 import com.youda.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.UUID;
 
 /**

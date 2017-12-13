@@ -1,5 +1,6 @@
 package com.youda.response;
 
+import com.youda.response.api.ResponseResult;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -109,7 +110,7 @@ public class ResponseStatusCode {
     public static ResponseEntity nullPointerError() {
         return ResponseEntity
                 .status(411)
-                .body(new ResponseResult("411", "空指针错误", "抱歉，存在空指针异常!"));
+                .body(new ResponseResult("411", "请求参数不完整", "抱歉，请填写完整!"));
     }
 
     /**

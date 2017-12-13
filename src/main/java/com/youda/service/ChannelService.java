@@ -1,5 +1,9 @@
 package com.youda.service;
 
+import com.youda.request.channel.LoginRequest;
+import com.youda.request.channel.RegisterRequest;
+import org.springframework.http.ResponseEntity;
+
 /**
  * @author chencongye
  * @version 1.0.0
@@ -8,5 +12,13 @@ package com.youda.service;
  */
 
 public interface ChannelService {
+
+    ResponseEntity register(RegisterRequest request);
+
+    ResponseEntity login(LoginRequest request);
+
+    ResponseEntity bindGame(long channelId, long gameId);
+
+    ResponseEntity getAllGame(Long channelId);
 
 }

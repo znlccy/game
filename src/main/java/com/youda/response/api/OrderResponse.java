@@ -1,4 +1,6 @@
-package com.youda.response;
+package com.youda.response.api;
+
+import com.youda.response.BaseResponse;
 
 /**
  * Created by chenshengyu

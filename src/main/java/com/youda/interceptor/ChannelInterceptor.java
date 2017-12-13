@@ -31,8 +31,8 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String url = request.getRequestURL().toString();
-        if (url.endsWith("error")){
-            return  true;
+        if (url.endsWith("error")) {
+            return true;
         }
         // 验证请求权限
         HandlerMethod handlerMethod = (HandlerMethod) handler;

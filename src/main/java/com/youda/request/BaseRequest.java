@@ -16,6 +16,6 @@ public abstract class BaseRequest {
 
     protected Long gameChannelId;
 
-    abstract boolean isEmpty();
+    public abstract boolean isEmpty();
 
 }

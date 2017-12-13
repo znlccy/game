@@ -1,6 +1,6 @@
 package com.youda.controller.api;
 
-import com.youda.response.MessageCode;
+import com.youda.response.api.MessageCode;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.MessageAuthCodeService;
 import org.springframework.beans.factory.annotation.Autowired;

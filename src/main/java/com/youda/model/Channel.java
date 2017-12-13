@@ -31,7 +31,7 @@ public class Channel {
 	/**
 	 * 定义渠道名称
 	 */
-	@Column(name = "channelNamer")
+	@Column(name = "channelName")
 	private String channelName;
 	
 	/**
@@ -61,7 +61,7 @@ public class Channel {
 	/**
 	 * 定义渠道标签
 	 */
-	@Column(name = "channelLanel")
+	@Column(name = "channelLabel")
 	private String channelLabel;
 	
 	/**
