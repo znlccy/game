@@ -4,6 +4,7 @@ import com.youda.request.api.ForgetFirstRequest;
 import com.youda.request.api.ForgetSecondRequest;
 import com.youda.request.api.LoginRequest;
 import com.youda.request.api.RegisterRequest;
+import com.youda.request.channel.SignRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -43,4 +44,8 @@ public interface UserService {
      */
     ResponseEntity forgotPasswordEnd(ForgetSecondRequest request);
 
+    /**
+     * 第三方授权
+     */
+    ResponseEntity signUser(SignRequest request);
 }
