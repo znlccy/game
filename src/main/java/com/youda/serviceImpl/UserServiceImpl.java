@@ -122,6 +122,7 @@ public class UserServiceImpl implements UserService {
         return ResponseStatusCode.putOrGetSuccess(null);
     }
 
+    /*实现新增用户统计*/
     @Override
     public ResponseEntity newUserStatistics() {
         return null;
@@ -132,36 +133,43 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    /*实现每天新增用户的统计的功能*/
     @Override
     public ResponseEntity everyDayNewUserStatistics() {
         return null;
     }
 
+    /*实现每周新增用户的统计的功能*/
     @Override
     public ResponseEntity everyWeekNewUserStatistics() {
         return null;
     }
 
+    /*实现每月新增用户的统计的功能*/
     @Override
     public ResponseEntity everyMonthNewUserStatistics() {
         return null;
     }
 
+    /*实现当日活跃统计的功能功能*/
     @Override
     public ResponseEntity dengesActiveStatistics() {
         return null;
     }
 
+    /*实现当日付费统计的功能*/
     @Override
     public ResponseEntity dengesPaymentStatistics() {
         return null;
     }
 
+    /*实现当日收入统计的功能*/
     @Override
     public ResponseEntity dengesIncomeStatistics() {
         return null;
     }
 
+    /*实现用户留存统计的功能*/
     @Override
     public ResponseEntity newUsersRetained() {
         return null;

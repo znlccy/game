@@ -90,6 +90,39 @@ public interface UserMapper {
     @Options(useGeneratedKeys = true, keyProperty = "userId")
     boolean addUser(@Param("user") User user);
 
+    /*实现新增用户或者账户的统计*/
+    @Select("select * from tb_user")
+    void newUserStatistics();
 
+    /*实现新增设备的统计*/
+    @Select("select * from tb_user")
+    void newEquipmentStatistics();
 
+    /*实现每日新增用户的统计*/
+    @Select("select * from tb_user")
+    void everyDayNewUserStatistics();
+
+    /*实现每周新增用户的统计*/
+    @Select("select * from tb_user")
+    void everyWeekNewUserStatistics();
+
+    /*实现每月新增用户的统计*/
+    @Select("select * from tb_user")
+    void everyMonthNewUserStatistics();
+
+    /*实现当日活跃用户统计*/
+    @Select("select * from tb_user")
+    void dengesActiveStatistics();
+
+    /*实现当日付费用户统计*/
+    @Select("select * from tb_user")
+    void dengesPaymentStatistics();
+
+    /*实现当日收入的统计*/
+    @Select("select * from tb_user")
+    void dengesIncomeStatistics();
+
+    /*实现用户留存统计*/
+    @Select("select * from tb_user")
+    void newUsersRetained();
 }
