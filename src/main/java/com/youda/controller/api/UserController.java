@@ -1,5 +1,6 @@
 package com.youda.controller.api;
 
+import com.youda.request.channel.SignRequest;
 import com.youda.request.api.ForgetFirstRequest;
 import com.youda.request.api.ForgetSecondRequest;
 import com.youda.request.api.LoginRequest;
@@ -74,6 +75,17 @@ public class UserController {
             return ResponseStatusCode.nullPointerError();
         }
         return userService.forgotPasswordEnd(request);
+    }
+
+    @RequestMapping(value = "/sign", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity sign(@RequestBody SignRequest request,
+                               @RequestHeader("gameChannelId") Long gameChannelId) {
+        request.setGameChannelId(gameChannelId);
+        if (request.isEmpty()) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return userService.signUser(request);
     }
 
 }

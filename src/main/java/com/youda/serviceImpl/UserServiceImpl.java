@@ -1,17 +1,20 @@
 package com.youda.serviceImpl;
 
 import com.youda.dao.MessageAuthCodeMapper;
+import com.youda.dao.SignUserMapper;
 import com.youda.dao.TokenMapper;
 import com.youda.dao.UserMapper;
 import com.youda.encrypt.SHAEncrpt;
 import com.youda.model.MessageAuthCode;
-import com.youda.request.api.ForgetFirstRequest;
-import com.youda.request.api.ForgetSecondRequest;
-import com.youda.response.ResponseStatusCode;
+import com.youda.model.SignUser;
 import com.youda.model.Token;
 import com.youda.model.User;
+import com.youda.request.api.ForgetFirstRequest;
+import com.youda.request.api.ForgetSecondRequest;
 import com.youda.request.api.LoginRequest;
 import com.youda.request.api.RegisterRequest;
+import com.youda.request.channel.SignRequest;
+import com.youda.response.ResponseStatusCode;
 import com.youda.response.api.TokenResponse;
 import com.youda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,8 @@ public class UserServiceImpl implements UserService {
     private MessageAuthCodeMapper codeMapper;
     @Autowired
     private TokenMapper tokenMapper;
+    @Autowired
+    private SignUserMapper signUserMapper;
     /**
      * 实现自动依赖注入字符型Redis模板
      */
@@ -63,27 +68,12 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity login(LoginRequest loginRequest) {
         User user = userMapper.findByUserName(loginRequest.getUserName());
         if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
-            Token token = new Token();
-            token.setAccessToken(UUID.randomUUID().toString());
-            token.setUserId(user.getUserId());
-            token.setExpirationTime(new Timestamp(System.currentTimeMillis()));
-            token.setGameChannelId(loginRequest.getGameChannelId());
-            tokenMapper.addToken(token);
-//            if (token.getTokenId() != 0) {
-            TokenResponse tokenResponse = new TokenResponse();
-            tokenResponse.setToken(token.getAccessToken());
-            tokenResponse.setUserId(user.getUserId());
-            return ResponseStatusCode.putOrGetSuccess(tokenResponse);
+            return ResponseStatusCode.putOrGetSuccess(addToken(user.getUserId(), loginRequest.getGameChannelId()));
 
         }
         return ResponseStatusCode.verifyError();
     }
 
-    /*
-     * 实现用户注册的功能
-     * (non-Javadoc)
-     * @see com.youda.service.UserService#registered()
-     */
     @Override
     public ResponseEntity register(RegisterRequest register) {
         if (userMapper.findByUserName(register.getUserName()) != null) return ResponseStatusCode.conflictError();
@@ -124,6 +114,39 @@ public class UserServiceImpl implements UserService {
 
     /*实现新增用户统计*/
     @Override
+    public ResponseEntity signUser(SignRequest request) {
+        SignUser signUser = signUserMapper.findBySign(request.getSignWith(), request.getSign());
+        Long id;
+        if (signUser == null) {
+            User user = new User();
+            user.setUserRegisteredTime(new Timestamp(System.currentTimeMillis()));
+            userMapper.addUser(user);
+            signUser = new SignUser();
+            signUser.setSign(request.getSign());
+            signUser.setSignId(request.getSignWith());
+            signUser.setUserId(user.getUserId());
+            signUserMapper.addSignUser(signUser);
+            id = user.getUserId();
+
+        } else {
+            id = signUser.getUserId();
+        }
+        return ResponseStatusCode.putOrGetSuccess(addToken(id, request.getGameChannelId()));
+    }
+
+    private TokenResponse addToken(Long userId, Long getGameChannelId) {
+        Token token = new Token();
+        token.setAccessToken(UUID.randomUUID().toString());
+        token.setUserId(userId);
+        token.setExpirationTime(new Timestamp(System.currentTimeMillis()));
+        token.setGameChannelId(getGameChannelId);
+        tokenMapper.addToken(token);
+        TokenResponse tokenResponse = new TokenResponse();
+        tokenResponse.setToken(token.getAccessToken());
+        tokenResponse.setUserId(userId);
+        return tokenResponse;
+    }
+
     public ResponseEntity newUserStatistics() {
         return null;
     }
