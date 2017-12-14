@@ -113,8 +113,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-<<<<<<<HEAD
-
     public ResponseEntity signUser(SignRequest request) {
         SignUser signUser = signUserMapper.findBySign(request.getSignWith(), request.getSign());
         Long id;
