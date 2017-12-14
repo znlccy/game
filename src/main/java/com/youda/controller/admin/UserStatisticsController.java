@@ -1,5 +1,7 @@
 package com.youda.controller.admin;
 
+import com.youda.service.admin.UserStatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "userstatics")
 public class UserStatisticsController {
+
+    @Autowired
+    UserStatisticsService userStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
     public void newUserStatistics() {
