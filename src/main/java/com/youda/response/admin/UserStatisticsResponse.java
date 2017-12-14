@@ -15,7 +15,7 @@ public class UserStatisticsResponse implements BaseResponse {
     private String newUserCount;
 
     /*声明以时间来划分*/
-    private String time;
+    private String ddate;
 
     /*实现新增用户数量的get方法*/
     public String getNewUserCount() {
@@ -27,13 +27,11 @@ public class UserStatisticsResponse implements BaseResponse {
         this.newUserCount = newUserCount;
     }
 
-    /*实现新增用户对应时间的get方法*/
-    public String getTime() {
-        return time;
+    public String getDdate() {
+        return ddate;
     }
 
-    /*实现新增用户对应时间的set方法*/
-    public void setTime(String time) {
-        this.time = time;
+    public void setDdate(String ddate) {
+        this.ddate = ddate;
     }
 }

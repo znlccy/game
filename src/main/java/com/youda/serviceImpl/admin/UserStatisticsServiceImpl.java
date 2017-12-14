@@ -26,7 +26,7 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 
     @Override
     public ResponseEntity newUserStatistics() {
-        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.newUserStatistics();
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.NearlyAMonthNewUserStatistics();
         return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 

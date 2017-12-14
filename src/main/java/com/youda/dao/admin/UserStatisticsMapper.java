@@ -2,17 +2,41 @@ package com.youda.dao.admin;
 
 import com.youda.response.admin.UserStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Date;
 import java.util.List;
 
 @Mapper
 public interface UserStatisticsMapper {
 
     /*实现新增用户或者账户的统计*/
-    @Select("SELECT * FROM v_newUserStatistics")
-    List<UserStatisticsResponse> newUserStatistics();
+    @Select("SELECT\n" +
+            "    DATE(dday) ddate,\n" +
+            "    COUNT(*) - 1 AS newUserCount\n" +
+            "FROM\n" +
+            "    (\n" +
+            "        SELECT\n" +
+            "            datelist AS dday\n" +
+            "        FROM\n" +
+            "            tb_calendar \n" +
+            "            -- 这里是限制返回最近30天的数据\n" +
+            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(datelist)&&DATE(datelist)<=CURDATE() \n" +
+            "        UNION ALL\n" +
+            "            SELECT\n" +
+            "                userRegisteredTime\n" +
+            "            FROM\n" +
+            "                tb_user\n" +
+            "    ) a\n" +
+            "GROUP BY ddate")
+    List<UserStatisticsResponse> NearlyAMonthNewUserStatistics();
+
+    /*实现自定义日期查询*/
+    @Select("")
+    List<UserStatisticsResponse> definitionDateNewUserStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
     /*实现新增设备的统计*/
     @Select("select count(*) as newEquipment from tb_user group by date_format(userRegisteredTime,'%Y')")
