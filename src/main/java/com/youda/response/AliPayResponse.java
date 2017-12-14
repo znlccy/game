@@ -6,7 +6,7 @@ package com.youda.response;
  * @Version 1.0.0
  * @Instructions 实现返回支付宝支付返回的数据
  */
-public class AliPayResponse {
+public class AliPayResponse implements BaseResponse{
 
     /*定义支付宝支付返回给客户端的第三方id*/
     private String otherOrderId;

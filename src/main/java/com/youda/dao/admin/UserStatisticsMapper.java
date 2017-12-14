@@ -1,14 +1,18 @@
 package com.youda.dao.admin;
 
+import com.youda.response.admin.UserStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
 
 @Mapper
 public interface UserStatisticsMapper {
 
     /*实现新增用户或者账户的统计*/
-    @Select("select count(*) as newUser,userRegisteredTime as time from tb_user group by DATE_FORMAT(userRegisteredTime,'%Y')")
-    void newUserStatistics();
+    @Select("SELECT * FROM v_newUserStatistics")
+    List<UserStatisticsResponse> newUserStatistics();
 
     /*实现新增设备的统计*/
     @Select("select count(*) as newEquipment from tb_user group by date_format(userRegisteredTime,'%Y')")

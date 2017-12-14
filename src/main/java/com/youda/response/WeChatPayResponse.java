@@ -5,7 +5,7 @@ package com.youda.response;
  * @Version 1.0.0
  * @Instructions 声明返回微信支付客户端的字段
  */
-public class WeChatPayResponse {
+public class WeChatPayResponse implements BaseResponse {
     
     /*声明返回给客户端的prepayid*/
     private String prepayid;

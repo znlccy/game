@@ -2,7 +2,10 @@ package com.youda.controller.admin;
 
 import com.youda.service.admin.UserStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -13,15 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "userstatics")
+@RequestMapping(value = "/admin")
 public class UserStatisticsController {
 
     @Autowired
     UserStatisticsService userStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
-    public void newUserStatistics() {
-
+    @RequestMapping(value = "/newuserstatistics",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity newUserStatistics() {
+        return userStatisticsService.newUserStatistics();
     }
 
     /*新增激活设备数，当日新增加的激活设备数*/
