@@ -40,13 +40,17 @@ public class UserStatisticsController {
     }
 
     /*周增用户统计*/
-    public void everyWeekNewUserStatistics() {
-
+    @RequestMapping(value = "/everyweekuser", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity everyWeekNewUserStatistics() {
+        return userStatisticsService.everyWeekNewUserStatistics();
     }
 
     /*月增用户统计*/
-    public void everyMonthNewUserStatistics() {
-
+    @ResponseBody
+    @RequestMapping(value = "/everymonthuser", method = RequestMethod.GET)
+    public ResponseEntity everyMonthNewUserStatistics() {
+        return userStatisticsService.nearlyAMonthNewUserStatistics();
     }
 
     /*当日活跃玩家统计，当日有开启过游戏的玩家数*/

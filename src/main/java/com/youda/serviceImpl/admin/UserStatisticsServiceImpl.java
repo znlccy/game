@@ -42,7 +42,8 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
 
     @Override
     public ResponseEntity everyWeekNewUserStatistics() {
-        return null;
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.everyWeekNewUserStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 
     @Override
