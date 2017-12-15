@@ -2,7 +2,7 @@ package com.youda.service.admin;
 
 import org.springframework.http.ResponseEntity;
 
-public interface UserStatisticsService {
+public interface UserNewStatisticsService {
 
     /*定义新增用户统计*/
     ResponseEntity nearlyAMonthNewUserStatistics();

@@ -4,12 +4,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @Author Chencongye
- * @Date 2017/12/15 11:33
+ * @Date 2017/12/15 15:23
  * @Version 1.0.0
- * @Instructions 实现付费统计
+ * @Instructions 实现设备统计的Dao层
  */
-@Mapper
-public interface PayStatisticsMapper {
 
+@Mapper
+public interface EquipmentStatisticsMapper {
 
 }

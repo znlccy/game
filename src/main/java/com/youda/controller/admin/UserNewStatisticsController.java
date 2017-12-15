@@ -1,15 +1,12 @@
 package com.youda.controller.admin;
 
-import com.sun.org.apache.regexp.internal.RE;
-import com.youda.service.admin.UserStatisticsService;
+import com.youda.service.admin.UserNewStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.lang.annotation.Repeatable;
 
 /**
  * @Author Chencongye
@@ -23,18 +20,13 @@ import java.lang.annotation.Repeatable;
 public class UserNewStatisticsController {
 
     @Autowired
-    UserStatisticsService userStatisticsService;
+    UserNewStatisticsService userStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
     @RequestMapping(value = "/nealymonthuser",method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity nearlyAMonthNewUserStatistics() {
         return userStatisticsService.nearlyAMonthNewUserStatistics();
-    }
-
-    /*新增激活设备数，当日新增加的激活设备数*/
-    public void newEquipmentStatistics() {
-
     }
 
     /*今日用户统计*/
@@ -63,11 +55,6 @@ public class UserNewStatisticsController {
     @RequestMapping(value = "/everymonthuser", method = RequestMethod.GET)
     public ResponseEntity everyMonthNewUserStatistics() {
         return userStatisticsService.nearlyAMonthNewUserStatistics();
-    }
-
-    /*激活设备留存*/
-    public void newEquipmentRetained() {
-
     }
 
 }

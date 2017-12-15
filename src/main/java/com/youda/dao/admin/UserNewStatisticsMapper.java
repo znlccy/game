@@ -10,7 +10,7 @@ import java.util.Date;
 import java.util.List;
 
 @Mapper
-public interface UserStatisticsMapper {
+public interface UserNewStatisticsMapper {
 
     /*实现新增用户或者账户的统计*/
     @Select("SELECT\n" +

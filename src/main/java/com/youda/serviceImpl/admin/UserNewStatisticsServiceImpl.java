@@ -1,9 +1,9 @@
 package com.youda.serviceImpl.admin;
 
-import com.youda.dao.admin.UserStatisticsMapper;
+import com.youda.dao.admin.UserNewStatisticsMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserStatisticsResponse;
-import com.youda.service.admin.UserStatisticsService;
+import com.youda.service.admin.UserNewStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,11 +18,11 @@ import java.util.List;
  */
 
 @Service
-public class UserStatisticsServiceImpl implements UserStatisticsService {
+public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
 
     /*实现用户统计的自动依赖注入*/
     @Autowired
-    UserStatisticsMapper userStatisticsMapper;
+    UserNewStatisticsMapper userStatisticsMapper;
 
     @Override
     public ResponseEntity nearlyAMonthNewUserStatistics() {
