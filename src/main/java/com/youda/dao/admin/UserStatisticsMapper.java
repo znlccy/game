@@ -24,7 +24,7 @@ public interface UserStatisticsMapper {
             "            tb_calendar \n" +
             "            -- 这里是限制返回最近30天的数据\n" +
             "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 30 DAY) <= DATE(datelist)&&DATE(datelist)<=CURDATE() \n" +
+            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= DATE(datelist)&&DATE(datelist)<=CURDATE() \n" +
             "        UNION ALL\n" +
             "            SELECT\n" +
             "                userRegisteredTime\n" +

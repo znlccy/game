@@ -23,10 +23,10 @@ public class UserStatisticsController {
     UserStatisticsService userStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
-    @RequestMapping(value = "/newuserstatistics",method = RequestMethod.GET)
+    @RequestMapping(value = "/nealymonthuser",method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity newUserStatistics() {
-        return userStatisticsService.newUserStatistics();
+    public ResponseEntity nearlyAMonthNewUserStatistics() {
+        return userStatisticsService.nearlyAMonthNewUserStatistics();
     }
 
     /*新增激活设备数，当日新增加的激活设备数*/

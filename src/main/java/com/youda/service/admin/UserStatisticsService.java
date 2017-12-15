@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 public interface UserStatisticsService {
 
     /*定义新增用户统计*/
-    ResponseEntity newUserStatistics();
+    ResponseEntity nearlyAMonthNewUserStatistics();
 
     /*定义新增设备统计*/
     ResponseEntity newEquipmentStatistics();
