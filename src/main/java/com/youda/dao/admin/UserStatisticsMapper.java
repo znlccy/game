@@ -57,10 +57,6 @@ public interface UserStatisticsMapper {
             "GROUP BY ddate\n")
     List<UserStatisticsResponse> definitionDateNewUserStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
-    /*实现新增设备的统计*/
-    @Select("select count(*) as newEquipment from tb_user group by date_format(userRegisteredTime,'%Y')")
-    void newEquipmentStatistics();
-
     /*实现每日新增用户的统计*/
     @Select("select count(*) from tb_user group by date_format(now(),'%D')")
     List<UserStatisticsResponse> everyDayNewUserStatistics();
@@ -109,21 +105,5 @@ public interface UserStatisticsMapper {
             "    ) a\n" +
             "GROUP BY ddate")
     void everyMonthNewUserStatistics();
-
-    /*实现当日活跃用户统计*/
-    @Select("select * from tb_user")
-    void dengesActiveStatistics();
-
-    /*实现当日付费用户统计*/
-    @Select("select * from tb_user")
-    void dengesPaymentStatistics();
-
-    /*实现当日收入的统计*/
-    @Select("select * from tb_user")
-    void dengesIncomeStatistics();
-
-    /*实现用户留存统计*/
-    @Select("select * from tb_user")
-    void newUsersRetained();
 
 }

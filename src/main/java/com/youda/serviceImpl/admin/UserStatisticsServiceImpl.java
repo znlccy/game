@@ -31,43 +31,22 @@ public class UserStatisticsServiceImpl implements UserStatisticsService {
     }
 
     @Override
-    public ResponseEntity newEquipmentStatistics() {
+    public ResponseEntity todayNewUserStatistics() {
         return null;
     }
 
     @Override
-    public ResponseEntity everyDayNewUserStatistics() {
+    public ResponseEntity yestodayNewUserStatistics() {
         return null;
     }
 
     @Override
     public ResponseEntity everyWeekNewUserStatistics() {
-        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.everyWeekNewUserStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
+        return null;
     }
 
     @Override
     public ResponseEntity everyMonthNewUserStatistics() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity dengesActiveStatistics() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity dengesPaymentStatistics() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity dengesIncomeStatistics() {
-        return null;
-    }
-
-    @Override
-    public ResponseEntity newUsersRetained() {
         return null;
     }
 }

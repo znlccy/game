@@ -1,5 +1,6 @@
 package com.youda.controller.admin;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.youda.service.admin.UserStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.lang.annotation.Repeatable;
 
 /**
  * @Author Chencongye
@@ -17,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/admin")
-public class UserStatisticsController {
+public class UserNewStatisticsController {
 
     @Autowired
     UserStatisticsService userStatisticsService;
@@ -34,9 +37,18 @@ public class UserStatisticsController {
 
     }
 
-    /*日增用户统计*/
-    public void everyDayNewUserStatistics() {
+    /*今日用户统计*/
+    @RequestMapping(value = "/todayuser",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity todayNewUserStatistics() {
+        return null;
+    }
 
+    /*昨日用户统计*/
+    @RequestMapping(value = "/yestodayuser",method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity yestodayNewUserStatistics() {
+        return null;
     }
 
     /*周增用户统计*/
@@ -51,27 +63,6 @@ public class UserStatisticsController {
     @RequestMapping(value = "/everymonthuser", method = RequestMethod.GET)
     public ResponseEntity everyMonthNewUserStatistics() {
         return userStatisticsService.nearlyAMonthNewUserStatistics();
-    }
-
-    /*当日活跃玩家统计，当日有开启过游戏的玩家数*/
-    public void dengesActiveStatistics() {
-
-    }
-
-    /*当日付费玩家统计，当日进行充值的玩家数*/
-    public void dengesPaymentStatistics() {
-
-    }
-
-
-    /*当日收入统计，当日玩家充值的货币总额*/
-    public void dengesIncomeStatistics(){
-
-    }
-
-    /*新增用户留存*/
-    public void newUsersRetained() {
-
     }
 
     /*激活设备留存*/
