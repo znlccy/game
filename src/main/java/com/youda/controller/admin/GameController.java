@@ -21,7 +21,6 @@ public class GameController {
     @Autowired
     private GameService gameService;
 
-
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public boolean addGame() {

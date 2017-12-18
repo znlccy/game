@@ -1,5 +1,7 @@
 package com.youda.controller.admin;
 
+import com.youda.service.admin.PayStatisticsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/admin")
 public class PayStatisticsController {
+
+    /*实现支付统计的自动依赖注入*/
+    @Autowired
+    PayStatisticsService payStatisticsService;
 
     /*实现日付费率统计*/
     @ResponseBody
