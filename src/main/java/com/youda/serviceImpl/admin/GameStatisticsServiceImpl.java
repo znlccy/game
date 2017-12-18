@@ -1,5 +1,6 @@
 package com.youda.serviceImpl.admin;
 
+import com.youda.response.admin.PayStatisticsResponse;
 import com.youda.service.admin.GameStatisticsService;
 import org.springframework.stereotype.Service;
 
@@ -14,3 +15,4 @@ import org.springframework.stereotype.Service;
 public class GameStatisticsServiceImpl implements GameStatisticsService {
 
 }
+

@@ -16,7 +16,9 @@ public interface UserNewStatisticsService {
     /*定义每周新增用户统计*/
     ResponseEntity everyWeekNewUserStatistics();
 
-    /*定义每月新增用户统计*/
-    ResponseEntity everyMonthNewUserStatistics();
+    /*定义所有新增用户统计*/
+    ResponseEntity allNewUserStatistics();
 
+    /*定义自选日期新增用户统计*/
+    ResponseEntity customDateNewUserStatistics(String beginTime, String endTime);
 }

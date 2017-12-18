@@ -24,29 +24,46 @@ public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
     @Autowired
     UserNewStatisticsMapper userStatisticsMapper;
 
+    /*实现近一个月的用户统计的功能*/
     @Override
     public ResponseEntity nearlyAMonthNewUserStatistics() {
         List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.NearlyAMonthNewUserStatistics();
         return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 
+    /*实现今天的用户统计*/
     @Override
     public ResponseEntity todayNewUserStatistics() {
-        return null;
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.todayNewUserStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 
+    /*实现昨天的用户统计*/
     @Override
     public ResponseEntity yestodayNewUserStatistics() {
-        return null;
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.yestodayNewUserStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 
+    /*实现每周的用户统计*/
     @Override
     public ResponseEntity everyWeekNewUserStatistics() {
-        return null;
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.everyWeekNewUserStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 
+    /*实现所用新增用户统计*/
     @Override
-    public ResponseEntity everyMonthNewUserStatistics() {
-        return null;
+    public ResponseEntity allNewUserStatistics() {
+        List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.allNewUserStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
+    }
+
+    /*实现自定义日期新增用户统计*/
+    @Override
+    public ResponseEntity customDateNewUserStatistics(String beginTime, String endTime) {
+
+       List<UserStatisticsResponse> userStatisticsResponses = userStatisticsMapper.cudtomDateNewUserStatistics(beginTime, endTime);
+       return ResponseStatusCode.putOrGetSuccess(userStatisticsResponses);
     }
 }
