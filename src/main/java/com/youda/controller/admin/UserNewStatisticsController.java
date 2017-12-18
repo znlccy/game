@@ -24,7 +24,7 @@ public class UserNewStatisticsController {
     UserNewStatisticsService userNewStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
-    @RequestMapping(value = "/nealymonthuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/nearlymonthuser", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity nearlyAMonthNewUserStatistics() {
         return userNewStatisticsService.nearlyAMonthNewUserStatistics();
@@ -49,13 +49,6 @@ public class UserNewStatisticsController {
     @ResponseBody
     public ResponseEntity everyWeekNewUserStatistics() {
         return userNewStatisticsService.everyWeekNewUserStatistics();
-    }
-
-    /*月增用户统计*/
-    @ResponseBody
-    @RequestMapping(value = "/everymonthuser", method = RequestMethod.GET)
-    public ResponseEntity everyMonthNewUserStatistics() {
-        return userNewStatisticsService.nearlyAMonthNewUserStatistics();
     }
 
     /*实现自定义日期查询统计*/

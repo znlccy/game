@@ -48,24 +48,24 @@ public interface UserNewStatisticsMapper {
             "            tb_calendar \n" +
             "            -- 这里是限制返回自定义日期的数据\n" +
             "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  #{beginTime} <= DATE(datelist)&&DATE(datelist)<=#{endTime}\n" +
+            "            WHERE  #{beginTime} <= DATE(datelist)&&DATE(datelist)<=concat(#{endTime},'24:00:00')\n" +
             "        UNION ALL\n" +
             "            SELECT\n" +
             "                userRegisteredTime\n" +
             "            FROM\n" +
             "                tb_user\n" +
-            "            WHERE  userRegisteredTime>=#{beginTime} && userRegisteredTime<=#{endTime}\n" +
+            "            WHERE  userRegisteredTime>=#{beginTime} && userRegisteredTime<=concat(#{endTime},'24:00:00')\n" +
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
     List<UserStatisticsResponse> cudtomDateNewUserStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
     /*实现今日新增用户的统计*/
-    @Select("select count(*) from tb_user group by date_format(now(),'%D')")
+    @Select("SELECT COUNT(*) AS newUserCount,CURDATE() AS ddate FROM tb_user WHERE userRegisteredTime=CURDATE()")
     List<UserStatisticsResponse> todayNewUserStatistics();
 
     /*实现昨日新增用户的统计*/
-    @Select("select count(*) from tb_user group by date_format(now(),'%D')")
+    @Select("SELECT COUNT(*) AS newUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userRegisteredTime=DATE_SUB(CURDATE(),INTERVAL 1 DAY)")
     List<UserStatisticsResponse> yestodayNewUserStatistics();
 
     /*实现每周新增用户的统计*/
