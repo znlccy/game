@@ -93,6 +93,26 @@ public interface UserNewStatisticsMapper {
     List<UserStatisticsResponse> everyWeekNewUserStatistics();
 
     /*实现查询所有新增用户统计，必须实现分页效果*/
-    @Select("")
+    @Select("SELECT\n" +
+            "    DATE(dday) ddate,\n" +
+            "    COUNT(*) - 2 AS newUserCount\n" +
+            "FROM\n" +
+            "    (\n" +
+            "        SELECT\n" +
+            "            datelist AS dday\n" +
+            "        FROM\n" +
+            "            tb_calendar \n" +
+            "            -- 这里是限制返回最近30天的数据\n" +
+            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "            WHERE  DATE(datelist)&&DATE(datelist)<CURRENT_TIMESTAMP\n" +
+            "        UNION ALL\n" +
+            "            SELECT\n" +
+            "                userRegisteredTime\n" +
+            "            FROM\n" +
+            "                tb_user\n" +
+            "            WHERE userRegisteredTime<=CURDATE() \n" +
+            "            GROUP BY userRegisteredTime\n" +
+            "    ) a\n" +
+            "GROUP BY ddate")
     List<UserStatisticsResponse> allNewUserStatistics();
 }
