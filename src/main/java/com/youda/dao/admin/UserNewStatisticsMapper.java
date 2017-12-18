@@ -46,7 +46,7 @@ public interface UserNewStatisticsMapper {
             "            datelist AS dday\n" +
             "        FROM\n" +
             "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
+            "            -- 这里是限制返回自定义日期的数据\n" +
             "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
             "            WHERE  #{beginTime} <= DATE(datelist)&&DATE(datelist)<=#{endTime}\n" +
             "        UNION ALL\n" +
@@ -102,7 +102,7 @@ public interface UserNewStatisticsMapper {
             "            datelist AS dday\n" +
             "        FROM\n" +
             "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
+            "            -- 这里是限制返回所有的数据\n" +
             "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
             "            WHERE  DATE(datelist)&&DATE(datelist)<CURRENT_TIMESTAMP\n" +
             "        UNION ALL\n" +
