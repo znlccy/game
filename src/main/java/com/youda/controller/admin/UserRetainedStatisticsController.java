@@ -44,7 +44,7 @@ public class UserRetainedStatisticsController {
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "/definitiondate",method = RequestMethod.GET)
+    @RequestMapping(value = "/customdate",method = RequestMethod.GET)
     public ResponseEntity definitionDateRetained() {
         return null;
     }

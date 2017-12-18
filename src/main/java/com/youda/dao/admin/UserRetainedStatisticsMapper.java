@@ -1,8 +1,7 @@
 package com.youda.dao.admin;
 
-import com.youda.response.admin.UserStatisticsResponse;
+import com.youda.response.admin.UserNewStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.http.ResponseEntity;
 
 /**
  * @Author Chencongye
@@ -15,18 +14,18 @@ import org.springframework.http.ResponseEntity;
 public interface UserRetainedStatisticsMapper {
 
     /*实现今天的用户留存统计*/
-    UserStatisticsResponse todayUserRetainedStatistics();
+    UserNewStatisticsResponse todayUserRetainedStatistics();
 
     /*实现昨天的用户留存统计*/
-    UserStatisticsResponse yestodayUserRetainedStatistics();
+    UserNewStatisticsResponse yestodayUserRetainedStatistics();
 
     /*实现一周的用户留存统计*/
-    UserStatisticsResponse aWeekUserRetained();
+    UserNewStatisticsResponse aWeekUserRetained();
 
     /*实现一月的用户留存统计*/
-    UserStatisticsResponse aMonthUserRetained();
+    UserNewStatisticsResponse aMonthUserRetained();
 
     /*实现自定义日期用户留存统计*/
-    UserStatisticsResponse definitionDateRetained();
+    UserNewStatisticsResponse customDateRetained();
 
 }

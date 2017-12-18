@@ -9,7 +9,7 @@ import com.youda.response.BaseResponse;
  * @Instructions 设置用户统计响应返回的数据,用户数据报表
  */
 
-public class UserStatisticsResponse implements BaseResponse {
+public class UserNewStatisticsResponse implements BaseResponse {
 
     /*设置返回新增用户数*/
     private String newUserCount;

@@ -1,12 +1,10 @@
 package com.youda.dao.admin;
 
-import com.youda.response.admin.UserStatisticsResponse;
+import com.youda.response.admin.UserNewStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import org.springframework.http.ResponseEntity;
 
-import java.util.Date;
 import java.util.List;
 
 @Mapper
@@ -34,7 +32,7 @@ public interface UserNewStatisticsMapper {
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<UserStatisticsResponse> NearlyAMonthNewUserStatistics();
+    List<UserNewStatisticsResponse> NearlyAMonthNewUserStatistics();
 
     /*实现自定义日期查询*/
     @Select("SELECT\n" +
@@ -58,15 +56,15 @@ public interface UserNewStatisticsMapper {
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<UserStatisticsResponse> cudtomDateNewUserStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+    List<UserNewStatisticsResponse> cudtomDateNewUserStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*实现今日新增用户的统计*/
     @Select("SELECT COUNT(*) AS newUserCount,CURDATE() AS ddate FROM tb_user WHERE userRegisteredTime=CURDATE()")
-    List<UserStatisticsResponse> todayNewUserStatistics();
+    List<UserNewStatisticsResponse> todayNewUserStatistics();
 
     /*实现昨日新增用户的统计*/
     @Select("SELECT COUNT(*) AS newUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userRegisteredTime=DATE_SUB(CURDATE(),INTERVAL 1 DAY)")
-    List<UserStatisticsResponse> yestodayNewUserStatistics();
+    List<UserNewStatisticsResponse> yestodayNewUserStatistics();
 
     /*实现每周新增用户的统计*/
     @Select("SELECT\n" +
@@ -90,7 +88,7 @@ public interface UserNewStatisticsMapper {
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<UserStatisticsResponse> everyWeekNewUserStatistics();
+    List<UserNewStatisticsResponse> everyWeekNewUserStatistics();
 
     /*实现查询所有新增用户统计，必须实现分页效果*/
     @Select("SELECT\n" +
@@ -114,5 +112,5 @@ public interface UserNewStatisticsMapper {
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<UserStatisticsResponse> allNewUserStatistics();
+    List<UserNewStatisticsResponse> allNewUserStatistics();
 }
