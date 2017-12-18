@@ -1,5 +1,8 @@
 package com.youda.controller.admin;
 
+import com.youda.service.admin.UserRetainedStatisticsService;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,39 +17,49 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/admin")
 public class UserRetainedStatisticsController {
 
+    /*实现用户留存统计服务的自动依赖注入*/
+    @Autowired
+    private UserRetainedStatisticsService userRetainedStatisticsService;
+
     /*实现今天的用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "todayretained",method = RequestMethod.GET)
     public ResponseEntity todayUserRetainedStatistics() {
-        return null;
+        return userRetainedStatisticsService.todayUserRetainedStatistics();
     }
 
     /*实现昨天的用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "yestodayretained",method = RequestMethod.GET)
     public ResponseEntity yestodayUserRetainedStatistics() {
-        return null;
+        return userRetainedStatisticsService.yestodayUserRetainedStatistics();
     }
 
     /*实现一周的用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "weekretained",method = RequestMethod.GET)
     public ResponseEntity aWeekUserRetained() {
-        return null;
+        return userRetainedStatisticsService.aWeekUserRetainedStatistics();
     }
 
     /*实现一月的用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "monthretained",method = RequestMethod.GET)
     public ResponseEntity aMonthUserRetained() {
-        return null;
+        return userRetainedStatisticsService.aMonthUserRetainedStatistics();
     }
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "/customdate",method = RequestMethod.GET)
-    public ResponseEntity definitionDateRetained() {
-        return null;
+    @RequestMapping(value = "/customdateretained",method = RequestMethod.GET)
+    public ResponseEntity customDateRetained(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
+        return userRetainedStatisticsService.customDateRetainedStatistics(beginTime, endTime);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/allretained", method = RequestMethod.GET )
+    public ResponseEntity allUserRetainedStatistics() {
+        return userRetainedStatisticsService.allUserRetainedStatisticsStatistics();
     }
 
 }

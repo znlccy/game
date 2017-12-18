@@ -27,10 +27,12 @@ public class UserNewStatisticsResponse implements BaseResponse {
         this.newUserCount = newUserCount;
     }
 
+    /*实现新增用户日期的get方法*/
     public String getDdate() {
         return ddate;
     }
 
+    /*实现新增用户日期的set方法*/
     public void setDdate(String ddate) {
         this.ddate = ddate;
     }
