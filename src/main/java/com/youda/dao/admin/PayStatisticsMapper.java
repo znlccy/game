@@ -1,6 +1,10 @@
 package com.youda.dao.admin;
 
+import com.youda.response.admin.PayStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * @Author Chencongye
@@ -11,5 +15,12 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PayStatisticsMapper {
 
+    @Select("select * from tb_payrecord")
+    List<PayStatisticsResponse> dayPayRateStatistics();
 
+    @Select("select * from tb_payrecord")
+    List<PayStatisticsResponse> dayArpuStatistics();
+
+    @Select("select * from tb_payrecord")
+    List<PayStatisticsResponse> dayArppuStatistics();
 }

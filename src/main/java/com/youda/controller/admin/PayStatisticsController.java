@@ -27,21 +27,21 @@ public class PayStatisticsController {
     @ResponseBody
     @RequestMapping(value = "/daypayrate", method = RequestMethod.GET)
     public ResponseEntity dayPayRateStatistics() {
-        return null;
+        return payStatisticsService.dayPayRateStatistics();
     }
 
     /*实现日ARPU统计*/
     @ResponseBody
     @RequestMapping(value = "/dayarpu",method = RequestMethod.GET)
     public ResponseEntity dayArpuStatistics() {
-        return null;
+        return payStatisticsService.dayArpuStatistics();
     }
 
     /*实现日ARPPU统计*/
     @ResponseBody
     @RequestMapping(value = "/dayarppu", method = RequestMethod.GET)
     public ResponseEntity dayArppuStatistics() {
-        return null;
+        return payStatisticsService.dayArppuStatistics();
     }
 
 }
