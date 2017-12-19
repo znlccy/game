@@ -16,7 +16,7 @@ public class PayStatisticsResponse {
     private String payCount;
 
     /*定义支付的金额总数*/
-    private String payMoneyTotal;
+    /*private String payMoneyTotal;*/
 
     /*定义支付的用户*/
     /*private String payUser;*/
@@ -42,14 +42,14 @@ public class PayStatisticsResponse {
     }
 
     /*实现支付金额的get方法*/
-    public String getPayMoneyTotal() {
+    /*public String getPayMoneyTotal() {
         return payMoneyTotal;
     }
 
-    /*实现支付金额的set方法*/
+    *//*实现支付金额的set方法*//*
     public void setPayMoneyTotal(String payMoneyTotal) {
         this.payMoneyTotal = payMoneyTotal;
-    }
+    }*/
 
     /*实现支付用户的get方法*/
     /*public String getPayUser() {
