@@ -18,8 +18,12 @@ import java.util.List;
 @Mapper
 public interface UserRetainedStatisticsMapper {
 
-    /*实现今天的用户留存统计*/
-    @Select("select * from tb_user")
+    /*实现今天的用户相对于昨天留存统计*/
+    @Select("SELECT (today.todayUserRetained/yestoday.yestodayUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate FROM \n" +
+            "(SELECT COUNT(*) AS yestodayUserRetained,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userLoginTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00')\n" +
+            " AND userLoginTime<=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')) AS yestoday,\n" +
+            " (SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS today")
     List<UserRetainedStatisticsResponse> todayUserRetainedStatistics();
 
     /*实现昨天的用户留存统计*/
@@ -27,11 +31,19 @@ public interface UserRetainedStatisticsMapper {
     List<UserRetainedStatisticsResponse> yestodayUserRetainedStatistics();
 
     /*实现一周的用户留存统计*/
-    @Select("select * from tb_user")
+    @Select("SELECT (today.todayUserRetained/weekrate.weekUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate FROM \n" +
+            "(SELECT COUNT(*) AS weekUserRetained,DATE_SUB(CURDATE(),INTERVAL 1 WEEK) AS ddate FROM tb_user\n" +
+            "WHERE userLoginTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 WEEK),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS weekrate,\n" +
+            " (SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS today")
     List<UserRetainedStatisticsResponse> aWeekUserRetainedStatistics();
 
     /*实现一月的用户留存统计*/
-    @Select("select * from tb_user")
+    @Select("SELECT (today.todayUserRetained/monthrate.weekUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate FROM \n" +
+            "(SELECT COUNT(*) AS weekUserRetained,DATE_SUB(CURDATE(),INTERVAL 1 MONTH) AS ddate FROM tb_user\n" +
+            "WHERE userLoginTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 MONTH),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS monthrate,\n" +
+            " (SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS today")
     List<UserRetainedStatisticsResponse> aMonthUserRetainedStatistics();
 
     /*实现自定义日期用户留存统计*/
