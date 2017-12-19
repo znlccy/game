@@ -15,12 +15,70 @@ import java.util.List;
 @Mapper
 public interface PayStatisticsMapper {
 
+    /*实现今天付费率统计*/
     @Select("select * from tb_payrecord")
-    List<PayStatisticsResponse> dayPayRateStatistics();
+    List<PayStatisticsResponse> todayPayRateStatistics();
 
-    @Select("select * from tb_payrecord")
-    List<PayStatisticsResponse> dayArpuStatistics();
+    /*实现昨天的付费率统计*/
+    @Select("")
+    List<PayStatisticsResponse> yestodayPayRateStatistics();
 
-    @Select("select * from tb_payrecord")
-    List<PayStatisticsResponse> dayArppuStatistics();
+    /*实现一周的付费率统计*/
+    @Select("")
+    List<PayStatisticsResponse> aWeekPayRateStatistics();
+
+    /*实现一个月付费率统计*/
+    @Select("")
+    List<PayStatisticsResponse> aMonthPayRateStatistics();
+
+    /*实现自定义日期付费率统计*/
+    @Select("")
+    List<PayStatisticsResponse> customPayRateStatistics();
+
+    /*实现*/
+    @Select("")
+    List<PayStatisticsResponse> todayArpuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> yestodayArpuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aWeekArpuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aMonthArpuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> customArpuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> todayArppuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> yestodayArppuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aWeekArppuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aMonthArppuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> customArppuStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> todayPayingPlayersStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> yestodayPayingPlayersStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aWeekPayingPlayersStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> aMonthPayingPlayersStatistics();
+
+    @Select("")
+    List<PayStatisticsResponse> customPayingPlayersStatistics();
+
 }
