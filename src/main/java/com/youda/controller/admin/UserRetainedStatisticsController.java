@@ -23,41 +23,41 @@ public class UserRetainedStatisticsController {
 
     /*实现今天的用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "todayretained",method = RequestMethod.GET)
+    @RequestMapping(value = "todayretaineduser",method = RequestMethod.GET)
     public ResponseEntity todayUserRetainedStatistics() {
         return userRetainedStatisticsService.todayUserRetainedStatistics();
     }
 
     /*实现昨天的用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "yestodayretained",method = RequestMethod.GET)
+    @RequestMapping(value = "yestodayretaineduser",method = RequestMethod.GET)
     public ResponseEntity yestodayUserRetainedStatistics() {
         return userRetainedStatisticsService.yestodayUserRetainedStatistics();
     }
 
     /*实现一周的用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "weekretained",method = RequestMethod.GET)
+    @RequestMapping(value = "weekretaineduser",method = RequestMethod.GET)
     public ResponseEntity aWeekUserRetained() {
         return userRetainedStatisticsService.aWeekUserRetainedStatistics();
     }
 
     /*实现一月的用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "monthretained",method = RequestMethod.GET)
+    @RequestMapping(value = "monthretaineduser",method = RequestMethod.GET)
     public ResponseEntity aMonthUserRetained() {
         return userRetainedStatisticsService.aMonthUserRetainedStatistics();
     }
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "/customdateretained",method = RequestMethod.GET)
+    @RequestMapping(value = "/customretaineduser",method = RequestMethod.GET)
     public ResponseEntity customDateRetained(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
         return userRetainedStatisticsService.customDateRetainedStatistics(beginTime, endTime);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/allretained", method = RequestMethod.GET )
+    @RequestMapping(value = "/allretaineduser", method = RequestMethod.GET )
     public ResponseEntity allUserRetainedStatistics() {
         return userRetainedStatisticsService.allUserRetainedStatisticsStatistics();
     }

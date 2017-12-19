@@ -108,7 +108,7 @@ public interface UserNewStatisticsMapper {
             "                userRegisteredTime\n" +
             "            FROM\n" +
             "                tb_user\n" +
-            "            WHERE userRegisteredTime<=CURDATE() \n" +
+            "            WHERE userRegisteredTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
             "            GROUP BY userRegisteredTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")

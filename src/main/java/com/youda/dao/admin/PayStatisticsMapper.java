@@ -17,11 +17,23 @@ import java.util.List;
 public interface PayStatisticsMapper {
 
     /*实现今天付费率统计*/
-    @Select("")
+    @Select("SELECT (todayPayPlayer.payCount/todayActiveUser.activeUserCount)*100 AS payCount,CURDATE() AS ddate,payMoneyTotal FROM \n" +
+            "(SELECT COUNT(*) AS payCount,CURDATE() AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
+            "WHERE payRecordTime>=CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00')\n" +
+            "AND payRecordStatus='1') AS todayPayPlayer,\n" +
+            "(SELECT COUNT(*) AS activeUserCount,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND userLoginTime <=CONCAT(CURDATE(), ' 24:00:00')) AS todayActiveUser")
     List<PayStatisticsResponse> todayPayRateStatistics();
 
     /*实现昨天的付费率统计*/
-    @Select("")
+    @Select("SELECT (yestodayPayPlayer.payCount/yestodayActiveUser.activeUserCount)*100 AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate,payMoneyTotal FROM \n" +
+            "(SELECT COUNT(*) AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
+            "WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
+            "AND payRecordTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')\n" +
+            "AND payRecordStatus='1') AS yestodayPayPlayer,\n" +
+            "(SELECT COUNT(*) AS activeUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
+            "AND userLoginTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 24:00:00')) AS yestodayActiveUser")
     List<PayStatisticsResponse> yestodayPayRateStatistics();
 
     /*实现一周的付费率统计*/
@@ -77,11 +89,17 @@ public interface PayStatisticsMapper {
     List<PayStatisticsResponse> customArppuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
     /*实现今天的支付玩家统计*/
-    @Select("")
+    @Select("SELECT COUNT(*) AS payCount,CURDATE() AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
+            "WHERE payRecordTime>=CONCAT(CURDATE(),' 00:00:00') \n" +
+            "AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00')\n" +
+            "AND payRecordStatus='1' ")
     List<PayStatisticsResponse> todayPayingPlayersStatistics();
 
     /*实现昨天的支付玩家统计*/
-    @Select("")
+    @Select("SELECT COUNT(*) AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
+            "WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
+            "AND payRecordTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')\n" +
+            "AND payRecordStatus='1'")
     List<PayStatisticsResponse> yestodayPayingPlayersStatistics();
 
     /*实现一周支付玩家统计*/
@@ -93,7 +111,7 @@ public interface PayStatisticsMapper {
     List<PayStatisticsResponse> aMonthPayingPlayersStatistics();
 
     /*实现任意日期支付玩家统计*/
-    @Select("")
+    @Select("s")
     List<PayStatisticsResponse> customPayingPlayersStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
 }

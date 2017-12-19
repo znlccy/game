@@ -24,28 +24,28 @@ public class UserNewStatisticsController {
     UserNewStatisticsService userNewStatisticsService;
 
     /*新增用户统计，当日新增加的玩家账户数*/
-    @RequestMapping(value = "/nearlymonthuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/monthnewuser", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity nearlyAMonthNewUserStatistics() {
+    public ResponseEntity aMonthNewUserStatistics() {
         return userNewStatisticsService.nearlyAMonthNewUserStatistics();
     }
 
     /*今日用户统计*/
-    @RequestMapping(value = "/todayuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/todaynewuser", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity todayNewUserStatistics() {
         return userNewStatisticsService.todayNewUserStatistics();
     }
 
     /*昨日用户统计*/
-    @RequestMapping(value = "/yestodayuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/yestodaynewuser", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity yestodayNewUserStatistics() {
         return userNewStatisticsService.yestodayNewUserStatistics();
     }
 
     /*周增用户统计*/
-    @RequestMapping(value = "/everyweekuser", method = RequestMethod.GET)
+    @RequestMapping(value = "/weeknewuser", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity everyWeekNewUserStatistics() {
         return userNewStatisticsService.everyWeekNewUserStatistics();
@@ -53,14 +53,14 @@ public class UserNewStatisticsController {
 
     /*实现自定义日期查询统计*/
     @ResponseBody
-    @RequestMapping(value = "customdateuser", method = RequestMethod.GET)
+    @RequestMapping(value = "customnewuser", method = RequestMethod.GET)
     public ResponseEntity customDatesNewUserStatistics(@Param("betginTime") String beginTime,@Param("endTime") String endTime) {
         return userNewStatisticsService.customDateNewUserStatistics(beginTime, endTime);
     }
 
     /*实现全部新增用户查询统计*/
     @ResponseBody
-    @RequestMapping(value = "/alluser", method = RequestMethod.GET)
+    @RequestMapping(value = "/allnewuser", method = RequestMethod.GET)
     public ResponseEntity allNewUserStatistics() {
         return userNewStatisticsService.allNewUserStatistics();
     }

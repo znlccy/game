@@ -19,7 +19,7 @@ public class PayStatisticsResponse {
     private String payMoneyTotal;
 
     /*定义支付的用户*/
-    private String payUser;
+    /*private String payUser;*/
 
     /*实现支付日期的get方法*/
     public String getDdate() {
@@ -52,12 +52,12 @@ public class PayStatisticsResponse {
     }
 
     /*实现支付用户的get方法*/
-    public String getPayUser() {
+    /*public String getPayUser() {
         return payUser;
     }
 
-    /*实现支付用户的set的方法*/
+    *//*实现支付用户的set的方法*//*
     public void setPayUser(String payUser) {
         this.payUser = payUser;
-    }
+    }*/
 }
