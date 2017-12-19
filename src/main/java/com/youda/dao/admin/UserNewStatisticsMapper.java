@@ -59,11 +59,11 @@ public interface UserNewStatisticsMapper {
     List<UserNewStatisticsResponse> cudtomDateNewUserStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*实现今日新增用户的统计*/
-    @Select("SELECT COUNT(*) AS newUserCount,CURDATE() AS ddate FROM tb_user WHERE userRegisteredTime=CURDATE()")
+    @Select("SELECT COUNT(*) AS newUserCount,CURDATE() AS ddate FROM tb_user WHERE userRegisteredTime>=CONCAT(CURDATE(),' 00:00:00') AND userRegisteredTime<=CONCAT(CURDATE(),' 24:00:00')")
     List<UserNewStatisticsResponse> todayNewUserStatistics();
 
     /*实现昨日新增用户的统计*/
-    @Select("SELECT COUNT(*) AS newUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userRegisteredTime=DATE_SUB(CURDATE(),INTERVAL 1 DAY)")
+    @Select("SELECT COUNT(*) AS newUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userRegisteredTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND userRegisteredTime<=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')")
     List<UserNewStatisticsResponse> yestodayNewUserStatistics();
 
     /*实现每周新增用户的统计*/
