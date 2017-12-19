@@ -62,6 +62,7 @@ public class UserRetainedStatisticsServiceImpl implements UserRetainedStatistics
     /*实现所有的用户留存统计的功能*/
     @Override
     public ResponseEntity allUserRetainedStatisticsStatistics() {
-        return null;
+        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.allUserRetainedStatisticsStatistics();
+        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
     }
 }
