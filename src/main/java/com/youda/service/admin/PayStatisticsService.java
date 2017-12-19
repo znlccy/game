@@ -26,6 +26,9 @@ public interface PayStatisticsService {
     /*定义任意日期支付率的统计*/
     ResponseEntity customPayRateStatistics(String beginTime,String endTime);
 
+    /*定义全部支付率的统计*/
+    ResponseEntity allPayRateStatistics();
+
     /*定义今天arpu的统计*/
     ResponseEntity todayArpuStatistics();
 
@@ -40,6 +43,9 @@ public interface PayStatisticsService {
 
     /*定义任意日期的arpu统计*/
     ResponseEntity customArpuStatistics(String beginTime,String endTime);
+
+    /*定义全部arpu统计*/
+    ResponseEntity allArpuStatistics();
 
     /*定义今天arppu的统计*/
     ResponseEntity todayArppuStatistics();
@@ -56,6 +62,9 @@ public interface PayStatisticsService {
     /*定义任意日期的arppu统计*/
     ResponseEntity customArppuStatistics(String beginTime,String endTime);
 
+    /*定义全部的arpu统计*/
+    ResponseEntity allArppuStatistics();
+
     /*定义今天支付玩家的统计*/
     ResponseEntity todayPayingPlayersStatistics();
 
@@ -70,6 +79,9 @@ public interface PayStatisticsService {
 
     /*定义任意日期玩家支付统计*/
     ResponseEntity customPayingPlayersStatistics(String beginTime,String endTime);
+
+    /*定义全部的付费玩家统计*/
+    ResponseEntity allPayingPlayersStatistics();
 }
 
 

@@ -59,6 +59,13 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
+    /*实现全部支付率统计*/
+    @Override
+    public ResponseEntity allPayRateStatistics() {
+        List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allPayRateStatistics();
+        return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
+    }
+
     /*实现今天的arpu统计*/
     @Override
     public ResponseEntity todayArpuStatistics() {
@@ -91,6 +98,13 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
     @Override
     public ResponseEntity customArpuStatistics(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customArpuStatistics(beginTime, endTime);
+        return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
+    }
+
+    /*实现全部arpu统计*/
+    @Override
+    public ResponseEntity allArpuStatistics() {
+        List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allArpuStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
@@ -129,6 +143,13 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
+    /*实现全部的arppu统计*/
+    @Override
+    public ResponseEntity allArppuStatistics() {
+        List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allArppuStatistics();
+        return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
+    }
+
     /*实现今天的支付玩家统计*/
     @Override
     public ResponseEntity todayPayingPlayersStatistics() {
@@ -161,6 +182,13 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
     @Override
     public ResponseEntity customPayingPlayersStatistics(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customPayingPlayersStatistics(beginTime, endTime);
+        return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
+    }
+
+    /*实现全部支付玩家的统计*/
+    @Override
+    public ResponseEntity allPayingPlayersStatistics() {
+        List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allPayingPlayersStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 }

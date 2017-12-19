@@ -59,6 +59,13 @@ public class PayStatisticsController {
         return payStatisticsService.customPayRateStatistics(beginTime,endTime);
     }
 
+    /*实现全部的付费率统计*/
+    @ResponseBody
+    @RequestMapping(value = "/allpayrate",method = RequestMethod.GET)
+    public ResponseEntity allPayRateStatistics() {
+        return payStatisticsService.allPayRateStatistics();
+    }
+
     /*实现今天ARPU统计*/
     @ResponseBody
     @RequestMapping(value = "/todayarpu",method = RequestMethod.GET)
@@ -92,6 +99,13 @@ public class PayStatisticsController {
     @RequestMapping(value = "/customarpu",method = RequestMethod.GET)
     public ResponseEntity customArpuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
         return payStatisticsService.customArpuStatistics(beginTime,endTime);
+    }
+
+    /*实现全部的ARPU统计*/
+    @ResponseBody
+    @RequestMapping(value = "/allarpu", method = RequestMethod.GET)
+    public ResponseEntity allArpuStatistics() {
+        return payStatisticsService.allArpuStatistics();
     }
 
     /*实现今天的ARPPU统计*/
@@ -129,6 +143,13 @@ public class PayStatisticsController {
         return payStatisticsService.customArppuStatistics(beginTime, endTime);
     }
 
+    /*实现全部ARPPU统计*/
+    @ResponseBody
+    @RequestMapping(value = "/allarppu", method = RequestMethod.GET)
+    public ResponseEntity allArppuStatistics() {
+        return payStatisticsService.allArppuStatistics();
+    }
+
     /*实现今天支付玩家统计*/
     @ResponseBody
     @RequestMapping(value = "/todaypayplayers", method = RequestMethod.GET)
@@ -163,4 +184,11 @@ public class PayStatisticsController {
     public ResponseEntity customPayingPlayersStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
         return payStatisticsService.customPayingPlayersStatistics(beginTime,endTime);
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/allpayplayers", method = RequestMethod.GET)
+    public ResponseEntity allPayingPlayersStatistics() {
+        return payStatisticsService.allPayingPlayersStatistics();
+    }
+
 }

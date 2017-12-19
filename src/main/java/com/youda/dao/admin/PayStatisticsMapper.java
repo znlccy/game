@@ -48,6 +48,10 @@ public interface PayStatisticsMapper {
     @Select("")
     List<PayStatisticsResponse> customPayRateStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
+    /*实现全部的付费率统计*/
+    @Select("")
+    List<PayStatisticsResponse> allPayRateStatistics();
+
     /*实现今天的ARPU的统计*/
     @Select("")
     List<PayStatisticsResponse> todayArpuStatistics();
@@ -68,6 +72,10 @@ public interface PayStatisticsMapper {
     @Select("")
     List<PayStatisticsResponse> customArpuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
 
+    /*实现全部的ARPU统计*/
+    @Select("")
+    List<PayStatisticsResponse> allArpuStatistics();
+
     /*实现今天的ARPPU的统计*/
     @Select("")
     List<PayStatisticsResponse> todayArppuStatistics();
@@ -87,6 +95,10 @@ public interface PayStatisticsMapper {
     /*实现自定义日期的ARPPU统计*/
     @Select("")
     List<PayStatisticsResponse> customArppuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+
+    /*s辉县全部ARPPU统计*/
+    @Select("")
+    List<PayStatisticsResponse> allArppuStatistics();
 
     /*实现今天的支付玩家统计*/
     @Select("SELECT COUNT(*) AS payCount,CURDATE() AS ddate FROM tb_payrecord \n" +
@@ -173,5 +185,29 @@ public interface PayStatisticsMapper {
             "    ) a\n" +
             "GROUP BY ddate")
     List<PayStatisticsResponse> customPayingPlayersStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+
+    /*实现全部的付费玩家统计*/
+    @Select("SELECT\n" +
+            "    DATE(dday) ddate,\n" +
+            "    COUNT(*) - 2 AS payCount\n" +
+            "FROM\n" +
+            "    (\n" +
+            "        SELECT\n" +
+            "            datelist AS dday\n" +
+            "        FROM\n" +
+            "            tb_calendar \n" +
+            "            -- 这里是限制返回最近30天的数据\n" +
+            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "            WHERE DATE(datelist)&&DATE(datelist)<CURRENT_TIMESTAMP\n" +
+            "        UNION ALL\n" +
+            "            SELECT\n" +
+            "                payRecordTime\n" +
+            "            FROM\n" +
+            "                tb_payrecord\n" +
+            "            WHERE  payRecordTime<=CONCAT(CURDATE(),'24:00:00') AND payRecordStatus='1'\n" +
+            "            GROUP BY payRecordTime\n" +
+            "    ) a\n" +
+            "GROUP BY ddate")
+    List<PayStatisticsResponse> allPayingPlayersStatistics();
 
 }
