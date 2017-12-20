@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author chencongye
@@ -61,15 +62,19 @@ public class OrderController {
     /*实现支付宝验签的功能以及通知第三方*/
     @ResponseBody
     @RequestMapping(value = "/aliattestation",method = RequestMethod.POST)
-    public ResponseEntity alipayAttestation() {
-        return null;
+    public ResponseEntity alipayAttestation(HttpServletRequest request) {
+        return orderService.alipayAttestation(request);
     }
 
     /*实现微信验签的功能以及通知第三方*/
-    @ResponseBody
     @RequestMapping(value = "/wechatattestation", method = RequestMethod.POST)
-    public ResponseEntity wechatAttestation() {
-        return null;
+    public ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) {
+        try {
+            return orderService.wechatAttestation(request,response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ResponseStatusCode.putOrGetFailed(null);
     }
 
 }
