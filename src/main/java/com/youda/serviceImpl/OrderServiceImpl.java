@@ -246,4 +246,15 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    /*实现支付宝支付验签以及通知第三方服务器地址*/
+    @Override
+    public ResponseEntity alipayAttestation() {
+        return null;
+    }
+
+    /*实现微信支付验签以及统计第三方服务器地址*/
+    @Override
+    public ResponseEntity wechatAttestation() {
+        return null;
+    }
 }

@@ -21,9 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/api/order")
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class OrderController {
+
+    /*实现订单服务的自动依赖注入*/
     @Autowired
     OrderService orderService;
 
+    /*实现创建订单的功能*/
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createOrder(@RequestBody OrderRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader("userId") String userId) {
@@ -35,6 +38,7 @@ public class OrderController {
         return orderService.createOrder(request);
     }
 
+    /*实现支付宝支付的功能*/
     @ResponseBody
     @RequestMapping(value = "/alipay", method = RequestMethod.GET)
     public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId) {
@@ -44,6 +48,7 @@ public class OrderController {
         return orderService.alipay(orderId);
     }
 
+    /*实现微信支付的功能*/
     @ResponseBody
     @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
     public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, HttpServletRequest request, HttpServletResponse response) {
@@ -51,6 +56,20 @@ public class OrderController {
             return ResponseStatusCode.nullPointerError();
         }
         return orderService.wechatpay(orderId,request,response);
+    }
+
+    /*实现支付宝验签的功能以及通知第三方*/
+    @ResponseBody
+    @RequestMapping(value = "/aliattestation",method = RequestMethod.POST)
+    public ResponseEntity alipayAttestation() {
+        return null;
+    }
+
+    /*实现微信验签的功能以及通知第三方*/
+    @ResponseBody
+    @RequestMapping(value = "/wechatattestation", method = RequestMethod.POST)
+    public ResponseEntity wechatAttestation() {
+        return null;
     }
 
 }

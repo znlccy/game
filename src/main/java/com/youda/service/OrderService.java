@@ -15,9 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface OrderService {
 
+    /*定义创建订单*/
     ResponseEntity createOrder(OrderRequest orderRequest);
 
+    /*定义支付宝支付*/
     ResponseEntity alipay(Long orderId);
 
+    /*定义微信支付*/
     ResponseEntity wechatpay(Long orderId, HttpServletRequest request,HttpServletResponse response);
+
+    /*定义支付宝支付验签*/
+    ResponseEntity alipayAttestation();
+
+    /*定义微信支付验签*/
+    ResponseEntity wechatAttestation();
 }
