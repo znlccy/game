@@ -36,6 +36,13 @@ public class ResponseStatusCode {
                 .body(new ResponseResult("200", "操作成功", bean));
     }
 
+    /*实现操作失败*/
+    public static ResponseEntity putOrGetFailed(Object bean) {
+        return ResponseEntity
+                .status(415)
+                .body(new ResponseResult("415", "操作失败", bean));
+    }
+
     /**
      * 实现修改成功
      *

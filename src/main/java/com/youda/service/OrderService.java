@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @author chencongye
@@ -25,8 +26,8 @@ public interface OrderService {
     ResponseEntity wechatpay(Long orderId, HttpServletRequest request,HttpServletResponse response);
 
     /*定义支付宝支付验签*/
-    ResponseEntity alipayAttestation();
+    ResponseEntity alipayAttestation(HttpServletRequest request);
 
     /*定义微信支付验签*/
-    ResponseEntity wechatAttestation();
+    ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) throws IOException;
 }

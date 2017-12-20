@@ -1,8 +1,10 @@
 package com.youda.serviceImpl;
 
+import com.alipay.api.internal.util.AlipaySignature;
 import com.youda.dao.OrderMapper;
 import com.youda.model.Order;
 import com.youda.request.api.OrderRequest;
+import com.youda.response.api.AttestationResponse;
 import com.youda.response.api.OrderResponse;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -21,16 +23,27 @@ import com.youda.response.WeChatPayResponse;
 import com.youda.util.MD5Util;
 import com.youda.util.PrepayIdRequestHandler;
 import com.youda.util.WXUtil;
+import com.youda.util.XMLUtil;
+import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
+import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.lang.management.MemoryUsage;
 import java.sql.Timestamp;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import static com.alipay.api.AlipayConstants.APP_ID;
 import static com.alipay.api.AlipayConstants.CHARSET;
@@ -248,13 +261,202 @@ public class OrderServiceImpl implements OrderService {
 
     /*实现支付宝支付验签以及通知第三方服务器地址*/
     @Override
-    public ResponseEntity alipayAttestation() {
-        return null;
+    public ResponseEntity alipayAttestation(HttpServletRequest request) {
+
+        /*获取用户提交过来待验签的数据*/
+        Map<String,String> params = new HashMap<String,String>();
+        Map requestParams = request.getParameterMap();
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            //乱码解决，这段代码在出现乱码时使用。
+            //valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+            params.put(name, valueStr);
+        }
+        /*获取订单信息*/
+        String orderId = params.get("out_trade_no");
+        /*通过订单号查询游戏*/
+        Order order = orderMapper.findByOrderId(Long.valueOf(orderId));
+        /*验证数据库中是否存在这个订单，从而获取对应的支付宝配置信息*/
+        if(order==null)
+        {
+            /*不存在这个订单*/
+            return ResponseStatusCode.nullPointerError();
+        }
+        else
+        {
+            /*获取对应的游戏名称*/
+            long gameId = order.getGameId();
+            Game game = gameMapper.findByGameId(gameId);
+            String gameName = game.getGameName();
+            AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
+
+            /*获取支付配置信息*/
+            String APP_ID = aliPayConf.getAPP_ID();
+            String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
+            String CHARSET = "utf-8";
+            String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
+            String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+
+            /*验签过程*/
+            boolean flag = false;
+            try {
+                flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET,"RSA");
+                if(flag)
+                {
+                    /*实现更新支付记录信息*/
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
+                    payRecord.setPayRecordStatus("1");
+                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                    /*返回给客户端信息*/
+                    AttestationResponse attestationResponse = new AttestationResponse();
+                    attestationResponse.setOutTradeNo(orderId);
+                    attestationResponse.setResponseTime(new Date());
+                    attestationResponse.setResult("验签成功！");
+                    attestationResponse.setGoodName(gameName);
+                    /*实现通知第三方服务器*/
+                    String notifyUrl = aliPayConf.getNOTIFY_URL();
+                    String isPushed = order.getIsPushed();
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
+                    {
+                        try {
+                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                }
+                else
+                {
+                    /*实现更新支付记录信息*/
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
+                    payRecord.setPayRecordStatus("0");
+                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                    /*返回给客户端信息*/
+                    AttestationResponse attestationResponse = new AttestationResponse();
+                    attestationResponse.setOutTradeNo(orderId);
+                    attestationResponse.setResponseTime(new Date());
+                    attestationResponse.setResult("验签失败！");
+                    attestationResponse.setGoodName(gameName);
+                    /*实现通知第三方服务器*/
+                    String notifyUrl = aliPayConf.getNOTIFY_URL();
+                    String isPushed = order.getIsPushed();
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
+                    {
+                        try {
+                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return ResponseStatusCode.putOrGetFailed(attestationResponse);
+                }
+            } catch (AlipayApiException e) {
+                e.printStackTrace();
+            }
+        }
+        return ResponseStatusCode.putOrGetSuccess(null);
     }
 
     /*实现微信支付验签以及统计第三方服务器地址*/
     @Override
-    public ResponseEntity wechatAttestation() {
+    public ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) throws IOException {
+
+        PrintWriter writer = response.getWriter();
+        InputStream inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        String orderId = request.getParameter("out_trade_no");
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        outSteam.close();
+        inStream.close();
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        Map<String, String> map = null;
+        try {
+            /**
+             * 解析微信通知返回的信息
+             */
+            map = XMLUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        Order order = orderMapper.findByOrderId(Long.valueOf(orderId));
+                /*获取游戏Id*/
+        long gameId = order.getGameId();
+        Game game = gameMapper.findByGameId(gameId);
+        String gameName = game.getGameName();
+        WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
+
+        // 若支付成功，则告知微信服务器收到通知
+        if (map.get("return_code").equals("SUCCESS")) {
+            if (map.get("result_code").equals("SUCCESS")) {
+                if(order==null)
+                {
+                    return ResponseStatusCode.nullPointerError();
+                }
+                else
+                {
+                    /*实现更新支付记录信息*/
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
+                    payRecord.setPayRecordStatus("1");
+                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                    /*返回给客户端信息*/
+                    AttestationResponse attestationResponse = new AttestationResponse();
+                    attestationResponse.setOutTradeNo(orderId);
+                    attestationResponse.setResponseTime(new Date());
+                    attestationResponse.setResult("验签成功！");
+                    attestationResponse.setGoodName(gameName);
+                    /*实现通知第三方服务器*/
+                    String notifyUrl = weChatConf.getNOTIFY_URL();
+                    String isPushed = order.getIsPushed();
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
+                    {
+                        try {
+                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                }
+            }
+            else
+            {
+                /*实现更新支付记录信息*/
+                PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
+                payRecord.setPayRecordStatus("0");
+                payRecordMapper.modifyPayRecordInfo(payRecord);
+                    /*返回给客户端信息*/
+                AttestationResponse attestationResponse = new AttestationResponse();
+                attestationResponse.setOutTradeNo(orderId);
+                attestationResponse.setResponseTime(new Date());
+                attestationResponse.setResult("验签失败！");
+                attestationResponse.setGoodName(gameName);
+                    /*实现通知第三方服务器*/
+                String notifyUrl = weChatConf.getNOTIFY_URL();
+                String isPushed = order.getIsPushed();
+                if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
+                {
+                    try {
+                        new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return ResponseStatusCode.putOrGetFailed(attestationResponse);
+            }
+        }
         return null;
     }
 }

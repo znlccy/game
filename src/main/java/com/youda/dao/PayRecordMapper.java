@@ -2,12 +2,7 @@ package com.youda.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import com.youda.model.PayRecord;
 
@@ -85,7 +80,11 @@ public interface PayRecordMapper {
 	 */
 	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordId=#{payRecordId}")
 	boolean modifyByPayRecordId(@Param("payRecordId") String payRecordId,@Param("payRecord") PayRecord payRecord);
-	
+
+	/*更改支付记录信息*/
+	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordId=#{payRecord.payRecordId}")
+	boolean modifyPayRecordInfo(@Param("payRecord") PayRecord payRecord);
+
 	/**
 	 * 定义通过第三方订单号来修改支付记录的规范
 	 * @param outTradeNo
