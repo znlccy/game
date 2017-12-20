@@ -209,5 +209,4 @@ public interface PayStatisticsMapper {
             "    ) a\n" +
             "GROUP BY ddate")
     List<PayStatisticsResponse> allPayingPlayersStatistics();
-
 }
