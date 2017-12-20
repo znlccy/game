@@ -13,6 +13,9 @@ public class IncomeStatisticsResponse {
     private String ddate;
 
     /*定义返回收入金额*/
+    private String incomeTotalMoney;
+
+    /*定义返回收入金额*/
     private String incomeCount;
 
     /*实现返回日期的get方法*/
@@ -35,4 +38,13 @@ public class IncomeStatisticsResponse {
         this.incomeCount = incomeCount;
     }
 
+    /*实现收入金额的get方法*/
+    public String getIncomeTotalMoney() {
+        return incomeTotalMoney;
+    }
+
+    /*实现收入金额的set方法*/
+    public void setIncomeTotalMoney(String incomeTotalMoney) {
+        this.incomeTotalMoney = incomeTotalMoney;
+    }
 }
