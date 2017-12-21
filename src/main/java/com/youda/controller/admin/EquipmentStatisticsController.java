@@ -26,43 +26,43 @@ public class EquipmentStatisticsController {
 
     /*实现今天的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/todayincome" ,method = RequestMethod.GET)
-    public ResponseEntity todayIncomeStatistics() {
+    @RequestMapping(value = "/todaynewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity todayNewEquipmentStatistics() {
         return equipmentStatisticsService.todayEquipmentStatistics();
     };
 
     /*实现昨天的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/yestodayincome" ,method = RequestMethod.GET)
-    public ResponseEntity yestodayIncomeStatistics() {
+    @RequestMapping(value = "/yestodaynewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity yestodayNewEquipmentStatistics() {
         return equipmentStatisticsService.yestodayEquipmentStatistics();
     };
 
     /*实现一周的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/weekincome" ,method = RequestMethod.GET)
-    public ResponseEntity aWeekIncomeStatistics() {
+    @RequestMapping(value = "/weeknewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity aWeekNewEquipmentStatistics() {
         return equipmentStatisticsService.aWeekEquipmentStatistics();
     };
 
     /*实现一个月的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/monthincome" ,method = RequestMethod.GET)
-    public ResponseEntity aMonthIncomeStatistics() {
+    @RequestMapping(value = "/monthnewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity aMonthNewEquipmentStatistics() {
         return equipmentStatisticsService.aMonthEquipmentStatistics();
     };
 
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/customincome" ,method = RequestMethod.GET)
-    public ResponseEntity customIncomeStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
+    @RequestMapping(value = "/customnewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity customNewEquipmentStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
         return equipmentStatisticsService.customEquipmentStatistics(beginTime, endTime);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/allincome" ,method = RequestMethod.GET)
-    public ResponseEntity allIncomeStatistics() {
+    @RequestMapping(value = "/allnewequipment" ,method = RequestMethod.GET)
+    public ResponseEntity allNewEquipmentStatistics() {
         return equipmentStatisticsService.allEquipmentStatistics();
     };
 
