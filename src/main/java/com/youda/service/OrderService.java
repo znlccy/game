@@ -22,6 +22,9 @@ public interface OrderService {
     /*定义支付宝支付*/
     ResponseEntity alipay(Long orderId);
 
+    /*定义支付宝H5支付*/
+    ResponseEntity aliPhonePay(Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse);
+
     /*定义微信支付*/
     ResponseEntity wechatpay(Long orderId, HttpServletRequest request,HttpServletResponse response);
 

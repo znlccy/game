@@ -49,8 +49,17 @@ public class OrderController {
         return orderService.alipay(orderId);
     }
 
-    /*实现微信支付的功能*/
+    /*实现支付H5支付*/
     @ResponseBody
+    @RequestMapping(value = "/aliphonepay", method = RequestMethod.GET)
+    public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
+        if (orderId == null || orderId == 0) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return orderService.aliPhonePay(orderId,httpRequest,httpResponse);
+    }
+
+    /*实现微信支付的功能*/
     @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
     public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, HttpServletRequest request, HttpServletResponse response) {
         if (orderId == null || orderId == 0) {

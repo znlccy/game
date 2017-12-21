@@ -1,6 +1,7 @@
 package com.youda.serviceImpl;
 
 import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.youda.dao.OrderMapper;
 import com.youda.model.Order;
 import com.youda.request.api.OrderRequest;
@@ -168,6 +169,83 @@ public class OrderServiceImpl implements OrderService {
             }
             return ResponseStatusCode.postSuccess(aliPayResponse);
         }
+    }
+
+    /*实现支付宝H5支付*/
+    @Override
+    public ResponseEntity aliPhonePay(Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
+        Order order = orderMapper.findByOrderId(orderId);
+        AliPayResponse aliPayResponse = new AliPayResponse();
+        if (order==null)
+        {
+            /*需要给出提示,没有这个订单，需要重新创建*/
+            return ResponseStatusCode.nullPointerError();
+        }
+        else
+        {
+            Game game = gameMapper.findByGameId(order.getGameId());
+            User user = userMapper.findByUserId(order.getUserId());
+            /*获取订单一些支付属性*/
+            String subject = order.getOrderSubject();
+            String total_amount = order.getOrderTotalAmount();
+            String out_trade_no = order.getOtherOrderId();
+            String gameName = game.getGameName();
+
+            AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
+            /*获取支付宝配置的基本信息*/
+            String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
+            String APP_ID=aliPayConf.getAPP_ID();
+            String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
+            String CHARSET="UTF-8";
+            String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
+            String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
+            String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+            String product_code = "QUICK_WAP_WAY";
+
+            //实例化客户端
+            AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+            //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+            AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
+            //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+            alipayRequest.setNotifyUrl(NOTIFY_URL);
+            alipayRequest.setReturnUrl(CALLBACK_URL);
+            alipayRequest.setBizContent("{" +
+                    "    \"out_trade_no\":\""+out_trade_no+"\"," +
+                    "    \"product_code\":\""+product_code+"\"," +
+                    "    \"body\":\""+subject+out_trade_no+"\"," +
+                    "    \"total_amount\":\""+total_amount+"\"," +
+                    "    \"subject\":\""+subject+"\"" +
+                    "  }");
+            String form="";
+            try {
+                form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
+                PayRecord payRecord = new PayRecord();
+                payRecord.setPayRecordStyle("支付宝APP支付");
+                payRecord.setOutTradeNo(out_trade_no);
+                payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                payRecord.setPayRecordTotalAmount(total_amount);
+                payRecord.setPayRecordUser(user.getUserName());
+                payRecord.setPayRecordStatus("0");
+                payRecordMapper.addPayRecord(payRecord);
+
+                aliPayResponse.setGoodName(subject);
+                aliPayResponse.setGoodPrice(total_amount);
+                aliPayResponse.setOtherOrderId(out_trade_no);
+                aliPayResponse.setOutTradeNo(out_trade_no);
+                /*aliPayResponse.setPayData((String) httpResponse.getOutputStream());*/
+            } catch (AlipayApiException e) {
+                e.printStackTrace();
+            }
+            httpResponse.setContentType("text/html;charset=" + CHARSET);
+            try {
+                httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
+                httpResponse.getWriter().flush();
+                httpResponse.getWriter().close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return ResponseStatusCode.postSuccess(aliPayResponse);
     }
 
     /*实现微信支付*/
