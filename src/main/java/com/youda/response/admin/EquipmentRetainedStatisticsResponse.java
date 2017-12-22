@@ -7,7 +7,7 @@ package com.youda.response.admin;
  * @Instructions 定义返回给客户端
  */
 
-public class EquipmentStatisticsResponse {
+public class EquipmentRetainedStatisticsResponse {
 
     /*新增设备统计*/
     private String newEquipmentCount;

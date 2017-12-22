@@ -1,6 +1,6 @@
 package com.youda.controller.admin;
 
-import com.youda.service.admin.EquipmentStatisticsService;
+import com.youda.service.admin.EquipmentRetainedStatisticsService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,52 +18,52 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/admin")
-public class EquipmentStatisticsController {
+public class EquipmentRetainedStatisticsController {
 
     /*实现新增设备服务的自动依赖注入*/
     @Autowired
-    private EquipmentStatisticsService equipmentStatisticsService;
+    private EquipmentRetainedStatisticsService equipmentRetainedStatisticsService;
 
     /*实现今天的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/todaynewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/todayretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity todayNewEquipmentStatistics() {
-        return equipmentStatisticsService.todayEquipmentStatistics();
+        return equipmentRetainedStatisticsService.todayEquipmentStatistics();
     };
 
     /*实现昨天的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/yestodaynewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/yestodayretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity yestodayNewEquipmentStatistics() {
-        return equipmentStatisticsService.yestodayEquipmentStatistics();
+        return equipmentRetainedStatisticsService.yestodayEquipmentStatistics();
     };
 
     /*实现一周的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/weeknewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/weekretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity aWeekNewEquipmentStatistics() {
-        return equipmentStatisticsService.aWeekEquipmentStatistics();
+        return equipmentRetainedStatisticsService.aWeekEquipmentStatistics();
     };
 
     /*实现一个月的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/monthnewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/monthretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity aMonthNewEquipmentStatistics() {
-        return equipmentStatisticsService.aMonthEquipmentStatistics();
+        return equipmentRetainedStatisticsService.aMonthEquipmentStatistics();
     };
 
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/customnewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/customretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity customNewEquipmentStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return equipmentStatisticsService.customEquipmentStatistics(beginTime, endTime);
+        return equipmentRetainedStatisticsService.customEquipmentStatistics(beginTime, endTime);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/allnewequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/allretainedequipment" ,method = RequestMethod.GET)
     public ResponseEntity allNewEquipmentStatistics() {
-        return equipmentStatisticsService.allEquipmentStatistics();
+        return equipmentRetainedStatisticsService.allEquipmentStatistics();
     };
 
 }

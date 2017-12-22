@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 实现新增设备统计服务接口
  */
 
-public interface EquipmentStatisticsService {
+public interface EquipmentRetainedStatisticsService {
 
     /*实现今天新增设备的统计*/
     ResponseEntity todayEquipmentStatistics();
