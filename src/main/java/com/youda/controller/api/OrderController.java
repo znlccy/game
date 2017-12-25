@@ -61,11 +61,11 @@ public class OrderController {
 
     /*实现微信支付的功能*/
     @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
-    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token, HttpServletRequest request, HttpServletResponse response) {
-        if (orderId == null || orderId == 0) {
+    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId,HttpServletRequest request, HttpServletResponse response) {
+        /*if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
-        }
-        return orderService.wechatpay(orderId, request, response);
+        }*/
+        return orderService.wechatpay(orderId,token,gameChannelId,request, response);
     }
 
     /*实现支付宝验签的功能以及通知第三方*/

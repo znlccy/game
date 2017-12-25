@@ -27,7 +27,7 @@ public interface OrderService {
     void aliPhonePay(Long orderId,String token,String gameChannelId,HttpServletRequest httpRequest, HttpServletResponse httpResponse);
 
     /*定义微信支付*/
-    ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity wechatpay(Long orderId,String token,String gameChannelId,HttpServletRequest request, HttpServletResponse response);
 
     /*定义支付宝支付验签*/
     ResponseEntity alipayAttestation(HttpServletRequest request);

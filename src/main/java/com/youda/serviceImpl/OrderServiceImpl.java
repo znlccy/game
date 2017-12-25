@@ -378,8 +378,9 @@ public class OrderServiceImpl implements OrderService {
 
     /*实现微信支付*/
     @Override
-    public ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity wechatpay(Long orderId, String token,String gameChannelId,HttpServletRequest request, HttpServletResponse response) {
         Order order = orderMapper.findByOrderId(orderId);
+        System.err.println("订单信息:"+order.getGameId());
         WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
         if (order == null) {
             /*不存在这个订单,需要有提示去重新生成一个订单*/
@@ -415,9 +416,9 @@ public class OrderServiceImpl implements OrderService {
                 prepayReqHandler.setParameter("nonce_str", NONCE_STR);
                 prepayReqHandler.setParameter("notify_url", NOTIFY_URL);
                 prepayReqHandler.setParameter("out_trade_no", OUT_TRADE_NO);
-                prepayReqHandler.setParameter("spbill_create_ip", SPBILL_CREATE_IP);
+                prepayReqHandler.setParameter("spbill_create_ip", "127.0.0.1");
                 prepayReqHandler.setParameter("time_start", TIMESTAMP);
-                prepayReqHandler.setParameter("total_fee", TOTAL_FEE);
+                prepayReqHandler.setParameter("total_fee", String.valueOf((int)(Float.valueOf(TOTAL_FEE)*100)));
                 prepayReqHandler.setParameter("trade_type", "APP");
                 /*生成签名*/
                 String SIGN = prepayReqHandler.createMD5Sign(APP_KEY);
