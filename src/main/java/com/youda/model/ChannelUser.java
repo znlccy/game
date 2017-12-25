@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  * on 2017/12/13.
  */
 @Entity
-@Table(name = "tb_channelUser")
+@Table(name = "tb_channel_user")
 public class ChannelUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

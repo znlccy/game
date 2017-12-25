@@ -33,4 +33,7 @@ public interface OrderService {
 
     /*定义微信支付验签*/
     ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) throws IOException;
+
+    /*实现苹果内购的验签*/
+    ResponseEntity iosAttestation(String receipt);
 }

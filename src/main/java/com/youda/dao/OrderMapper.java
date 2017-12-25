@@ -21,7 +21,7 @@ public interface OrderMapper {
      * @return
      */
     @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId})")
-    @Options(useGeneratedKeys = true,keyProperty = "orderId")
+    @Options(useGeneratedKeys = true, keyProperty = "orderId")
     public void createOrder(@Param("order") Order order);
 
     /**

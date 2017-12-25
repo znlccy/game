@@ -7,7 +7,7 @@ import javax.persistence.*;
  * on 2017/12/14.
  */
 @Entity
-@Table(name = "tb_signUser", catalog = "db_ydgame")
+@Table(name = "tb_sign_user", catalog = "db_ydgame")
 public class SignUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

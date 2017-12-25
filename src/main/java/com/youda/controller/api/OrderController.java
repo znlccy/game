@@ -42,7 +42,7 @@ public class OrderController {
     /*实现支付宝支付的功能*/
     @ResponseBody
     @RequestMapping(value = "/alipay", method = RequestMethod.GET)
-    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId) {
+    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId,@RequestHeader String token) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
@@ -50,9 +50,8 @@ public class OrderController {
     }
 
     /*实现支付H5支付*/
-    @ResponseBody
     @RequestMapping(value = "/aliphonepay", method = RequestMethod.GET)
-    public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
+    public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId,@RequestHeader String token,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
@@ -61,7 +60,7 @@ public class OrderController {
 
     /*实现微信支付的功能*/
     @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
-    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token,HttpServletRequest request, HttpServletResponse response) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }

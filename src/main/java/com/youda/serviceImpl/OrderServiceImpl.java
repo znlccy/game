@@ -89,12 +89,13 @@ public class OrderServiceImpl implements OrderService {
         order.setOtherOrderId(request.getOtherOrderId());
         order.setOrderTotalAmount(request.getOrderTotalAmount());
         order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
-        long userId= 1;
-        long gameId = 1001;
+        order.setGameId(request.getGameId());
+        order.setOrderSubject(request.getOrderSubject());
+        order.setUserId(request.getUserId());
         orderMapper.createOrder(order);
-        if (order.getOrderId() == 0) {
+        /*if (order.getOrderId() == 0) {
             return ResponseStatusCode.conflictError();
-        }
+        }*/
         return ResponseStatusCode.postSuccess(new OrderResponse(order.getOrderId()));
     }
 
@@ -535,6 +536,14 @@ public class OrderServiceImpl implements OrderService {
                 return ResponseStatusCode.putOrGetFailed(attestationResponse);
             }
         }
+        return null;
+    }
+
+    /*实现苹果内购支付的验签*/
+    @Override
+    public ResponseEntity iosAttestation(String receipt) {
+        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        /*new RestTemplate().postForObject(url,Re);*/
         return null;
     }
 }

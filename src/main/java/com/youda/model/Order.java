@@ -59,7 +59,7 @@ public class Order {
 	/**
 	 * 定义订单第三接入的订单号
 	 */
-	@Column(name = "otherOrderId")
+	@Column(name = "otherOrderId",unique = true)
 	private String otherOrderId;
 	
 	/**

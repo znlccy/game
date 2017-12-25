@@ -1,11 +1,11 @@
 #生产环境
 server:
   port: 443
-  ssl:
-    key-store: classpath:xxx.jks
-    key-store-password: xxx
-    keyStoreType: JKS
-    keyAlias: xxx
+  #ssl:
+    #key-store: classpath:xxx.jks
+    #key-store-password: xxx
+    #keyStoreType: JKS
+    #keyAlias: xxx
 spring:
   datasource:
       #数据库驱动类
@@ -15,7 +15,7 @@ spring:
       #数据库用户名
       username: root
       #数据库密码
-      password: root
+      password: yd123456
       tomcat:
         initialSize: 1
         min-idle: 1
