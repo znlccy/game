@@ -17,15 +17,18 @@ public interface OrderMapper {
 
     /**
      * 定义添加一个订单的规范
+     *
      * @param order
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId")
-    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId})")
+    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId,gameChannelId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId},#{order.gameChannelId})")
+
     public void createOrder(@Param("order") Order order);
 
     /**
      * 定义通过订单主键Id来查询订单的规范
+     *
      * @param orderId
      * @return
      */
@@ -34,6 +37,7 @@ public interface OrderMapper {
 
     /**
      * 定义通过订单商品名称来查询订单的规范
+     *
      * @param orderSubject
      * @return
      */
@@ -42,6 +46,7 @@ public interface OrderMapper {
 
     /**
      * 定义通过订单主键Id来删除订单
+     *
      * @param orderId
      * @return
      */
@@ -50,6 +55,7 @@ public interface OrderMapper {
 
     /**
      * 定义通过第三方的订单编号来删除订单
+     *
      * @param otherOrderId
      * @return
      */
@@ -58,6 +64,7 @@ public interface OrderMapper {
 
     /**
      * 定义通过订单编号来修改订单的规范
+     *
      * @param order
      * @return
      */
@@ -66,6 +73,7 @@ public interface OrderMapper {
 
     /**
      * 定义通过订单编号来修改订单的规范
+     *
      * @param order
      * @return
      */

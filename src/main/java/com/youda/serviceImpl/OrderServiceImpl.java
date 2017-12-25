@@ -93,7 +93,13 @@ public class OrderServiceImpl implements OrderService {
         order.setOtherOrderId(request.getOtherOrderId());
         order.setOrderTotalAmount(request.getOrderTotalAmount());
         order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
-        order.setGameId(request.getGameId());
+
+        GameChannel gameChannel = channelService.findByIds(request.getGameChannelId());
+        if (gameChannel == null) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        order.setGameId(gameChannel.getGameId());
+        order.setGameChannelId(request.getGameChannelId());
         order.setOrderSubject(request.getOrderSubject());
         order.setUserId(request.getUserId());
         orderMapper.createOrder(order);
@@ -176,11 +182,10 @@ public class OrderServiceImpl implements OrderService {
 
     /*实现支付宝H5支付*/
     @Override
-    public ResponseEntity aliPhonePay(Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
+    public ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         Order order = orderMapper.findByOrderId(orderId);
         AliPayResponse aliPayResponse = new AliPayResponse();
-        if (order==null)
-        {
+        if (order == null) {
             /*需要给出提示,没有这个订单，需要重新创建*/
             return ResponseStatusCode.nullPointerError();
         } else {
@@ -194,10 +199,11 @@ public class OrderServiceImpl implements OrderService {
 
             AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
             /*获取支付宝配置的基本信息*/
-            String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
-            String APP_ID=aliPayConf.getAPP_ID();
-            String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
-            String CHARSET="UTF-8";
+            String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
+            String APP_ID = aliPayConf.getAPP_ID();
+            String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
+            ;
+            String CHARSET = "UTF-8";
             String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
             String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
             String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
@@ -211,13 +217,13 @@ public class OrderServiceImpl implements OrderService {
             alipayRequest.setNotifyUrl(NOTIFY_URL);
             alipayRequest.setReturnUrl(CALLBACK_URL);
             alipayRequest.setBizContent("{" +
-                    "    \"out_trade_no\":\""+out_trade_no+"\"," +
-                    "    \"product_code\":\""+product_code+"\"," +
-                    "    \"body\":\""+subject+out_trade_no+"\"," +
-                    "    \"total_amount\":\""+total_amount+"\"," +
-                    "    \"subject\":\""+subject+"\"" +
+                    "    \"out_trade_no\":\"" + out_trade_no + "\"," +
+                    "    \"product_code\":\"" + product_code + "\"," +
+                    "    \"body\":\"" + subject + out_trade_no + "\"," +
+                    "    \"total_amount\":\"" + total_amount + "\"," +
+                    "    \"subject\":\"" + subject + "\"" +
                     "  }");
-            String form="";
+            String form = "";
             try {
                 form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
                 PayRecord payRecord = new PayRecord();
