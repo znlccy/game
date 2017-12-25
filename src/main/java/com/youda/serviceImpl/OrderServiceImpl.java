@@ -178,14 +178,18 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity aliPhonePay(Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
         Order order = orderMapper.findByOrderId(orderId);
+<<<<<<< Updated upstream
         AliPayResponse aliPayResponse = new AliPayResponse();
         if (order==null)
         {
             /*需要给出提示,没有这个订单，需要重新创建*/
+=======
+        WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
+        if (order == null) {
+            /*不存在这个订单,需要有提示去重新生成一个订单*/
+>>>>>>> Stashed changes
             return ResponseStatusCode.nullPointerError();
-        }
-        else
-        {
+        } else {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
             /*获取订单一些支付属性*/
