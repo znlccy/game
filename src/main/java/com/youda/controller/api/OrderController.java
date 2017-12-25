@@ -46,20 +46,17 @@ public class OrderController {
     /*实现支付宝支付的功能*/
     @ResponseBody
     @RequestMapping(value = "/alipay", method = RequestMethod.GET)
-    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token) {
+    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.alipay(orderId);
+        return orderService.alipay(orderId,token,gameChannelId);
     }
 
     /*实现支付H5支付*/
     @RequestMapping(value = "/aliphonepay", method = RequestMethod.GET)
-    public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-        if (orderId == null || orderId == 0) {
-            return ResponseStatusCode.nullPointerError();
-        }
-        return orderService.aliPhonePay(orderId, httpRequest, httpResponse);
+    public void aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        orderService.aliPhonePay(orderId,token,gameChannelId,httpRequest, httpResponse);
     }
 
     /*实现微信支付的功能*/

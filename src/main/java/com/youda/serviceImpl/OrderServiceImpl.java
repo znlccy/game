@@ -119,136 +119,138 @@ public class OrderServiceImpl implements OrderService {
         } else {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
-            if (token.equals(tokenMapper.findTokenByIds(order.getUserId(),Long.valueOf(gameChannelId))))
+            /*if (token.equals(tokenMapper.findTokenByIds(order.getUserId(),Long.valueOf(gameChannelId))))
             {
                 return ResponseStatusCode.verifyError();
             }
             else
-                {
-                /*获取订单一些支付属性*/
-                String subject = order.getOrderSubject();
-                String total_amount = order.getOrderTotalAmount();
-                String out_trade_no = order.getOtherOrderId();
-                String gameName = game.getGameName();
+            {
 
-                AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
-                if(aliPayConf==null)
-                {
+            }*/
+            /*获取订单一些支付属性*/
+            String subject = order.getOrderSubject();
+            String total_amount = order.getOrderTotalAmount();
+            String out_trade_no = order.getOtherOrderId();
+
+            String gameName = game.getGameName();
+
+            AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
+            if(aliPayConf==null)
+            {
                 /*获取支付宝配置的基本信息*/
-                    String APP_PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJzuFpK2ikT/cLzBMQS2G0VBDJM0vjHser7pV+AG5d2kfkSSzRgDMKyTiq871M8jQmEfVlZJNtgXcKdyV5bUhoCNQL4Tq3Jp8Ndo8oAQ/3NvSux794kkq6L2UhHwckJ5yoTb4bNzQYwkGXEmAal22+bZwsc6IVwNzk2TJ0H6VdpVAgMBAAECgYAoA9G/sUoKk/PkPYLJR8ImY5LYSl+hDUKzQX7FwhyE6rfDtocTc2TK7Ig1bJU0CDKZ30q9j8erTDbOi6pn7GMrKAzpF1nSMTjJgio03Kat9784YfI7tcT0YJjaGIsjNCeUiEhy/Hd1LxpExB1Dcet9Siy3USe4qXvzY7lXlkf9AQJBANCY+cWllFUJPwxg3kx77nrqlRBCodKuizcqZBJsZc3k/IDB8LX9UU3sljeNHJM9Ee/AU/fUzDLww4E/BsP0X5UCQQDAl2Nr/RylEw9cveOJDSstYFrVmWU+lZQN0Nq3StFcg/wEtV1H/ajOEHxn4/lYvLN2RcVTgIMm8lwxm1bWu9/BAkAUCU2cjX4E+QFkV/2iTRkoF1ZAHJZcnUVkBB9eoajZsRAL8hUD9hQULxByv4wqHGiXpdqq6HbAwd2VkY89zUBNAkEAl/wgms0RuPfUrMSx9qssws+Cf4RhkMUsJMcIg5OIqzEBRpn19mUovQ3nj3kqgqvQGGsxMRd+6NJkjUVgf2+eQQJAT1uJnT3N9h1O/FAhXrcg1f0tBswtCyvtcZNh3EStARDj2NluJwJiMMbgRZe12jfvfN6lmq0sUvwOT298H8W6qQ==";
-                    String APP_ID = "2016080301699003";
-                    String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi";
-                    ;
-                    String CHARSET = "UTF-8";
-                    String CALLBACK_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
-                    String NOTIFY_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
-                    String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+                String APP_PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJzuFpK2ikT/cLzBMQS2G0VBDJM0vjHser7pV+AG5d2kfkSSzRgDMKyTiq871M8jQmEfVlZJNtgXcKdyV5bUhoCNQL4Tq3Jp8Ndo8oAQ/3NvSux794kkq6L2UhHwckJ5yoTb4bNzQYwkGXEmAal22+bZwsc6IVwNzk2TJ0H6VdpVAgMBAAECgYAoA9G/sUoKk/PkPYLJR8ImY5LYSl+hDUKzQX7FwhyE6rfDtocTc2TK7Ig1bJU0CDKZ30q9j8erTDbOi6pn7GMrKAzpF1nSMTjJgio03Kat9784YfI7tcT0YJjaGIsjNCeUiEhy/Hd1LxpExB1Dcet9Siy3USe4qXvzY7lXlkf9AQJBANCY+cWllFUJPwxg3kx77nrqlRBCodKuizcqZBJsZc3k/IDB8LX9UU3sljeNHJM9Ee/AU/fUzDLww4E/BsP0X5UCQQDAl2Nr/RylEw9cveOJDSstYFrVmWU+lZQN0Nq3StFcg/wEtV1H/ajOEHxn4/lYvLN2RcVTgIMm8lwxm1bWu9/BAkAUCU2cjX4E+QFkV/2iTRkoF1ZAHJZcnUVkBB9eoajZsRAL8hUD9hQULxByv4wqHGiXpdqq6HbAwd2VkY89zUBNAkEAl/wgms0RuPfUrMSx9qssws+Cf4RhkMUsJMcIg5OIqzEBRpn19mUovQ3nj3kqgqvQGGsxMRd+6NJkjUVgf2+eQQJAT1uJnT3N9h1O/FAhXrcg1f0tBswtCyvtcZNh3EStARDj2NluJwJiMMbgRZe12jfvfN6lmq0sUvwOT298H8W6qQ==";
+                String APP_ID = "2016080301699003";
+                String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi";
+                ;
+                String CHARSET = "UTF-8";
+                String CALLBACK_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
+                String NOTIFY_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
+                String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
 
-                    //实例化客户端
-                    AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
-                    //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-                    AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-                    //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
-                    AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-                    //SDK已经封装掉了公共参数，这里只需要传入业务参数
-                    //此次只是参数展示，未进行字符串转义，实际情况下请转义
-                    model.setBody(out_trade_no);
-                    model.setSubject(subject);
-                    model.setOutTradeNo(out_trade_no);
-                    model.setTimeoutExpress("30m");
-                    model.setTotalAmount(total_amount);
-                    model.setProductCode("QUICK_MSECURITY_PAY");
-                    request.setBizModel(model);
-                    request.setNotifyUrl(NOTIFY_URL);
-                    request.setReturnUrl(CALLBACK_URL);
-                    try {
-                        AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-                        if(response.getBody()!=null) {
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStyle("支付宝APP支付");
-                            payRecord.setOutTradeNo(out_trade_no);
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordTotalAmount(total_amount);
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordStatus("0");
-                            payRecordMapper.addPayRecord(payRecord);
+                //实例化客户端
+                AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+                //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+                AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+                AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数
+                //此次只是参数展示，未进行字符串转义，实际情况下请转义
+                model.setBody(out_trade_no);
+                model.setSubject(subject);
+                model.setOutTradeNo(out_trade_no);
+                model.setTimeoutExpress("30m");
+                model.setTotalAmount(total_amount);
+                model.setProductCode("QUICK_MSECURITY_PAY");
+                request.setBizModel(model);
+                request.setNotifyUrl(NOTIFY_URL);
+                request.setReturnUrl(CALLBACK_URL);
+                try {
+                    AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+                    if(response.getBody()!=null) {
+                        PayRecord payRecord = new PayRecord();
+                        payRecord.setPayRecordStyle("支付宝APP支付");
+                        payRecord.setOutTradeNo(out_trade_no);
+                        payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                        payRecord.setPayRecordTotalAmount(total_amount);
+                        payRecord.setPayRecordUser(user.getUserName());
+                        payRecord.setPayRecordStatus("0");
+                        payRecordMapper.addPayRecord(payRecord);
 
-                            aliPayResponse.setGoodName(subject);
-                            aliPayResponse.setGoodPrice(total_amount);
-                            aliPayResponse.setOtherOrderId(out_trade_no);
-                            aliPayResponse.setOutTradeNo(out_trade_no);
-                            aliPayResponse.setPayData(response.getBody());
-                        }
-                    } catch (AlipayApiException e) {
-                        e.printStackTrace();
+                        aliPayResponse.setGoodName(subject);
+                        aliPayResponse.setGoodPrice(total_amount);
+                        aliPayResponse.setOtherOrderId(out_trade_no);
+                        aliPayResponse.setOutTradeNo(out_trade_no);
+                        aliPayResponse.setPayData(response.getBody());
                     }
-                    return ResponseStatusCode.postSuccess(aliPayResponse);
+                } catch (AlipayApiException e) {
+                    e.printStackTrace();
                 }
-                else
-                {
+                return ResponseStatusCode.postSuccess(aliPayResponse);
+            }
+            else
+            {
                 /*获取支付宝配置的基本信息*/
-                    String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
-                    String APP_ID = aliPayConf.getAPP_ID();
-                    String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
-                    ;
-                    String CHARSET = "UTF-8";
-                    String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
-                    String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
-                    String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+                String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
+                String APP_ID = aliPayConf.getAPP_ID();
+                String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
 
-                    //实例化客户端
-                    AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
-                    //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-                    AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-                    //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
-                    AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
-                    //SDK已经封装掉了公共参数，这里只需要传入业务参数
-                    //此次只是参数展示，未进行字符串转义，实际情况下请转义
-                    model.setBody(out_trade_no);
-                    model.setSubject(subject);
-                    model.setOutTradeNo(out_trade_no);
-                    model.setTimeoutExpress("30m");
-                    model.setTotalAmount(total_amount);
-                    model.setProductCode("QUICK_MSECURITY_PAY");
-                    request.setBizModel(model);
-                    request.setNotifyUrl(NOTIFY_URL);
-                    request.setReturnUrl(CALLBACK_URL);
-                    try {
-                        AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
-                        if(response.getBody()!=null) {
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStyle("支付宝APP支付");
-                            payRecord.setOutTradeNo(out_trade_no);
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordTotalAmount(total_amount);
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordStatus("0");
-                            payRecordMapper.addPayRecord(payRecord);
+                String CHARSET = "UTF-8";
+                String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
+                String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
+                String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
 
-                            aliPayResponse.setGoodName(subject);
-                            aliPayResponse.setGoodPrice(total_amount);
-                            aliPayResponse.setOtherOrderId(out_trade_no);
-                            aliPayResponse.setOutTradeNo(out_trade_no);
-                            aliPayResponse.setPayData(response.getBody());
-                        }
-                    } catch (AlipayApiException e) {
-                        e.printStackTrace();
+                //实例化客户端
+                AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+                //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+                AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+                AlipayTradeAppPayModel model = new AlipayTradeAppPayModel();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数
+                //此次只是参数展示，未进行字符串转义，实际情况下请转义
+                model.setBody(out_trade_no);
+                model.setSubject(subject);
+                model.setOutTradeNo(out_trade_no);
+                model.setTimeoutExpress("30m");
+                model.setTotalAmount(total_amount);
+                model.setProductCode("QUICK_MSECURITY_PAY");
+                request.setBizModel(model);
+                request.setNotifyUrl(NOTIFY_URL);
+                request.setReturnUrl(CALLBACK_URL);
+                try {
+                    AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
+                    if(response.getBody()!=null) {
+                        PayRecord payRecord = new PayRecord();
+                        payRecord.setPayRecordStyle("支付宝APP支付");
+                        payRecord.setOutTradeNo(out_trade_no);
+                        payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                        payRecord.setPayRecordTotalAmount(total_amount);
+                        payRecord.setPayRecordUser(user.getUserName());
+                        payRecord.setPayRecordStatus("0");
+                        payRecordMapper.addPayRecord(payRecord);
+
+                        aliPayResponse.setGoodName(subject);
+                        aliPayResponse.setGoodPrice(total_amount);
+                        aliPayResponse.setOtherOrderId(out_trade_no);
+                        aliPayResponse.setOutTradeNo(out_trade_no);
+                        aliPayResponse.setPayData(response.getBody());
                     }
-
-                    return ResponseStatusCode.postSuccess(aliPayResponse);
+                } catch (AlipayApiException e) {
+                    e.printStackTrace();
                 }
+
+                return ResponseStatusCode.postSuccess(aliPayResponse);
             }
         }
     }
 
     /*实现支付宝H5支付*/
     @Override
-    public ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+    public void aliPhonePay(Long orderId, String token,String gameChannelId,HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         Order order = orderMapper.findByOrderId(orderId);
         AliPayResponse aliPayResponse = new AliPayResponse();
         if (order == null) {
             /*需要给出提示,没有这个订单，需要重新创建*/
-            return ResponseStatusCode.nullPointerError();
+
         } else {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
@@ -259,61 +261,119 @@ public class OrderServiceImpl implements OrderService {
             String gameName = game.getGameName();
 
             AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
-            /*获取支付宝配置的基本信息*/
-            String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
-            String APP_ID = aliPayConf.getAPP_ID();
-            String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
-            ;
-            String CHARSET = "UTF-8";
-            String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
-            String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
-            String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
-            String product_code = "QUICK_WAP_WAY";
+            if (aliPayConf==null)
+            {
+                 /*获取支付宝配置的基本信息*/
+                String APP_PRIVATE_KEY = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJzuFpK2ikT/cLzBMQS2G0VBDJM0vjHser7pV+AG5d2kfkSSzRgDMKyTiq871M8jQmEfVlZJNtgXcKdyV5bUhoCNQL4Tq3Jp8Ndo8oAQ/3NvSux794kkq6L2UhHwckJ5yoTb4bNzQYwkGXEmAal22+bZwsc6IVwNzk2TJ0H6VdpVAgMBAAECgYAoA9G/sUoKk/PkPYLJR8ImY5LYSl+hDUKzQX7FwhyE6rfDtocTc2TK7Ig1bJU0CDKZ30q9j8erTDbOi6pn7GMrKAzpF1nSMTjJgio03Kat9784YfI7tcT0YJjaGIsjNCeUiEhy/Hd1LxpExB1Dcet9Siy3USe4qXvzY7lXlkf9AQJBANCY+cWllFUJPwxg3kx77nrqlRBCodKuizcqZBJsZc3k/IDB8LX9UU3sljeNHJM9Ee/AU/fUzDLww4E/BsP0X5UCQQDAl2Nr/RylEw9cveOJDSstYFrVmWU+lZQN0Nq3StFcg/wEtV1H/ajOEHxn4/lYvLN2RcVTgIMm8lwxm1bWu9/BAkAUCU2cjX4E+QFkV/2iTRkoF1ZAHJZcnUVkBB9eoajZsRAL8hUD9hQULxByv4wqHGiXpdqq6HbAwd2VkY89zUBNAkEAl/wgms0RuPfUrMSx9qssws+Cf4RhkMUsJMcIg5OIqzEBRpn19mUovQ3nj3kqgqvQGGsxMRd+6NJkjUVgf2+eQQJAT1uJnT3N9h1O/FAhXrcg1f0tBswtCyvtcZNh3EStARDj2NluJwJiMMbgRZe12jfvfN6lmq0sUvwOT298H8W6qQ==";;
+                String APP_ID = "2016080301699003";
+                String ALIPAY_PUBLIC_KEY = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi";
+                String CHARSET = "UTF-8";
 
-            //实例化客户端
-            AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
-            //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-            AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
-            //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
-            alipayRequest.setNotifyUrl(NOTIFY_URL);
-            alipayRequest.setReturnUrl(CALLBACK_URL);
-            alipayRequest.setBizContent("{" +
-                    "    \"out_trade_no\":\"" + out_trade_no + "\"," +
-                    "    \"product_code\":\"" + product_code + "\"," +
-                    "    \"body\":\"" + subject + out_trade_no + "\"," +
-                    "    \"total_amount\":\"" + total_amount + "\"," +
-                    "    \"subject\":\"" + subject + "\"" +
-                    "  }");
-            String form = "";
-            try {
-                form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
-                PayRecord payRecord = new PayRecord();
-                payRecord.setPayRecordStyle("支付宝APP支付");
-                payRecord.setOutTradeNo(out_trade_no);
-                payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                payRecord.setPayRecordTotalAmount(total_amount);
-                payRecord.setPayRecordUser(user.getUserName());
-                payRecord.setPayRecordStatus("0");
-                payRecordMapper.addPayRecord(payRecord);
+                String CALLBACK_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
+                String NOTIFY_URL = "http://testomsdk.xiaobalei.com:5555/web/u/Pqug-wBEDuehOBFnVc8";
+                String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+                String product_code = "QUICK_WAP_WAY";
 
-                aliPayResponse.setGoodName(subject);
-                aliPayResponse.setGoodPrice(total_amount);
-                aliPayResponse.setOtherOrderId(out_trade_no);
-                aliPayResponse.setOutTradeNo(out_trade_no);
+                //实例化客户端
+                AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+                //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+                AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+                alipayRequest.setNotifyUrl(NOTIFY_URL);
+                alipayRequest.setReturnUrl(CALLBACK_URL);
+                alipayRequest.setBizContent("{" +
+                        "    \"out_trade_no\":\"" + out_trade_no + "\"," +
+                        "    \"product_code\":\"" + product_code + "\"," +
+                        "    \"body\":\"" + subject + out_trade_no + "\"," +
+                        "    \"total_amount\":\"" + total_amount + "\"," +
+                        "    \"subject\":\"" + subject + "\"" +
+                        "  }");
+                String form = "";
+                try {
+                    form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
+                    PayRecord payRecord = new PayRecord();
+                    payRecord.setPayRecordStyle("支付宝APP支付");
+                    payRecord.setOutTradeNo(out_trade_no);
+                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                    payRecord.setPayRecordTotalAmount(total_amount);
+                    payRecord.setPayRecordUser(user.getUserName());
+                    payRecord.setPayRecordStatus("0");
+                    payRecordMapper.addPayRecord(payRecord);
+
+                    aliPayResponse.setGoodName(subject);
+                    aliPayResponse.setGoodPrice(total_amount);
+                    aliPayResponse.setOtherOrderId(out_trade_no);
+                    aliPayResponse.setOutTradeNo(out_trade_no);
                 /*aliPayResponse.setPayData((String) httpResponse.getOutputStream());*/
-            } catch (AlipayApiException e) {
-                e.printStackTrace();
+                } catch (AlipayApiException e) {
+                    e.printStackTrace();
+                }
+                httpResponse.setContentType("text/html;charset=" + CHARSET);
+                try {
+                    httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
+                    httpResponse.getWriter().flush();
+                    httpResponse.getWriter().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            httpResponse.setContentType("text/html;charset=" + CHARSET);
-            try {
-                httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
-                httpResponse.getWriter().flush();
-                httpResponse.getWriter().close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            else
+            {
+                 /*获取支付宝配置的基本信息*/
+                String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
+                String APP_ID = aliPayConf.getAPP_ID();
+                String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
+                ;
+                String CHARSET = "UTF-8";
+                String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
+                String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
+                String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
+                String product_code = "QUICK_WAP_WAY";
+
+                //实例化客户端
+                AlipayClient alipayClient = new DefaultAlipayClient(ALIPAY_GATEWAY, APP_ID, APP_PRIVATE_KEY, "json", CHARSET, ALIPAY_PUBLIC_KEY, "RSA");
+                //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
+                AlipayTradeWapPayRequest alipayRequest = new AlipayTradeWapPayRequest();
+                //SDK已经封装掉了公共参数，这里只需要传入业务参数。以下方法为sdk的model入参方式(model和biz_content同时存在的情况下取biz_content)。
+                alipayRequest.setNotifyUrl(NOTIFY_URL);
+                alipayRequest.setReturnUrl(CALLBACK_URL);
+                alipayRequest.setBizContent("{" +
+                        "    \"out_trade_no\":\"" + out_trade_no + "\"," +
+                        "    \"product_code\":\"" + product_code + "\"," +
+                        "    \"body\":\"" + subject + out_trade_no + "\"," +
+                        "    \"total_amount\":\"" + total_amount + "\"," +
+                        "    \"subject\":\"" + subject + "\"" +
+                        "  }");
+                String form = "";
+                try {
+                    form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
+                    PayRecord payRecord = new PayRecord();
+                    payRecord.setPayRecordStyle("支付宝APP支付");
+                    payRecord.setOutTradeNo(out_trade_no);
+                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                    payRecord.setPayRecordTotalAmount(total_amount);
+                    payRecord.setPayRecordUser(user.getUserName());
+                    payRecord.setPayRecordStatus("0");
+                    payRecordMapper.addPayRecord(payRecord);
+
+                    aliPayResponse.setGoodName(subject);
+                    aliPayResponse.setGoodPrice(total_amount);
+                    aliPayResponse.setOtherOrderId(out_trade_no);
+                    aliPayResponse.setOutTradeNo(out_trade_no);
+                /*aliPayResponse.setPayData((String) httpResponse.getOutputStream());*/
+                } catch (AlipayApiException e) {
+                    e.printStackTrace();
+                }
+                httpResponse.setContentType("text/html;charset=" + CHARSET);
+                try {
+                    httpResponse.getWriter().write(form);//直接将完整的表单html输出到页面
+                    httpResponse.getWriter().flush();
+                    httpResponse.getWriter().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-        return ResponseStatusCode.postSuccess(aliPayResponse);
     }
 
     /*实现微信支付*/
@@ -627,5 +687,5 @@ public class OrderServiceImpl implements OrderService {
         }
         return ResponseStatusCode.verifyError();
     }
-    
+
 }

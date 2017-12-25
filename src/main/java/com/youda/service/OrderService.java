@@ -24,7 +24,7 @@ public interface OrderService {
     ResponseEntity alipay(Long orderId,String token,String gameChannelId);
 
     /*定义支付宝H5支付*/
-    ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse);
+    void aliPhonePay(Long orderId,String token,String gameChannelId,HttpServletRequest httpRequest, HttpServletResponse httpResponse);
 
     /*定义微信支付*/
     ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response);
@@ -38,6 +38,6 @@ public interface OrderService {
     /*实现苹果内购的验签*/
     ResponseEntity iosAttestation(String receipt);
 
-    ResponseEntity googleAttestation(GoogleRequest receipt,Long orderId);
+    ResponseEntity googleAttestation(GoogleRequest request,Long orderId);
 
 }
