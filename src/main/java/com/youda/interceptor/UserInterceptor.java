@@ -43,7 +43,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
         }
         String id = request.getHeader("userId");
         String tokenText = request.getHeader("token");
-        String channelGameId = request.getHeader("channelGameId");
+        String channelGameId = request.getHeader("gameChannelId");
         if (id != null && tokenText != null) {
             Token token = tokenService.findTokenByIDs(Long.valueOf(id), Long.valueOf(channelGameId));
             if (token != null && token.getAccessToken().equals(tokenText)) {

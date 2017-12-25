@@ -1,39 +1,37 @@
 package com.youda.serviceImpl;
 
-import com.alipay.api.internal.util.AlipaySignature;
-import com.alipay.api.request.AlipayTradeWapPayRequest;
-import com.youda.dao.OrderMapper;
-import com.youda.model.Order;
-import com.youda.request.api.OrderRequest;
-import com.youda.response.api.AttestationResponse;
-import com.youda.response.api.OrderResponse;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
+import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.youda.dao.*;
 import com.youda.model.*;
+import com.youda.request.api.GoogleRequest;
+import com.youda.request.api.OrderRequest;
 import com.youda.response.AliPayResponse;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.WeChatPayResponse;
+import com.youda.response.api.AttestationResponse;
+import com.youda.response.api.OrderResponse;
 import com.youda.service.GameChannelService;
-import com.youda.util.MD5Util;
-import com.youda.util.PrepayIdRequestHandler;
-import com.youda.util.WXUtil;
-import com.youda.util.XMLUtil;
+import com.youda.service.OrderService;
+import com.youda.util.*;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
-import com.youda.service.OrderService;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -617,5 +615,17 @@ public class OrderServiceImpl implements OrderService {
         }
         return null;*/
         return null;
+    }
+
+    @Override
+    public ResponseEntity googleAttestation(GoogleRequest request, Long orderId) {
+
+        String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";
+        if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
+            // TODO: 2017/12/25 标记订单号为  orderId 已经支付
+            // TODO: 2017/12/25 通知游戏方发货
+            return ResponseStatusCode.putOrGetSuccess(null);
+        }
+        return ResponseStatusCode.verifyError();
     }
 }

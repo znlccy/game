@@ -24,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Token findTokenByIDs(Long userId, Long channelGameId) {
-        return tokenMapper.findTokenByIds(userId,channelGameId);
+    public Token findTokenByIDs(Long userId, Long gameChannelId) {
+        return tokenMapper.findTokenByIds(userId,gameChannelId);
     }
 }

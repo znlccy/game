@@ -98,14 +98,12 @@ public interface TokenMapper {
     List<Token> findAllToken();
 
 
-    // TODO: 2017/12/11  通过 用户id 渠道游戏ID 去查询token
-
     /**
      * 通过用户ID查询token
      *
      * @param userId channelGameId
      * @return Token
      */
-    /*@Select("select")*/
-    Token findTokenByIds(Long userId, Long channelGameId);
+    @Select("select * from tb_token where userId = #{userId} and gameChannelId = #{gameChannelId} ")
+    Token findTokenByIds(@Param("userId") Long userId, @Param("gameChannelId") Long gameChannelId);
 }

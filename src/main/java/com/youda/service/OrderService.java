@@ -1,5 +1,6 @@
 package com.youda.service;
 
+import com.youda.request.api.GoogleRequest;
 import com.youda.request.api.OrderRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -37,6 +38,6 @@ public interface OrderService {
     /*实现苹果内购的验签*/
     ResponseEntity iosAttestation(String receipt);
 
-//    ResponseEntity googleAttestation(G receipt);
+    ResponseEntity googleAttestation(GoogleRequest receipt,Long orderId);
 
 }
