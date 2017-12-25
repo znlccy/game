@@ -62,6 +62,6 @@ public class OrderRequest extends BaseRequest {
                 || !orderTotalAmount.matches("^(([1-9]\\d*)|([0]))(\\.(\\d){0,2})?$")
                 || orderSubject == null || orderSubject.isEmpty()
                 || otherOrderId == null || otherOrderId.isEmpty()
-                || gameId == null || gameId==0;
+                || getGameChannelId() == null || getGameChannelId() == 0;
     }
 }

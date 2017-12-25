@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 public interface GameChannelMapper {
 
-    @Select("select * from tb_gamechannel where gameChannelId = #{id})")
+    @Select("select * from tb_gamechannel where gameChannelId = #{id}")
     GameChannel findById(@Param("id") Long gameChannelId);
 
     @Select("select * from tb_gamechannel where gameId = #{gameId} and channelId = #{channelId}")
