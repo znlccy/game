@@ -23,17 +23,20 @@ public interface OrderService {
     ResponseEntity alipay(Long orderId);
 
     /*定义支付宝H5支付*/
-    ResponseEntity aliPhonePay(Long orderId,HttpServletRequest httpRequest,HttpServletResponse httpResponse);
+    ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse);
 
     /*定义微信支付*/
-    ResponseEntity wechatpay(Long orderId, HttpServletRequest request,HttpServletResponse response);
+    ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response);
 
     /*定义支付宝支付验签*/
     ResponseEntity alipayAttestation(HttpServletRequest request);
 
     /*定义微信支付验签*/
-    ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) throws IOException;
+    ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /*实现苹果内购的验签*/
     ResponseEntity iosAttestation(String receipt);
+
+//    ResponseEntity googleAttestation(G receipt);
+
 }

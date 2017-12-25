@@ -9,12 +9,9 @@ import com.youda.response.api.AttestationResponse;
 import com.youda.response.api.OrderResponse;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
-import com.alipay.api.AlipayResponse;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
-import com.alipay.api.request.AlipayOpenPublicTemplateMessageIndustryModifyRequest;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
-import com.alipay.api.response.AlipayOpenPublicTemplateMessageIndustryModifyResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.youda.dao.*;
 import com.youda.model.*;
@@ -27,7 +24,6 @@ import com.youda.util.PrepayIdRequestHandler;
 import com.youda.util.WXUtil;
 import com.youda.util.XMLUtil;
 import org.jdom.JDOMException;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -35,20 +31,15 @@ import org.springframework.stereotype.Service;
 import com.youda.service.OrderService;
 import org.springframework.web.client.RestTemplate;
 
-import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.management.MemoryUsage;
-import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import static com.alipay.api.AlipayConstants.APP_ID;
-import static com.alipay.api.AlipayConstants.CHARSET;
 
 /**
  * @author chencongye
