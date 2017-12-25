@@ -40,7 +40,7 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
         if (method.getAnnotation(CurrentChannel.class) == null) {
             return true;
         }
-        String channelGameId = request.getHeader("channelGameId");
+        String channelGameId = request.getHeader("gameChannelId");
         String channelKey = request.getHeader("channelKey");
 
         if (channelGameId != null && channelKey != null) {
