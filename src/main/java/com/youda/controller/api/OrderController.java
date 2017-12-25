@@ -90,8 +90,11 @@ public class OrderController {
     @ResponseBody
     @RequestMapping(value = "/iosattestation", method = RequestMethod.POST)
     public ResponseEntity iosAttestation(@Param("receipt") String receipt) {
-        orderService.iosAttestation(receipt);
-        return null;
+        if (receipt.isEmpty())
+        {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return orderService.iosAttestation(receipt);
     }
 
     /*使用google内购进行验签*/

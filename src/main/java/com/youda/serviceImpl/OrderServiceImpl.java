@@ -1,5 +1,6 @@
 package com.youda.serviceImpl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.youda.dao.OrderMapper;
@@ -29,9 +30,11 @@ import org.springframework.stereotype.Service;
 import com.youda.service.OrderService;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -647,10 +650,10 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-    /*实现苹果内购支付的验签*/
+    /*实现苹果内购支付的验签,需要注意的是内购支付的时候要随意切换*/
     @Override
     public ResponseEntity iosAttestation(String receipt) {
-        /*String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
         try {
             HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
             connection.setRequestMethod("POST");
@@ -669,12 +672,15 @@ public class OrderServiceImpl implements OrderService {
             String resultStr = sb.toString();
             JSONObject result = JSONObject.parseObject(resultStr);
             if (result != null && result.getInteger("status") == 21007) {
-                return verifyReceipt1("https://sandbox.itunes.apple.com/verifyReceipt", receipt);
+                return ResponseStatusCode.putOrGetSuccess(null);
+            }
+            else
+            {
+                return ResponseStatusCode.putOrGetFailed(null);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;*/
         return null;
     }
 
