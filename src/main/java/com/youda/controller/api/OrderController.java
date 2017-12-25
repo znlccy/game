@@ -3,6 +3,7 @@ package com.youda.controller.api;
 import com.youda.request.api.OrderRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.OrderService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,4 +86,11 @@ public class OrderController {
         return ResponseStatusCode.putOrGetFailed(null);
     }
 
+    /*使用IOS内购进行验签*/
+    @ResponseBody
+    @RequestMapping(value = "/iosattestation" , method = RequestMethod.POST)
+    public ResponseEntity iosAttestation(@Param("receipt") String receipt) {
+        orderService.iosAttestation(receipt);
+        return  null;
+    }
 }

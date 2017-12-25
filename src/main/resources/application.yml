@@ -3,16 +3,16 @@ spring:
     throw-exception-if-no-handler-found: true
   profiles:
     #使用的开发环境为dev:开发环境 qa:测试环境 prod:生产环境
-    active: prod
+    active: dev
   datasource:
     #数据库驱动类
     driver-class-name: com.mysql.jdbc.Driver
     #数据库URL地址
-    url: jdbc:mysql://23sdk.23h5.cn:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
     #数据库用户名
     username: root
     #数据库密码
-    password: yd123456
+    password: root
     tomcat:
       initialSize: 1
       min-idle: 1
@@ -29,7 +29,7 @@ spring:
       hibernate:
         hbm2ddl:
           #生成规则
-          auto: create
+          auto: update
         #设置对应的方言
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     #设置显示SQL语句

@@ -26,6 +26,7 @@ import com.youda.util.PrepayIdRequestHandler;
 import com.youda.util.WXUtil;
 import com.youda.util.XMLUtil;
 import org.jdom.JDOMException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,13 +34,12 @@ import org.springframework.stereotype.Service;
 import com.youda.service.OrderService;
 import org.springframework.web.client.RestTemplate;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.lang.management.MemoryUsage;
+import java.net.URL;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -93,9 +93,9 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderSubject(request.getOrderSubject());
         order.setUserId(request.getUserId());
         orderMapper.createOrder(order);
-        /*if (order.getOrderId() == 0) {
+        if (order.getOrderId() == 0) {
             return ResponseStatusCode.conflictError();
-        }*/
+        }
         return ResponseStatusCode.postSuccess(new OrderResponse(order.getOrderId()));
     }
 
@@ -542,8 +542,31 @@ public class OrderServiceImpl implements OrderService {
     /*实现苹果内购支付的验签*/
     @Override
     public ResponseEntity iosAttestation(String receipt) {
-        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
-        /*new RestTemplate().postForObject(url,Re);*/
+        /*String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        try {
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setAllowUserInteraction(false);
+            PrintStream ps = new PrintStream(connection.getOutputStream());
+            ps.print("{\"receipt-data\": \"" + receipt + "\"}");
+            ps.close();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String str;
+            StringBuffer sb = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+            }
+            br.close();
+            String resultStr = sb.toString();
+            JSONObject result = JSONObject.parseObject(resultStr);
+            if (result != null && result.getInteger("status") == 21007) {
+                return verifyReceipt1("https://sandbox.itunes.apple.com/verifyReceipt", receipt);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;*/
         return null;
     }
 }
