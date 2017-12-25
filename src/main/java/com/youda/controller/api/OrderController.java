@@ -4,6 +4,7 @@ import com.youda.request.api.OrderRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.OrderService;
 import org.apache.ibatis.annotations.Param;
+import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,16 +43,16 @@ public class OrderController {
 
     /*实现支付宝支付的功能*/
     @ResponseBody
-    @RequestMapping(value = "/alipay", method = RequestMethod.GET)
-    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId,@RequestHeader String token) {
-        if (orderId == null || orderId == 0) {
+    @RequestMapping(value = "/alipay", method = RequestMethod.POST)
+    public ResponseEntity aliPayOrder(@RequestParam("orderId") String orderId, @RequestHeader String token,@RequestHeader String gameChannelId) {
+        if (Long.valueOf(orderId) == null || Long.valueOf(orderId)  == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.alipay(orderId);
+        return orderService.alipay(Long.valueOf(orderId),token,gameChannelId);
     }
 
     /*实现支付H5支付*/
-    @RequestMapping(value = "/aliphonepay", method = RequestMethod.GET)
+    @RequestMapping(value = "/aliphonepay", method = RequestMethod.POST)
     public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId,@RequestHeader String token,HttpServletRequest httpRequest,HttpServletResponse httpResponse) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
@@ -60,7 +61,7 @@ public class OrderController {
     }
 
     /*实现微信支付的功能*/
-    @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
+    @RequestMapping(value = "/wechatpay", method = RequestMethod.POST)
     public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token,HttpServletRequest request, HttpServletResponse response) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();

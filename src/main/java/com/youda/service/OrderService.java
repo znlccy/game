@@ -20,7 +20,7 @@ public interface OrderService {
     ResponseEntity createOrder(OrderRequest orderRequest);
 
     /*定义支付宝支付*/
-    ResponseEntity alipay(Long orderId);
+    ResponseEntity alipay(Long orderId,String token,String gameChannelId);
 
     /*定义支付宝H5支付*/
     ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse);
