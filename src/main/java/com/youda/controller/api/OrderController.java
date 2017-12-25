@@ -65,21 +65,21 @@ public class OrderController {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.wechatpay(orderId,request,response);
+        return orderService.wechatpay(orderId, request, response);
     }
 
     /*实现支付宝验签的功能以及通知第三方*/
     @ResponseBody
-    @RequestMapping(value = "/aliattestation",method = RequestMethod.POST)
+    @RequestMapping(value = "/aliattestation", method = RequestMethod.POST)
     public ResponseEntity alipayAttestation(HttpServletRequest request) {
         return orderService.alipayAttestation(request);
     }
 
     /*实现微信验签的功能以及通知第三方*/
     @RequestMapping(value = "/wechatattestation", method = RequestMethod.POST)
-    public ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) {
+    public ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) {
         try {
-            return orderService.wechatAttestation(request,response);
+            return orderService.wechatAttestation(request, response);
         } catch (IOException e) {
             e.printStackTrace();
         }

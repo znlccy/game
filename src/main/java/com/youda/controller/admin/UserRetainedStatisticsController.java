@@ -61,5 +61,4 @@ public class UserRetainedStatisticsController {
     public ResponseEntity allUserRetainedStatistics() {
         return userRetainedStatisticsService.allUserRetainedStatisticsStatistics();
     }
-
 }

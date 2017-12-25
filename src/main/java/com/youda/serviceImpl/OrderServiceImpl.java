@@ -21,6 +21,7 @@ import com.youda.model.*;
 import com.youda.response.AliPayResponse;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.WeChatPayResponse;
+import com.youda.service.GameChannelService;
 import com.youda.util.MD5Util;
 import com.youda.util.PrepayIdRequestHandler;
 import com.youda.util.WXUtil;
@@ -63,6 +64,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderMapper orderMapper;
 
+    @Autowired
+    private GameChannelService channelService;
+
     /*实现游戏dao层的自动依赖注入*/
     @Autowired
     GameMapper gameMapper;
@@ -104,13 +108,10 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity alipay(Long orderId) {
         Order order = orderMapper.findByOrderId(orderId);
         AliPayResponse aliPayResponse = new AliPayResponse();
-        if (order==null)
-        {
+        if (order == null) {
             /*需要给出提示,没有这个订单，需要重新创建*/
             return ResponseStatusCode.nullPointerError();
-        }
-        else
-        {
+        } else {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
             /*获取订单一些支付属性*/
@@ -121,10 +122,11 @@ public class OrderServiceImpl implements OrderService {
 
             AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameName(gameName);
             /*获取支付宝配置的基本信息*/
-            String APP_PRIVATE_KEY=aliPayConf.getAPP_PRIVATE_KEY();
-            String APP_ID=aliPayConf.getAPP_ID();
-            String ALIPAY_PUBLIC_KEY=aliPayConf.getALIPAY_PUBLIC_KEY();;
-            String CHARSET="UTF-8";
+            String APP_PRIVATE_KEY = aliPayConf.getAPP_PRIVATE_KEY();
+            String APP_ID = aliPayConf.getAPP_ID();
+            String ALIPAY_PUBLIC_KEY = aliPayConf.getALIPAY_PUBLIC_KEY();
+            ;
+            String CHARSET = "UTF-8";
             String CALLBACK_URL = aliPayConf.getCALLBACK_URL();
             String NOTIFY_URL = aliPayConf.getNOTIFY_URL();
             String ALIPAY_GATEWAY = "https://openapi.alipay.com/gateway.do";
@@ -152,7 +154,7 @@ public class OrderServiceImpl implements OrderService {
             } catch (AlipayApiException e) {
             }
             //调用成功，则处理业务逻辑
-            if(response.isSuccess()){
+            if (response.isSuccess()) {
                 PayRecord payRecord = new PayRecord();
                 payRecord.setPayRecordStyle("支付宝APP支付");
                 payRecord.setOutTradeNo(out_trade_no);
@@ -254,24 +256,19 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response) {
         Order order = orderMapper.findByOrderId(orderId);
         WeChatPayResponse weChatPayResponse = new WeChatPayResponse();
-        if(order==null)
-        {
+        if (order == null) {
             /*不存在这个订单,需要有提示去重新生成一个订单*/
             return ResponseStatusCode.nullPointerError();
-        }
-        else
-        {
+        } else {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
             String gameName = game.getGameName();
             /*获取微信支付配置信息*/
             WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameName(gameName);
-            if (weChatConf==null) {
+            if (weChatConf == null) {
                 return ResponseStatusCode.nullPointerError();
                 //需要后台去添加响应的微信支付配置信息
-            }
-            else
-            {
+            } else {
                 //获取订单一些属性
                 String GATEURL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
                 String BODY = order.getOrderSubject();
@@ -286,20 +283,20 @@ public class OrderServiceImpl implements OrderService {
                 String PARTNER_ID = weChatConf.getPARTNER_ID();
                 String SPBILL_CREATE_IP = request.getRemoteAddr();
                 String TIMESTAMP = WXUtil.getTimeStamp();
-                PrepayIdRequestHandler prepayReqHandler = new PrepayIdRequestHandler(request,response);
-                prepayReqHandler.setParameter("appid",APP_ID);
-                prepayReqHandler.setParameter("body",BODY);
-                prepayReqHandler.setParameter("mch_id",MCH_ID);
-                prepayReqHandler.setParameter("nonce_str",NONCE_STR);
-                prepayReqHandler.setParameter("notify_url",NOTIFY_URL);
-                prepayReqHandler.setParameter("out_trade_no",OUT_TRADE_NO);
-                prepayReqHandler.setParameter("spbill_create_ip",SPBILL_CREATE_IP);
-                prepayReqHandler.setParameter("time_start",TIMESTAMP);
-                prepayReqHandler.setParameter("total_fee",TOTAL_FEE);
-                prepayReqHandler.setParameter("trade_type","APP");
+                PrepayIdRequestHandler prepayReqHandler = new PrepayIdRequestHandler(request, response);
+                prepayReqHandler.setParameter("appid", APP_ID);
+                prepayReqHandler.setParameter("body", BODY);
+                prepayReqHandler.setParameter("mch_id", MCH_ID);
+                prepayReqHandler.setParameter("nonce_str", NONCE_STR);
+                prepayReqHandler.setParameter("notify_url", NOTIFY_URL);
+                prepayReqHandler.setParameter("out_trade_no", OUT_TRADE_NO);
+                prepayReqHandler.setParameter("spbill_create_ip", SPBILL_CREATE_IP);
+                prepayReqHandler.setParameter("time_start", TIMESTAMP);
+                prepayReqHandler.setParameter("total_fee", TOTAL_FEE);
+                prepayReqHandler.setParameter("trade_type", "APP");
                 /*生成签名*/
                 String SIGN = prepayReqHandler.createMD5Sign(APP_KEY);
-                prepayReqHandler.setParameter("sign",SIGN);
+                prepayReqHandler.setParameter("sign", SIGN);
                 prepayReqHandler.setGateUrl(GATEURL);
                 try {
                     String prepayid = prepayReqHandler.sendPrepay();
@@ -343,9 +340,9 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity alipayAttestation(HttpServletRequest request) {
 
         /*获取用户提交过来待验签的数据*/
-        Map<String,String> params = new HashMap<String,String>();
+        Map<String, String> params = new HashMap<String, String>();
         Map requestParams = request.getParameterMap();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
             String name = (String) iter.next();
             String[] values = (String[]) requestParams.get(name);
             String valueStr = "";
@@ -362,13 +359,10 @@ public class OrderServiceImpl implements OrderService {
         /*通过订单号查询游戏*/
         Order order = orderMapper.findByOrderId(Long.valueOf(orderId));
         /*验证数据库中是否存在这个订单，从而获取对应的支付宝配置信息*/
-        if(order==null)
-        {
+        if (order == null) {
             /*不存在这个订单*/
             return ResponseStatusCode.nullPointerError();
-        }
-        else
-        {
+        } else {
             /*获取对应的游戏名称*/
             long gameId = order.getGameId();
             Game game = gameMapper.findByGameId(gameId);
@@ -385,9 +379,8 @@ public class OrderServiceImpl implements OrderService {
             /*验签过程*/
             boolean flag = false;
             try {
-                flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET,"RSA");
-                if(flag)
-                {
+                flag = AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, CHARSET, "RSA");
+                if (flag) {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
                     payRecord.setPayRecordStatus("1");
@@ -401,18 +394,15 @@ public class OrderServiceImpl implements OrderService {
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
-                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
-                    {
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                            new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                     return ResponseStatusCode.putOrGetSuccess(attestationResponse);
-                }
-                else
-                {
+                } else {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
                     payRecord.setPayRecordStatus("0");
@@ -426,10 +416,9 @@ public class OrderServiceImpl implements OrderService {
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
-                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
-                    {
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                            new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -445,7 +434,7 @@ public class OrderServiceImpl implements OrderService {
 
     /*实现微信支付验签以及统计第三方服务器地址*/
     @Override
-    public ResponseEntity wechatAttestation(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         PrintWriter writer = response.getWriter();
         InputStream inStream = request.getInputStream();
@@ -471,7 +460,7 @@ public class OrderServiceImpl implements OrderService {
         }
 
         Order order = orderMapper.findByOrderId(Long.valueOf(orderId));
-                /*获取游戏Id*/
+        /*获取游戏Id*/
         long gameId = order.getGameId();
         Game game = gameMapper.findByGameId(gameId);
         String gameName = game.getGameName();
@@ -480,12 +469,9 @@ public class OrderServiceImpl implements OrderService {
         // 若支付成功，则告知微信服务器收到通知
         if (map.get("return_code").equals("SUCCESS")) {
             if (map.get("result_code").equals("SUCCESS")) {
-                if(order==null)
-                {
+                if (order == null) {
                     return ResponseStatusCode.nullPointerError();
-                }
-                else
-                {
+                } else {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
                     payRecord.setPayRecordStatus("1");
@@ -499,36 +485,32 @@ public class OrderServiceImpl implements OrderService {
                     /*实现通知第三方服务器*/
                     String notifyUrl = weChatConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
-                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
-                    {
+                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                            new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                     return ResponseStatusCode.putOrGetSuccess(attestationResponse);
                 }
-            }
-            else
-            {
+            } else {
                 /*实现更新支付记录信息*/
                 PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
                 payRecord.setPayRecordStatus("0");
                 payRecordMapper.modifyPayRecordInfo(payRecord);
-                    /*返回给客户端信息*/
+                /*返回给客户端信息*/
                 AttestationResponse attestationResponse = new AttestationResponse();
                 attestationResponse.setOutTradeNo(orderId);
                 attestationResponse.setResponseTime(new Date());
                 attestationResponse.setResult("验签失败！");
                 attestationResponse.setGoodName(gameName);
-                    /*实现通知第三方服务器*/
+                /*实现通知第三方服务器*/
                 String notifyUrl = weChatConf.getNOTIFY_URL();
                 String isPushed = order.getIsPushed();
-                if (isPushed.equals("") || isPushed.isEmpty() || isPushed==null )
-                {
+                if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                        new RestTemplate().postForObject(notifyUrl,null,attestationResponse.getClass());
+                        new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

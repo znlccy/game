@@ -87,6 +87,6 @@ public interface UserMapper {
      * @return
      */
     @Insert("insert into tb_user(userName,userPassword,userRegisteredTime) values(#{user.userName},#{user.userPassword},#{user.userRegisteredTime})")
-    @Options(useGeneratedKeys = true, keyProperty = "userId")
+    @Options(useGeneratedKeys = true, keyProperty = "user.userId")
     boolean addUser(@Param("user") User user);
 }

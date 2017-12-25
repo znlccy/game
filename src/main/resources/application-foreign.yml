@@ -1,0 +1,25 @@
+#开发环境
+name: game
+server:
+  port: 8080
+spring:
+  datasource:
+      #数据库驱动类
+      driver-class-name: com.mysql.jdbc.Driver
+      #数据库URL地址
+      url: jdbc:mysql://47.91.105.120:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
+      #数据库用户名
+      username: root
+      #数据库密码
+      password: root
+      tomcat:
+        initialSize: 1
+        min-idle: 1
+        max-idle: 20
+        max-wait: 60000
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 30000
+        validationQuery: SELECT 1
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
