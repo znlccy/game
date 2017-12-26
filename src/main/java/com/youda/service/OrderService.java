@@ -1,6 +1,7 @@
 package com.youda.service;
 
 import com.youda.request.api.GoogleRequest;
+import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -21,13 +22,13 @@ public interface OrderService {
     ResponseEntity createOrder(OrderRequest orderRequest);
 
     /*定义支付宝支付*/
-    ResponseEntity alipay(Long orderId);
+    ResponseEntity alipay(Long orderId,String token,String gameChannelId);
 
     /*定义支付宝H5支付*/
-    ResponseEntity aliPhonePay(Long orderId, HttpServletRequest httpRequest, HttpServletResponse httpResponse);
+    void aliPhonePay(Long orderId,String token,String gameChannelId,HttpServletRequest httpRequest, HttpServletResponse httpResponse);
 
     /*定义微信支付*/
-    ResponseEntity wechatpay(Long orderId, HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity wechatpay(Long orderId,String token,String gameChannelId,HttpServletRequest request, HttpServletResponse response);
 
     /*定义支付宝支付验签*/
     ResponseEntity alipayAttestation(HttpServletRequest request);
@@ -36,8 +37,9 @@ public interface OrderService {
     ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /*实现苹果内购的验签*/
-    ResponseEntity iosAttestation(String receipt);
+    ResponseEntity iosAttestation(IOSPayRequest request, Long orderId);
 
-    ResponseEntity googleAttestation(GoogleRequest receipt,Long orderId);
+    /*实现google内购验签*/
+    ResponseEntity googleAttestation(GoogleRequest request,Long orderId);
 
 }

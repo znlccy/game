@@ -2,6 +2,7 @@ package com.youda.controller.api;
 
 import com.youda.annotation.CurrentUser;
 import com.youda.request.api.GoogleRequest;
+import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.OrderService;
@@ -45,30 +46,27 @@ public class OrderController {
 
     /*实现支付宝支付的功能*/
     @ResponseBody
-    @RequestMapping(value = "/alipay", method = RequestMethod.GET)
-    public ResponseEntity aliPayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token) {
+    @RequestMapping(value = "/alipay/{orderId}", method = RequestMethod.POST)
+    public ResponseEntity aliPayOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId) {
         if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.alipay(orderId);
+        return orderService.alipay(orderId,token,gameChannelId);
     }
 
     /*实现支付H5支付*/
-    @RequestMapping(value = "/aliphonepay", method = RequestMethod.GET)
-    public ResponseEntity aliPhonePayOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
-        if (orderId == null || orderId == 0) {
-            return ResponseStatusCode.nullPointerError();
-        }
-        return orderService.aliPhonePay(orderId, httpRequest, httpResponse);
+    @RequestMapping(value = "/aliphonepay/{orderId}", method = RequestMethod.POST)
+    public void aliPhonePayOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
+        orderService.aliPhonePay(orderId,token,gameChannelId,httpRequest, httpResponse);
     }
 
     /*实现微信支付的功能*/
-    @RequestMapping(value = "/wechatpay", method = RequestMethod.GET)
-    public ResponseEntity wechatOrder(@RequestParam(name = "orderId") Long orderId, @RequestHeader String token, HttpServletRequest request, HttpServletResponse response) {
-        if (orderId == null || orderId == 0) {
+    @RequestMapping(value = "/wechatpay/{orderId}", method = RequestMethod.POST)
+    public ResponseEntity wechatOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId,HttpServletRequest request, HttpServletResponse response) {
+        /*if (orderId == null || orderId == 0) {
             return ResponseStatusCode.nullPointerError();
-        }
-        return orderService.wechatpay(orderId, request, response);
+        }*/
+        return orderService.wechatpay(orderId,token,gameChannelId,request, response);
     }
 
     /*实现支付宝验签的功能以及通知第三方*/
@@ -91,10 +89,14 @@ public class OrderController {
 
     /*使用IOS内购进行验签*/
     @ResponseBody
-    @RequestMapping(value = "/iosattestation", method = RequestMethod.POST)
-    public ResponseEntity iosAttestation(@Param("receipt") String receipt) {
-        orderService.iosAttestation(receipt);
-        return null;
+    @RequestMapping(value = "/{orderId}/iosattestation", method = RequestMethod.POST)
+    public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String gameChannelId,@PathVariable Long orderId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
+        if (request.isEmpty())
+        {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return orderService.iosAttestation(request,orderId);
     }
 
     /*使用google内购进行验签*/

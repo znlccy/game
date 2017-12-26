@@ -44,6 +44,10 @@ public interface OrderMapper {
     @Select("select * from tb_order where orderSubject=#{orderSubject}")
     public List<Order> findByOrderSubject(@Param("orderSubject") String orderSubject);
 
+    /*通过第三方id查找*/
+    @Select("select * from tb_order where otherOrderId=#{otherOrderId}")
+    public Order findByOtherOrderId(@Param("otherOrderId") String otherOrderId);
+
     /**
      * 定义通过订单主键Id来删除订单
      *
