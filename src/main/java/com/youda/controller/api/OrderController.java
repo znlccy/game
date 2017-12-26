@@ -81,6 +81,7 @@ public class OrderController {
     }
 
     /*实现微信验签的功能以及通知第三方*/
+    @CurrentUser
     @RequestMapping(value = "/wechatattestation", method = RequestMethod.POST)
     public ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) {
         try {

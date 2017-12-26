@@ -544,7 +544,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            attestationResponse = new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
+                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -566,7 +566,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            attestationResponse = new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
+                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -635,7 +635,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            attestationResponse = new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
+                           AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -658,7 +658,7 @@ public class OrderServiceImpl implements OrderService {
                 String isPushed = order.getIsPushed();
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                        attestationResponse = new RestTemplate().postForObject(notifyUrl, null, attestationResponse.getClass());
+                       AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -730,7 +730,7 @@ public class OrderServiceImpl implements OrderService {
                             attestationResponse.setResult("验签成功！");
                             attestationResponse.setGoodName(game.getGameName());
                             /*实现通知第三方服务器*/
-                            /*new RestTemplate().postForObject(request.getNotifyUrl(), null, attestationResponse.getClass());*/
+                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(request.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
 
                             PayRecord payRecord = new PayRecord();
                             payRecord.setPayRecordStatus("1");
@@ -755,7 +755,7 @@ public class OrderServiceImpl implements OrderService {
                     attestationResponse.setResult("验签失败！");
                     attestationResponse.setGoodName(game.getGameName());
                     /*实现通知第三方服务器*/
-                    /*new RestTemplate().postForObject(request.getNotifyUrl(), null, attestationResponse.getClass());*/
+                    AttestationResponse attestationResponse_new = new RestTemplate().postForObject("http://www.baidu.com/", attestationResponse, attestationResponse.getClass());
 
                     PayRecord payRecord = new PayRecord();
                     payRecord.setPayRecordStatus("0");
