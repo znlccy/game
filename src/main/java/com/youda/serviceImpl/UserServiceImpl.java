@@ -140,6 +140,7 @@ public class UserServiceImpl implements UserService {
         token.setUserId(userId);
         token.setExpirationTime(new Timestamp(System.currentTimeMillis()));
         token.setGameChannelId(getGameChannelId);
+        tokenMapper.delTokenByIds(token);
         tokenMapper.addToken(token);
         TokenResponse tokenResponse = new TokenResponse();
         tokenResponse.setToken(token.getAccessToken());

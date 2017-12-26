@@ -1,5 +1,6 @@
 package com.youda.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.youda.annotation.CurrentUser;
 import com.youda.model.Token;
 import com.youda.service.TokenService;
@@ -10,6 +11,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 
@@ -51,6 +54,18 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
             }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        PrintWriter out;
+        try {
+            JSONObject res = new JSONObject();
+            res.put("status", "401");
+            res.put("result", "token 验证失败");
+            out = response.getWriter();
+            out.append(res.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 

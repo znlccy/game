@@ -21,7 +21,7 @@ public interface TokenMapper {
      * @param token
      * @return
      */
-    @Insert("replace into tb_token(accessToken,expirationTime,userId,gameChannelId) values(#{token.accessToken},#{token.expirationTime},#{token.userId},#{token.gameChannelId})")
+    @Insert("insert into tb_token(accessToken,expirationTime,userId,gameChannelId) values(#{token.accessToken},#{token.expirationTime},#{token.userId},#{token.gameChannelId})")
     @Options(useGeneratedKeys = true, keyProperty = "tokenId", keyColumn = "tokenId")
     boolean addToken(@Param("token") Token token);
 
@@ -106,4 +106,7 @@ public interface TokenMapper {
      */
     @Select("select * from tb_token where userId = #{userId} and gameChannelId = #{gameChannelId} ")
     Token findTokenByIds(@Param("userId") Long userId, @Param("gameChannelId") Long gameChannelId);
+
+    @Delete("delete from tb_token where userId = #{token.userId} and gameChannelId = #{token.gameChannelId} ")
+    void delTokenByIds(@Param("token") Token token);
 }

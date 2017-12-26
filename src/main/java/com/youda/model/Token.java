@@ -31,7 +31,7 @@ public class Token {
     @Column(name = "userId")
     private Long userId;
 
-    @Column(name = "gameChannelId", unique = true)
+    @Column(name = "gameChannelId")
     private Long gameChannelId;
     /**
      * 定义token的创建时间
