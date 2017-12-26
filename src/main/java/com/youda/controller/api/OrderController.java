@@ -45,6 +45,7 @@ public class OrderController {
     }
 
     /*实现支付宝支付的功能*/
+    @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/alipay/{orderId}", method = RequestMethod.POST)
     public ResponseEntity aliPayOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId) {
@@ -55,12 +56,14 @@ public class OrderController {
     }
 
     /*实现支付H5支付*/
+    @CurrentUser
     @RequestMapping(value = "/aliphonepay/{orderId}", method = RequestMethod.POST)
     public void aliPhonePayOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId, HttpServletRequest httpRequest, HttpServletResponse httpResponse) {
         orderService.aliPhonePay(orderId,token,gameChannelId,httpRequest, httpResponse);
     }
 
     /*实现微信支付的功能*/
+    @CurrentUser
     @RequestMapping(value = "/wechatpay/{orderId}", method = RequestMethod.POST)
     public ResponseEntity wechatOrder(@PathVariable Long orderId, @RequestHeader String token,@RequestHeader String gameChannelId,HttpServletRequest request, HttpServletResponse response) {
         /*if (orderId == null || orderId == 0) {
@@ -70,6 +73,7 @@ public class OrderController {
     }
 
     /*实现支付宝验签的功能以及通知第三方*/
+    @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/aliattestation", method = RequestMethod.POST)
     public ResponseEntity alipayAttestation(HttpServletRequest request) {
@@ -88,6 +92,7 @@ public class OrderController {
     }
 
     /*使用IOS内购进行验签*/
+    @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/iosattestation", method = RequestMethod.POST)
     public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String gameChannelId,@PathVariable Long orderId) {

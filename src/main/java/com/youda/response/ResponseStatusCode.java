@@ -1,6 +1,7 @@
 package com.youda.response;
 
 import com.youda.response.api.ResponseResult;
+import javafx.beans.binding.ObjectExpression;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -151,5 +152,19 @@ public class ResponseStatusCode {
         return ResponseEntity
                 .status(414)
                 .body(new ResponseResult("414", "用户已存在", bean));
+    }
+
+    /*实现上传成功*/
+    public static ResponseEntity uploadSuccess() {
+        return ResponseEntity
+                .status(201)
+                .body(new ResponseResult("201", "上传成功","恭喜您，上传成功"));
+    }
+
+    /*实现上传失败*/
+    public static ResponseEntity uploadFailed() {
+        return ResponseEntity
+                .status(401)
+                .body(new ResponseResult("411", "上传失败", "抱歉，上传失败，请重新上传!"));
     }
 }

@@ -506,7 +506,7 @@ public class OrderServiceImpl implements OrderService {
         /*通过订单号查询游戏*/
         Order order = orderMapper.findByOrderId(Long.valueOf(orderId));
         /*验证数据库中是否存在这个订单，从而获取对应的支付宝配置信息*/
-        if (order == null) {
+        if (orderId == null || orderId.isEmpty() || order==null) {
             /*不存在这个订单*/
             return ResponseStatusCode.nullPointerError();
         } else {
@@ -671,73 +671,16 @@ public class OrderServiceImpl implements OrderService {
     /*实现苹果内购支付的验签,需要注意的是内购支付的时候要随意切换*/
     @Override
     public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId) {
-        /*这是测试沙箱环境，url:"https://sandbox.itunes.apple.com/verifyReceipt",正式生产环境url:"https://buy.itunes.apple.com/verifyReceiptw"*/
-        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
 
-        Order order = orderMapper.findByOrderId(orderId);
-        if (order==null)
+        if (request.getReceipt()==null || request.getReceipt().isEmpty())
         {
-            return ResponseStatusCode.nullPointerError();
+            return ResponseStatusCode.uploadFailed();
         }
         else
         {
-            Game game = gameMapper.findByGameId(order.getGameId());
-            User user = userMapper.findByUserId(order.getUserId());
+            return ResponseStatusCode.uploadSuccess();
 
-            try {
-                HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
-                connection.setRequestMethod("POST");
-                connection.setDoOutput(true);
-                connection.setAllowUserInteraction(false);
-                PrintStream ps = new PrintStream(connection.getOutputStream());
-                ps.print("{\"receipt-data\": \"" + request.getReceipt() + "\"}");
-                ps.close();
-                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                String str;
-                StringBuffer sb = new StringBuffer();
-                while ((str = br.readLine()) != null) {
-                    sb.append(str);
-                }
-                br.close();
-                String resultStr = sb.toString();
-                JSONObject result = JSONObject.parseObject(resultStr);
-                /*沙箱环境，返回码是21007，正式生产环境是21008*/
-                if (result != null && result.getInteger("status") == 21007) {
-                    String isPushed = order.getIsPushed();
-                    //通知第三方服务器支付情况，支付成功，通知发货
-                    if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
-                        try {
-                            /*返回给客户端信息*/
-                            AttestationResponse attestationResponse = new AttestationResponse();
-                            attestationResponse.setOutTradeNo(String.valueOf(orderId));
-                            attestationResponse.setResponseTime(new Date());
-                            attestationResponse.setResult("验签成功！");
-                            attestationResponse.setGoodName(game.getGameName());
-                            new RestTemplate().postForObject(request.getNotifyUrl(), null, attestationResponse.getClass());
-
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStatus("1");
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
-                            payRecord.setOutTradeNo(String.valueOf(orderId));
-                            payRecord.setPayRecordStyle("IOS内购");
-                            payRecordMapper.addPayRecord(payRecord);
-                            return ResponseStatusCode.putOrGetSuccess(attestationResponse);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                else
-                {
-                    return ResponseStatusCode.putOrGetFailed(null);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
-        return null;
     }
 
     @Override
