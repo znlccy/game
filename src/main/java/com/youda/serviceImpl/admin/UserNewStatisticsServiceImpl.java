@@ -25,32 +25,12 @@ public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
     @Autowired
     UserNewStatisticsMapper userStatisticsMapper;
 
-    /*实现近一个月的用户统计的功能*/
+    /*实现自定义日期新增用户统计*/
     @Override
-    public ResponseEntity nearlyAMonthNewUserStatistics() {
-        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.NearlyAMonthNewUserStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
-    }
+    public ResponseEntity customDateNewUserStatistics(NewUserStatisticsRequest newUserStatisticsRequest) {
 
-    /*实现今天的用户统计*/
-    @Override
-    public ResponseEntity todayNewUserStatistics() {
-        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.todayNewUserStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
-    }
-
-    /*实现昨天的用户统计*/
-    @Override
-    public ResponseEntity yestodayNewUserStatistics() {
-        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.yestodayNewUserStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
-    }
-
-    /*实现每周的用户统计*/
-    @Override
-    public ResponseEntity everyWeekNewUserStatistics() {
-        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.everyWeekNewUserStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
+       List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(newUserStatisticsRequest);
+       return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }
 
     /*实现所用新增用户统计*/
@@ -58,13 +38,5 @@ public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
     public ResponseEntity allNewUserStatistics() {
         List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.allNewUserStatistics();
         return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
-    }
-
-    /*实现自定义日期新增用户统计*/
-    @Override
-    public ResponseEntity customDateNewUserStatistics(NewUserStatisticsRequest newUserStatisticsRequest) {
-
-       List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(newUserStatisticsRequest);
-       return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }
 }

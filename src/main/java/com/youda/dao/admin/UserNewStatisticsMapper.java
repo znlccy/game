@@ -13,30 +13,6 @@ import java.util.List;
 @Mapper
 public interface UserNewStatisticsMapper {
 
-    /*实现新增用户或者账户的统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS newUserCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= DATE(datelist)&&DATE(datelist)<=CURRENT_TIMESTAMP\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userRegisteredTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userRegisteredTime>=DATE_SUB(CURDATE(), INTERVAL 1 MONTH) && userRegisteredTime<=CURRENT_TIMESTAMP\n" +
-            "            GROUP BY userRegisteredTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<UserNewStatisticsResponse> NearlyAMonthNewUserStatistics();
-
     /*实现自定义日期查询*/
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
@@ -46,7 +22,7 @@ public interface UserNewStatisticsMapper {
             "(\n" +
             "   SELECT datelist AS dday\n" +
             "   FROM tb_calendar \n" +
-            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- 这里是限制返回自定义日期的数据\n" +
             "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
             "   WHERE  CONCAT(#{newUserStatisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{newUserStatisticsRequest.endTime},' 23:59:59')\n" +
             ")\n" +
@@ -62,39 +38,6 @@ public interface UserNewStatisticsMapper {
             "GROUP BY ddate")
     List<UserNewStatisticsResponse> cudtomDateNewUserStatistics(@Param("newUserStatisticsRequest") NewUserStatisticsRequest newUserStatisticsRequest);
 
-    /*实现今日新增用户的统计*/
-    @Select("SELECT COUNT(*) AS newUserCount,CURDATE() AS ddate FROM tb_user WHERE userRegisteredTime>=CONCAT(CURDATE(),' 00:00:00') AND userRegisteredTime<=CONCAT(CURDATE(),' 24:00:00')")
-    List<UserNewStatisticsResponse> todayNewUserStatistics();
-
-    /*实现昨日新增用户的统计*/
-    @Select("SELECT COUNT(*) AS newUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userRegisteredTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') AND userRegisteredTime<=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')")
-    List<UserNewStatisticsResponse> yestodayNewUserStatistics();
-
-    /*实现每周新增用户的统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS newUserCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 1 WEEK) <= DATE(datelist)&&DATE(datelist)<=CURRENT_TIMESTAMP\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userRegisteredTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userRegisteredTime>=DATE_SUB(CURDATE(), INTERVAL 1 WEEK) && userRegisteredTime<=CURRENT_TIMESTAMP\n" +
-            "            GROUP BY userRegisteredTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<UserNewStatisticsResponse> everyWeekNewUserStatistics();
-
-    /*实现查询所有新增用户统计，必须实现分页效果*/
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
             "    COUNT(*) - 2 AS newUserCount\n" +
