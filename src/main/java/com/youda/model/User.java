@@ -1,5 +1,7 @@
 package com.youda.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 
 
 /**
@@ -129,6 +132,8 @@ public class User implements Serializable {
 	 * 实现用户名的get方法
 	 * @return
 	 */
+	/*@NotBlank(message = "用户名不能为空")
+	@Pattern(regexp = "1(([38]\\\\d)|(5[^4&&\\\\d])|(4[579])|(7[0135678]))\\\\d{8}",message = "手机号格式不合法")*/
 	public String getUserName() {
 		return userName;
 	}

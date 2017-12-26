@@ -101,7 +101,7 @@ public class OrderController {
         {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.iosAttestation(request,orderId);
+        return orderService.iosUploadReceipt(request,orderId);
     }
 
     /*使用google内购进行验签*/

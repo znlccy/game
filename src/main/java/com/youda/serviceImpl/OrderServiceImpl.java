@@ -26,6 +26,7 @@ import com.youda.util.*;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.youda.service.OrderService;
@@ -668,19 +669,109 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-    /*实现苹果内购支付的验签,需要注意的是内购支付的时候要随意切换*/
+    /*实现IOS上传凭证的过程*/
+    @Async
     @Override
-    public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId) {
-
+    public ResponseEntity iosUploadReceipt(IOSPayRequest request, Long orderId) {
         if (request.getReceipt()==null || request.getReceipt().isEmpty())
         {
             return ResponseStatusCode.uploadFailed();
         }
         else
         {
+            iosAttestation(request,orderId);
             return ResponseStatusCode.uploadSuccess();
-
         }
+    }
+
+    /*实现苹果内购支付的验签,需要注意的是内购支付的时候要随意切换*/
+    @Async
+    @Override
+    public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId) {
+
+        /*这是测试沙箱环境，url:"https://sandbox.itunes.apple.com/verifyReceipt",正式生产环境url:"https://buy.itunes.apple.com/verifyReceiptw"*/
+        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order==null)
+        {
+            return ResponseStatusCode.nullPointerError();
+        }
+        else
+        {
+            Game game = gameMapper.findByGameId(order.getGameId());
+            User user = userMapper.findByUserId(order.getUserId());
+            try {
+                HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+                connection.setRequestMethod("POST");
+                connection.setDoOutput(true);
+                connection.setAllowUserInteraction(false);
+                PrintStream ps = new PrintStream(connection.getOutputStream());
+                ps.print("{\"receipt-data\": \"" + request.getReceipt() + "\"}");
+                ps.close();
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String str;
+                StringBuffer sb = new StringBuffer();
+                while ((str = br.readLine()) != null) {
+                    sb.append(str);
+                }
+                br.close();
+                String resultStr = sb.toString();
+                JSONObject result = JSONObject.parseObject(resultStr);
+                /*沙箱环境，返回码是21007，正式生产环境是21008*/
+                if (result != null && result.getInteger("status") == 21007) {
+                    String isPushed = order.getIsPushed();
+                    //通知第三方服务器支付情况，支付成功，通知发货
+                    if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                        try {
+                            /*返回给客户端信息*/
+                            AttestationResponse attestationResponse = new AttestationResponse();
+                            attestationResponse.setOutTradeNo(String.valueOf(orderId));
+                            attestationResponse.setResponseTime(new Date());
+                            attestationResponse.setResult("验签成功！");
+                            attestationResponse.setGoodName(game.getGameName());
+                            /*实现通知第三方服务器*/
+                            /*new RestTemplate().postForObject(request.getNotifyUrl(), null, attestationResponse.getClass());*/
+
+                            PayRecord payRecord = new PayRecord();
+                            payRecord.setPayRecordStatus("1");
+                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                            payRecord.setPayRecordUser(user.getUserName());
+                            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
+                            payRecord.setOutTradeNo(String.valueOf(orderId));
+                            payRecord.setPayRecordStyle("IOS内购");
+                            payRecordMapper.addPayRecord(payRecord);
+                            return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                else
+                {
+                     /*返回给客户端信息*/
+                    AttestationResponse attestationResponse = new AttestationResponse();
+                    attestationResponse.setOutTradeNo(String.valueOf(orderId));
+                    attestationResponse.setResponseTime(new Date());
+                    attestationResponse.setResult("验签失败！");
+                    attestationResponse.setGoodName(game.getGameName());
+                    /*实现通知第三方服务器*/
+                    /*new RestTemplate().postForObject(request.getNotifyUrl(), null, attestationResponse.getClass());*/
+
+                    PayRecord payRecord = new PayRecord();
+                    payRecord.setPayRecordStatus("0");
+                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                    payRecord.setPayRecordUser(user.getUserName());
+                    payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
+                    payRecord.setOutTradeNo(String.valueOf(orderId));
+                    payRecord.setPayRecordStyle("IOS内购");
+                    payRecordMapper.addPayRecord(payRecord);
+                    return ResponseStatusCode.putOrGetFailed(null);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -693,5 +784,4 @@ public class OrderServiceImpl implements OrderService {
         }
         return ResponseStatusCode.verifyError();
     }
-
 }
