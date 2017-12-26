@@ -1,5 +1,6 @@
 package com.youda.service.admin;
 
+import com.youda.request.admin.NewUserStatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface UserNewStatisticsService {
@@ -20,5 +21,5 @@ public interface UserNewStatisticsService {
     ResponseEntity allNewUserStatistics();
 
     /*定义自选日期新增用户统计*/
-    ResponseEntity customDateNewUserStatistics(String beginTime, String endTime);
+    ResponseEntity customDateNewUserStatistics(NewUserStatisticsRequest newUserStatisticsRequest);
 }

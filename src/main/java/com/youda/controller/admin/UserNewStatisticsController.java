@@ -1,13 +1,11 @@
 package com.youda.controller.admin;
 
+import com.youda.request.admin.NewUserStatisticsRequest;
 import com.youda.service.admin.UserNewStatisticsService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author Chencongye
@@ -53,9 +51,9 @@ public class UserNewStatisticsController {
 
     /*实现自定义日期查询统计*/
     @ResponseBody
-    @RequestMapping(value = "customnewuser", method = RequestMethod.GET)
-    public ResponseEntity customDatesNewUserStatistics(@Param("betginTime") String beginTime,@Param("endTime") String endTime) {
-        return userNewStatisticsService.customDateNewUserStatistics(beginTime, endTime);
+    @RequestMapping(value = "/customnewuser", method = RequestMethod.POST)
+    public ResponseEntity customDatesNewUserStatistics(@RequestBody NewUserStatisticsRequest newUserStatisticsRequest) {
+        return userNewStatisticsService.customDateNewUserStatistics(newUserStatisticsRequest);
     }
 
     /*实现全部新增用户查询统计*/
