@@ -2,6 +2,7 @@ package com.youda.controller.api;
 
 import com.youda.annotation.CurrentUser;
 import com.youda.request.api.GoogleRequest;
+import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.service.OrderService;
@@ -88,13 +89,14 @@ public class OrderController {
 
     /*使用IOS内购进行验签*/
     @ResponseBody
-    @RequestMapping(value = "/iosattestation", method = RequestMethod.POST)
-    public ResponseEntity iosAttestation(@Param("receipt") String receipt) {
-        if (receipt.isEmpty())
+    @RequestMapping(value = "/{orderId}/iosattestation", method = RequestMethod.POST)
+    public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String gameChannelId,@PathVariable Long orderId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
+        if (request.isEmpty())
         {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.iosAttestation(receipt);
+        return orderService.iosAttestation(request,orderId);
     }
 
     /*使用google内购进行验签*/

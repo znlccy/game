@@ -1,6 +1,7 @@
 package com.youda.service;
 
 import com.youda.request.api.GoogleRequest;
+import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -36,8 +37,9 @@ public interface OrderService {
     ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /*实现苹果内购的验签*/
-    ResponseEntity iosAttestation(String receipt);
+    ResponseEntity iosAttestation(IOSPayRequest request, Long orderId);
 
+    /*实现google内购验签*/
     ResponseEntity googleAttestation(GoogleRequest request,Long orderId);
 
 }
