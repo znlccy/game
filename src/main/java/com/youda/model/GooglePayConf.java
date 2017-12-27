@@ -1,5 +1,7 @@
 package com.youda.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -33,6 +35,7 @@ public class GooglePayConf {
     private Date createTime;
 
     /*实现google配置的主键get方法*/
+    @NotBlank(message = "Google配置表主键为空")
     public Long getGoogleConfId() {
         return googlePayConfId;
     }
@@ -43,6 +46,7 @@ public class GooglePayConf {
     }
 
     /*实现游戏名称的get方法*/
+    @NotBlank(message = "游戏名为空")
     public String getGameName() {
         return gameName;
     }
@@ -53,6 +57,7 @@ public class GooglePayConf {
     }
 
     /*实现异步通知的地址的get方法*/
+    @NotBlank(message = "异步通知地址为空")
     public String getNotifyUrl() {
         return notifyUrl;
     }
@@ -63,6 +68,7 @@ public class GooglePayConf {
     }
 
     /*实现创建时间的get方法*/
+    @NotBlank(message = "创建时间为空")
     public Date getCreateTime() {
         return createTime;
     }

@@ -15,7 +15,7 @@ spring:
     password: root
     tomcat:
       initialSize: 1
-      min-idle: 1
+      min-idle: 1mv
       max-idle: 20
       max-wait: 60000
       timeBetweenEvictionRunsMillis: 60000

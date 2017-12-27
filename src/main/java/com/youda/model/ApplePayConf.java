@@ -1,5 +1,7 @@
 package com.youda.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -32,6 +34,7 @@ public class ApplePayConf {
     private Date createTime;
 
     /*实现苹果支付主键的get方法*/
+    @NotBlank(message = "Apple支付配置主键为空")
     public Long getApplePayConfId() {
         return applePayConfId;
     }
@@ -42,6 +45,7 @@ public class ApplePayConf {
     }
 
     /*实现游戏名称的get方法*/
+    @NotBlank(message = "游戏名称为空")
     public String getGameName() {
         return gameName;
     }
@@ -52,6 +56,7 @@ public class ApplePayConf {
     }
 
     /*实现异步通知地址的get方法*/
+    @NotBlank(message = "异步通知地址为空")
     public String getNotifyUrl() {
         return notifyUrl;
     }
@@ -62,6 +67,7 @@ public class ApplePayConf {
     }
 
     /*实现创建时间的get方法*/
+    @NotBlank(message = "创建时间为空")
     public Date getCreateTime() {
         return createTime;
     }
