@@ -85,6 +85,14 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     TokenMapper tokenMapper;
 
+    /*实现ApplePayConfMapper的自动依赖注入*/
+    @Autowired
+    ApplePayConfMapper applePayConfMapper;
+
+    /*实现GooglePayConfMapper的自动依赖注入*/
+    @Autowired
+    GooglePayConfMapper googlePayConfMapper;
+
     @Override
     public ResponseEntity createOrder(OrderRequest request) {
         Order order = new Order();
@@ -703,6 +711,7 @@ public class OrderServiceImpl implements OrderService {
         {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
+            ApplePayConf applePayConf = applePayConfMapper.findByGameName(game.getGameName());
             try {
                 HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
                 connection.setRequestMethod("POST");
@@ -733,7 +742,7 @@ public class OrderServiceImpl implements OrderService {
                             attestationResponse.setResult("验签成功！");
                             attestationResponse.setGoodName(game.getGameName());
                             /*实现通知第三方服务器*/
-                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(request.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
+                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(applePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
 
                             PayRecord payRecord = new PayRecord();
                             payRecord.setPayRecordStatus("1");
@@ -741,7 +750,7 @@ public class OrderServiceImpl implements OrderService {
                             payRecord.setPayRecordUser(user.getUserName());
                             payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
                             payRecord.setOutTradeNo(String.valueOf(orderId));
-                            payRecord.setPayRecordStyle("IOS内购");
+                            payRecord.setPayRecordStyle(request.getReceipt());
                             payRecordMapper.addPayRecord(payRecord);
                             return ResponseStatusCode.putOrGetSuccess(attestationResponse);
                         } catch (Exception e) {
@@ -758,7 +767,7 @@ public class OrderServiceImpl implements OrderService {
                     attestationResponse.setResult("验签失败！");
                     attestationResponse.setGoodName(game.getGameName());
                     /*实现通知第三方服务器*/
-                    AttestationResponse attestationResponse_new = new RestTemplate().postForObject("http://www.baidu.com/", attestationResponse, attestationResponse.getClass());
+                    /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(applePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());*/
 
                     PayRecord payRecord = new PayRecord();
                     payRecord.setPayRecordStatus("0");
@@ -766,7 +775,7 @@ public class OrderServiceImpl implements OrderService {
                     payRecord.setPayRecordUser(user.getUserName());
                     payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
                     payRecord.setOutTradeNo(String.valueOf(orderId));
-                    payRecord.setPayRecordStyle("IOS内购");
+                    payRecord.setPayRecordStyle(request.getReceipt());
                     payRecordMapper.addPayRecord(payRecord);
                     return ResponseStatusCode.putOrGetFailed(null);
                 }
@@ -780,11 +789,64 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity googleAttestation(GoogleRequest request, Long orderId) {
         String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";
-        if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
-            // TODO: 2017/12/25 标记订单号为  orderId 已经支付
-            // TODO: 2017/12/25 通知游戏方发货
-            return ResponseStatusCode.putOrGetSuccess(null);
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order == null)
+        {
+            return ResponseStatusCode.nullPointerError();
         }
-        return ResponseStatusCode.verifyError();
+        else
+        {
+            Game game = gameMapper.findByGameId(order.getGameId());
+            User user = userMapper.findByUserId(order.getUserId());
+            GooglePayConf googlePayConf = googlePayConfMapper.findByGameName(game.getGameName());
+            if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
+                // TODO: 2017/12/25 标记订单号为  orderId 已经支付
+                // TODO: 2017/12/25 通知游戏方发货
+                String isPushed = order.getIsPushed();
+                //通知第三方服务器支付情况，支付成功，通知发货
+                if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                    try {
+                            /*返回给客户端信息*/
+                            AttestationResponse attestationResponse = new AttestationResponse();
+                            attestationResponse.setOutTradeNo(String.valueOf(orderId));
+                            attestationResponse.setResponseTime(new Date());
+                            attestationResponse.setResult("验签成功！");
+                            attestationResponse.setGoodName(game.getGameName());
+                            /*实现通知第三方服务器*/
+                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);
+
+                            PayRecord payRecord = new PayRecord();
+                            payRecord.setPayRecordStatus("1");
+                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+                            payRecord.setPayRecordUser(user.getUserName());
+                            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
+                            payRecord.setOutTradeNo(String.valueOf(orderId));
+                            payRecord.setPayRecordStyle("Google支付");
+                            payRecordMapper.addPayRecord(payRecord);
+                            return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            /*返回给客户端信息*/
+            AttestationResponse attestationResponse = new AttestationResponse();
+            attestationResponse.setOutTradeNo(String.valueOf(orderId));
+            attestationResponse.setResponseTime(new Date());
+            attestationResponse.setResult("验签失败！");
+            attestationResponse.setGoodName(game.getGameName());
+            /*实现通知第三方服务器*/
+            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());
+
+            PayRecord payRecord = new PayRecord();
+            payRecord.setPayRecordStatus("0");
+            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
+            payRecord.setPayRecordUser(user.getUserName());
+            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
+            payRecord.setOutTradeNo(String.valueOf(orderId));
+            payRecord.setPayRecordStyle("Google支付");
+            payRecordMapper.addPayRecord(payRecord);
+            return ResponseStatusCode.verifyError();
+        }
     }
 }
