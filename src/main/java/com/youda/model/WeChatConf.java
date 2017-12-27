@@ -47,8 +47,8 @@ public class WeChatConf {
 	/**
 	 * 定义微信支付的游戏名
 	 */
-	@Column(name="gameChanenelId")
-	private Long gameChanenelId;
+	@Column(name="gameChannelId")
+	private Long gameChannelId;
 	
 	/**
 	 * 定义微信支付的授权类型
@@ -151,13 +151,13 @@ public class WeChatConf {
 	}
 
 	/*实现游戏渠道的get方法*/
-	public Long getGameChanenelId() {
-		return gameChanenelId;
+	public Long getGameChannelId() {
+		return gameChannelId;
 	}
 
 	/*实现游戏渠道的set方法*/
-	public void setGameChanenelId(Long gameChanenelId) {
-		this.gameChanenelId = gameChanenelId;
+	public void setGameChannelId(Long gameChannelId) {
+		this.gameChannelId = gameChannelId;
 	}
 
 	/**
