@@ -96,24 +96,24 @@ public class OrderController {
     @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/iosattestation", method = RequestMethod.POST)
-    public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String token,@RequestHeader String gameChannelId,@PathVariable Long orderId) {
+    public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String gameChannelId,@PathVariable Long orderId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty())
         {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.iosUploadReceipt(request,orderId,token,gameChannelId);
+        return orderService.iosUploadReceipt(request,orderId,gameChannelId);
     }
 
     /*使用google内购进行验签*/
     @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/google/pay", method = RequestMethod.PUT)
-    public ResponseEntity googlePay(@RequestBody GoogleRequest request,@RequestHeader String token,@RequestHeader("gameChannelId") String gameChannelId, @PathVariable int orderId) {
+    public ResponseEntity googlePay(@RequestBody GoogleRequest request,@RequestHeader("gameChannelId") String gameChannelId, @PathVariable int orderId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.googleAttestation(request, (long) orderId,token,gameChannelId);
+        return orderService.googleAttestation(request, (long) orderId,gameChannelId);
     }
 }

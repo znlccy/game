@@ -666,14 +666,14 @@ public class OrderServiceImpl implements OrderService {
     /*实现IOS上传凭证的过程*/
     @Async
     @Override
-    public ResponseEntity iosUploadReceipt(IOSPayRequest request, Long orderId,String token,String gameChannelId) {
+    public ResponseEntity iosUploadReceipt(IOSPayRequest request, Long orderId,String gameChannelId) {
         if (request.getReceipt()==null || request.getReceipt().isEmpty())
         {
             return ResponseStatusCode.uploadFailed();
         }
         else
         {
-            iosAttestation(request,orderId,token,gameChannelId);
+            iosAttestation(request,orderId,gameChannelId);
             return ResponseStatusCode.uploadSuccess();
         }
     }
@@ -681,7 +681,7 @@ public class OrderServiceImpl implements OrderService {
     /*实现苹果内购支付的验签,需要注意的是内购支付的时候要随意切换*/
     @Async
     @Override
-    public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId,String token,String gameChannelId) {
+    public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId,String gameChannelId) {
 
         /*这是测试沙箱环境，url:"https://sandbox.itunes.apple.com/verifyReceipt",正式生产环境url:"https://buy.itunes.apple.com/verifyReceiptw"*/
         String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
@@ -770,7 +770,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity googleAttestation(GoogleRequest request, Long orderId,String token,String gameChannelId) {
+    public ResponseEntity googleAttestation(GoogleRequest request, Long orderId,String gameChannelId) {
         String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";
         Order order = orderMapper.findByOrderId(orderId);
         if (order == null)
