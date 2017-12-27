@@ -1,5 +1,7 @@
 package com.youda.response.api;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Date;
 
 /**

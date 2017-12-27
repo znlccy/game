@@ -25,6 +25,9 @@ import com.youda.service.GameChannelService;
 import com.youda.util.*;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -38,10 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 
 /**
@@ -538,7 +539,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
+                            PostData.sendData(notifyUrl,attestationResponse);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -560,7 +561,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed == null|| isPushed.isEmpty() ) {
                         try {
-                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, attestationResponse.getClass());*/
+                            PostData.sendData(notifyUrl,attestationResponse);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -629,7 +630,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                           /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
+                            PostData.sendData(notifyUrl,attestationResponse);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -652,7 +653,7 @@ public class OrderServiceImpl implements OrderService {
                 String isPushed = order.getIsPushed();
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                       /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
+                        PostData.sendData(notifyUrl,attestationResponse);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -695,6 +696,10 @@ public class OrderServiceImpl implements OrderService {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
             ApplePayConf applePayConf = applePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
+            if(applePayConf==null)
+            {
+                return ResponseStatusCode.nullPointerError();
+            }
             try {
                 HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
                 connection.setRequestMethod("POST");
@@ -725,7 +730,7 @@ public class OrderServiceImpl implements OrderService {
                             attestationResponse.setResult("验签成功！");
                             attestationResponse.setGoodName(game.getGameName());
                             /*实现通知第三方服务器*/
-                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(applePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
+                            PostData.sendData(applePayConf.getNotifyUrl(),attestationResponse);
 
                             PayRecord payRecord = new PayRecord();
                             payRecord.setPayRecordStatus("1");
@@ -750,7 +755,7 @@ public class OrderServiceImpl implements OrderService {
                     attestationResponse.setResult("验签失败！");
                     attestationResponse.setGoodName(game.getGameName());
                     /*实现通知第三方服务器*/
-                    /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(applePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());*/
+                    PostData.sendData(applePayConf.getNotifyUrl(),attestationResponse);
 
                     PayRecord payRecord = new PayRecord();
                     payRecord.setPayRecordStatus("0");
@@ -798,7 +803,7 @@ public class OrderServiceImpl implements OrderService {
                             attestationResponse.setResult("验签成功！");
                             attestationResponse.setGoodName(game.getGameName());
                             /*实现通知第三方服务器*/
-                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
+                            PostData.sendData(googlePayConf.getNotifyUrl(),attestationResponse);
 
                             PayRecord payRecord = new PayRecord();
                             payRecord.setPayRecordStatus("1");
@@ -821,7 +826,7 @@ public class OrderServiceImpl implements OrderService {
             attestationResponse.setResult("验签失败！");
             attestationResponse.setGoodName(game.getGameName());
             /*实现通知第三方服务器*/
-            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());*/
+            PostData.sendData(googlePayConf.getNotifyUrl(),attestationResponse);
 
             PayRecord payRecord = new PayRecord();
             payRecord.setPayRecordStatus("0");
