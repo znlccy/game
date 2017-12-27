@@ -39,7 +39,7 @@ public class PayRecord {
 	/**
 	 * 定义支付记录类型
 	 */
-	@Column(name = "payRecordStyle")
+	@Column(name = "payRecordStyle",length = 2000)
 	private String payRecordStyle;
 	
 	/**
