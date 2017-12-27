@@ -31,18 +31,18 @@ public interface OrderService {
     ResponseEntity wechatpay(Long orderId,String token,String gameChannelId,HttpServletRequest request, HttpServletResponse response);
 
     /*定义支付宝支付验签*/
-    ResponseEntity alipayAttestation(HttpServletRequest request);
+    ResponseEntity alipayAttestation(String token,String gameChannelId,HttpServletRequest request);
 
     /*定义微信支付验签*/
-    ResponseEntity wechatAttestation(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    ResponseEntity wechatAttestation(String token,String gameChannelId,HttpServletRequest request, HttpServletResponse response) throws IOException;
 
     /*定义IOS上传凭证的过程*/
-    ResponseEntity iosUploadReceipt(IOSPayRequest request, Long orderId);
+    ResponseEntity iosUploadReceipt(IOSPayRequest request, Long orderId,String token,String gameChannelId);
 
     /*实现苹果内购的验签*/
-    ResponseEntity iosAttestation(IOSPayRequest request, Long orderId);
+    ResponseEntity iosAttestation(IOSPayRequest request, Long orderId,String token,String gameChannelId);
 
     /*实现google内购验签*/
-    ResponseEntity googleAttestation(GoogleRequest request,Long orderId);
+    ResponseEntity googleAttestation(GoogleRequest request,Long orderId,String token,String gameChannelId);
 
 }

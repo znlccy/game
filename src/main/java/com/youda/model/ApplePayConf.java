@@ -22,8 +22,8 @@ public class ApplePayConf {
     private Long applePayConfId;
 
     /*声明游戏名称*/
-    @Column(name = "gameName")
-    private String gameName;
+    @Column(name = "gameChannelId")
+    private Long gameChannelId;
 
     /*声明异步通知地址*/
     @Column(name = "notifyUrl")
@@ -44,15 +44,14 @@ public class ApplePayConf {
         this.applePayConfId = applePayConfId;
     }
 
-    /*实现游戏名称的get方法*/
-    @NotBlank(message = "游戏名称为空")
-    public String getGameName() {
-        return gameName;
+    /*实现gameChannelId的get方法*/
+    public Long getGameChannelId() {
+        return gameChannelId;
     }
 
-    /*实现游戏名称的set方法*/
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    /*实现gameChannelId的set方法*/
+    public void setGameChannelId(Long gameChannelId) {
+        this.gameChannelId = gameChannelId;
     }
 
     /*实现异步通知地址的get方法*/

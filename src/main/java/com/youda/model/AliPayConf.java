@@ -47,14 +47,8 @@ public class AliPayConf {
 	/**
 	 * 定义支付宝支付需要的游戏名称
 	 */
-	@Column(name="GAME_NAME")
-	private String GAME_NAME;
-	
-	/**
-	 * 定义支付宝支付需要的游戏包名
-	 */
-	@Column(name="GAME_PACKAGE")
-	private String GAME_PACKAGE;
+	@Column(name="gameChannelId")
+	private Long gameChannelId;
 	
 	/**
 	 * 定义支付宝支付的异步通知地址
@@ -124,44 +118,22 @@ public class AliPayConf {
 		return APP_ID;
 	}
 
+	/*实现游戏渠道主键的get方法*/
+	public Long getGameChannelId() {
+		return gameChannelId;
+	}
+
+	/*实现游戏渠道主键的set方法*/
+	public void setGameChannelId(Long gameChannelId) {
+		this.gameChannelId = gameChannelId;
+	}
+
 	/**
 	 * 实现支付宝支付的应用Id的set方法
 	 * @param aPP_ID
 	 */
 	public void setAPP_ID(String aPP_ID) {
 		APP_ID = aPP_ID;
-	}
-
-	/**
-	 * 实现支付宝支付的游戏名的get方法
-	 * @return
-	 */
-	public String getGAME_NAME() {
-		return GAME_NAME;
-	}
-
-	/**
-	 * 实现支付宝支付的游戏名的set方法
-	 * @param gAME_NAME
-	 */
-	public void setGAME_NAME(String gAME_NAME) {
-		GAME_NAME = gAME_NAME;
-	}
-
-	/**
-	 * 实现支付宝支付的游戏包名get方法
-	 * @return
-	 */
-	public String getGAME_PACKAGE() {
-		return GAME_PACKAGE;
-	}
-
-	/**
-	 * 实现支付宝支付的游戏包名的set方法
-	 * @param gAME_PACKAGE
-	 */
-	public void setGAME_PACKAGE(String gAME_PACKAGE) {
-		GAME_PACKAGE = gAME_PACKAGE;
 	}
 
 	/**
@@ -203,28 +175,5 @@ public class AliPayConf {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * 实现带有参数的构造函数
-	 * @param alipayId
-	 * @param aLIPAY_PUBLIC_KEY
-	 * @param aPP_PRIVATE_KEY
-	 * @param aPP_ID
-	 * @param gAME_NAME
-	 * @param gAME_PACKAGE
-	 * @param nOTIFY_URL
-	 * @param cALLBACK_URL
-	 */
-	public AliPayConf(long alipayId, String aLIPAY_PUBLIC_KEY, String aPP_PRIVATE_KEY, String aPP_ID, String gAME_NAME,
-			String gAME_PACKAGE, String nOTIFY_URL, String cALLBACK_URL) {
-		super();
-		this.alipayId = alipayId;
-		ALIPAY_PUBLIC_KEY = aLIPAY_PUBLIC_KEY;
-		APP_PRIVATE_KEY = aPP_PRIVATE_KEY;
-		APP_ID = aPP_ID;
-		GAME_NAME = gAME_NAME;
-		GAME_PACKAGE = gAME_PACKAGE;
-		NOTIFY_URL = nOTIFY_URL;
-		CALLBACK_URL = cALLBACK_URL;
-	}
 	
 }

@@ -23,8 +23,8 @@ public class GooglePayConf {
     private Long googlePayConfId;
 
     /*声明游戏名称*/
-    @Column(name = "gameName")
-    private String gameName;
+    @Column(name = "gameChannelId")
+    private Long gameChannelId;
 
     /*声明异步通知地址*/
     @Column(name = "notifyUrl")
@@ -34,26 +34,26 @@ public class GooglePayConf {
     @Column(name = "createTime")
     private Date createTime;
 
-    /*实现google配置的主键get方法*/
-    @NotBlank(message = "Google配置表主键为空")
-    public Long getGoogleConfId() {
+    /*实现google支付配置主键的get方法*/
+    @NotBlank(message = "google支付配置主键不能为空")
+    public Long getGooglePayConfId() {
         return googlePayConfId;
     }
 
-    /*实现google配置主键的set方法*/
-    public void setGoogleConfId(Long googlePayConfId) {
+    /*实现google支付配置主键的set方法*/
+    public void setGooglePayConfId(Long googlePayConfId) {
         this.googlePayConfId = googlePayConfId;
     }
 
-    /*实现游戏名称的get方法*/
-    @NotBlank(message = "游戏名为空")
-    public String getGameName() {
-        return gameName;
+    /*实现游戏渠道的get方法*/
+    @NotBlank(message = "游戏渠道主键不能为空")
+    public Long getGameChannelId() {
+        return gameChannelId;
     }
 
-    /*实现游戏名称的set方法*/
-    public void setGameName(String gameName) {
-        this.gameName = gameName;
+    /*实现游戏渠道的set方法*/
+    public void setGameChannelId(Long gameChannelId) {
+        this.gameChannelId = gameChannelId;
     }
 
     /*实现异步通知的地址的get方法*/

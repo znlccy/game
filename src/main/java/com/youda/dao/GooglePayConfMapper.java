@@ -16,7 +16,7 @@ import java.util.List;
 public interface GooglePayConfMapper {
 
     /*实现添加google支付配置表*/
-    @Insert("insert into tb_googlepayconf(createTime,gameName,notifyUrl) values(now(),#{googlePayConf.gameName},#{googlePayConf.notifyUrl})")
+    @Insert("insert into tb_googlepayconf(createTime,gameChannelId,notifyUrl) values(now(),#{googlePayConf.gameChannelId},#{googlePayConf.notifyUrl})")
     @Options(useGeneratedKeys = true,keyProperty = "googlePayConfId")
     boolean addGooglePayConf(@Param("googlePayConf")GooglePayConf googlePayConf);
 
@@ -25,11 +25,11 @@ public interface GooglePayConfMapper {
     boolean deleteByGooglePayConfId(@Param("googlePayConfId") Long googlePayConfId);
 
     /*通过游戏明湖曾来删除google支付配置*/
-    @Delete("delete from tb_googlepayconf where gameName=#{gameName}")
-    boolean deleteByGameName(@Param("gameName") String gameName);
+    @Delete("delete from tb_googlepayconf where gameChannelId=#{gameChannelId}")
+    boolean deleteByGameChannelId(@Param("gameChannelId") Long gameChannelId);
 
     /*修改google支付的配置信息*/
-    @Update("update tb_googlepayconf set gameName=#{googlePayConf.gameName},notifyUrl=#{googlePayConf.notifyUrl}")
+    @Update("update tb_googlepayconf set gameChannelId=#{googlePayConf.gameChannelId},notifyUrl=#{googlePayConf.notifyUrl}")
     boolean modifyGooglePayConf(@Param("googlePayConf") GooglePayConf googlePayConf);
 
     /*通过google配置主键来获取google支付配置信息*/
@@ -37,8 +37,8 @@ public interface GooglePayConfMapper {
     GooglePayConf findByGooglePayConfId(@Param("googlePayConfId") Long googlePayConfId);
 
     /*通过游戏名称来获取google支付配置信息*/
-    @Select("select * from tb_googlepayconf where gameName=#{gameName}")
-    GooglePayConf findByGameName(@Param("gameName") String gameName);
+    @Select("select * from tb_googlepayconf where gameChannelId=#{gameChannelId}")
+    GooglePayConf findByGameChannelId(@Param("gameChannelId") Long gameChannelId);
 
     /*查找所有的google支付配置信息*/
     @Select("select * from tb_googlepayconf")

@@ -47,14 +47,8 @@ public class WeChatConf {
 	/**
 	 * 定义微信支付的游戏名
 	 */
-	@Column(name="GAME_NAME")
-	private String GAME_NAME;
-	
-	/**
-	 * 定义微信支付游戏包名
-	 */
-	@Column(name="GAME_PACKAGE")
-	private String GAME_PACKAGE;
+	@Column(name="gameChanenelId")
+	private Long gameChanenelId;
 	
 	/**
 	 * 定义微信支付的授权类型
@@ -156,36 +150,14 @@ public class WeChatConf {
 		APP_SECRET = aPP_SECRET;
 	}
 
-	/**
-	 * 实现微信支付游戏名get方法
-	 * @return
-	 */
-	public String getGAME_NAME() {
-		return GAME_NAME;
+	/*实现游戏渠道的get方法*/
+	public Long getGameChanenelId() {
+		return gameChanenelId;
 	}
 
-	/**
-	 * 实现微信支付游戏名的set方法
-	 * @param gAME_NAME
-	 */
-	public void setGAME_NAME(String gAME_NAME) {
-		GAME_NAME = gAME_NAME;
-	}
-
-	/**
-	 * 实现微信支付游戏名的get方法
-	 * @return
-	 */
-	public String getGAME_PACKAGE() {
-		return GAME_PACKAGE;
-	}
-
-	/**
-	 * 实现微信支付游戏包名的set方法
-	 * @param gAME_PACKAGE
-	 */
-	public void setGAME_PACKAGE(String gAME_PACKAGE) {
-		GAME_PACKAGE = gAME_PACKAGE;
+	/*实现游戏渠道的set方法*/
+	public void setGameChanenelId(Long gameChanenelId) {
+		this.gameChanenelId = gameChanenelId;
 	}
 
 	/**
@@ -291,38 +263,6 @@ public class WeChatConf {
 		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * 实现带有参数的构造函数
-	 * @param wechatId
-	 * @param aPP_ID
-	 * @param aPP_KEY
-	 * @param aPP_SECRET
-	 * @param gAME_NAME
-	 * @param gAME_PACKAGE
-	 * @param gRANT_TYPE
-	 * @param mCH_ID
-	 * @param pARTNER_ID
-	 * @param pARTNER_KEY
-	 * @param nOTIFY_URL
-	 * @param cALLBACK_URL
-	 */
-	public WeChatConf(long wechatId, String aPP_ID, String aPP_KEY, String aPP_SECRET, String gAME_NAME,
-			String gAME_PACKAGE, String gRANT_TYPE, String mCH_ID, String pARTNER_ID, String pARTNER_KEY,
-			String nOTIFY_URL, String cALLBACK_URL) {
-		super();
-		this.wechatId = wechatId;
-		APP_ID = aPP_ID;
-		APP_KEY = aPP_KEY;
-		APP_SECRET = aPP_SECRET;
-		GAME_NAME = gAME_NAME;
-		GAME_PACKAGE = gAME_PACKAGE;
-		GRANT_TYPE = gRANT_TYPE;
-		MCH_ID = mCH_ID;
-		PARTNER_ID = pARTNER_ID;
-		PARTNER_KEY = pARTNER_KEY;
-		NOTIFY_URL = nOTIFY_URL;
-		CALLBACK_URL = cALLBACK_URL;
-	}
 	
 }
 
