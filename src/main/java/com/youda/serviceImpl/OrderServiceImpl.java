@@ -558,7 +558,7 @@ public class OrderServiceImpl implements OrderService {
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
-                    if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
+                    if (isPushed == null|| isPushed.isEmpty() ) {
                         try {
                             AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
                         } catch (Exception e) {
@@ -798,7 +798,7 @@ public class OrderServiceImpl implements OrderService {
                             attestationResponse.setResult("验签成功！");
                             attestationResponse.setGoodName(game.getGameName());
                             /*实现通知第三方服务器*/
-                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);
+                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, AttestationResponse.class);*/
 
                             PayRecord payRecord = new PayRecord();
                             payRecord.setPayRecordStatus("1");
@@ -821,7 +821,7 @@ public class OrderServiceImpl implements OrderService {
             attestationResponse.setResult("验签失败！");
             attestationResponse.setGoodName(game.getGameName());
             /*实现通知第三方服务器*/
-            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());
+            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(googlePayConf.getNotifyUrl(), attestationResponse, attestationResponse.getClass());*/
 
             PayRecord payRecord = new PayRecord();
             payRecord.setPayRecordStatus("0");

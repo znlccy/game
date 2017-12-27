@@ -26,7 +26,7 @@ public class ApplePayConf {
     private Long gameChannelId;
 
     /*声明异步通知地址*/
-    @Column(name = "notifyUrl")
+    @Column(name = "notifyUrl",length = 800)
     private String notifyUrl;
 
     /*声明创建时间*/

@@ -35,13 +35,13 @@ public class WeChatConf {
 	/**
 	 * 定义微信支付的应用钥匙
 	 */
-	@Column(name="APP_KEY")
+	@Column(name="APP_KEY",length = 2000)
 	private String APP_KEY;
 	
 	/**
 	 * 定义微信支付的应用秘钥
 	 */
-	@Column(name="APP_SECRET")
+	@Column(name="APP_SECRET",length = 2000)
 	private String APP_SECRET;
 	
 	/**
@@ -59,31 +59,31 @@ public class WeChatConf {
 	/**
 	 * 定义微信支付的商户号Id
 	 */
-	@Column(name="MCH_ID")
+	@Column(name="MCH_ID",length = 500)
 	private String MCH_ID;
 	
 	/**
 	 * 定义微信支付的合作伙伴的Id
 	 */
-	@Column(name="PARTNER_ID")
+	@Column(name="PARTNER_ID",length = 500)
 	private String PARTNER_ID;
 	
 	/**
 	 * 定义微信支付的合作伙伴的钥匙
 	 */
-	@Column(name="PARTNER_KEY")
+	@Column(name="PARTNER_KEY",length = 2000)
 	private String PARTNER_KEY;
 	
 	/**
 	 * 定义微信支付的异步通知地址
 	 */
-	@Column(name="NOTIFY_URL")
+	@Column(name="NOTIFY_URL",length = 800)
 	private String NOTIFY_URL;
 	
 	/**
 	 * 定义微信支付的回调地址
 	 */
-	@Column(name="CALLBACK_URL")
+	@Column(name="CALLBACK_URL",length = 800)
 	private String CALLBACK_URL;
 
 	/**

@@ -29,13 +29,13 @@ public class AliPayConf {
 	/**
 	 * 定义支付宝支付需要的公钥
 	 */
-	@Column(name="ALIPAY_PUBLIC_KEY")
+	@Column(name="ALIPAY_PUBLIC_KEY",length = 2000)
 	private String ALIPAY_PUBLIC_KEY;
 	
 	/**
 	 * 定义支付宝支付需要的私钥
 	 */
-	@Column(name="APP_PRIVATE_KEY")
+	@Column(name="APP_PRIVATE_KEY",length = 2000)
 	private String APP_PRIVATE_KEY;
 	
 	/**
@@ -53,13 +53,13 @@ public class AliPayConf {
 	/**
 	 * 定义支付宝支付的异步通知地址
 	 */
-	@Column(name="NOTIFY_URL")
+	@Column(name="NOTIFY_URL",length = 800)
 	private String NOTIFY_URL;
 	
 	/**
 	 * 定义支付宝支付的回调地址
 	 */
-	@Column(name="CALLBACK_URL")
+	@Column(name="CALLBACK_URL",length = 800)
 	private String CALLBACK_URL;
 
 	/**

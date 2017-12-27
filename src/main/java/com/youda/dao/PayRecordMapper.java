@@ -29,7 +29,7 @@ public interface PayRecordMapper {
 	 * @param payRecordId
 	 * @return
 	 */
-	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where payRecordId=#{payRecordId}")
+	@Select("select * from tb_payrecord where payRecordId=#{payRecordId}")
 	PayRecord findByPayRecordId(@Param("payRecordId") String payRecordId);
 	
 	/**
@@ -37,7 +37,7 @@ public interface PayRecordMapper {
 	 * @param payRecordUser
 	 * @return
 	 */
-	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where payRecordUser=#{payRecordUser}")
+	@Select("select * from tb_payrecord where payRecordUser=#{payRecordUser}")
 	PayRecord findPayRecordUser(@Param("payRecordUser") String payRecordUser);
 	
 	/**
@@ -45,7 +45,7 @@ public interface PayRecordMapper {
 	 * @param outTradeNo
 	 * @return
 	 */
-	@Select("select payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser from where outTradeNo=#{outTradeNo}")
+	@Select("select * from tb_payrecord where outTradeNo=#{outTradeNo}")
 	PayRecord findOutTradeNo(@Param("outTradeNo") String outTradeNo);
 	
 	/**
