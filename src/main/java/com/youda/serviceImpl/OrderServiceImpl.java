@@ -538,7 +538,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
+                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -560,7 +560,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed == null|| isPushed.isEmpty() ) {
                         try {
-                            AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
+                            /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, attestationResponse.getClass());*/
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -629,7 +629,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                           AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
+                           /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -652,7 +652,7 @@ public class OrderServiceImpl implements OrderService {
                 String isPushed = order.getIsPushed();
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                       AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);
+                       /*AttestationResponse attestationResponse_new = new RestTemplate().postForObject(notifyUrl, attestationResponse, AttestationResponse.class);*/
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
