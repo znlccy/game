@@ -1,6 +1,9 @@
 package com.youda.dao;
 
-import org.apache.ibatis.annotations.Mapper;
+import com.youda.model.GooglePayConf;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @Author Chencongye
@@ -12,4 +15,32 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface GooglePayConfMapper {
 
+    /*实现添加google支付配置表*/
+    @Insert("insert into tb_googlepayconf(createTime,gameName,notifyUrl) values(now(),#{googlePayConf.gameName},#{googlePayConf.notifyUrl})")
+    @Options(useGeneratedKeys = true,keyProperty = "googlePayConfId")
+    boolean addGooglePayConf(@Param("googlePayConf")GooglePayConf googlePayConf);
+
+    /*通过google支付配置主键来删除google支付配置*/
+    @Delete("delete from tb_googlepayconf where googlePayConfId=#{googlePayConfId}")
+    boolean deleteByGooglePayConfId(@Param("googlePayConfId") Long googlePayConfId);
+
+    /*通过游戏明湖曾来删除google支付配置*/
+    @Delete("delete from tb_googlepayconf where gameName=#{gameName}")
+    boolean deleteByGameName(@Param("gameName") String gameName);
+
+    /*修改google支付的配置信息*/
+    @Update("update tb_googlepayconf set gameName=#{googlePayConf.gameName},notifyUrl=#{googlePayConf.notifyUrl}")
+    boolean modifyGooglePayConf(@Param("googlePayConf") GooglePayConf googlePayConf);
+
+    /*通过google配置主键来获取google支付配置信息*/
+    @Select("select * from tb_googlepayconf where googlePayConfId=#{googlePayConfId}")
+    GooglePayConf findByGooglePayConfId(@Param("googlePayConfId") Long googlePayConfId);
+
+    /*通过游戏名称来获取google支付配置信息*/
+    @Select("select * from tb_googlepayconf where gameName=#{gameName}")
+    GooglePayConf findByGameName(@Param("gameName") String gameName);
+
+    /*查找所有的google支付配置信息*/
+    @Select("select * from tb_googlepayconf")
+    List<GooglePayConf> findAllGooglePayConf();
 }
