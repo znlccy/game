@@ -16,7 +16,7 @@ import java.util.List;
 public interface GooglePayConfMapper {
 
     /*实现添加google支付配置表*/
-    @Insert("insert into tb_googlepayconf(createTime,gameChannelId,notifyUrl) values(now(),#{googlePayConf.gameChannelId},#{googlePayConf.notifyUrl})")
+    @Insert("insert into tb_googlepayconf(createTime,gameChannelId,notifyUrl,signNature) values(now(),#{googlePayConf.gameChannelId},#{googlePayConf.notifyUrl},#{googlePayConf.signNatrue})")
     @Options(useGeneratedKeys = true,keyProperty = "googlePayConfId")
     boolean addGooglePayConf(@Param("googlePayConf")GooglePayConf googlePayConf);
 

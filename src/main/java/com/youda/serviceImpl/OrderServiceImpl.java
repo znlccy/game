@@ -771,7 +771,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ResponseEntity googleAttestation(GoogleRequest request, Long orderId,String gameChannelId) {
-        String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";
+        GooglePayConf googlePayConf = googlePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
+        String mSignatureBase64 = googlePayConf.getSignNature();
+        /*String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";*/
         Order order = orderMapper.findByOrderId(orderId);
         if (order == null)
         {
@@ -781,7 +783,7 @@ public class OrderServiceImpl implements OrderService {
         {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
-            GooglePayConf googlePayConf = googlePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
+
             if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
                 // TODO: 2017/12/25 标记订单号为  orderId 已经支付
                 // TODO: 2017/12/25 通知游戏方发货

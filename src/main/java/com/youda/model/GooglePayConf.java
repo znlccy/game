@@ -34,6 +34,10 @@ public class GooglePayConf {
     @Column(name = "createTime")
     private Date createTime;
 
+    /*声明签名文件*/
+    @Column(name = "signNature",length = 2000)
+    private String signNature;
+
     /*实现google支付配置主键的get方法*/
     @NotBlank(message = "google支付配置主键不能为空")
     public Long getGooglePayConfId() {
@@ -78,4 +82,13 @@ public class GooglePayConf {
         this.createTime = createTime;
     }
 
+    /*实现签名文件的get方法*/
+    public String getSignNature() {
+        return signNature;
+    }
+
+    /*声明签名文件的set方法*/
+    public void setSignNature(String signNature) {
+        this.signNature = signNature;
+    }
 }
