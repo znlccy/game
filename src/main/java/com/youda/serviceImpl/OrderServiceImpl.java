@@ -89,27 +89,30 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity createOrder(OrderRequest request) {
         Order order = new Order();
 
-        /*orderMapper.findByOtherOrderId(request.getOtherOrderId()).getOtherOrderId();
-        if (request.getOtherOrderId().equals())
+        Order order_new = orderMapper.findByOtherOrderId(request.getOtherOrderId());
+        if (order_new == null)
         {
-            return ResponseStatusCode.userAlreadyExists(order);
-        }*/
-        order.setOtherOrderId(request.getOtherOrderId());
-        order.setOrderTotalAmount(request.getOrderTotalAmount());
-        order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
-        GameChannel gameChannel = channelService.findByIds(request.getGameChannelId());
-        if (gameChannel == null) {
-            return ResponseStatusCode.nullPointerError();
+            order.setOtherOrderId(request.getOtherOrderId());
+            order.setOrderTotalAmount(request.getOrderTotalAmount());
+            order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
+            GameChannel gameChannel = channelService.findByIds(request.getGameChannelId());
+            if (gameChannel == null) {
+                return ResponseStatusCode.nullPointerError();
+            }
+            order.setGameId(gameChannel.getGameId());
+            order.setGameChannelId(request.getGameChannelId());
+            order.setOrderSubject(request.getOrderSubject());
+            order.setUserId(request.getUserId());
+            orderMapper.createOrder(order);
+            if (order.getOrderId() == 0) {
+                return ResponseStatusCode.conflictError();
+            }
+            return ResponseStatusCode.postSuccess(new OrderResponse(order.getOrderId()));
         }
-        order.setGameId(gameChannel.getGameId());
-        order.setGameChannelId(request.getGameChannelId());
-        order.setOrderSubject(request.getOrderSubject());
-        order.setUserId(request.getUserId());
-        orderMapper.createOrder(order);
-        if (order.getOrderId() == 0) {
-            return ResponseStatusCode.conflictError();
+        else
+        {
+            return ResponseStatusCode.otherOrderIdAlreadyExists(order_new);
         }
-        return ResponseStatusCode.postSuccess(new OrderResponse(order.getOrderId()));
     }
 
     /*实现支付宝支付*/

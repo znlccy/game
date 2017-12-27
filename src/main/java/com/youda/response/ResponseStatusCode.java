@@ -154,6 +154,17 @@ public class ResponseStatusCode {
                 .body(new ResponseResult("414", "用户已存在", bean));
     }
 
+    /**
+     * 实现订单已存在
+     *
+     * @return
+     */
+    public static ResponseEntity otherOrderIdAlreadyExists(Object bean) {
+        return ResponseEntity
+                .status(416)
+                .body(new ResponseResult("416", "第三方订单已存在", bean));
+    }
+
     /*实现上传成功*/
     public static ResponseEntity uploadSuccess() {
         return ResponseEntity
