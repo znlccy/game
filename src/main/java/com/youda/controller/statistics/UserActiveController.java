@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin/user/activity")
+@RequestMapping(value = "/admin/user/active")
 public class UserActiveController {
 
     /*实现用户活跃度服务的自动依赖注入*/
