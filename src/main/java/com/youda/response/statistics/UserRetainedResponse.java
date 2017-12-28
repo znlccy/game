@@ -1,6 +1,8 @@
 package com.youda.response.statistics;
 
-public class UserRetainedResponse {
+import com.youda.response.BaseResponse;
+
+public class UserRetainedResponse implements BaseResponse  {
 
     /*定义用户留存统计的变量*/
     private String userRetainedCount;

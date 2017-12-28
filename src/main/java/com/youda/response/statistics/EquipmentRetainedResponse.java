@@ -1,5 +1,7 @@
 package com.youda.response.statistics;
 
+import com.youda.response.BaseResponse;
+
 /**
  * @Author Chencongye
  * @Date 2017/12/15 17:11
@@ -7,7 +9,7 @@ package com.youda.response.statistics;
  * @Instructions 定义返回给客户端
  */
 
-public class EquipmentRetainedResponse {
+public class EquipmentRetainedResponse implements BaseResponse{
 
     /*新增设备统计*/
     private String newEquipmentCount;

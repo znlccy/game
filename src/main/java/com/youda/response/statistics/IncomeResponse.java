@@ -1,5 +1,7 @@
 package com.youda.response.statistics;
 
+import com.youda.response.BaseResponse;
+
 /**
  * @Author Chencongye
  * @Date 2017/12/20 15:19
@@ -7,7 +9,7 @@ package com.youda.response.statistics;
  * @Instructions 定义返回给客户端的收入的实体类
  */
 
-public class IncomeResponse {
+public class IncomeResponse implements BaseResponse {
 
     /*定义返回日期*/
     private String ddate;

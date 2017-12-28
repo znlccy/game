@@ -1,5 +1,7 @@
 package com.youda.response.statistics;
 
+import com.youda.response.BaseResponse;
+
 /**
  * @Author Chencongye
  * @Date 2017/12/15 11:34
@@ -7,7 +9,7 @@ package com.youda.response.statistics;
  * @Instructions 实现返回给客户端的数据内容
  */
 
-public class PayResponse {
+public class PayResponse implements BaseResponse {
 
     /*定义返回的日期类型*/
     private String ddate;

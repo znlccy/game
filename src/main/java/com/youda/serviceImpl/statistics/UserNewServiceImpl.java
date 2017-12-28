@@ -29,14 +29,14 @@ public class UserNewServiceImpl implements UserNewService {
     @Override
     public ResponseEntity customTime(StatisticsRequest statisticsRequest) {
 
-        List<UserNewResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomTime(statisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
+        List<UserNewResponse> userNewResponses = userStatisticsMapper.cudtomTime(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userNewResponses);
     }
 
     /*实现所用新增用户统计*/
     @Override
     public ResponseEntity all(StatisticsRequest statisticsRequest) {
-        List<UserNewResponse> userNewStatisticsRespons = userStatisticsMapper.all(statisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
+        List<UserNewResponse> userNewResponses = userStatisticsMapper.all(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userNewResponses);
     }
 }

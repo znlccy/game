@@ -1,4 +1,7 @@
 package com.youda.response.statistics;
+
+import com.youda.response.BaseResponse;
+
 /**
  * @Author Chencongye
  * @Date 2017/12/19 16:34
@@ -6,7 +9,7 @@ package com.youda.response.statistics;
  * @Instructions 定义返回给客户端用户活跃数统计
  */
 
-public class UserActiveResponse {
+public class UserActiveResponse implements BaseResponse {
 
     /*设置返回活跃用户数*/
     private String userActiveCount;
