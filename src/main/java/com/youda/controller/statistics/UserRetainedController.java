@@ -1,5 +1,6 @@
 package com.youda.controller.statistics;
 
+import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.service.admin.UserRetainedStatisticsService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,44 +22,17 @@ public class UserRetainedController {
     @Autowired
     private UserRetainedStatisticsService userRetainedStatisticsService;
 
-    /*实现今天的用户留存统计*/
-    @ResponseBody
-    @RequestMapping(value = "todayretaineduser",method = RequestMethod.GET)
-    public ResponseEntity todayUserRetainedStatistics() {
-        return userRetainedStatisticsService.todayUserRetainedStatistics();
-    }
-
-    /*实现昨天的用户留存统计*/
-    @ResponseBody
-    @RequestMapping(value = "yestodayretaineduser",method = RequestMethod.GET)
-    public ResponseEntity yestodayUserRetainedStatistics() {
-        return userRetainedStatisticsService.yestodayUserRetainedStatistics();
-    }
-
-    /*实现一周的用户留存统计*/
-    @ResponseBody
-    @RequestMapping(value = "weekretaineduser",method = RequestMethod.GET)
-    public ResponseEntity aWeekUserRetained() {
-        return userRetainedStatisticsService.aWeekUserRetainedStatistics();
-    }
-
-    /*实现一月的用户留存统计*/
-    @ResponseBody
-    @RequestMapping(value = "monthretaineduser",method = RequestMethod.GET)
-    public ResponseEntity aMonthUserRetained() {
-        return userRetainedStatisticsService.aMonthUserRetainedStatistics();
-    }
-
     /*实现自定义日期用户留存统计*/
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity customDateRetained(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
-        return userRetainedStatisticsService.customDateRetainedStatistics(beginTime, endTime);
+    @RequestMapping( method = RequestMethod.POST)
+    public ResponseEntity customDateRetained(@RequestBody UserStatisticsRequest userStatisticsRequest) {
+        return userRetainedStatisticsService.customDateRetainedStatistics(userStatisticsRequest);
     }
 
+    /*实现所有平台用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "/all", method = RequestMethod.GET )
-    public ResponseEntity allUserRetainedStatistics() {
-        return userRetainedStatisticsService.allUserRetainedStatisticsStatistics();
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
+    public ResponseEntity allPlatformUserRetainedStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
+        return userRetainedStatisticsService.allPlatformUserRetainedStatistics(userStatisticsRequest);
     }
 }

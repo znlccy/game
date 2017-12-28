@@ -1,5 +1,6 @@
 package com.youda.service.admin;
 
+import com.youda.request.admin.UserStatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -10,21 +11,9 @@ import org.springframework.http.ResponseEntity;
  */
 public interface UserRetainedStatisticsService {
 
-    /*定义统计今天用户留存的功能*/
-    ResponseEntity todayUserRetainedStatistics();
-
-    /*定义统计昨天的用户留存的功能*/
-    ResponseEntity yestodayUserRetainedStatistics();
-
-    /*定义统计一周的用户留存的功能*/
-    ResponseEntity aWeekUserRetainedStatistics();
-
-    /*定义统计一月的用户留存的功能*/
-    ResponseEntity aMonthUserRetainedStatistics();
-
     /*定义统计自定义日期用户留存的功能*/
-    ResponseEntity customDateRetainedStatistics(String beginTime,String endTime);
+    ResponseEntity customDateRetainedStatistics(UserStatisticsRequest userStatisticsRequest);
 
     /*定义统计所有的用户留存的功能*/
-    ResponseEntity allUserRetainedStatisticsStatistics();
+    ResponseEntity allPlatformUserRetainedStatistics(UserStatisticsRequest userStatisticsRequest);
 }
