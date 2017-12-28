@@ -1,4 +1,4 @@
-package com.youda.request.admin;
+package com.youda.request.statistics;
 
 import com.youda.request.BaseRequest;
 import org.hibernate.validator.constraints.NotBlank;

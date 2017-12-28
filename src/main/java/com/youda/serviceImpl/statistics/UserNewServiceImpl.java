@@ -1,7 +1,7 @@
 package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.statistics.UserNewMapper;
-import com.youda.request.admin.UserStatisticsRequest;
+import com.youda.request.statistics.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserNewStatisticsResponse;
 import com.youda.service.statistics.UserNewService;

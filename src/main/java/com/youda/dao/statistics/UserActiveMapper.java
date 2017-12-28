@@ -1,6 +1,6 @@
 package com.youda.dao.statistics;
 
-import com.youda.request.admin.UserStatisticsRequest;
+import com.youda.request.statistics.UserStatisticsRequest;
 import com.youda.response.admin.UserActiveStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

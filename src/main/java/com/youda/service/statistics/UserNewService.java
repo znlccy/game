@@ -1,6 +1,6 @@
 package com.youda.service.statistics;
 
-import com.youda.request.admin.UserStatisticsRequest;
+import com.youda.request.statistics.UserStatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 public interface UserNewService {

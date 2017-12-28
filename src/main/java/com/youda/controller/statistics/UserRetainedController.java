@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.request.admin.UserStatisticsRequest;
+import com.youda.request.statistics.UserStatisticsRequest;
 import com.youda.service.statistics.UserRetainedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
