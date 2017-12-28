@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.service.statistics.UserRetainedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +24,14 @@ public class UserRetainedController {
     /*实现自定义日期用户留存统计*/
     @ResponseBody
     @RequestMapping( method = RequestMethod.POST)
-    public ResponseEntity customDateRetained(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userRetainedStatisticsService.customTime(userStatisticsRequest);
+    public ResponseEntity customDateRetained(@RequestBody StatisticsRequest statisticsRequest) {
+        return userRetainedStatisticsService.customTime(statisticsRequest);
     }
 
     /*实现所有平台用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.POST)
-    public ResponseEntity allPlatformUserRetainedStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userRetainedStatisticsService.all(userStatisticsRequest);
+    public ResponseEntity allPlatformUserRetainedStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+        return userRetainedStatisticsService.all(statisticsRequest);
     }
 }

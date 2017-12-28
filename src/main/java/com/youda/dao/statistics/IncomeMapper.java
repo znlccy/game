@@ -1,6 +1,6 @@
 package com.youda.dao.statistics;
 
-import com.youda.response.admin.IncomeStatisticsResponse;
+import com.youda.response.statistics.IncomeResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -21,7 +21,7 @@ public interface IncomeMapper {
     @Select("SELECT CURDATE() AS ddate,SUM(payRecordTotalAmount) AS incomeTotalMoney,COUNT(*) AS incomeCount\n" +
             "FROM tb_payrecord\n" +
             "WHERE payRecordTime >=CONCAT(CURDATE(),' 00:00:00') AND payRecordTime<=CONCAT(CURDATE(),' 24:00:00') AND payRecordStatus='1' ")
-    List<IncomeStatisticsResponse> todayIncomeStatistics();
+    List<IncomeResponse> todayIncomeStatistics();
 
     /*定义昨天的收入统计*/
     @Select("SELECT DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate,SUM(payRecordTotalAmount) AS incomeTotalMoney,COUNT(*) AS incomeCount\n" +
@@ -29,7 +29,7 @@ public interface IncomeMapper {
             "WHERE payRecordTime >=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
             "AND payRecordTime<=payRecordTime >=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00') \n" +
             "AND payRecordStatus='1'")
-    List<IncomeStatisticsResponse> yestodayIncomeStatistics();
+    List<IncomeResponse> yestodayIncomeStatistics();
 
     /*定义一周的收入统计*/
     @Select("SELECT\n" +
@@ -54,7 +54,7 @@ public interface IncomeMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<IncomeStatisticsResponse> aWeekIncomeStatistics();
+    List<IncomeResponse> aWeekIncomeStatistics();
 
     /*定义一个月的收入统计*/
     @Select("SELECT\n" +
@@ -79,7 +79,7 @@ public interface IncomeMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate\n")
-    List<IncomeStatisticsResponse> aMonthIncomeStatistics();
+    List<IncomeResponse> aMonthIncomeStatistics();
 
     /*定义任意日期的收入统计*/
     @Select("SELECT\n" +
@@ -104,7 +104,7 @@ public interface IncomeMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<IncomeStatisticsResponse> customIncomeStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<IncomeResponse> customIncomeStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*定义全部的收入统计*/
     @Select("SELECT\n" +
@@ -129,5 +129,5 @@ public interface IncomeMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate\n")
-    List<IncomeStatisticsResponse> allIncomeStatistics();
+    List<IncomeResponse> allIncomeStatistics();
 }

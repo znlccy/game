@@ -1,4 +1,4 @@
-package com.youda.response.admin;
+package com.youda.response.statistics;
 
 /**
  * @Author Chencongye
@@ -7,7 +7,7 @@ package com.youda.response.admin;
  * @Instructions 定义返回给客户端的收入的实体类
  */
 
-public class IncomeStatisticsResponse {
+public class IncomeResponse {
 
     /*定义返回日期*/
     private String ddate;

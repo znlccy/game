@@ -1,6 +1,6 @@
 package com.youda.service.statistics;
 
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -13,9 +13,9 @@ import org.springframework.http.ResponseEntity;
 public interface UserActiveService {
 
     /*定义自选日期活跃用户统计*/
-    ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity customTime(StatisticsRequest statisticsRequest);
 
     /*定义所有活跃用户统计*/
-    ResponseEntity all(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity all(StatisticsRequest statisticsRequest);
     
 }

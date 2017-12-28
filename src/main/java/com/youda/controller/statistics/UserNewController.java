@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.service.statistics.UserNewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,15 +23,15 @@ public class UserNewController {
     /*实现自定义日期查询统计*/
     @ResponseBody
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public ResponseEntity customDatesNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userNewStatisticsService.customTime(userStatisticsRequest);
+    public ResponseEntity customDatesNewUserStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+        return userNewStatisticsService.customTime(statisticsRequest);
     }
 
     /*实现全部新增用户查询统计*/
     @ResponseBody
     @RequestMapping(value = "/new/all", method = RequestMethod.POST)
-    public ResponseEntity allPlatformNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userNewStatisticsService.all(userStatisticsRequest);
+    public ResponseEntity allPlatformNewUserStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+        return userNewStatisticsService.all(statisticsRequest);
     }
 
 }

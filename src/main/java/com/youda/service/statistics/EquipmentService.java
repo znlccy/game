@@ -1,5 +1,7 @@
 package com.youda.service.statistics;
 
+import com.youda.request.statistics.StatisticsRequest;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -11,23 +13,12 @@ import org.springframework.http.ResponseEntity;
 
 public interface EquipmentService {
 
-    /*实现今天新增设备的统计*/
-    ResponseEntity todayEquipmentStatistics();
-
-    /*实现昨天新增设备的统计*/
-    ResponseEntity yestodayEquipmentStatistics();
-
-    /*实现一周的新增设备的统计*/
-    ResponseEntity aWeekEquipmentStatistics();
-
-    /*实现一个月新增设备的统计*/
-    ResponseEntity aMonthEquipmentStatistics();
 
     /*实现自定义日期的新增设备的统计*/
-    ResponseEntity customTime(String beginTime,String endTime);
+    ResponseEntity customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的新增设备的统计*/
-    ResponseEntity all();
+    ResponseEntity all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
 }
 

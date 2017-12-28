@@ -1,13 +1,11 @@
 package com.youda.controller.statistics;
 
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.service.statistics.EquipmentService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author Chencongye
@@ -24,46 +22,19 @@ public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
 
-    /*实现今天的新增设备统计*/
-    @ResponseBody
-    @RequestMapping(value = "/todayretainedequipment" ,method = RequestMethod.GET)
-    public ResponseEntity todayNewEquipmentStatistics() {
-        return equipmentService.todayEquipmentStatistics();
-    };
-
-    /*实现昨天的新增设备统计*/
-    @ResponseBody
-    @RequestMapping(value = "/yestodayretainedequipment" ,method = RequestMethod.GET)
-    public ResponseEntity yestodayNewEquipmentStatistics() {
-        return equipmentService.yestodayEquipmentStatistics();
-    };
-
-    /*实现一周的新增设备统计*/
-    @ResponseBody
-    @RequestMapping(value = "/weekretainedequipment" ,method = RequestMethod.GET)
-    public ResponseEntity aWeekNewEquipmentStatistics() {
-        return equipmentService.aWeekEquipmentStatistics();
-    };
-
-    /*实现一个月的新增设备统计*/
-    @ResponseBody
-    @RequestMapping(value = "/monthretainedequipment" ,method = RequestMethod.GET)
-    public ResponseEntity aMonthNewEquipmentStatistics() {
-        return equipmentService.aMonthEquipmentStatistics();
-    };
 
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity customNewEquipmentStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return equipmentService.customTime(beginTime, endTime);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity customNewEquipmentStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+        return equipmentService.customTime(statisticsRequest);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/all" ,method = RequestMethod.GET)
-    public ResponseEntity allNewEquipmentStatistics() {
-        return equipmentService.all();
+    @RequestMapping(value = "/all" ,method = RequestMethod.POST)
+    public ResponseEntity allNewEquipmentStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+        return equipmentService.all(statisticsRequest);
     };
 
 }

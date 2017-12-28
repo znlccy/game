@@ -1,4 +1,4 @@
-package com.youda.response.admin;
+package com.youda.response.statistics;
 /**
  * @Author Chencongye
  * @Date 2017/12/19 16:34
@@ -6,7 +6,7 @@ package com.youda.response.admin;
  * @Instructions 定义返回给客户端用户活跃数统计
  */
 
-public class UserActiveStatisticsResponse {
+public class UserActiveResponse {
 
     /*设置返回活跃用户数*/
     private String userActiveCount;

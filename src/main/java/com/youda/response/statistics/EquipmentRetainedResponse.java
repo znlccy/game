@@ -1,4 +1,4 @@
-package com.youda.response.admin;
+package com.youda.response.statistics;
 
 /**
  * @Author Chencongye
@@ -7,7 +7,7 @@ package com.youda.response.admin;
  * @Instructions 定义返回给客户端
  */
 
-public class EquipmentRetainedStatisticsResponse {
+public class EquipmentRetainedResponse {
 
     /*新增设备统计*/
     private String newEquipmentCount;

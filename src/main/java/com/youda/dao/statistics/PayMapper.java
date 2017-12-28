@@ -1,6 +1,6 @@
 package com.youda.dao.statistics;
 
-import com.youda.response.admin.PayStatisticsResponse;
+import com.youda.response.statistics.PayResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -24,7 +24,7 @@ public interface PayMapper {
             "AND payRecordStatus='1') AS todayPayPlayer,\n" +
             "(SELECT COUNT(*) AS activeUserCount,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(CURDATE(),' 00:00:00') \n" +
             "AND userLoginTime <=CONCAT(CURDATE(), ' 24:00:00')) AS todayActiveUser")
-    List<PayStatisticsResponse> todayPayRateStatistics();
+    List<PayResponse> todayPayRateStatistics();
 
     /*实现昨天的付费率统计*/
     @Select("SELECT (yestodayPayPlayer.payCount/yestodayActiveUser.activeUserCount)*100 AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM \n" +
@@ -34,7 +34,7 @@ public interface PayMapper {
             "AND payRecordStatus='1') AS yestodayPayPlayer,\n" +
             "(SELECT COUNT(*) AS activeUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
             "AND userLoginTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 24:00:00')) AS yestodayActiveUser")
-    List<PayStatisticsResponse> yestodayPayRateStatistics();
+    List<PayResponse> yestodayPayRateStatistics();
 
     /*实现一周的付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -86,7 +86,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayStatisticsResponse> aWeekPayRateStatistics();
+    List<PayResponse> aWeekPayRateStatistics();
 
     /*实现一个月付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -138,7 +138,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayStatisticsResponse> aMonthPayRateStatistics();
+    List<PayResponse> aMonthPayRateStatistics();
 
     /*实现自定义日期付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -190,7 +190,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayStatisticsResponse> customPayRateStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+    List<PayResponse> customPayRateStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*实现全部的付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -242,7 +242,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayStatisticsResponse> allPayRateStatistics();
+    List<PayResponse> allPayRateStatistics();
 
     /*实现今天的ARPU的统计*/
     @Select("SELECT todayActiveUser.ddate AS ddate,(todayPayCount.payCount/todayActiveUser.activeUserCount) AS payCount      \n" +
@@ -283,7 +283,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS todayPayCount      \n" +
             "ON todayActiveUser.ddate = todayPayCount.ddate")
-    List<PayStatisticsResponse> todayArpuStatistics();
+    List<PayResponse> todayArpuStatistics();
 
     /*实现昨天的ARPPU的统计*/
     @Select("SELECT yestodayActiveUser.ddate AS ddate,(yestodayPayCount.payCount/yestodayActiveUser.activeUserCount) AS payCount      \n" +
@@ -324,7 +324,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS yestodayPayCount      \n" +
             "ON yestodayActiveUser.ddate = yestodayPayCount.ddate")
-    List<PayStatisticsResponse> yestodayArpuStatistics();
+    List<PayResponse> yestodayArpuStatistics();
 
     /*实现一周的ARPU的统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,(weekPayCount.payCount/weekActiveUser.activeUserCount) AS payCount      \n" +
@@ -365,7 +365,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS weekPayCount      \n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayStatisticsResponse> aWeekArpuStatistics();
+    List<PayResponse> aWeekArpuStatistics();
 
     /*实现一个月的ARPU的统计*/
     @Select("SELECT monthActiveUser.ddate AS ddate,(monthPayCount.payCount/monthActiveUser.activeUserCount) AS payCount      \n" +
@@ -406,7 +406,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS monthPayCount      \n" +
             "ON monthActiveUser.ddate = monthPayCount.ddate")
-    List<PayStatisticsResponse> aMonthArpuStatistics();
+    List<PayResponse> aMonthArpuStatistics();
 
     /*实现自定义的ARPU的统计*/
     @Select("SELECT customActiveUser.ddate AS ddate,(customPayCount.payCount/customActiveUser.activeUserCount) AS payCount      \n" +
@@ -447,7 +447,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS customPayCount      \n" +
             "ON customActiveUser.ddate = customPayCount.ddate")
-    List<PayStatisticsResponse> customArpuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+    List<PayResponse> customArpuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*实现全部的ARPU统计*/
     @Select("SELECT allActiveUser.ddate AS ddate,(allPayCount.payCount/allActiveUser.activeUserCount) AS payCount      \n" +
@@ -488,7 +488,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS allPayCount      \n" +
             "ON allActiveUser.ddate = allPayCount.ddate")
-    List<PayStatisticsResponse> allArpuStatistics();
+    List<PayResponse> allArpuStatistics();
 
     /*实现今天的ARPPU的统计*/
     @Select("SELECT\n" +
@@ -512,7 +512,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> todayArppuStatistics();
+    List<PayResponse> todayArppuStatistics();
 
     /*实现昨天的ARPPU的统计*/
     @Select("SELECT\n" +
@@ -536,7 +536,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> yestodayArppuStatistics();
+    List<PayResponse> yestodayArppuStatistics();
 
     /*实现一周的ARPPU统计*/
     @Select("SELECT\n" +
@@ -560,7 +560,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> aWeekArppuStatistics();
+    List<PayResponse> aWeekArppuStatistics();
 
     /*实现一个月的ARPPU统计*/
     @Select("SELECT\n" +
@@ -584,7 +584,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> aMonthArppuStatistics();
+    List<PayResponse> aMonthArppuStatistics();
 
     /*实现自定义日期的ARPPU统计*/
     @Select("SELECT\n" +
@@ -608,7 +608,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> customArppuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+    List<PayResponse> customArppuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*s辉县全部ARPPU统计*/
     @Select("SELECT\n" +
@@ -632,21 +632,21 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> allArppuStatistics();
+    List<PayResponse> allArppuStatistics();
 
     /*实现今天的支付玩家统计*/
     @Select("SELECT COUNT(*) AS payCount,CURDATE() AS ddate FROM tb_payrecord \n" +
             "WHERE payRecordTime>=CONCAT(CURDATE(),' 00:00:00') \n" +
             "AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00')\n" +
             "AND payRecordStatus='1' ")
-    List<PayStatisticsResponse> todayPayingPlayersStatistics();
+    List<PayResponse> todayPayingPlayersStatistics();
 
     /*实现昨天的支付玩家统计*/
     @Select("SELECT COUNT(*) AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_payrecord \n" +
             "WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
             "AND payRecordTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')\n" +
             "AND payRecordStatus='1'")
-    List<PayStatisticsResponse> yestodayPayingPlayersStatistics();
+    List<PayResponse> yestodayPayingPlayersStatistics();
 
     /*实现一周支付玩家统计*/
     @Select("SELECT\n" +
@@ -670,7 +670,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> aWeekPayingPlayersStatistics();
+    List<PayResponse> aWeekPayingPlayersStatistics();
 
     /*实现一个月支付玩家统计*/
     @Select("SELECT\n" +
@@ -694,7 +694,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> aMonthPayingPlayersStatistics();
+    List<PayResponse> aMonthPayingPlayersStatistics();
 
     /*实现任意日期支付玩家统计*/
     @Select("SELECT\n" +
@@ -718,7 +718,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> customPayingPlayersStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime);
+    List<PayResponse> customPayingPlayersStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
 
     /*实现全部的付费玩家统计*/
     @Select("SELECT\n" +
@@ -742,5 +742,5 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayStatisticsResponse> allPayingPlayersStatistics();
+    List<PayResponse> allPayingPlayersStatistics();
 }

@@ -1,9 +1,9 @@
 package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.statistics.UserRetainedMapper;
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
-import com.youda.response.admin.UserRetainedStatisticsResponse;
+import com.youda.response.statistics.UserRetainedResponse;
 import com.youda.service.statistics.UserRetainedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +28,15 @@ public class UserRetainedServiceImpl implements UserRetainedService {
 
     /*实现自定义日期用户的留存统计的功能*/
     @Override
-    public ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest) {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedMapper.customTime(userStatisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
+    public ResponseEntity customTime(StatisticsRequest statisticsRequest) {
+        List<UserRetainedResponse> userRetainedRespons = userRetainedMapper.customTime(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userRetainedRespons);
     }
 
     /*实现所有平台的用户留存统计的功能*/
     @Override
-    public ResponseEntity all(UserStatisticsRequest userStatisticsRequest) {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedMapper.all(userStatisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
+    public ResponseEntity all(StatisticsRequest statisticsRequest) {
+        List<UserRetainedResponse> userRetainedRespons = userRetainedMapper.all(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userRetainedRespons);
     }
 }

@@ -1,9 +1,9 @@
 package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.statistics.UserActiveMapper;
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
-import com.youda.response.admin.UserActiveStatisticsResponse;
+import com.youda.response.statistics.UserActiveResponse;
 import com.youda.service.statistics.UserActiveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,16 +27,16 @@ public class UserActiveServiceImpl implements UserActiveService {
 
     /*实现自定义活跃用户统计*/
     @Override
-    public ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest) {
-        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveMapper.customTime(userStatisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userActiveStatisticsResponses);
+    public ResponseEntity customTime(StatisticsRequest statisticsRequest) {
+        List<UserActiveResponse> userActiveRespons = userActiveMapper.customTime(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userActiveRespons);
     }
 
     /*实现所有平台活跃用户统计*/
     @Override
-    public ResponseEntity all(UserStatisticsRequest userStatisticsRequest) {
-        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveMapper.all(userStatisticsRequest);
-        return ResponseStatusCode.putOrGetSuccess(userActiveStatisticsResponses);
+    public ResponseEntity all(StatisticsRequest statisticsRequest) {
+        List<UserActiveResponse> userActiveRespons = userActiveMapper.all(statisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userActiveRespons);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.youda.response.admin;
+package com.youda.response.statistics;
 
 import com.youda.response.BaseResponse;
 
