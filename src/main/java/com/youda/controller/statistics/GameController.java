@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.service.GameService;
 import org.springframework.beans.factory.annotation.Autowired;

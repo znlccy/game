@@ -1,8 +1,7 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.service.admin.UserActiveStatisticsService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
-public class UserActiveStatisticsController {
+@RequestMapping(value = "/admin/user/activity")
+public class UserActiveController {
 
     /*实现用户活跃度服务的自动依赖注入*/
     @Autowired
@@ -24,16 +23,18 @@ public class UserActiveStatisticsController {
 
     /*定义自选日期活跃用户统计*/
     @ResponseBody
-    @RequestMapping(value = "/customactiveuser", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity customDateActiveUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
         return userActiveStatisticsService.customDateActiveUserStatistics(userStatisticsRequest);
-    };
+    }
 
     /*定义所有活跃用户统计*/
     @ResponseBody
-    @RequestMapping(value = "/allactiveuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
     public ResponseEntity allActiveUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
         return userActiveStatisticsService.allPlatformActiveUserStatistics(userStatisticsRequest);
-    };
+    }
+
+    ;
 
 }

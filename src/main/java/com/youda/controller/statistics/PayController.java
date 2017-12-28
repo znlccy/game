@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.service.admin.PayStatisticsService;
 import org.apache.ibatis.annotations.Param;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
-public class PayStatisticsController {
+@RequestMapping(value = "/admin/payments")
+public class PayController {
 
     /*实现支付统计的自动依赖注入*/
     @Autowired
@@ -33,7 +33,7 @@ public class PayStatisticsController {
 
     /*实现昨日付费率统计*/
     @ResponseBody
-    @RequestMapping(value = "/yestodaypayrate" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/yestodaypayrate", method = RequestMethod.GET)
     public ResponseEntity yestodayPayRateStatistics() {
         return payStatisticsService.yestodayPayRateStatistics();
     }
@@ -47,28 +47,28 @@ public class PayStatisticsController {
 
     /*实现一个月的付费率统计*/
     @ResponseBody
-    @RequestMapping(value = "/monthpayrate",method = RequestMethod.GET)
+    @RequestMapping(value = "/monthpayrate", method = RequestMethod.GET)
     public ResponseEntity aMonthPayRateStatistics() {
         return payStatisticsService.aMonthPayRateStatistics();
     }
 
     /*实现任意日期的付费率统计*/
     @ResponseBody
-    @RequestMapping(value = "/custompayrate", method = RequestMethod.GET)
-    public ResponseEntity customPayRateStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
-        return payStatisticsService.customPayRateStatistics(beginTime,endTime);
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity customPayRateStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
+        return payStatisticsService.customPayRateStatistics(beginTime, endTime);
     }
 
     /*实现全部的付费率统计*/
     @ResponseBody
-    @RequestMapping(value = "/allpayrate",method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity allPayRateStatistics() {
         return payStatisticsService.allPayRateStatistics();
     }
 
     /*实现今天ARPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/todayarpu",method = RequestMethod.GET)
+    @RequestMapping(value = "/todayarpu", method = RequestMethod.GET)
     public ResponseEntity todayArpuStatistics() {
         return payStatisticsService.todayArpuStatistics();
     }
@@ -96,35 +96,35 @@ public class PayStatisticsController {
 
     /*实现任意日期的ARPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/customarpu",method = RequestMethod.GET)
-    public ResponseEntity customArpuStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
-        return payStatisticsService.customArpuStatistics(beginTime,endTime);
+    @RequestMapping(value = "/arpu", method = RequestMethod.GET)
+    public ResponseEntity customArpuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
+        return payStatisticsService.customArpuStatistics(beginTime, endTime);
     }
 
     /*实现全部的ARPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/allarpu", method = RequestMethod.GET)
+    @RequestMapping(value = "/arpu/all", method = RequestMethod.GET)
     public ResponseEntity allArpuStatistics() {
         return payStatisticsService.allArpuStatistics();
     }
 
     /*实现今天的ARPPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/todayarppu",method = RequestMethod.GET)
+    @RequestMapping(value = "/todayarppu", method = RequestMethod.GET)
     public ResponseEntity todayArppuStatistics() {
         return payStatisticsService.todayArppuStatistics();
     }
 
     /*实现昨天的ARPPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/yestodayarppu",method = RequestMethod.GET)
+    @RequestMapping(value = "/yestodayarppu", method = RequestMethod.GET)
     public ResponseEntity yestodayArppuStatistics() {
         return payStatisticsService.yestodayArppuStatistics();
     }
 
     /*实现一周ARPPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/weekarppu",method = RequestMethod.GET)
+    @RequestMapping(value = "/weekarppu", method = RequestMethod.GET)
     public ResponseEntity aWeekArppuStatistics() {
         return payStatisticsService.aWeekArppuStatistics();
     }
@@ -138,14 +138,14 @@ public class PayStatisticsController {
 
     /*实现任意日期的ARPPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/customarppu", method = RequestMethod.GET)
+    @RequestMapping(value = "/arppu", method = RequestMethod.GET)
     public ResponseEntity customArppuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
         return payStatisticsService.customArppuStatistics(beginTime, endTime);
     }
 
     /*实现全部ARPPU统计*/
     @ResponseBody
-    @RequestMapping(value = "/allarppu", method = RequestMethod.GET)
+    @RequestMapping(value = "/arppu/all", method = RequestMethod.GET)
     public ResponseEntity allArppuStatistics() {
         return payStatisticsService.allArppuStatistics();
     }
@@ -159,7 +159,7 @@ public class PayStatisticsController {
 
     /*实现昨天支付玩家统计*/
     @ResponseBody
-    @RequestMapping(value = "/yestodaypayplayers" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/yestodaypayplayers", method = RequestMethod.GET)
     public ResponseEntity yestodayPayingPlayersStatistics() {
         return payStatisticsService.yestodayPayingPlayersStatistics();
     }
@@ -180,13 +180,13 @@ public class PayStatisticsController {
 
     /*实现任意日期支付玩家统计*/
     @ResponseBody
-    @RequestMapping(value = "/custompayplayers" ,method = RequestMethod.GET)
-    public ResponseEntity customPayingPlayersStatistics(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
-        return payStatisticsService.customPayingPlayersStatistics(beginTime,endTime);
+    @RequestMapping(value = "/players", method = RequestMethod.GET)
+    public ResponseEntity customPayingPlayersStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
+        return payStatisticsService.customPayingPlayersStatistics(beginTime, endTime);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/allpayplayers", method = RequestMethod.GET)
+    @RequestMapping(value = "/players/all", method = RequestMethod.GET)
     public ResponseEntity allPayingPlayersStatistics() {
         return payStatisticsService.allPayingPlayersStatistics();
     }

@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.service.admin.EquipmentRetainedStatisticsService;
 import org.apache.ibatis.annotations.Param;
@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
-public class EquipmentRetainedStatisticsController {
+@RequestMapping(value = "/admin/equipment")
+public class EquipmentController {
 
     /*实现新增设备服务的自动依赖注入*/
     @Autowired
@@ -54,14 +54,14 @@ public class EquipmentRetainedStatisticsController {
 
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/customretainedequipment" ,method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity customNewEquipmentStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
         return equipmentRetainedStatisticsService.customEquipmentStatistics(beginTime, endTime);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
-    @RequestMapping(value = "/allretainedequipment" ,method = RequestMethod.GET)
+    @RequestMapping(value = "/all" ,method = RequestMethod.GET)
     public ResponseEntity allNewEquipmentStatistics() {
         return equipmentRetainedStatisticsService.allEquipmentStatistics();
     };

@@ -1,6 +1,5 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
-import com.youda.response.admin.GameStatisticsResponse;
 import com.youda.service.admin.GameStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.request.channel.LoginRequest;
 import com.youda.request.channel.RegisterRequest;

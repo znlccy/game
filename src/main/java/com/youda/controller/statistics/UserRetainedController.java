@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.service.admin.UserRetainedStatisticsService;
 import org.apache.ibatis.annotations.Param;
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
-public class UserRetainedStatisticsController {
+@RequestMapping(value = "/admin/user/retained")
+public class UserRetainedController {
 
     /*实现用户留存统计服务的自动依赖注入*/
     @Autowired
@@ -51,13 +51,13 @@ public class UserRetainedStatisticsController {
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
-    @RequestMapping(value = "/customretaineduser",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity customDateRetained(@Param("beginTime") String beginTime,@Param("endTime") String endTime) {
         return userRetainedStatisticsService.customDateRetainedStatistics(beginTime, endTime);
     }
 
     @ResponseBody
-    @RequestMapping(value = "/allretaineduser", method = RequestMethod.GET )
+    @RequestMapping(value = "/all", method = RequestMethod.GET )
     public ResponseEntity allUserRetainedStatistics() {
         return userRetainedStatisticsService.allUserRetainedStatisticsStatistics();
     }

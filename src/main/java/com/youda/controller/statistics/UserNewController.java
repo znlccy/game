@@ -1,4 +1,4 @@
-package com.youda.controller.admin;
+package com.youda.controller.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.service.admin.UserNewStatisticsService;
@@ -14,22 +14,22 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin")
-public class UserNewStatisticsController {
+@RequestMapping(value = "/admin/user")
+public class UserNewController {
 
     @Autowired
     UserNewStatisticsService userNewStatisticsService;
 
     /*实现自定义日期查询统计*/
     @ResponseBody
-    @RequestMapping(value = "/customnewuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/new", method = RequestMethod.POST)
     public ResponseEntity customDatesNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
         return userNewStatisticsService.customDateNewUserStatistics(userStatisticsRequest);
     }
 
     /*实现全部新增用户查询统计*/
     @ResponseBody
-    @RequestMapping(value = "/allnewuser", method = RequestMethod.POST)
+    @RequestMapping(value = "/new/all", method = RequestMethod.POST)
     public ResponseEntity allPlatformNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
         return userNewStatisticsService.allPlatformNewUserStatistics(userStatisticsRequest);
     }
