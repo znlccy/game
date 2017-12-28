@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +10,12 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 定义用户活跃数统计的接口
  */
 
-public interface UserActiveStatisticsService {
+public interface UserActiveService {
 
     /*定义自选日期活跃用户统计*/
-    ResponseEntity customDateActiveUserStatistics(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest);
 
     /*定义所有活跃用户统计*/
-    ResponseEntity allPlatformActiveUserStatistics(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity all(UserStatisticsRequest userStatisticsRequest);
     
 }

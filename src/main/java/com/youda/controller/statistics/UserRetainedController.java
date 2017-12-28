@@ -1,8 +1,7 @@
 package com.youda.controller.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
-import com.youda.service.admin.UserRetainedStatisticsService;
-import org.apache.ibatis.annotations.Param;
+import com.youda.service.statistics.UserRetainedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,19 +19,19 @@ public class UserRetainedController {
 
     /*实现用户留存统计服务的自动依赖注入*/
     @Autowired
-    private UserRetainedStatisticsService userRetainedStatisticsService;
+    private UserRetainedService userRetainedStatisticsService;
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
     @RequestMapping( method = RequestMethod.POST)
     public ResponseEntity customDateRetained(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userRetainedStatisticsService.customDateRetainedStatistics(userStatisticsRequest);
+        return userRetainedStatisticsService.customTime(userStatisticsRequest);
     }
 
     /*实现所有平台用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.POST)
     public ResponseEntity allPlatformUserRetainedStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
-        return userRetainedStatisticsService.allPlatformUserRetainedStatistics(userStatisticsRequest);
+        return userRetainedStatisticsService.all(userStatisticsRequest);
     }
 }

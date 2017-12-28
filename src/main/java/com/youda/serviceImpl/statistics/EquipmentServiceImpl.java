@@ -1,9 +1,9 @@
-package com.youda.serviceImpl.admin;
+package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.admin.EquipmentRetainedStatisticsMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.EquipmentRetainedStatisticsResponse;
-import com.youda.service.admin.EquipmentRetainedStatisticsService;
+import com.youda.service.statistics.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
  * @Instructions 实现新增设备服务层接口
  */
 @Service
-public class EquipmentRetainedStatisticsServiceImpl implements EquipmentRetainedStatisticsService {
+public class EquipmentServiceImpl implements EquipmentService {
 
     /*实现新增设备Dao层的自动依赖注入*/
     @Autowired
@@ -53,14 +53,14 @@ public class EquipmentRetainedStatisticsServiceImpl implements EquipmentRetained
 
     /*实现自定义日期新增设备的统计*/
     @Override
-    public ResponseEntity customEquipmentStatistics(String beginTime,String endTime) {
+    public ResponseEntity customTime(String beginTime,String endTime) {
         List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.customEquipmentStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现全部新增设备的统计*/
     @Override
-    public ResponseEntity allEquipmentStatistics() {
+    public ResponseEntity all() {
         List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.allEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }

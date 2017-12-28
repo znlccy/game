@@ -1,9 +1,9 @@
-package com.youda.serviceImpl.admin;
+package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.admin.PayStatisticsMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.PayStatisticsResponse;
-import com.youda.service.admin.PayStatisticsService;
+import com.youda.service.statistics.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Service
-public class PayStatisticsServiceImpl implements PayStatisticsService {
+public class PayServiceImpl implements PayService {
 
     /*实现支付统计Dao层的自动依赖注入*/
     @Autowired
@@ -54,14 +54,14 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
 
     /*实现任意日期支付率统计*/
     @Override
-    public ResponseEntity customPayRateStatistics(String beginTime, String endTime) {
+    public ResponseEntity customPayRateTime(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customPayRateStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
     /*实现全部支付率统计*/
     @Override
-    public ResponseEntity allPayRateStatistics() {
+    public ResponseEntity allPayRate() {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allPayRateStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
@@ -96,14 +96,14 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
 
     /*实现任意日期的arpu统计*/
     @Override
-    public ResponseEntity customArpuStatistics(String beginTime, String endTime) {
+    public ResponseEntity customArpuTime(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customArpuStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
     /*实现全部arpu统计*/
     @Override
-    public ResponseEntity allArpuStatistics() {
+    public ResponseEntity allArpu() {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allArpuStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
@@ -138,14 +138,14 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
 
     /*实现任意日期的arppu统计*/
     @Override
-    public ResponseEntity customArppuStatistics(String beginTime, String endTime) {
+    public ResponseEntity customArppuTime(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customArppuStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
     /*实现全部的arppu统计*/
     @Override
-    public ResponseEntity allArppuStatistics() {
+    public ResponseEntity allArppu() {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allArppuStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
@@ -180,14 +180,14 @@ public class PayStatisticsServiceImpl implements PayStatisticsService {
 
     /*实现任意日期支付玩家的统计*/
     @Override
-    public ResponseEntity customPayingPlayersStatistics(String beginTime, String endTime) {
+    public ResponseEntity customPlayersTime(String beginTime, String endTime) {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.customPayingPlayersStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }
 
     /*实现全部支付玩家的统计*/
     @Override
-    public ResponseEntity allPayingPlayersStatistics() {
+    public ResponseEntity allPlayers() {
         List<PayStatisticsResponse> payStatisticsResponses = payStatisticsMapper.allPayingPlayersStatistics();
         return ResponseStatusCode.putOrGetSuccess(payStatisticsResponses);
     }

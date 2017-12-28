@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 定义收入统计接口
  */
 
-public interface IncomeStatisticsService {
+public interface IncomeService {
 
     /*定义今天的收入统计*/
     ResponseEntity todayIncomeStatistics();
@@ -24,8 +24,8 @@ public interface IncomeStatisticsService {
     ResponseEntity aMonthIncomeStatistics();
 
     /*定义任意日期的收入统计*/
-    ResponseEntity customIncomeStatistics(String beginTime,String endTime);
+    ResponseEntity customTime(String beginTime,String endTime);
 
     /*定义全部的收入统计*/
-    ResponseEntity allIncomeStatistics();
+    ResponseEntity all();
 }

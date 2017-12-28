@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.service.admin.IncomeStatisticsService;
+import com.youda.service.statistics.IncomeService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class IncomeController {
 
     /*实现收入统计服务接口的自动依赖注入*/
     @Autowired
-    private IncomeStatisticsService incomeStatisticsService;
+    private IncomeService incomeStatisticsService;
 
     /*实现今天的收入统计*/
     @ResponseBody
@@ -60,7 +60,7 @@ public class IncomeController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity customIncomeStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return incomeStatisticsService.customIncomeStatistics(beginTime, endTime);
+        return incomeStatisticsService.customTime(beginTime, endTime);
     }
 
 
@@ -68,7 +68,7 @@ public class IncomeController {
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity allIncomeStatistics() {
-        return incomeStatisticsService.allIncomeStatistics();
+        return incomeStatisticsService.all();
     }
 
 }

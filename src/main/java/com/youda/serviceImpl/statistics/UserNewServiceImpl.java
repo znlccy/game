@@ -1,10 +1,10 @@
-package com.youda.serviceImpl.admin;
+package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.admin.UserNewStatisticsMapper;
 import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserNewStatisticsResponse;
-import com.youda.service.admin.UserNewStatisticsService;
+import com.youda.service.statistics.UserNewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 @Service
-public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
+public class UserNewServiceImpl implements UserNewService {
 
     /*实现用户统计的自动依赖注入*/
     @Autowired
@@ -27,15 +27,15 @@ public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
 
     /*实现自定义日期新增用户统计*/
     @Override
-    public ResponseEntity customDateNewUserStatistics(UserStatisticsRequest userStatisticsRequest) {
+    public ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest) {
 
-       List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(userStatisticsRequest);
-       return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
+        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(userStatisticsRequest);
+        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }
 
     /*实现所用新增用户统计*/
     @Override
-    public ResponseEntity allPlatformNewUserStatistics(UserStatisticsRequest userStatisticsRequest) {
+    public ResponseEntity all(UserStatisticsRequest userStatisticsRequest) {
         List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.allPlatformNewUserStatistics(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }

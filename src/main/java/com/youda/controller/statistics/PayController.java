@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.service.admin.PayStatisticsService;
+import com.youda.service.statistics.PayService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ public class PayController {
 
     /*实现支付统计的自动依赖注入*/
     @Autowired
-    PayStatisticsService payStatisticsService;
+    PayService payStatisticsService;
 
     /*实现今日付费率统计*/
     @ResponseBody
@@ -56,14 +56,14 @@ public class PayController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity customPayRateStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return payStatisticsService.customPayRateStatistics(beginTime, endTime);
+        return payStatisticsService.customPayRateTime(beginTime, endTime);
     }
 
     /*实现全部的付费率统计*/
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public ResponseEntity allPayRateStatistics() {
-        return payStatisticsService.allPayRateStatistics();
+        return payStatisticsService.allPayRate();
     }
 
     /*实现今天ARPU统计*/
@@ -98,14 +98,14 @@ public class PayController {
     @ResponseBody
     @RequestMapping(value = "/arpu", method = RequestMethod.GET)
     public ResponseEntity customArpuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return payStatisticsService.customArpuStatistics(beginTime, endTime);
+        return payStatisticsService.customArpuTime(beginTime, endTime);
     }
 
     /*实现全部的ARPU统计*/
     @ResponseBody
     @RequestMapping(value = "/arpu/all", method = RequestMethod.GET)
     public ResponseEntity allArpuStatistics() {
-        return payStatisticsService.allArpuStatistics();
+        return payStatisticsService.allArpu();
     }
 
     /*实现今天的ARPPU统计*/
@@ -140,14 +140,14 @@ public class PayController {
     @ResponseBody
     @RequestMapping(value = "/arppu", method = RequestMethod.GET)
     public ResponseEntity customArppuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return payStatisticsService.customArppuStatistics(beginTime, endTime);
+        return payStatisticsService.customArppuTime(beginTime, endTime);
     }
 
     /*实现全部ARPPU统计*/
     @ResponseBody
     @RequestMapping(value = "/arppu/all", method = RequestMethod.GET)
     public ResponseEntity allArppuStatistics() {
-        return payStatisticsService.allArppuStatistics();
+        return payStatisticsService.allArppu();
     }
 
     /*实现今天支付玩家统计*/
@@ -182,13 +182,13 @@ public class PayController {
     @ResponseBody
     @RequestMapping(value = "/players", method = RequestMethod.GET)
     public ResponseEntity customPayingPlayersStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return payStatisticsService.customPayingPlayersStatistics(beginTime, endTime);
+        return payStatisticsService.customPlayersTime(beginTime, endTime);
     }
 
     @ResponseBody
     @RequestMapping(value = "/players/all", method = RequestMethod.GET)
     public ResponseEntity allPayingPlayersStatistics() {
-        return payStatisticsService.allPayingPlayersStatistics();
+        return payStatisticsService.allPlayers();
     }
 
 }

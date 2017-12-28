@@ -1,9 +1,9 @@
-package com.youda.serviceImpl.admin;
+package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.admin.IncomeStatisticsMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.IncomeStatisticsResponse;
-import com.youda.service.admin.IncomeStatisticsService;
+import com.youda.service.statistics.IncomeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 @Service
-public class IncomeStatisticsServiceImpl implements IncomeStatisticsService {
+public class IncomeServiceImpl implements IncomeService {
 
     /*实现收入统计Dao层自动依赖注入*/
     @Autowired
@@ -54,14 +54,14 @@ public class IncomeStatisticsServiceImpl implements IncomeStatisticsService {
 
     /*实现自定义日期收入统计*/
     @Override
-    public ResponseEntity customIncomeStatistics(String beginTime, String endTime) {
+    public ResponseEntity customTime(String beginTime, String endTime) {
         List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.customIncomeStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现全部收入统计*/
     @Override
-    public ResponseEntity allIncomeStatistics() {
+    public ResponseEntity all() {
         List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.allIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }

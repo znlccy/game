@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +9,11 @@ import org.springframework.http.ResponseEntity;
  * @Version 1.0.0
  * @Instructions 定义
  */
-public interface UserRetainedStatisticsService {
+public interface UserRetainedService {
 
     /*定义统计自定义日期用户留存的功能*/
-    ResponseEntity customDateRetainedStatistics(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest);
 
     /*定义统计所有的用户留存的功能*/
-    ResponseEntity allPlatformUserRetainedStatistics(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity all(UserStatisticsRequest userStatisticsRequest);
 }

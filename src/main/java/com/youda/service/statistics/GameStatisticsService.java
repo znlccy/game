@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 public interface GameStatisticsService {
 }

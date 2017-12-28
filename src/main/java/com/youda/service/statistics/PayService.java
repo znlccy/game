@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 定义付费统计的接口定义
  */
 
-public interface PayStatisticsService {
+public interface PayService {
 
     /*定义今天支付率的统计*/
     ResponseEntity todayPayRateStatistics();
@@ -24,10 +24,10 @@ public interface PayStatisticsService {
     ResponseEntity aMonthPayRateStatistics();
 
     /*定义任意日期支付率的统计*/
-    ResponseEntity customPayRateStatistics(String beginTime,String endTime);
+    ResponseEntity customPayRateTime(String beginTime,String endTime);
 
     /*定义全部支付率的统计*/
-    ResponseEntity allPayRateStatistics();
+    ResponseEntity allPayRate();
 
     /*定义今天arpu的统计*/
     ResponseEntity todayArpuStatistics();
@@ -42,10 +42,10 @@ public interface PayStatisticsService {
     ResponseEntity aMonthArpuStatistics();
 
     /*定义任意日期的arpu统计*/
-    ResponseEntity customArpuStatistics(String beginTime,String endTime);
+    ResponseEntity customArpuTime(String beginTime,String endTime);
 
     /*定义全部arpu统计*/
-    ResponseEntity allArpuStatistics();
+    ResponseEntity allArpu();
 
     /*定义今天arppu的统计*/
     ResponseEntity todayArppuStatistics();
@@ -60,10 +60,10 @@ public interface PayStatisticsService {
     ResponseEntity aMonthArppuStatistics();
 
     /*定义任意日期的arppu统计*/
-    ResponseEntity customArppuStatistics(String beginTime,String endTime);
+    ResponseEntity customArppuTime(String beginTime,String endTime);
 
     /*定义全部的arpu统计*/
-    ResponseEntity allArppuStatistics();
+    ResponseEntity allArppu();
 
     /*定义今天支付玩家的统计*/
     ResponseEntity todayPayingPlayersStatistics();
@@ -78,10 +78,10 @@ public interface PayStatisticsService {
     ResponseEntity aMonthPayingPlayersStatistics();
 
     /*定义任意日期玩家支付统计*/
-    ResponseEntity customPayingPlayersStatistics(String beginTime,String endTime);
+    ResponseEntity customPlayersTime(String beginTime,String endTime);
 
     /*定义全部的付费玩家统计*/
-    ResponseEntity allPayingPlayersStatistics();
+    ResponseEntity allPlayers();
 }
 
 

@@ -1,6 +1,6 @@
 package com.youda.controller.statistics;
 
-import com.youda.service.admin.GameStatisticsService;
+import com.youda.service.statistics.GameStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

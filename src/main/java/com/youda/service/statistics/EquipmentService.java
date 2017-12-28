@@ -1,4 +1,4 @@
-package com.youda.service.admin;
+package com.youda.service.statistics;
 
 import org.springframework.http.ResponseEntity;
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 实现新增设备统计服务接口
  */
 
-public interface EquipmentRetainedStatisticsService {
+public interface EquipmentService {
 
     /*实现今天新增设备的统计*/
     ResponseEntity todayEquipmentStatistics();
@@ -24,10 +24,10 @@ public interface EquipmentRetainedStatisticsService {
     ResponseEntity aMonthEquipmentStatistics();
 
     /*实现自定义日期的新增设备的统计*/
-    ResponseEntity customEquipmentStatistics(String beginTime,String endTime);
+    ResponseEntity customTime(String beginTime,String endTime);
 
     /*实现全部的新增设备的统计*/
-    ResponseEntity allEquipmentStatistics();
+    ResponseEntity all();
 
 }
 
