@@ -1,6 +1,7 @@
 package com.youda.serviceImpl.admin;
 
 import com.youda.dao.admin.UserRetainedStatisticsMapper;
+import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserRetainedStatisticsResponse;
 import com.youda.service.admin.UserRetainedStatisticsService;
@@ -24,45 +25,18 @@ public class UserRetainedStatisticsServiceImpl implements UserRetainedStatistics
     @Autowired
     private UserRetainedStatisticsMapper userRetainedStatisticsMapper;
 
-    /*实现今天用户留存的统计功能*/
-    @Override
-    public ResponseEntity todayUserRetainedStatistics() {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.todayUserRetainedStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
-    }
-
-    /*实现昨天的用户留存统计功能*/
-    @Override
-    public ResponseEntity yestodayUserRetainedStatistics() {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.yestodayUserRetainedStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
-    }
-
-    /*实现一周的用户留存统计功能*/
-    @Override
-    public ResponseEntity aWeekUserRetainedStatistics() {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.aWeekUserRetainedStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
-    }
-
-    /*实现一个月的用户留存统计的功能*/
-    @Override
-    public ResponseEntity aMonthUserRetainedStatistics() {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.aMonthUserRetainedStatistics();
-        return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
-    }
 
     /*实现自定义日期用户的留存统计的功能*/
     @Override
-    public ResponseEntity customDateRetainedStatistics(String beginTime, String endTime) {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.customDateRetainedStatistics(beginTime, endTime);
+    public ResponseEntity customDateRetainedStatistics(UserStatisticsRequest userStatisticsRequest) {
+        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.customDateRetainedStatistics(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
     }
 
-    /*实现所有的用户留存统计的功能*/
+    /*实现所有平台的用户留存统计的功能*/
     @Override
-    public ResponseEntity allUserRetainedStatisticsStatistics() {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.allUserRetainedStatisticsStatistics();
+    public ResponseEntity allPlatformUserRetainedStatistics(UserStatisticsRequest userStatisticsRequest) {
+        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.allPlatformUserRetainedStatistics(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
     }
 }
