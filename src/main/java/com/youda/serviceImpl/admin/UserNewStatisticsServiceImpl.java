@@ -1,7 +1,7 @@
 package com.youda.serviceImpl.admin;
 
 import com.youda.dao.admin.UserNewStatisticsMapper;
-import com.youda.request.admin.NewUserStatisticsRequest;
+import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserNewStatisticsResponse;
 import com.youda.service.admin.UserNewStatisticsService;
@@ -27,16 +27,16 @@ public class UserNewStatisticsServiceImpl implements UserNewStatisticsService {
 
     /*实现自定义日期新增用户统计*/
     @Override
-    public ResponseEntity customDateNewUserStatistics(NewUserStatisticsRequest newUserStatisticsRequest) {
+    public ResponseEntity customDateNewUserStatistics(UserStatisticsRequest userStatisticsRequest) {
 
-       List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(newUserStatisticsRequest);
+       List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.cudtomDateNewUserStatistics(userStatisticsRequest);
        return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }
 
     /*实现所用新增用户统计*/
     @Override
-    public ResponseEntity allNewUserStatistics() {
-        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.allNewUserStatistics();
+    public ResponseEntity allPlatformNewUserStatistics(UserStatisticsRequest userStatisticsRequest) {
+        List<UserNewStatisticsResponse> userNewStatisticsRespons = userStatisticsMapper.allPlatformNewUserStatistics(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userNewStatisticsRespons);
     }
 }

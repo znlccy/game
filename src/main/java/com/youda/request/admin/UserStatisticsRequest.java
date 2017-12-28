@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @Instructions 实现新增用户统计
  */
 
-public class NewUserStatisticsRequest extends BaseRequest {
+public class UserStatisticsRequest extends BaseRequest {
 
     /*声明自定义日期的开始时间*/
     private String beginTime;

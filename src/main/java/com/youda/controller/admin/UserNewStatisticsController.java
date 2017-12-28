@@ -1,8 +1,7 @@
 package com.youda.controller.admin;
 
-import com.youda.request.admin.NewUserStatisticsRequest;
+import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.service.admin.UserNewStatisticsService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,15 +23,15 @@ public class UserNewStatisticsController {
     /*实现自定义日期查询统计*/
     @ResponseBody
     @RequestMapping(value = "/customnewuser", method = RequestMethod.POST)
-    public ResponseEntity customDatesNewUserStatistics(@RequestBody NewUserStatisticsRequest newUserStatisticsRequest) {
-        return userNewStatisticsService.customDateNewUserStatistics(newUserStatisticsRequest);
+    public ResponseEntity customDatesNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
+        return userNewStatisticsService.customDateNewUserStatistics(userStatisticsRequest);
     }
 
     /*实现全部新增用户查询统计*/
     @ResponseBody
-    @RequestMapping(value = "/allnewuser", method = RequestMethod.GET)
-    public ResponseEntity allNewUserStatistics() {
-        return userNewStatisticsService.allNewUserStatistics();
+    @RequestMapping(value = "/allnewuser", method = RequestMethod.POST)
+    public ResponseEntity allPlatformNewUserStatistics(@RequestBody UserStatisticsRequest userStatisticsRequest) {
+        return userNewStatisticsService.allPlatformNewUserStatistics(userStatisticsRequest);
     }
 
 }
