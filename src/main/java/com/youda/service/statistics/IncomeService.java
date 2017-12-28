@@ -1,5 +1,6 @@
 package com.youda.service.statistics;
 
+import com.youda.request.statistics.StatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -11,21 +12,9 @@ import org.springframework.http.ResponseEntity;
 
 public interface IncomeService {
 
-    /*定义今天的收入统计*/
-    ResponseEntity todayIncomeStatistics();
-
-    /*定义昨天的收入统计*/
-    ResponseEntity yestodayIncomeStatistics();
-
-    /*定义一周的收入统计*/
-    ResponseEntity aWeekIncomeStatistics();
-
-    /*定义一个月的收入统计*/
-    ResponseEntity aMonthIncomeStatistics();
-
     /*定义任意日期的收入统计*/
-    ResponseEntity customTime(String beginTime,String endTime);
+    ResponseEntity customTime(StatisticsRequest statisticsRequest);
 
     /*定义全部的收入统计*/
-    ResponseEntity all();
+    ResponseEntity all(StatisticsRequest statisticsRequest);
 }

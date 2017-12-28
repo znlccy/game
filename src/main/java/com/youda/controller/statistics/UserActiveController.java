@@ -24,14 +24,14 @@ public class UserActiveController {
     /*定义自选日期活跃用户统计*/
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity customDateActiveUserStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+    public ResponseEntity customActive(@RequestBody StatisticsRequest statisticsRequest) {
         return userActiveService.customTime(statisticsRequest);
     }
 
     /*定义所有活跃用户统计*/
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.POST)
-    public ResponseEntity allActiveUserStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+    public ResponseEntity allActive(@RequestBody StatisticsRequest statisticsRequest) {
         return userActiveService.all(statisticsRequest);
     }
 

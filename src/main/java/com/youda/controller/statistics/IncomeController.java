@@ -1,13 +1,11 @@
 package com.youda.controller.statistics;
 
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.service.statistics.IncomeService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author Chencongye
@@ -22,53 +20,21 @@ public class IncomeController {
 
     /*实现收入统计服务接口的自动依赖注入*/
     @Autowired
-    private IncomeService incomeStatisticsService;
-
-    /*实现今天的收入统计*/
-    @ResponseBody
-    @RequestMapping(value = "/todayincome", method = RequestMethod.GET)
-    public ResponseEntity todayIncomeStatistics() {
-        return incomeStatisticsService.todayIncomeStatistics();
-    }
-
-
-    /*实现昨天的收入统计*/
-    @ResponseBody
-    @RequestMapping(value = "/yestodayincome", method = RequestMethod.GET)
-    public ResponseEntity yestodayIncomeStatistics() {
-        return incomeStatisticsService.yestodayIncomeStatistics();
-    }
-
-
-    /*实现一周的收入统计*/
-    @ResponseBody
-    @RequestMapping(value = "/weekincome", method = RequestMethod.GET)
-    public ResponseEntity aWeekIncomeStatistics() {
-        return incomeStatisticsService.aWeekIncomeStatistics();
-    }
-
-
-    /*实现一个月的收入统计*/
-    @ResponseBody
-    @RequestMapping(value = "/monthincome", method = RequestMethod.GET)
-    public ResponseEntity aMonthIncomeStatistics() {
-        return incomeStatisticsService.aMonthIncomeStatistics();
-    }
-
+    private IncomeService incomeService;
 
     /*实现自定义日期的收入统计*/
     @ResponseBody
-    @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity customIncomeStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime) {
-        return incomeStatisticsService.customTime(beginTime, endTime);
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity customIncome(@RequestBody StatisticsRequest statisticsRequest) {
+        return incomeService.customTime(statisticsRequest);
     }
 
 
     /*实现全部的收入统计*/
     @ResponseBody
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity allIncomeStatistics() {
-        return incomeStatisticsService.all();
+    @RequestMapping(value = "/all", method = RequestMethod.POST)
+    public ResponseEntity allIncome(@RequestBody StatisticsRequest statisticsRequest) {
+        return incomeService.all(statisticsRequest);
     }
 
 }

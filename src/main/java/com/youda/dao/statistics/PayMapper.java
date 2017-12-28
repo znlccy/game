@@ -1,5 +1,6 @@
 package com.youda.dao.statistics;
 
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.statistics.PayResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,130 +16,6 @@ import java.util.List;
  */
 @Mapper
 public interface PayMapper {
-
-    /*实现今天付费率统计*/
-    @Select("SELECT (todayPayPlayer.payCount/todayActiveUser.activeUserCount)*100 AS payCount,CURDATE() AS ddate FROM \n" +
-            "(SELECT COUNT(*) AS payCount,CURDATE() AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
-            "WHERE payRecordTime>=CONCAT(CURDATE(),' 00:00:00') \n" +
-            "AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "AND payRecordStatus='1') AS todayPayPlayer,\n" +
-            "(SELECT COUNT(*) AS activeUserCount,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(CURDATE(),' 00:00:00') \n" +
-            "AND userLoginTime <=CONCAT(CURDATE(), ' 24:00:00')) AS todayActiveUser")
-    List<PayResponse> todayPayRateStatistics();
-
-    /*实现昨天的付费率统计*/
-    @Select("SELECT (yestodayPayPlayer.payCount/yestodayActiveUser.activeUserCount)*100 AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM \n" +
-            "(SELECT COUNT(*) AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate,SUM(payRecordTotalAmount) AS payMoneyTotal FROM tb_payrecord \n" +
-            "WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
-            "AND payRecordTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')\n" +
-            "AND payRecordStatus='1') AS yestodayPayPlayer,\n" +
-            "(SELECT COUNT(*) AS activeUserCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_user WHERE userLoginTime >= CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
-            "AND userLoginTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY), ' 24:00:00')) AS yestodayActiveUser")
-    List<PayResponse> yestodayPayRateStatistics();
-
-    /*实现一周的付费率统计*/
-    @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
-            "(weekPayCount.payCount/weekActiveUser.activeUserCount)*100 AS payCount\n" +
-            "FROM \n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS activeUserCount\n" +
-            "FROM\n" +
-            "\t(\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userLoginTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userLoginTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') && userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY userLoginTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate ) AS weekActiveUser\n" +
-            "\n" +
-            "INNER JOIN\n" +
-            "\n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') && payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate) AS weekPayCount\n" +
-            "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayResponse> aWeekPayRateStatistics();
-
-    /*实现一个月付费率统计*/
-    @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
-            "(weekPayCount.payCount/weekActiveUser.activeUserCount)*100 AS payCount\n" +
-            "FROM \n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS activeUserCount\n" +
-            "FROM\n" +
-            "\t(\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userLoginTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userLoginTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') && userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY userLoginTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate ) AS weekActiveUser\n" +
-            "\n" +
-            "INNER JOIN\n" +
-            "\n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') && payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate) AS weekPayCount\n" +
-            "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayResponse> aMonthPayRateStatistics();
 
     /*实现自定义日期付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -190,7 +67,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayResponse> customPayRateStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<PayResponse> customPayRateTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的付费率统计*/
     @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
@@ -242,171 +119,7 @@ public interface PayMapper {
             "    ) a\n" +
             "GROUP BY ddate) AS weekPayCount\n" +
             "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayResponse> allPayRateStatistics();
-
-    /*实现今天的ARPU的统计*/
-    @Select("SELECT todayActiveUser.ddate AS ddate,(todayPayCount.payCount/todayActiveUser.activeUserCount) AS payCount      \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE  CONCAT(CURDATE(),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE  userLoginTime>=CONCAT(CURDATE(),' 00:00:00') && userLoginTime<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS todayActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE CONCAT(CURDATE(),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime >=CONCAT(CURDATE(),' 00:00:00') AND payRecordTime<=CONCAT(CURDATE(),' 24:00:00')       \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS todayPayCount      \n" +
-            "ON todayActiveUser.ddate = todayPayCount.ddate")
-    List<PayResponse> todayArpuStatistics();
-
-    /*实现昨天的ARPPU的统计*/
-    @Select("SELECT yestodayActiveUser.ddate AS ddate,(yestodayPayCount.payCount/yestodayActiveUser.activeUserCount) AS payCount      \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE  userLoginTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00') && userLoginTime<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')      \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS yestodayActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')      \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime >=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00') AND payRecordTime<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')       \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS yestodayPayCount      \n" +
-            "ON yestodayActiveUser.ddate = yestodayPayCount.ddate")
-    List<PayResponse> yestodayArpuStatistics();
-
-    /*实现一周的ARPU的统计*/
-    @Select("SELECT weekActiveUser.ddate AS ddate,(weekPayCount.payCount/weekActiveUser.activeUserCount) AS payCount      \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE  userLoginTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') && userLoginTime<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS weekActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime >=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') AND payRecordTime<=CONCAT(CURDATE(),' 24:00:00')       \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS weekPayCount      \n" +
-            "ON weekActiveUser.ddate = weekPayCount.ddate")
-    List<PayResponse> aWeekArpuStatistics();
-
-    /*实现一个月的ARPU的统计*/
-    @Select("SELECT monthActiveUser.ddate AS ddate,(monthPayCount.payCount/monthActiveUser.activeUserCount) AS payCount      \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE  userLoginTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') && userLoginTime<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS monthActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime >=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') AND payRecordTime<=CONCAT(CURDATE(),' 24:00:00')       \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS monthPayCount      \n" +
-            "ON monthActiveUser.ddate = monthPayCount.ddate")
-    List<PayResponse> aMonthArpuStatistics();
+    List<PayResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义的ARPU的统计*/
     @Select("SELECT customActiveUser.ddate AS ddate,(customPayCount.payCount/customActiveUser.activeUserCount) AS payCount      \n" +
@@ -447,7 +160,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS customPayCount      \n" +
             "ON customActiveUser.ddate = customPayCount.ddate")
-    List<PayResponse> customArpuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<PayResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
     @Select("SELECT allActiveUser.ddate AS ddate,(allPayCount.payCount/allActiveUser.activeUserCount) AS payCount      \n" +
@@ -488,103 +201,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS allPayCount      \n" +
             "ON allActiveUser.ddate = allPayCount.ddate")
-    List<PayResponse> allArpuStatistics();
-
-    /*实现今天的ARPPU的统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(CURDATE(),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(CURDATE(),' 00:00:00') && payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> todayArppuStatistics();
-
-    /*实现昨天的ARPPU的统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 00:00:00') && payRecordTime<=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 DAY),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> yestodayArppuStatistics();
-
-    /*实现一周的ARPPU统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') && payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> aWeekArppuStatistics();
-
-    /*实现一个月的ARPPU统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') && payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> aMonthArppuStatistics();
+    List<PayResponse> allArpu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义日期的ARPPU统计*/
     @Select("SELECT\n" +
@@ -608,7 +225,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> customArppuStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<PayResponse> customArppuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*s辉县全部ARPPU统计*/
     @Select("SELECT\n" +
@@ -632,69 +249,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> allArppuStatistics();
-
-    /*实现今天的支付玩家统计*/
-    @Select("SELECT COUNT(*) AS payCount,CURDATE() AS ddate FROM tb_payrecord \n" +
-            "WHERE payRecordTime>=CONCAT(CURDATE(),' 00:00:00') \n" +
-            "AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "AND payRecordStatus='1' ")
-    List<PayResponse> todayPayingPlayersStatistics();
-
-    /*实现昨天的支付玩家统计*/
-    @Select("SELECT COUNT(*) AS payCount,DATE_SUB(CURDATE(),INTERVAL 1 DAY) AS ddate FROM tb_payrecord \n" +
-            "WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 00:00:00') \n" +
-            "AND payRecordTime <=CONCAT(DATE_SUB(CURDATE(),INTERVAL 1 DAY),' 24:00:00')\n" +
-            "AND payRecordStatus='1'")
-    List<PayResponse> yestodayPayingPlayersStatistics();
-
-    /*实现一周支付玩家统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 1 WEEK) <= DATE(datelist)&&DATE(datelist)<=CURRENT_TIMESTAMP\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 WEEK),' 00:00:00') AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00') AND payRecordStatus='1' \n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> aWeekPayingPlayersStatistics();
-
-    /*实现一个月支付玩家统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS payCount\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= DATE(datelist)&&DATE(datelist)<=CURRENT_TIMESTAMP\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE payRecordTime>=CONCAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH),' 00:00:00') AND payRecordTime <=CONCAT(CURDATE(),' 24:00:00') AND payRecordStatus='1' \n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
-    List<PayResponse> aMonthPayingPlayersStatistics();
+    List<PayResponse> allArppu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现任意日期支付玩家统计*/
     @Select("SELECT\n" +
@@ -718,7 +273,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> customPayingPlayersStatistics(@Param("beginTime") String beginTime, @Param("endTime") String endTime);
+    List<PayResponse> customPayPlayersTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的付费玩家统计*/
     @Select("SELECT\n" +
@@ -742,5 +297,5 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> allPayingPlayersStatistics();
+    List<PayResponse> allPayPlayers(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }

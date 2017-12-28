@@ -1,6 +1,7 @@
 package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.statistics.IncomeMapper;
+import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.statistics.IncomeResponse;
 import com.youda.service.statistics.IncomeService;
@@ -24,45 +25,18 @@ public class IncomeServiceImpl implements IncomeService {
     @Autowired
     private IncomeMapper incomeMapper;
 
-    /*实现今天的收入统计*/
-    @Override
-    public ResponseEntity todayIncomeStatistics() {
-        List<IncomeResponse> incomeRespons = incomeMapper.todayIncomeStatistics();
-        return ResponseStatusCode.putOrGetSuccess(incomeRespons);
-    }
-
-    /*实现昨天的收入统计*/
-    @Override
-    public ResponseEntity yestodayIncomeStatistics() {
-        List<IncomeResponse> incomeRespons = incomeMapper.yestodayIncomeStatistics();
-        return ResponseStatusCode.putOrGetSuccess(incomeRespons);
-    }
-
-    /*实现一周的收入统计*/
-    @Override
-    public ResponseEntity aWeekIncomeStatistics() {
-        List<IncomeResponse> incomeRespons = incomeMapper.aWeekIncomeStatistics();
-        return ResponseStatusCode.putOrGetSuccess(incomeRespons);
-    }
-
-    /*实现一个月的收入统计*/
-    @Override
-    public ResponseEntity aMonthIncomeStatistics() {
-        List<IncomeResponse> incomeRespons = incomeMapper.aMonthIncomeStatistics();
-        return ResponseStatusCode.putOrGetSuccess(incomeRespons);
-    }
 
     /*实现自定义日期收入统计*/
     @Override
-    public ResponseEntity customTime(String beginTime, String endTime) {
-        List<IncomeResponse> incomeRespons = incomeMapper.customIncomeStatistics(beginTime, endTime);
+    public ResponseEntity customTime(StatisticsRequest statisticsRequest) {
+        List<IncomeResponse> incomeRespons = incomeMapper.customTime(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(incomeRespons);
     }
 
     /*实现全部收入统计*/
     @Override
-    public ResponseEntity all() {
-        List<IncomeResponse> incomeRespons = incomeMapper.allIncomeStatistics();
+    public ResponseEntity all(StatisticsRequest statisticsRequest) {
+        List<IncomeResponse> incomeRespons = incomeMapper.all(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(incomeRespons);
     }
 }

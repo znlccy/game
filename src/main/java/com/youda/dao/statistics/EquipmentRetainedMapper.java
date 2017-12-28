@@ -33,7 +33,7 @@ public interface EquipmentRetainedMapper {
             "        WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
             "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
             "    ) AS today\n")
-    List<EquipmentRetainedResponse> customTime(@Param("statisticsRequest")StatisticsRequest statisticsRequest);
+    List<EquipmentRetainedResponse> customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的新增设备统计*/
     @Select("SELECT (today.todayUserRetained/yestodayRate.yestodayUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate \n" +
@@ -50,5 +50,5 @@ public interface EquipmentRetainedMapper {
             "        WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
             "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
             "    ) AS today\n")
-    List<EquipmentRetainedResponse> all(@Param("statisticsRequest")StatisticsRequest statisticsRequest);
+    List<EquipmentRetainedResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }

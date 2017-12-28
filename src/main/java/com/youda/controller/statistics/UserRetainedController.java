@@ -19,19 +19,19 @@ public class UserRetainedController {
 
     /*实现用户留存统计服务的自动依赖注入*/
     @Autowired
-    private UserRetainedService userRetainedStatisticsService;
+    private UserRetainedService userRetainedService;
 
     /*实现自定义日期用户留存统计*/
     @ResponseBody
     @RequestMapping( method = RequestMethod.POST)
-    public ResponseEntity customDateRetained(@RequestBody StatisticsRequest statisticsRequest) {
-        return userRetainedStatisticsService.customTime(statisticsRequest);
+    public ResponseEntity customRetained(@RequestBody StatisticsRequest statisticsRequest) {
+        return userRetainedService.customTime(statisticsRequest);
     }
 
     /*实现所有平台用户留存统计*/
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.POST)
-    public ResponseEntity allPlatformUserRetainedStatistics(@RequestBody StatisticsRequest statisticsRequest) {
-        return userRetainedStatisticsService.all(statisticsRequest);
+    public ResponseEntity allRetained(@RequestBody StatisticsRequest statisticsRequest) {
+        return userRetainedService.all(statisticsRequest);
     }
 }

@@ -26,14 +26,14 @@ public class EquipmentController {
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity customNewEquipmentStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+    public ResponseEntity customNewEquipment(@RequestBody StatisticsRequest statisticsRequest) {
         return equipmentService.customTime(statisticsRequest);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
     @RequestMapping(value = "/all" ,method = RequestMethod.POST)
-    public ResponseEntity allNewEquipmentStatistics(@RequestBody StatisticsRequest statisticsRequest) {
+    public ResponseEntity allNewEquipment(@RequestBody StatisticsRequest statisticsRequest) {
         return equipmentService.all(statisticsRequest);
     };
 
