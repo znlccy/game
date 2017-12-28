@@ -78,7 +78,7 @@ public interface PayRecordMapper {
 	 * @param payRecord
 	 * @return
 	 */
-	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordId=#{payRecordId}")
+	@Update("update tb_payrecord set payRecordTime=#{payRecord.payRecordTime},payRecordStyle=#{payRecord.payRecordStyle},payRecordTotalAmount=#{payRecord.payRecordTotalAmount},payRecordOrderId=#{payRecord.payRecordOrderId},outTradeNo=#{payRecord.outTradeNo},payRecordUser=#{payRecord.payRecordUser} where payRecordId=#{payRecord.payRecordId}")
 	boolean modifyByPayRecordId(@Param("payRecordId") String payRecordId,@Param("payRecord") PayRecord payRecord);
 
 	/*更改支付记录信息*/

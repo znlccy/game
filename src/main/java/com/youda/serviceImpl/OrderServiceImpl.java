@@ -179,14 +179,8 @@ public class OrderServiceImpl implements OrderService {
                     try {
                         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
                         if(response.getBody()!=null) {
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStyle("支付宝APP支付");
-                            payRecord.setOutTradeNo(out_trade_no);
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordTotalAmount(total_amount);
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordStatus("0");
-                            payRecordMapper.addPayRecord(payRecord);
+
+                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝APP支付"));
 
                             aliPayResponse.setGoodName(subject);
                             aliPayResponse.setGoodPrice(total_amount);
@@ -231,14 +225,8 @@ public class OrderServiceImpl implements OrderService {
                     try {
                         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
                         if(response.getBody()!=null) {
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStyle("支付宝APP支付");
-                            payRecord.setOutTradeNo(out_trade_no);
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordTotalAmount(total_amount);
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordStatus("0");
-                            payRecordMapper.addPayRecord(payRecord);
+
+                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝APP支付"));
 
                             aliPayResponse.setGoodName(subject);
                             aliPayResponse.setGoodPrice(total_amount);
@@ -308,20 +296,13 @@ public class OrderServiceImpl implements OrderService {
                 String form = "";
                 try {
                     form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
-                    PayRecord payRecord = new PayRecord();
-                    payRecord.setPayRecordStyle("支付宝APP支付");
-                    payRecord.setOutTradeNo(out_trade_no);
-                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                    payRecord.setPayRecordTotalAmount(total_amount);
-                    payRecord.setPayRecordUser(user.getUserName());
-                    payRecord.setPayRecordStatus("0");
-                    payRecordMapper.addPayRecord(payRecord);
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝H5支付"));
 
                     aliPayResponse.setGoodName(subject);
                     aliPayResponse.setGoodPrice(total_amount);
                     aliPayResponse.setOtherOrderId(out_trade_no);
                     aliPayResponse.setOutTradeNo(out_trade_no);
-                        /*aliPayResponse.setPayData((String) httpResponse.getOutputStream());*/
+                    /*aliPayResponse.setPayData((String) httpResponse.getOutputStream());*/
                 } catch (AlipayApiException e) {
                     e.printStackTrace();
                 }
@@ -364,14 +345,7 @@ public class OrderServiceImpl implements OrderService {
                 String form = "";
                 try {
                     form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
-                    PayRecord payRecord = new PayRecord();
-                    payRecord.setPayRecordStyle("支付宝APP支付");
-                    payRecord.setOutTradeNo(out_trade_no);
-                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                    payRecord.setPayRecordTotalAmount(total_amount);
-                    payRecord.setPayRecordUser(user.getUserName());
-                    payRecord.setPayRecordStatus("0");
-                    payRecordMapper.addPayRecord(payRecord);
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝H5支付"));
 
                     aliPayResponse.setGoodName(subject);
                     aliPayResponse.setGoodPrice(total_amount);
@@ -461,14 +435,7 @@ public class OrderServiceImpl implements OrderService {
                         weChatPayResponse.setGoodPrice(TOTAL_FEE);
                         weChatPayResponse.setOtherOrderId(OUT_TRADE_NO);
                         /*生成支付记录*/
-                        PayRecord payRecord = new PayRecord();
-                        payRecord.setPayRecordStyle("微信APP支付");
-                        payRecord.setOutTradeNo(OUT_TRADE_NO);
-                        payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                        payRecord.setPayRecordTotalAmount(TOTAL_FEE);
-                        payRecord.setPayRecordUser(user.getUserName());
-                        payRecord.setPayRecordStatus("0");
-                        payRecordMapper.addPayRecord(payRecord);
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),TOTAL_FEE,OUT_TRADE_NO,"微信APP支付"));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -509,6 +476,7 @@ public class OrderServiceImpl implements OrderService {
             /*获取对应的游戏名称*/
             long gameId = order.getGameId();
             Game game = gameMapper.findByGameId(gameId);
+            User user = userMapper.findByUserId(order.getUserId());
             String gameName = game.getGameName();
             AliPayConf aliPayConf = aliPayConfMapper.findByAliPayGameChannelId(Long.valueOf(gameChannelId));
 
@@ -526,47 +494,53 @@ public class OrderServiceImpl implements OrderService {
                 if (flag) {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
-                    payRecord.setPayRecordStatus("1");
-                    payRecordMapper.modifyPayRecordInfo(payRecord);
-                    /*返回给客户端信息*/
-                    AttestationResponse attestationResponse = new AttestationResponse();
-                    attestationResponse.setOutTradeNo(orderId);
-                    attestationResponse.setResponseTime(new Date());
-                    attestationResponse.setResult("验签成功！");
-                    attestationResponse.setGoodName(gameName);
+                    if (payRecord != null)
+                    {
+                        payRecord.setPayRecordStatus("1");
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付"));
+                    }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            PostData.sendData(notifyUrl,attestationResponse);
+                            PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签成功!",gameName));
+                            order.setIsPushed("1");
+                            orderMapper.modifyByOrderId(order);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                    return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                    return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(orderId,"验签成功!",gameName));
                 } else {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
-                    payRecord.setPayRecordStatus("0");
-                    payRecordMapper.modifyPayRecordInfo(payRecord);
-                    /*返回给客户端信息*/
-                    AttestationResponse attestationResponse = new AttestationResponse();
-                    attestationResponse.setOutTradeNo(orderId);
-                    attestationResponse.setResponseTime(new Date());
-                    attestationResponse.setResult("验签失败！");
-                    attestationResponse.setGoodName(gameName);
+                    if (payRecord != null)
+                    {
+                        payRecord.setPayRecordStatus("1");
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付"));
+                    }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
                     if (isPushed == null|| isPushed.isEmpty() ) {
                         try {
-                            PostData.sendData(notifyUrl,attestationResponse);
+                            PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败!",gameName));
+                            order.setIsPushed("1");
+                            orderMapper.modifyByOrderId(order);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                    return ResponseStatusCode.putOrGetFailed(attestationResponse);
+                    return ResponseStatusCode.putOrGetFailed(PayResult.getAttestationResponse(orderId,"验签失败!",gameName));
                 }
             } catch (AlipayApiException e) {
                 e.printStackTrace();
@@ -606,6 +580,7 @@ public class OrderServiceImpl implements OrderService {
         /*获取游戏Id*/
         long gameId = order.getGameId();
         Game game = gameMapper.findByGameId(gameId);
+        User user = userMapper.findByUserId(order.getUserId());
         String gameName = game.getGameName();
         WeChatConf weChatConf = weChatConfMapper.findWeChatConfByGameChannelId(Long.valueOf(gameChannelId));
 
@@ -617,48 +592,54 @@ public class OrderServiceImpl implements OrderService {
                 } else {
                     /*实现更新支付记录信息*/
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
-                    payRecord.setPayRecordStatus("1");
-                    payRecordMapper.modifyPayRecordInfo(payRecord);
-                    /*返回给客户端信息*/
-                    AttestationResponse attestationResponse = new AttestationResponse();
-                    attestationResponse.setOutTradeNo(orderId);
-                    attestationResponse.setResponseTime(new Date());
-                    attestationResponse.setResult("验签成功！");
-                    attestationResponse.setGoodName(gameName);
+                    if (payRecord != null)
+                    {
+                        payRecord.setPayRecordStatus("1");
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付"));
+                    }
                     /*实现通知第三方服务器*/
                     String notifyUrl = weChatConf.getNOTIFY_URL();
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            PostData.sendData(notifyUrl,attestationResponse);
+                            PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签成功！",gameName));
+                            order.setIsPushed("1");
+                            orderMapper.modifyByOrderId(order);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
-                    return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                    return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(orderId,"验签成功！",gameName));
                 }
             } else {
                 /*实现更新支付记录信息*/
-                PayRecord payRecord = payRecordMapper.findOutTradeNo(orderId);
-                payRecord.setPayRecordStatus("0");
-                payRecordMapper.modifyPayRecordInfo(payRecord);
-                /*返回给客户端信息*/
-                AttestationResponse attestationResponse = new AttestationResponse();
-                attestationResponse.setOutTradeNo(orderId);
-                attestationResponse.setResponseTime(new Date());
-                attestationResponse.setResult("验签失败！");
-                attestationResponse.setGoodName(gameName);
+                PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                if (payRecord != null)
+                {
+                    payRecord.setPayRecordStatus("0");
+                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                }
+                else
+                {
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"微信APP支付"));
+                }
                 /*实现通知第三方服务器*/
                 String notifyUrl = weChatConf.getNOTIFY_URL();
                 String isPushed = order.getIsPushed();
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                        PostData.sendData(notifyUrl,attestationResponse);
+                        PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败！",gameName));
+                        order.setIsPushed("1");
+                        orderMapper.modifyByOrderId(order);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
-                return ResponseStatusCode.putOrGetFailed(attestationResponse);
+                return ResponseStatusCode.putOrGetFailed(PayResult.getAttestationResponse(orderId,"验签失败！",gameName));
             }
         }
         return null;
@@ -723,24 +704,21 @@ public class OrderServiceImpl implements OrderService {
                     //通知第三方服务器支付情况，支付成功，通知发货
                     if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
                         try {
-                            /*返回给客户端信息*/
-                            AttestationResponse attestationResponse = new AttestationResponse();
-                            attestationResponse.setOutTradeNo(String.valueOf(orderId));
-                            attestationResponse.setResponseTime(new Date());
-                            attestationResponse.setResult("验签成功！");
-                            attestationResponse.setGoodName(game.getGameName());
+                            PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                            if (payRecord != null)
+                            {
+                                payRecord.setPayRecordStatus("1");
+                                payRecordMapper.modifyPayRecordInfo(payRecord);
+                            }
+                            else
+                            {
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt()));
+                            }
                             /*实现通知第三方服务器*/
-                            PostData.sendData(applePayConf.getNotifyUrl(),attestationResponse);
-
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStatus("1");
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
-                            payRecord.setOutTradeNo(String.valueOf(orderId));
-                            payRecord.setPayRecordStyle(request.getReceipt());
-                            payRecordMapper.addPayRecord(payRecord);
-                            return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                            PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
+                            order.setIsPushed("1");
+                            orderMapper.modifyByOrderId(order);
+                            return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -748,23 +726,20 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else
                 {
-                     /*返回给客户端信息*/
-                    AttestationResponse attestationResponse = new AttestationResponse();
-                    attestationResponse.setOutTradeNo(String.valueOf(orderId));
-                    attestationResponse.setResponseTime(new Date());
-                    attestationResponse.setResult("验签失败！");
-                    attestationResponse.setGoodName(game.getGameName());
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                    if (payRecord != null)
+                    {
+                        payRecord.setPayRecordStatus("0");
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt()));
+                    }
                     /*实现通知第三方服务器*/
-                    PostData.sendData(applePayConf.getNotifyUrl(),attestationResponse);
-
-                    PayRecord payRecord = new PayRecord();
-                    payRecord.setPayRecordStatus("0");
-                    payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                    payRecord.setPayRecordUser(user.getUserName());
-                    payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
-                    payRecord.setOutTradeNo(String.valueOf(orderId));
-                    payRecord.setPayRecordStyle(request.getReceipt());
-                    payRecordMapper.addPayRecord(payRecord);
+                    PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
+                    order.setIsPushed("1");
+                    orderMapper.modifyByOrderId(order);
                     return ResponseStatusCode.putOrGetFailed(null);
                 }
             } catch (Exception e) {
@@ -796,46 +771,41 @@ public class OrderServiceImpl implements OrderService {
                 //通知第三方服务器支付情况，支付成功，通知发货
                 if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
                     try {
-                            /*返回给客户端信息*/
-                            AttestationResponse attestationResponse = new AttestationResponse();
-                            attestationResponse.setOutTradeNo(String.valueOf(orderId));
-                            attestationResponse.setResponseTime(new Date());
-                            attestationResponse.setResult("验签成功！");
-                            attestationResponse.setGoodName(game.getGameName());
+                            /*实现更新支付记录信息*/
+                            PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                            if (payRecord != null)
+                            {
+                                payRecord.setPayRecordStatus("1");
+                                payRecordMapper.modifyPayRecordInfo(payRecord);
+                            }
+                            else
+                            {
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付"));
+                            }
                             /*实现通知第三方服务器*/
-                            PostData.sendData(googlePayConf.getNotifyUrl(),attestationResponse);
-
-                            PayRecord payRecord = new PayRecord();
-                            payRecord.setPayRecordStatus("1");
-                            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-                            payRecord.setPayRecordUser(user.getUserName());
-                            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
-                            payRecord.setOutTradeNo(String.valueOf(orderId));
-                            payRecord.setPayRecordStyle("Google支付");
-                            payRecordMapper.addPayRecord(payRecord);
-                            return ResponseStatusCode.putOrGetSuccess(attestationResponse);
+                            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
+                            order.setIsPushed("1");
+                            orderMapper.modifyByOrderId(order);
+                            return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
-            /*返回给客户端信息*/
-            AttestationResponse attestationResponse = new AttestationResponse();
-            attestationResponse.setOutTradeNo(String.valueOf(orderId));
-            attestationResponse.setResponseTime(new Date());
-            attestationResponse.setResult("验签失败！");
-            attestationResponse.setGoodName(game.getGameName());
             /*实现通知第三方服务器*/
-            PostData.sendData(googlePayConf.getNotifyUrl(),attestationResponse);
-
-            PayRecord payRecord = new PayRecord();
-            payRecord.setPayRecordStatus("0");
-            payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
-            payRecord.setPayRecordUser(user.getUserName());
-            payRecord.setPayRecordTotalAmount(order.getOrderTotalAmount());
-            payRecord.setOutTradeNo(String.valueOf(orderId));
-            payRecord.setPayRecordStyle("Google支付");
-            payRecordMapper.addPayRecord(payRecord);
+            PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+            if (payRecord != null)
+            {
+                payRecord.setPayRecordStatus("0");
+                payRecordMapper.modifyPayRecordInfo(payRecord);
+            }
+            else
+            {
+                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付"));
+            }
+            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
+            order.setIsPushed("1");
+            orderMapper.modifyByOrderId(order);
             return ResponseStatusCode.verifyError();
         }
     }

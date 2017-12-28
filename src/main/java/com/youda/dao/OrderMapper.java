@@ -72,7 +72,7 @@ public interface OrderMapper {
      * @param order
      * @return
      */
-    /*@Update("update tb_order set() values(#{},#{},#{},#{}) where orderId=#{order.orderId}")*/
+    @Update("update tb_order set isPushed=#{order.isPushed} where orderId=#{order.orderId}")
     public boolean modifyByOrderId(@Param("order") Order order);
 
     /**
