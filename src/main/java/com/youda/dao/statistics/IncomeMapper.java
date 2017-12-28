@@ -22,24 +22,34 @@ public interface IncomeMapper {
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
             "    COUNT(*) - 2 AS incomeCount,\n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(#{beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM \n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(#{beginTime},' 00:00:00') && payRecordTime<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
+            "    payRecordTotalAmount AS inComeTotalMoney\n" +
+            "FROM \n" +
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday,payRecordTotalAmount\n" +
+            "   FROM tb_income \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount FROM tb_payrecord AS d,\n" +
+            "   (\n" +
+            "   SELECT otherOrderId FROM tb_order AS b,\n" +
+            "   ( \n" +
+            "   SELECT userLoginTime,userId FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
+            "   GROUP BY userLoginTime\n" +
+            "   ) AS c\n" +
+            "   WHERE b.userId=c.userId\n" +
+            "   ) AS e\n" +
+            "   WHERE d.outTradeNo=e.otherOrderId AND payRecordStatus='1'\n" +
+            "   GROUP BY d.payRecordTime\n" +
+            ")\n" +
+            ") AS a\n" +
             "GROUP BY ddate")
     List<IncomeResponse> customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
@@ -47,24 +57,34 @@ public interface IncomeMapper {
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
             "    COUNT(*) - 2 AS incomeCount,\n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney\n" +
-            "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近一周的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 MONTH) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE DATE(datelist)&&DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM \n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate\n")
+            "    payRecordTotalAmount AS inComeTotalMoney\n" +
+            "FROM \n" +
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday,payRecordTotalAmount\n" +
+            "   FROM tb_income \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount FROM tb_payrecord AS d,\n" +
+            "   (\n" +
+            "   SELECT otherOrderId FROM tb_order AS b,\n" +
+            "   ( \n" +
+            "   SELECT userLoginTime,userId FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone\n" +
+            "   GROUP BY userLoginTime\n" +
+            "   ) AS c\n" +
+            "   WHERE b.userId=c.userId\n" +
+            "   ) AS e\n" +
+            "   WHERE d.outTradeNo=e.otherOrderId AND payRecordStatus='1'\n" +
+            "   GROUP BY d.payRecordTime\n" +
+            ")\n" +
+            ") AS a\n" +
+            "GROUP BY ddate")
     List<IncomeResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }
