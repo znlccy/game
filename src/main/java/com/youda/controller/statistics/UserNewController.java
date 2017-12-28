@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin/user")
+@RequestMapping(value = "/statistics/user")
 public class UserNewController {
 
     @Autowired

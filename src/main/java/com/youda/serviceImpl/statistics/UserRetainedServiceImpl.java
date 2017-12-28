@@ -1,6 +1,6 @@
 package com.youda.serviceImpl.statistics;
 
-import com.youda.dao.admin.UserRetainedStatisticsMapper;
+import com.youda.dao.statistics.UserRetainedMapper;
 import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserRetainedStatisticsResponse;
@@ -23,20 +23,20 @@ public class UserRetainedServiceImpl implements UserRetainedService {
 
     /*实现用户留存统计的自动依赖注入*/
     @Autowired
-    private UserRetainedStatisticsMapper userRetainedStatisticsMapper;
+    private UserRetainedMapper userRetainedMapper;
 
 
     /*实现自定义日期用户的留存统计的功能*/
     @Override
     public ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest) {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.customDateRetainedStatistics(userStatisticsRequest);
+        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedMapper.customTime(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
     }
 
     /*实现所有平台的用户留存统计的功能*/
     @Override
     public ResponseEntity all(UserStatisticsRequest userStatisticsRequest) {
-        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedStatisticsMapper.allPlatformUserRetainedStatistics(userStatisticsRequest);
+        List<UserRetainedStatisticsResponse> userRetainedStatisticsResponses = userRetainedMapper.all(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userRetainedStatisticsResponses);
     }
 }

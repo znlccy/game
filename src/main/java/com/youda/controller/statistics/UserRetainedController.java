@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "/admin/user/retained")
+@RequestMapping(value = "/statistics/user/retained")
 public class UserRetainedController {
 
     /*实现用户留存统计服务的自动依赖注入*/

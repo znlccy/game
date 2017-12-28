@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/admin/equipment")
+@RequestMapping(value = "/statistics/equipment")
 public class EquipmentController {
 
     /*实现新增设备服务的自动依赖注入*/

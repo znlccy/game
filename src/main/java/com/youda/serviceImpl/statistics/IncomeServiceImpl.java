@@ -1,6 +1,6 @@
 package com.youda.serviceImpl.statistics;
 
-import com.youda.dao.admin.IncomeStatisticsMapper;
+import com.youda.dao.statistics.IncomeMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.IncomeStatisticsResponse;
 import com.youda.service.statistics.IncomeService;
@@ -22,47 +22,47 @@ public class IncomeServiceImpl implements IncomeService {
 
     /*实现收入统计Dao层自动依赖注入*/
     @Autowired
-    private IncomeStatisticsMapper incomeStatisticsMapper;
+    private IncomeMapper incomeMapper;
 
     /*实现今天的收入统计*/
     @Override
     public ResponseEntity todayIncomeStatistics() {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.todayIncomeStatistics();
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.todayIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现昨天的收入统计*/
     @Override
     public ResponseEntity yestodayIncomeStatistics() {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.yestodayIncomeStatistics();
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.yestodayIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现一周的收入统计*/
     @Override
     public ResponseEntity aWeekIncomeStatistics() {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.aWeekIncomeStatistics();
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.aWeekIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现一个月的收入统计*/
     @Override
     public ResponseEntity aMonthIncomeStatistics() {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.aMonthIncomeStatistics();
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.aMonthIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现自定义日期收入统计*/
     @Override
     public ResponseEntity customTime(String beginTime, String endTime) {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.customIncomeStatistics(beginTime, endTime);
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.customIncomeStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 
     /*实现全部收入统计*/
     @Override
     public ResponseEntity all() {
-        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeStatisticsMapper.allIncomeStatistics();
+        List<IncomeStatisticsResponse> incomeStatisticsResponses = incomeMapper.allIncomeStatistics();
         return ResponseStatusCode.putOrGetSuccess(incomeStatisticsResponses);
     }
 }

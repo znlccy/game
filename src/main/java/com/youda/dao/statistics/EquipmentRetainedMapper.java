@@ -1,4 +1,4 @@
-package com.youda.dao.admin;
+package com.youda.dao.statistics;
 
 import com.youda.response.admin.EquipmentRetainedStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface EquipmentRetainedStatisticsMapper {
+public interface EquipmentRetainedMapper {
 
     /*实现今天新增设备的统计*/
     @Select("SELECT (today.todayUserRetained/todayRate.todayUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate \n" +

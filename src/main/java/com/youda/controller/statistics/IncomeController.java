@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/admin/income")
+@RequestMapping(value = "/statistics/income")
 public class IncomeController {
 
     /*实现收入统计服务接口的自动依赖注入*/

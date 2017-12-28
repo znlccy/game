@@ -1,6 +1,6 @@
 package com.youda.serviceImpl.statistics;
 
-import com.youda.dao.admin.UserActiveStatisticsMapper;
+import com.youda.dao.statistics.UserActiveMapper;
 import com.youda.request.admin.UserStatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.UserActiveStatisticsResponse;
@@ -23,19 +23,19 @@ public class UserActiveServiceImpl implements UserActiveService {
 
     /*实现活跃用户Dao层自动依赖注入*/
     @Autowired
-    private UserActiveStatisticsMapper userActiveStatisticsMapper;
+    private UserActiveMapper userActiveMapper;
 
     /*实现自定义活跃用户统计*/
     @Override
     public ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest) {
-        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveStatisticsMapper.customDateActiveUserStatistics(userStatisticsRequest);
+        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveMapper.customTime(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userActiveStatisticsResponses);
     }
 
     /*实现所有平台活跃用户统计*/
     @Override
     public ResponseEntity all(UserStatisticsRequest userStatisticsRequest) {
-        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveStatisticsMapper.allPlatformActiveUserStatistics(userStatisticsRequest);
+        List<UserActiveStatisticsResponse> userActiveStatisticsResponses = userActiveMapper.all(userStatisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(userActiveStatisticsResponses);
     }
 

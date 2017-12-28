@@ -1,4 +1,4 @@
-package com.youda.dao.admin;
+package com.youda.dao.statistics;
 
 import com.youda.response.admin.PayStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +14,7 @@ import java.util.List;
  * @Instructions 实现付费统计
  */
 @Mapper
-public interface PayStatisticsMapper {
+public interface PayMapper {
 
     /*实现今天付费率统计*/
     @Select("SELECT (todayPayPlayer.payCount/todayActiveUser.activeUserCount)*100 AS payCount,CURDATE() AS ddate FROM \n" +

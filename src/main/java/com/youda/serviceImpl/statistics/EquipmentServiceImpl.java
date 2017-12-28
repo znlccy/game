@@ -1,6 +1,6 @@
 package com.youda.serviceImpl.statistics;
 
-import com.youda.dao.admin.EquipmentRetainedStatisticsMapper;
+import com.youda.dao.statistics.EquipmentRetainedMapper;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.admin.EquipmentRetainedStatisticsResponse;
 import com.youda.service.statistics.EquipmentService;
@@ -21,47 +21,47 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     /*实现新增设备Dao层的自动依赖注入*/
     @Autowired
-    private EquipmentRetainedStatisticsMapper equipmentRetainedStatisticsMapper;
+    private EquipmentRetainedMapper equipmentRetainedMapper;
 
     /*实现今天的新增设备的统计*/
     @Override
     public ResponseEntity todayEquipmentStatistics() {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.todayEquipmentStatistics();
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.todayEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现昨天的新增设备的统计*/
     @Override
     public ResponseEntity yestodayEquipmentStatistics() {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.yestodayEquipmentStatistics();
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.yestodayEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现一周的新增设备的统计*/
     @Override
     public ResponseEntity aWeekEquipmentStatistics() {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.aWeekEquipmentStatistics();
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.aWeekEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现一个月新增设备的统计*/
     @Override
     public ResponseEntity aMonthEquipmentStatistics() {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.aMonthEquipmentStatistics();
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.aMonthEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现自定义日期新增设备的统计*/
     @Override
     public ResponseEntity customTime(String beginTime,String endTime) {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.customEquipmentStatistics(beginTime, endTime);
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.customEquipmentStatistics(beginTime, endTime);
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 
     /*实现全部新增设备的统计*/
     @Override
     public ResponseEntity all() {
-        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedStatisticsMapper.allEquipmentStatistics();
+        List<EquipmentRetainedStatisticsResponse> equipmentRetainedStatisticsRespons = equipmentRetainedMapper.allEquipmentStatistics();
         return ResponseStatusCode.putOrGetSuccess(equipmentRetainedStatisticsRespons);
     }
 }

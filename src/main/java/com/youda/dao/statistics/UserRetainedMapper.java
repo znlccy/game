@@ -1,7 +1,6 @@
-package com.youda.dao.admin;
+package com.youda.dao.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
-import com.youda.response.admin.UserNewStatisticsResponse;
 import com.youda.response.admin.UserRetainedStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +16,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface UserRetainedStatisticsMapper {
+public interface UserRetainedMapper {
 
     /*实现自定义日期用户留存统计*/
     @Select("SELECT (today.todayUserRetained/customrate.customUserRetained)*100 AS userRetainedCount,#{endTime} AS ddate FROM \n" +
@@ -25,12 +24,12 @@ public interface UserRetainedStatisticsMapper {
             "WHERE userLoginTime>=CONCAT(#{beginTime},' 00:00:00') AND userLoginTime<=CONCAT(#{endTime},' 24:00:00')) AS customrate,\n" +
             " (SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') \n" +
             "AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS today")
-    List<UserRetainedStatisticsResponse> customDateRetainedStatistics(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
+    List<UserRetainedStatisticsResponse> customTime(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
 
     /*实现查询所有用户留存的统计*/
     @Select("SELECT (today.todayUserRetained/allrate.allUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate FROM \n" +
             "(SELECT COUNT(*) AS allUserRetained, CURDATE() AS ddate FROM tb_user WHERE userLoginTime <> NULL) AS allrate,\n" +
             " (SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate FROM tb_user WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') \n" +
             "AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')) AS today\n")
-    List<UserRetainedStatisticsResponse> allPlatformUserRetainedStatistics(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
+    List<UserRetainedStatisticsResponse> all(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
 }

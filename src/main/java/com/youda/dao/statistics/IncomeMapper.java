@@ -1,4 +1,4 @@
-package com.youda.dao.admin;
+package com.youda.dao.statistics;
 
 import com.youda.response.admin.IncomeStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,7 +15,7 @@ import java.util.List;
  */
 
 @Mapper
-public interface IncomeStatisticsMapper {
+public interface IncomeMapper {
 
     /*定义今天的收入统计*/
     @Select("SELECT CURDATE() AS ddate,SUM(payRecordTotalAmount) AS incomeTotalMoney,COUNT(*) AS incomeCount\n" +

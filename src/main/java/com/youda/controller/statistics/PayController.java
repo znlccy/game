@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(value = "/admin/payments")
+@RequestMapping(value = "/statistics/payments")
 public class PayController {
 
     /*实现支付统计的自动依赖注入*/

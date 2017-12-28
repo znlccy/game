@@ -1,20 +1,27 @@
-package com.youda.dao.admin;
+package com.youda.dao.statistics;
 
 import com.youda.request.admin.UserStatisticsRequest;
-import com.youda.response.admin.UserNewStatisticsResponse;
+import com.youda.response.admin.UserActiveStatisticsResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
+/**
+ * @Author Chencongye
+ * @Date 2017/12/19 16:30
+ * @Version 1.0.0
+ * @Instructions 定义用户活跃数统计的Dao层
+ */
+
 @Mapper
-public interface UserNewStatisticsMapper {
+public interface UserActiveMapper {
 
-    /*实现自定义日期查询*/
+    /*实现自选日期活跃用户统计*/
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS newUserCount\n" +
+            "    COUNT(*) - 2 AS userActiveCount\n" +
             "FROM\n" +
             "(\n" +
             "(\n" +
@@ -26,19 +33,20 @@ public interface UserNewStatisticsMapper {
             ")\n" +
             "UNION ALL\n" +
             "(\n" +
-            "   SELECT userRegisteredTime FROM tb_user ,(\n" +
+            "   SELECT userLoginTime FROM tb_user ,(\n" +
             "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
             "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{userStatisticsRequest.gameName}))) AS a \n" +
-            "   WHERE userRegisteredTime >=CONCAT(#{userStatisticsRequest.beginTime},' 00:00:00') && userRegisteredTime<=CONCAT(#{userStatisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{userStatisticsRequest.userUseDevice} \n" +
-            "   GROUP BY userRegisteredTime\n" +
+            "   WHERE userLoginTime >=CONCAT(#{userStatisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{userStatisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{userStatisticsRequest.userUseDevice} \n" +
+            "   GROUP BY userLoginTime\n" +
             ")\n" +
             ") AS a\n" +
             "GROUP BY ddate")
-    List<UserNewStatisticsResponse> cudtomDateNewUserStatistics(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
+    List<UserActiveStatisticsResponse> customTime(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
 
+    /*实现所有活跃用户统计*/
     @Select("SELECT\n" +
             "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS newUserCount\n" +
+            "    COUNT(*) - 2 AS userActiveCount\n" +
             "FROM\n" +
             "(\n" +
             "(\n" +
@@ -50,13 +58,13 @@ public interface UserNewStatisticsMapper {
             ")\n" +
             "UNION ALL\n" +
             "(\n" +
-            "   SELECT userRegisteredTime FROM tb_user ,(\n" +
+            "   SELECT userLoginTime FROM tb_user ,(\n" +
             "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
             "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{userStatisticsRequest.gameName}))) AS a \n" +
-            "   WHERE userRegisteredTime >=CONCAT(#{userStatisticsRequest.beginTime},' 00:00:00') && userRegisteredTime<=CONCAT(#{userStatisticsRequest.endTime},' 23:59:59') AND userName=a.phone\n" +
-            "   GROUP BY userRegisteredTime\n" +
+            "   WHERE userLoginTime >=CONCAT(#{userStatisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{userStatisticsRequest.endTime},' 23:59:59') AND userName=a.phone\n" +
+            "   GROUP BY userLoginTime\n" +
             ")\n" +
             ") AS a\n" +
             "GROUP BY ddate")
-    List<UserNewStatisticsResponse> allPlatformNewUserStatistics(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
+    List<UserActiveStatisticsResponse> all(@Param("userStatisticsRequest") UserStatisticsRequest userStatisticsRequest);
 }
