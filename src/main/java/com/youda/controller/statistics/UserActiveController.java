@@ -35,6 +35,4 @@ public class UserActiveController {
         return userActiveService.all(userStatisticsRequest);
     }
 
-    ;
-
 }
