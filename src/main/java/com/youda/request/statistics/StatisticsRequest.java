@@ -89,6 +89,7 @@ public class StatisticsRequest extends BaseRequest {
         return beginTime==null || beginTime.isEmpty()||
                 endTime==null || endTime.isEmpty() ||
                 gameName==null || gameName.isEmpty() ||
+                gameChannelId==null || gameChannelId==0||
             userUseDevice==null || userUseDevice.isEmpty();
     }
 }
