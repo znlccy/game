@@ -1,8 +1,7 @@
 package com.youda.controller.statistics;
 
 import com.youda.request.statistics.StatisticsRequest;
-import com.youda.service.statistics.EquipmentService;
-import org.apache.ibatis.annotations.Param;
+import com.youda.service.statistics.EquipmentRetainedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,21 +19,21 @@ public class EquipmentController {
 
     /*实现新增设备服务的自动依赖注入*/
     @Autowired
-    private EquipmentService equipmentService;
+    private EquipmentRetainedService equipmentRetainedService;
 
 
     /*实现自定义日期的新增设备统计*/
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity customNewEquipment(@RequestBody StatisticsRequest statisticsRequest) {
-        return equipmentService.customTime(statisticsRequest);
+        return equipmentRetainedService.customTime(statisticsRequest);
     };
 
     /*实现全部的新增设备统计*/
     @ResponseBody
     @RequestMapping(value = "/all" ,method = RequestMethod.POST)
     public ResponseEntity allNewEquipment(@RequestBody StatisticsRequest statisticsRequest) {
-        return equipmentService.all(statisticsRequest);
+        return equipmentRetainedService.all(statisticsRequest);
     };
 
 }
