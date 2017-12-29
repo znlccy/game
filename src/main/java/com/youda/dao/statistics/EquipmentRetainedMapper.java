@@ -19,36 +19,118 @@ import java.util.List;
 public interface EquipmentRetainedMapper {
 
     /*实现自定义日期的新增设备的统计*/
-    @Select("SELECT (today.todayUserRetained/yestodayRate.yestodayUserRetained)*100 AS userRetainedCount,#{endTime} AS ddate \n" +
-            "FROM     \n" +
-            "    (\n" +
-            "        SELECT COUNT(*) AS yestodayUserRetained,CURDATE() AS ddate \n" +
-            "        FROM tb_user    \n" +
-            "        WHERE userLoginTime>=CONCAT(DATE_SUB(#{beginTime},' 00:00:00') AND userLoginTime<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
-            "    ) AS yestodayRate,    \n" +
-            "    (\n" +
-            "        SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate \n" +
-            "        FROM tb_user \n" +
-            "        WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
-            "    ) AS today\n")
+    @Select("SELECT equipmentActive.ddate AS ddate,(equipmentActive.equipmentActiveCount/equipmentNew.equipmentNewCount)*100 AS equipmentRate \n" +
+            "FROM\n" +
+            "(\t\n" +
+            "\tSELECT\n" +
+            "\t    DATE(dday) ddate,\n" +
+            "\t    COUNT(*) - 2 AS equipmentActiveCount\n" +
+            "\tFROM\n" +
+            "\t(\n" +
+            "\t(\n" +
+            "\t   SELECT datelist AS dday\n" +
+            "\t   FROM tb_calendar \n" +
+            "\t   -- 这里是限制返回最近30天的数据\n" +
+            "\t   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "\t   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            "\t)\n" +
+            "\tUNION ALL\n" +
+            "\t(\n" +
+            "\t   SELECT userLoginTime FROM tb_user ,(\n" +
+            "\t   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "\t   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "\t   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
+            "\t   AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != '' \n" +
+            "\t   GROUP BY userLoginTime\n" +
+            "\t   )\n" +
+            "\t) AS a\n" +
+            "\tGROUP BY ddate\n" +
+            ") AS equipmentActive\n" +
+            "RIGHT JOIN\n" +
+            "(\n" +
+            "\tSELECT\n" +
+            "\t    DATE(dday) ddate,\n" +
+            "\t    COUNT(*) - 2 AS equipmentNewCount\n" +
+            "\tFROM\n" +
+            "\t(\n" +
+            "\t(\n" +
+            "\t   SELECT datelist AS dday\n" +
+            "\t   FROM tb_calendar \n" +
+            "\t   -- 这里是限制返回最近30天的数据\n" +
+            "\t   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "\t   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            "\t)\n" +
+            "\tUNION ALL\n" +
+            "\t(\n" +
+            "\t   SELECT userRegisteredTime FROM tb_user ,(\n" +
+            "\t   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "\t   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "\t   WHERE userRegisteredTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userRegisteredTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice} \n" +
+            "\t   AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != '' \n" +
+            "\t   GROUP BY userRegisteredTime\n" +
+            "\t   )\n" +
+            "\t) AS a\n" +
+            "\tGROUP BY ddate\n" +
+            ") AS equipmentNew\n" +
+            "ON equipmentActive.ddate = equipmentNew.ddate\n" +
+            "GROUP BY equipmentActive.ddate")
     List<EquipmentRetainedResponse> customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的新增设备统计*/
-    @Select("SELECT (today.todayUserRetained/yestodayRate.yestodayUserRetained)*100 AS userRetainedCount,CURDATE() AS ddate \n" +
-            "FROM     \n" +
-            "    (\n" +
-            "        SELECT COUNT(*) AS yestodayUserRetained,CURDATE() AS ddate \n" +
-            "        FROM tb_user    \n" +
-            "        WHERE userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
-            "    ) AS yestodayRate,    \n" +
-            "    (\n" +
-            "        SELECT COUNT(*) AS todayUserRetained,CURDATE() AS ddate \n" +
-            "        FROM tb_user \n" +
-            "        WHERE userLoginTime >=CONCAT(CURDATE(),' 00:00:00') AND userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != ''\n" +
-            "    ) AS today\n")
+    @Select("SELECT equipmentActive.ddate AS ddate,(equipmentActive.equipmentActiveCount/equipmentNew.equipmentNewCount)*100 AS equipmentRate \n" +
+            "FROM\n" +
+            "(\t\n" +
+            "\tSELECT\n" +
+            "\t    DATE(dday) ddate,\n" +
+            "\t    COUNT(*) - 2 AS equipmentActiveCount\n" +
+            "\tFROM\n" +
+            "\t(\n" +
+            "\t(\n" +
+            "\t   SELECT datelist AS dday\n" +
+            "\t   FROM tb_calendar \n" +
+            "\t   -- 这里是限制返回最近30天的数据\n" +
+            "\t   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "\t   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            "\t)\n" +
+            "\tUNION ALL\n" +
+            "\t(\n" +
+            "\t   SELECT userLoginTime FROM tb_user ,(\n" +
+            "\t   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "\t   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "\t   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
+            "\t   AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != '' \n" +
+            "\t   GROUP BY userLoginTime\n" +
+            "\t   )\n" +
+            "\t) AS a\n" +
+            "\tGROUP BY ddate\n" +
+            ") AS equipmentActive\n" +
+            "RIGHT JOIN\n" +
+            "(\n" +
+            "\tSELECT\n" +
+            "\t    DATE(dday) ddate,\n" +
+            "\t    COUNT(*) - 2 AS equipmentNewCount\n" +
+            "\tFROM\n" +
+            "\t(\n" +
+            "\t(\n" +
+            "\t   SELECT datelist AS dday\n" +
+            "\t   FROM tb_calendar \n" +
+            "\t   -- 这里是限制返回最近30天的数据\n" +
+            "\t   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "\t   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            "\t)\n" +
+            "\tUNION ALL\n" +
+            "\t(\n" +
+            "\t   SELECT userRegisteredTime FROM tb_user ,(\n" +
+            "\t   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "\t   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "\t   WHERE userRegisteredTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userRegisteredTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone \n" +
+            "\t   AND userUseDevice <> NULL OR userUseDevice IS NOT NULL OR userUseDevice != '' \n" +
+            "\t   GROUP BY userRegisteredTime\n" +
+            "\t   )\n" +
+            "\t) AS a\n" +
+            "\tGROUP BY ddate\n" +
+            ") AS equipmentNew\n" +
+            "ON equipmentActive.ddate = equipmentNew.ddate\n" +
+            "GROUP BY equipmentActive.ddate")
     List<EquipmentRetainedResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }
