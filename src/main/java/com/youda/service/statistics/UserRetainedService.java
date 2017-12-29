@@ -1,6 +1,6 @@
 package com.youda.service.statistics;
 
-import com.youda.request.statistics.UserStatisticsRequest;
+import com.youda.request.statistics.StatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
 /**
@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 public interface UserRetainedService {
 
     /*定义统计自定义日期用户留存的功能*/
-    ResponseEntity customTime(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity customTime(StatisticsRequest statisticsRequest);
 
     /*定义统计所有的用户留存的功能*/
-    ResponseEntity all(UserStatisticsRequest userStatisticsRequest);
+    ResponseEntity all(StatisticsRequest statisticsRequest);
 }

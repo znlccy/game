@@ -9,7 +9,7 @@ import com.youda.model.GameChannel;
 import com.youda.request.channel.LoginRequest;
 import com.youda.request.channel.RegisterRequest;
 import com.youda.response.ResponseStatusCode;
-import com.youda.response.admin.TokenResponse;
+import com.youda.response.statistics.TokenResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

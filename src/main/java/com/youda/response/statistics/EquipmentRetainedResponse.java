@@ -1,4 +1,6 @@
-package com.youda.response.admin;
+package com.youda.response.statistics;
+
+import com.youda.response.BaseResponse;
 
 /**
  * @Author Chencongye
@@ -7,22 +9,22 @@ package com.youda.response.admin;
  * @Instructions 定义返回给客户端
  */
 
-public class EquipmentRetainedStatisticsResponse {
+public class EquipmentRetainedResponse implements BaseResponse{
 
     /*新增设备统计*/
-    private String newEquipmentCount;
+    private String equipmentRate;
 
     /*新增设备对应的日期*/
     private String ddate;
 
-    /*实现新增设备的get方法*/
-    public String getNewEquipmentCount() {
-        return newEquipmentCount;
+    /*实现设备留存率的get方法*/
+    public String getEquipmentRate() {
+        return equipmentRate;
     }
 
-    /*实现新增设备的set方法*/
-    public void setNewEquipmentCount(String newEquipmentCount) {
-        this.newEquipmentCount = newEquipmentCount;
+    /*实现设备留存率的set方法*/
+    public void setEquipmentRate(String equipmentRate) {
+        this.equipmentRate = equipmentRate;
     }
 
     /*实现新增设备对应日期的get方法*/

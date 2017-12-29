@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotBlank;
  * @Instructions 实现新增用户统计
  */
 
-public class UserStatisticsRequest extends BaseRequest {
+public class StatisticsRequest extends BaseRequest {
 
     /*声明自定义日期的开始时间*/
     private String beginTime;
@@ -23,6 +23,9 @@ public class UserStatisticsRequest extends BaseRequest {
 
     /*声明要查询什么平台*/
     private String userUseDevice;
+
+    /*声明游戏渠道主键*/
+    private Long gameChannelId;
 
     /*实现自定义开始日期的get方法*/
     @NotBlank(message = "开始时间不能为空")
@@ -68,11 +71,25 @@ public class UserStatisticsRequest extends BaseRequest {
         this.userUseDevice = userUseDevice;
     }
 
+    /*实现游戏渠道的get方法*/
+    @Override
+    public Long getGameChannelId() {
+        return gameChannelId;
+    }
+
+    /*实现游戏渠道的set方法*/
+    @Override
+    public void setGameChannelId(Long gameChannelId) {
+        this.gameChannelId = gameChannelId;
+    }
+
+    /*实现判断是否为空的方法*/
     @Override
     public boolean isEmpty() {
         return beginTime==null || beginTime.isEmpty()||
                 endTime==null || endTime.isEmpty() ||
                 gameName==null || gameName.isEmpty() ||
+                gameChannelId==null || gameChannelId==0||
             userUseDevice==null || userUseDevice.isEmpty();
     }
 }
