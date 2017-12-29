@@ -4,7 +4,7 @@ import com.youda.dao.statistics.EquipmentRetainedMapper;
 import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.statistics.EquipmentRetainedResponse;
-import com.youda.service.statistics.EquipmentService;
+import com.youda.service.statistics.EquipmentRetainedService;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ import java.util.List;
  * @Instructions 实现新增设备服务层接口
  */
 @Service
-public class EquipmentServiceImpl implements EquipmentService {
+public class EquipmentRetainedServiceImpl implements EquipmentRetainedService {
 
     /*实现新增设备Dao层的自动依赖注入*/
     @Autowired
