@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
  * @Instructions 实现新增设备统计服务接口
  */
 
-public interface EquipmentService {
+public interface EquipmentRetainedService {
 
 
     /*实现自定义日期的新增设备的统计*/
