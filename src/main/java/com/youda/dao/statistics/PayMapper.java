@@ -18,107 +18,129 @@ import java.util.List;
 public interface PayMapper {
 
     /*实现自定义日期付费率统计*/
-    @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
-            "(weekPayCount.payCount/weekActiveUser.activeUserCount)*100 AS payCount\n" +
-            "FROM \n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS activeUserCount\n" +
-            "FROM\n" +
-            "\t(\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(#{beginTime},' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userLoginTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userLoginTime>=CONCAT(#{beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "            GROUP BY userLoginTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate ) AS weekActiveUser\n" +
-            "\n" +
-            "INNER JOIN\n" +
-            "\n" +
-            "(SELECT\n" +
+    @Select("SELECT (payPlayerCount.payCount/activeUserCount.userActiveCount)*100 AS payCount,payPlayerCount.ddate AS ddate FROM \n" +
+            "(\n" +
+            "    SELECT\n" +
             "    DATE(dday) ddate,\n" +
             "    COUNT(*) - 2 AS payCount\n" +
+            "FROM \n" +
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday\n" +
+            "   FROM tb_calendar \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT payRecordTime FROM tb_payrecord AS d,\n" +
+            "   (\n" +
+            "   SELECT otherOrderId FROM tb_order AS b,\n" +
+            "   ( \n" +
+            "   SELECT userLoginTime,userId FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice} \n" +
+            "   GROUP BY userLoginTime\n" +
+            "   ) AS c\n" +
+            "   WHERE b.userId=c.userId\n" +
+            "   ) AS e\n" +
+            "   WHERE d.outTradeNo=e.otherOrderId AND payRecordStatus='1'\n" +
+            "   GROUP BY d.payRecordTime\n" +
+            ")\n" +
+            ") AS a\n" +
+            "GROUP BY ddate\n" +
+            ") AS payPlayerCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT\n" +
+            "    DATE(dday) ddate,\n" +
+            "    COUNT(*) - 2 AS userActiveCount\n" +
             "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(#{beginTime},' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(#{beginTime},' 00:00:00') && payRecordTime<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate) AS weekPayCount\n" +
-            "ON weekActiveUser.ddate = weekPayCount.ddate")
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday\n" +
+            "   FROM tb_calendar \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT userLoginTime FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone AND userUseDevice=#{statisticsRequest.userUseDevice} \n" +
+            "   GROUP BY userLoginTime\n" +
+            ")\n" +
+            ") AS a\n" +
+            "GROUP BY ddate\n" +
+            ") AS activeUserCount\n" +
+            "ON payPlayerCount.ddate=activeUserCount.ddate")
     List<PayResponse> customPayRateTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的付费率统计*/
-    @Select("SELECT weekActiveUser.ddate AS ddate,\n" +
-            "(weekPayCount.payCount/weekActiveUser.activeUserCount)*100 AS payCount\n" +
-            "FROM \n" +
-            "(SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    COUNT(*) - 2 AS activeUserCount\n" +
-            "FROM\n" +
-            "\t(\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                userLoginTime\n" +
-            "            FROM\n" +
-            "                tb_user\n" +
-            "            WHERE  userLoginTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY userLoginTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate ) AS weekActiveUser\n" +
-            "\n" +
-            "INNER JOIN\n" +
-            "\n" +
-            "(SELECT\n" +
+    @Select("SELECT (payPlayerCount.payCount/activeUserCount.userActiveCount)*100 AS payCount, payPlayerCount.ddate AS ddate FROM \n" +
+            "(\n" +
+            "    SELECT\n" +
             "    DATE(dday) ddate,\n" +
             "    COUNT(*) - 2 AS payCount\n" +
+            "FROM \n" +
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday\n" +
+            "   FROM tb_calendar \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT payRecordTime FROM tb_payrecord AS d,\n" +
+            "   (\n" +
+            "   SELECT otherOrderId FROM tb_order AS b,\n" +
+            "   ( \n" +
+            "   SELECT userLoginTime,userId FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone \n" +
+            "   GROUP BY userLoginTime\n" +
+            "   ) AS c\n" +
+            "   WHERE b.userId=c.userId\n" +
+            "   ) AS e\n" +
+            "   WHERE d.outTradeNo=e.otherOrderId AND payRecordStatus='1'\n" +
+            "   GROUP BY d.payRecordTime\n" +
+            ")\n" +
+            ") AS a\n" +
+            "GROUP BY ddate\n" +
+            ") AS payPlayerCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT\n" +
+            "    DATE(dday) ddate,\n" +
+            "    COUNT(*) - 2 AS userActiveCount\n" +
             "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday\n" +
-            "        FROM\n" +
-            "            tb_calendar \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate) AS weekPayCount\n" +
-            "ON weekActiveUser.ddate = weekPayCount.ddate")
+            "(\n" +
+            "(\n" +
+            "   SELECT datelist AS dday\n" +
+            "   FROM tb_calendar \n" +
+            "   -- 这里是限制返回最近30天的数据\n" +
+            "   -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
+            "   WHERE  CONCAT(#{statisticsRequest.beginTime},' 00:00:00') <= DATE(datelist)&&DATE(datelist)<=CONCAT(#{statisticsRequest.endTime},' 23:59:59')\n" +
+            ")\n" +
+            "UNION ALL\n" +
+            "(\n" +
+            "   SELECT userLoginTime FROM tb_user ,(\n" +
+            "   SELECT phone FROM tb_channel_user WHERE channelId IN \n" +
+            "   (SELECT channelId FROM tb_gamechannel WHERE gameId IN (SELECT gameId FROM tb_game WHERE gameName=#{statisticsRequest.gameName}))) AS a \n" +
+            "   WHERE userLoginTime >=CONCAT(#{statisticsRequest.beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{statisticsRequest.endTime},' 23:59:59') AND userName=a.phone \n" +
+            "   GROUP BY userLoginTime\n" +
+            ")\n" +
+            ") AS a\n" +
+            "GROUP BY ddate\n" +
+            ") AS activeUserCount\n" +
+            "ON payPlayerCount.ddate=activeUserCount.ddate")
     List<PayResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义的ARPU的统计*/
@@ -163,7 +185,7 @@ public interface PayMapper {
     List<PayResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
-    @Select("SELECT allActiveUser.ddate AS ddate,(allPayCount.payCount/allActiveUser.activeUserCount) AS payCount      \n" +
+    @Select("SELECT (allPayCount.payCount/allActiveUser.activeUserCount) AS payCount,allActiveUser.ddate AS ddate \n" +
             "FROM       \n" +
             "(SELECT      \n" +
             "DATE(dday) ddate,      \n" +
