@@ -54,7 +54,11 @@ public class ChannelServiceImpl implements ChannelService {
             user.setPhone(request.getPhone());
             user.setToken(UUID.randomUUID().toString());
             channelMapper.addChannelUser(user);
-            return ResponseStatusCode.postSuccess(new TokenResponse(user.getChannelId(), user.getToken()));
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setChannelId(channel.getChannelId());
+            tokenResponse.setToken(user.getToken());
+            tokenResponse.setUserName(channel.getChannelName());
+            return ResponseStatusCode.postSuccess(tokenResponse);
 
         }
         return ResponseStatusCode.conflictError();
@@ -67,8 +71,13 @@ public class ChannelServiceImpl implements ChannelService {
         if (SHAEncrpt.SHAEncrption(request.getPassword()).equals(user.getPassword())) {
             user.setToken(UUID.randomUUID().toString());
             user.setPassword("");
+            Channel channel = channelMapper.findByChannelId(user.getChannelId());
             channelMapper.updateToken(user);
-            return ResponseStatusCode.putOrGetSuccess(new TokenResponse(user.getChannelId(), user.getToken()));
+            TokenResponse tokenResponse = new TokenResponse();
+            tokenResponse.setChannelId(channel.getChannelId());
+            tokenResponse.setToken(user.getToken());
+            tokenResponse.setUserName(channel.getChannelName());
+            return ResponseStatusCode.putOrGetSuccess(tokenResponse);
 
         }
         return ResponseStatusCode.verifyError();
@@ -92,5 +101,10 @@ public class ChannelServiceImpl implements ChannelService {
     public ResponseEntity getAllGame(Long channelId) {
         List<GameChannel> list = gameChannelMapper.findByChannel(channelId);
         return ResponseStatusCode.putOrGetSuccess(list);
+    }
+
+    @Override
+    public ChannelUser findUserById(Long channelId) {
+        return channelMapper.findChannelById(channelId);
     }
 }

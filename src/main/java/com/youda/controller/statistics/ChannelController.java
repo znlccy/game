@@ -1,5 +1,6 @@
 package com.youda.controller.statistics;
 
+import com.youda.annotation.CurrentChannel;
 import com.youda.request.channel.LoginRequest;
 import com.youda.request.channel.RegisterRequest;
 import com.youda.response.ResponseStatusCode;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping(value = "channel")
+@RequestMapping(value = "/statistics/channel")
 @CrossOrigin(maxAge = 3600, origins = "*")
 public class ChannelController {
     @Autowired
@@ -49,9 +50,9 @@ public class ChannelController {
         return channelService.bindGame(channelId, gameId);
     }
 
-    @RequestMapping(value = "game", method = RequestMethod.GET)
+    @CurrentChannel
+    @RequestMapping(value = "games", method = RequestMethod.GET)
     public ResponseEntity getAllGames(@RequestHeader("channelId") Long channelId) {
-
         return channelService.getAllGame(channelId);
     }
 

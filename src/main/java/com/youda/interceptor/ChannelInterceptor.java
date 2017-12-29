@@ -1,8 +1,9 @@
 package com.youda.interceptor;
 
+import com.alibaba.fastjson.JSONObject;
 import com.youda.annotation.CurrentChannel;
-import com.youda.model.GameChannel;
-import com.youda.service.GameChannelService;
+import com.youda.model.ChannelUser;
+import com.youda.service.ChannelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -10,6 +11,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 /**
@@ -23,7 +26,7 @@ import java.lang.reflect.Method;
 public class ChannelInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
-    private GameChannelService channelService;
+    private ChannelService channelService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -40,17 +43,33 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
         if (method.getAnnotation(CurrentChannel.class) == null) {
             return true;
         }
-        String channelGameId = request.getHeader("gameChannelId");
-        String channelKey = request.getHeader("channelKey");
+        String channelId = request.getHeader("channelId");
+        String token = request.getHeader("token");
 
-        if (channelGameId != null && channelKey != null) {
-            GameChannel gameChannel = channelService.findByIds(Long.valueOf(channelGameId));
-            if (gameChannel != null && gameChannel.getAppKey().equals(channelKey)) {
+        if (channelId != null && token != null) {
+            ChannelUser user = channelService.findUserById(Long.valueOf(channelId));
+            if (user != null && user.getToken().equals(token)) {
                 return true;
             }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        tokenError(response);
         return false;
+    }
+
+    static void tokenError(HttpServletResponse response) {
+        PrintWriter out;
+        try {
+            JSONObject res = new JSONObject();
+            res.put("status", "401");
+            res.put("result", "token 验证失败");
+            out = response.getWriter();
+            out.append(res.toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

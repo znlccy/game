@@ -9,6 +9,15 @@ import com.youda.response.BaseResponse;
 public class TokenResponse implements BaseResponse {
     private Long channelId;
     private String token;
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public Long getChannelId() {
         return channelId;
@@ -26,8 +35,4 @@ public class TokenResponse implements BaseResponse {
         this.token = token;
     }
 
-    public TokenResponse(Long channelId, String token) {
-        this.channelId = channelId;
-        this.token = token;
-    }
 }

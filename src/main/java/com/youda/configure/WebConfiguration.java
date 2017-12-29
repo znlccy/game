@@ -26,9 +26,8 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(signInterceptor);
-//        registry.addInterceptor(channelInterceptor);
         registry.addInterceptor(userInterceptor);
+        registry.addInterceptor(channelInterceptor);
     }
 
 }
