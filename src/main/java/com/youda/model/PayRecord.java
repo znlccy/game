@@ -51,22 +51,38 @@ public class PayRecord {
 	/**
 	 * 定义支付记录中总金额
 	 */
+	@Column(name = "payRecordTotalAmount")
 	private String payRecordTotalAmount;
 	
 	/**
 	 * 定义支付记录中的订单Id
 	 */
+	@Column(name = "payRecordOrderId")
 	private String payRecordOrderId;
 	
 	/**
 	 * 定义支付记录中第三方
 	 */
+	@Column(name = "outTradeNo")
 	private String outTradeNo;
 	
 	/**
 	 * 定义支付记录中的支付用户
 	 */
+	@Column(name = "payRecordUser")
 	private String payRecordUser;
+
+	/**
+	 * 定义支付记录中的支付游戏渠道名称
+	 */
+	@Column(name = "gameChannelId")
+	private Long gameChannelId;
+
+	/**
+	 * 定义支付记录中的支付设备
+	 */
+	@Column(name = "userUseDevice")
+	private String userUseDevice;
 	
 	/**
 	 * 实现订单和支付记录之间的一对一关系映射
@@ -211,6 +227,38 @@ public class PayRecord {
 	 */
 	public void setOrder(Order order) {
 		this.order = order;
+	}
+
+	/**
+	 * 实现订单和支付记录之间的一对一关系的get方法
+	 * @return
+	 */
+	public Long getGameChannelId() {
+		return gameChannelId;
+	}
+
+	/**
+	 * 实现订单和支付记录之间的一对一关系的set方法
+	 * @param gameChannelId
+	 */
+	public void setGameChannelId(Long gameChannelId) {
+		this.gameChannelId = gameChannelId;
+	}
+
+	/**
+	 * 实现订单和支付记录之间的一对一关系的get方法
+	 * @return
+	 */
+	public String getUserUseDevice() {
+		return userUseDevice;
+	}
+
+	/**
+	 * 实现订单和支付记录之间的一对一关系的set方法
+	 * @param userUseDevice
+	 */
+	public void setUserUseDevice(String userUseDevice) {
+		this.userUseDevice = userUseDevice;
 	}
 
 	/**
