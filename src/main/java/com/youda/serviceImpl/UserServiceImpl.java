@@ -4,11 +4,13 @@ import com.youda.dao.MessageAuthCodeMapper;
 import com.youda.dao.SignUserMapper;
 import com.youda.dao.TokenMapper;
 import com.youda.dao.UserMapper;
+import com.youda.dao.statistics.UserCaculatorMapper;
 import com.youda.encrypt.SHAEncrpt;
 import com.youda.model.MessageAuthCode;
 import com.youda.model.SignUser;
 import com.youda.model.Token;
 import com.youda.model.User;
+import com.youda.model.statistics.UserCaculator;
 import com.youda.request.api.ForgetFirstRequest;
 import com.youda.request.api.ForgetSecondRequest;
 import com.youda.request.api.LoginRequest;
@@ -47,6 +49,9 @@ public class UserServiceImpl implements UserService {
     private TokenMapper tokenMapper;
     @Autowired
     private SignUserMapper signUserMapper;
+    @Autowired
+    private UserCaculatorMapper userCaculatorMapper;
+
     /**
      * 实现自动依赖注入字符型Redis模板
      */
@@ -65,11 +70,20 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService
      */
     @Override
-    public ResponseEntity login(LoginRequest loginRequest) {
+    public ResponseEntity login(LoginRequest loginRequest,Long gameChannelId) {
         User user = userMapper.findByUserName(loginRequest.getUserName());
-        if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
-            return ResponseStatusCode.putOrGetSuccess(addToken(user.getUserId(), loginRequest.getGameChannelId()));
 
+        if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
+            Long userId = user.getUserId();
+            User userById = userMapper.findByUserId(userId);
+            UserCaculator userCaculator = new UserCaculator();
+            userCaculator.setGameChannelId(gameChannelId);
+            userCaculator.setUserId(userById.getUserId());
+            userCaculator.setUserLoginTime(userById.getUserLoginTime());
+            userCaculator.setUserRegistedTime(userById.getUserRegisteredTime());
+            userCaculator.setUserUseDevice(userById.getUserUseDevice());
+            userCaculatorMapper.addUserCaculator(userCaculator);
+            return ResponseStatusCode.putOrGetSuccess(addToken(user.getUserId(), loginRequest.getGameChannelId()));
         }
         return ResponseStatusCode.verifyError();
     }

@@ -10,7 +10,6 @@ public class LoginRequest extends BaseRequest {
     private String userName;
     private String userPassword;
 
-
     public String getUserName() {
         return userName;
     }

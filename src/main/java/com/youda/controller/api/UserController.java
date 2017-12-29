@@ -31,7 +31,6 @@ public class UserController {
     @Autowired
     public UserService userService;
 
-
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity userRegistered(@RequestBody RegisterRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
@@ -53,7 +52,7 @@ public class UserController {
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return userService.login(request);
+        return userService.login(request,Long.valueOf(gameChannelId));
     }
 
     @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)

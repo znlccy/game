@@ -21,7 +21,7 @@ public interface UserService {
      *
      * @return
      */
-    ResponseEntity login(LoginRequest login);
+    ResponseEntity login(LoginRequest login,Long gameChannelId);
 
     /**
      * 定义用户注册功能
