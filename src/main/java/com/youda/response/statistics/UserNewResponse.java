@@ -12,28 +12,26 @@ import com.youda.response.BaseResponse;
 public class UserNewResponse implements BaseResponse {
 
     /*设置返回新增用户数*/
-    private String newUserCount;
+    private String userNewCount;
 
     /*声明以时间来划分*/
-    private String ddate;
+    private String StatisticsDate;
 
-    /*实现新增用户数量的get方法*/
-    public String getNewUserCount() {
-        return newUserCount;
+    /*实现新增用户的get方法*/
+    public String getUserNewCount() {
+        return userNewCount;
     }
 
-    /*实现新增用户数量的set方法*/
-    public void setNewUserCount(String newUserCount) {
-        this.newUserCount = newUserCount;
+    /*实现新增用户的set方法*/
+    public void setUserNewCount(String userNewCount) {
+        this.userNewCount = userNewCount;
     }
 
-    /*实现新增用户日期的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现新增用户日期的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
 }

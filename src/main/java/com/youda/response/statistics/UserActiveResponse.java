@@ -15,7 +15,7 @@ public class UserActiveResponse implements BaseResponse {
     private String userActiveCount;
 
     /*声明以时间来划分*/
-    private String ddate;
+    private String StatisticsDate;
 
     /*实现活跃用户数的get方法*/
     public String getUserActiveCount() {
@@ -27,13 +27,11 @@ public class UserActiveResponse implements BaseResponse {
         this.userActiveCount = userActiveCount;
     }
 
-    /*实现返回日期的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现返回日期的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
 }
