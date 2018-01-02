@@ -15,7 +15,7 @@ public class EquipmentRetainedResponse implements BaseResponse{
     private String equipmentRate;
 
     /*新增设备对应的日期*/
-    private String ddate;
+    private String StatisticsDate;
 
     /*实现设备留存率的get方法*/
     public String getEquipmentRate() {
@@ -27,13 +27,11 @@ public class EquipmentRetainedResponse implements BaseResponse{
         this.equipmentRate = equipmentRate;
     }
 
-    /*实现新增设备对应日期的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现新增设备的对应日期的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
 }

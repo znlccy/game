@@ -15,7 +15,7 @@ public class PayResponse implements BaseResponse {
     private String payCount;
 
     /*定义返回的日期类型*/
-    private String ddate;
+    private String StatisticsDate;
 
     /*实现支付多少人的统计的get方法*/
     public String getPayCount() {
@@ -27,14 +27,11 @@ public class PayResponse implements BaseResponse {
         this.payCount = payCount;
     }
 
-    /*实现支付日期的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现支付日期的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
-
 }

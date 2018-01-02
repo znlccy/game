@@ -12,7 +12,7 @@ import com.youda.response.BaseResponse;
 public class IncomeResponse implements BaseResponse {
 
     /*定义返回日期*/
-    private String ddate;
+    private String StatisticsDate;
 
     /*定义返回收入金额*/
     private String incomeTotalMoney;
@@ -20,14 +20,12 @@ public class IncomeResponse implements BaseResponse {
     /*定义返回收入金额*/
     private String incomeCount;
 
-    /*实现返回日期的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现返回日期的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
 
     /*实现返回收入的get方法*/

@@ -8,7 +8,7 @@ public class UserRetainedResponse implements BaseResponse  {
     private String userRetainedCount;
 
     /*定义用户留存统计的日期*/
-    private String ddate;
+    private String StatisticsDate;
 
     /*实现用户留存统计的get方法*/
     public String getUserRetainedCount() {
@@ -20,13 +20,11 @@ public class UserRetainedResponse implements BaseResponse  {
         this.userRetainedCount = userRetainedCount;
     }
 
-    /*实现用户留存的date的get方法*/
-    public String getDdate() {
-        return ddate;
+    public String getStatisticsDate() {
+        return StatisticsDate;
     }
 
-    /*实现用户留存的date的set方法*/
-    public void setDdate(String ddate) {
-        this.ddate = ddate;
+    public void setStatisticsDate(String statisticsDate) {
+        StatisticsDate = statisticsDate;
     }
 }
