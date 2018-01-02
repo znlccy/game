@@ -19,7 +19,7 @@ import java.util.List;
 public interface UserRetainedMapper {
 
     /*实现自定义日期用户留存统计*/
-    @Select("SELECT userActive.StatisticsDate AS StatisticsDate,(userActive.userActiveCount/userNew.userNewCount)*100 AS userRetainedCount\n" +
+    @Select("SELECT userActive.StatisticsDate AS StatisticsDate,IFNULL((userActive.userActiveCount/userNew.userNewCount)*100,0.0) AS userRate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userActiveCount,0) AS userActiveCount        \n" +
@@ -65,16 +65,16 @@ public interface UserRetainedMapper {
     List<UserRetainedResponse> customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现查询所有用户留存的统计*/
-    @Select("SELECT userActive.StatisticsDate AS StatisticsDate,IFNULL((userActive.userActiveCount/userNew.userNewCount)*100,0.0) AS userRetainedCount\n" +
+    @Select("SELECT userActive.StatisticsDate AS StatisticsDate,IFNULL((userActive.userActiveCount/userNew.userNewCount)*100,0.0) AS userRate\n" +
             "FROM\n" +
             "(\n" +
-            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userActiveCount,0) AS userActiveCount \n" +
+            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userActiveCount,0) AS userActiveCount        \n" +
             "    FROM         \n" +
             "    (     \n" +
             "        SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS userActiveCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} and userUseDevice IS NOT NULL   \n" +
+            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} and userUseDevice IS NOT NULL \n" +
             "        GROUP BY userLoginTime        \n" +
             "    UNION        \n" +
             "    (        \n" +
@@ -88,7 +88,7 @@ public interface UserRetainedMapper {
             ") AS userActive\n" +
             "RIGHT JOIN\n" +
             "(\n" +
-            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userNewCount,0) AS userNewCount \n" +
+            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userNewCount,0) AS userNewCount        \n" +
             "    FROM         \n" +
             "    (        \n" +
             "        SELECT DISTINCT DATE(userRegistedTime) AS StatisticsDate,        \n" +

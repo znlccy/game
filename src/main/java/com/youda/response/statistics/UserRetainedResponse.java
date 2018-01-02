@@ -5,19 +5,17 @@ import com.youda.response.BaseResponse;
 public class UserRetainedResponse implements BaseResponse  {
 
     /*定义用户留存统计的变量*/
-    private String userRetainedCount;
+    private String userRate;
 
     /*定义用户留存统计的日期*/
     private String StatisticsDate;
 
-    /*实现用户留存统计的get方法*/
-    public String getUserRetainedCount() {
-        return userRetainedCount;
+    public String getUserRate() {
+        return userRate;
     }
 
-    /*实现用户留存统计的set方法*/
-    public void setUserRetainedCount(String userRetainedCount) {
-        this.userRetainedCount = userRetainedCount;
+    public void setUserRate(String userRate) {
+        this.userRate = userRate;
     }
 
     public String getStatisticsDate() {
