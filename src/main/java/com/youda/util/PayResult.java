@@ -26,7 +26,7 @@ public class PayResult {
     }
 
     /*实现支付结果*/
-    public static PayRecord getPayRecord(String status,String payUser,String totalAmount,String orderId,String style) {
+    public static PayRecord getPayRecord(String status,String payUser,String totalAmount,String orderId,String style,Long gameChannelId,String userUseDevice) {
         PayRecord payRecord = new PayRecord();
         payRecord.setPayRecordStatus(status);
         payRecord.setPayRecordTime(new Timestamp(System.currentTimeMillis()));
@@ -34,6 +34,8 @@ public class PayResult {
         payRecord.setPayRecordTotalAmount(totalAmount);
         payRecord.setOutTradeNo(orderId);
         payRecord.setPayRecordStyle(style);
+        payRecord.setGameChannelId(gameChannelId);
+        payRecord.setUserUseDevice(userUseDevice);
         return payRecord;
     }
 
