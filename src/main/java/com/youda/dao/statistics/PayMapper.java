@@ -113,133 +113,211 @@ public interface PayMapper {
     List<StatisticsRateResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义的ARPU的统计*/
-    @Select("SELECT customActiveUser.ddate AS ddate,(customPayCount.payCount/customActiveUser.activeUserCount) AS payCount      \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE  CONCAT(#{beginTime},' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE  userLoginTime>=CONCAT(#{beginTime},' 00:00:00') && userLoginTime<=CONCAT(#{endTime},' 24:00:00')      \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS customActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE CONCAT(#{beginTime},' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')      \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime >=CONCAT(#{beginTime},' 00:00:00') AND payRecordTime<=CONCAT(#{endTime},' 24:00:00')       \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS customPayCount      \n" +
-            "ON customActiveUser.ddate = customPayCount.ddate")
+    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+            "FROM\n" +
+            "(\n" +
+            "    SELECT    \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,     \n" +
+            "    IFNULL(incomeCount,0) AS incomeCount, \n" +
+            "    IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney    \n" +
+            "    FROM      \n" +
+            "    (    \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,     \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,     \n" +
+            "        COUNT(DISTINCT payRecordTime) AS incomeCount     \n" +
+            "        FROM tb_payrecord      \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} AND payRecordStatus='1' \n" +
+            "        GROUP BY DATE(payRecordTime)  \n" +
+            "    UNION    \n" +
+            "       (     \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,     \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,     \n" +
+            "        incomeCount AS incomeCount     \n" +
+            "        FROM tb_income      \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') \n" +
+            "       )      \n" +
+            "    ) AS b     \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payIncomeCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userActiveCount,0) AS userActiveCount     \n" +
+            "    FROM      \n" +
+            "    (  \n" +
+            "       SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,     \n" +
+            "       COUNT(DISTINCT userId) AS userActiveCount      \n" +
+            "       FROM tb_user_caculator      \n" +
+            "       WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
+            "       GROUP BY userLoginTime     \n" +
+            "    UNION     \n" +
+            "    (     \n" +
+            "       SELECT datelist AS StatisticsDate,     \n" +
+            "       payRecordTotalAmount AS userActiveCount     \n" +
+            "       FROM tb_income      \n" +
+            "       WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')     \n" +
+            "    ) \n" +
+            "    ) AS b   \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS userActiveCount\n" +
+            "ON payIncomeCount.StatisticsDate=userActiveCount.StatisticsDate")
     List<StatisticsRateResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
-    @Select("SELECT (allPayCount.payCount/allActiveUser.activeUserCount) AS payCount,allActiveUser.ddate AS ddate \n" +
-            "FROM       \n" +
-            "(SELECT      \n" +
-            "DATE(dday) ddate,      \n" +
-            "COUNT(*) - 2 AS activeUserCount      \n" +
-            "FROM      \n" +
-            "(      \n" +
-            "   SELECT datelist AS dday      \n" +
-            "   FROM      \n" +
-            "   tb_calendar       \n" +
-            "   -- 这里是限制返回最近30天的数据          \n" +
-            "   WHERE DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')      \n" +
-            "   UNION ALL      \n" +
-            "   SELECT userLoginTime      \n" +
-            "   FROM      \n" +
-            "   tb_user      \n" +
-            "   WHERE userLoginTime<=CONCAT(CURDATE(),' 24:00:00')    \n" +
-            "   GROUP BY userLoginTime      \n" +
-            "   ) a      \n" +
-            "   GROUP BY ddate ) AS allActiveUser                   \n" +
-            "   INNER JOIN                   \n" +
-            "   (SELECT DATE(dday) ddate,SUM(payRecordTotalAmount) AS payCount       \n" +
-            "       FROM       \n" +
-            "       (       \n" +
-            "           SELECT datelist AS dday,payRecordTotalAmount       \n" +
-            "           FROM       \n" +
-            "           tb_income        \n" +
-            "           -- 这里是限制返回最近一周的数据             \n" +
-            "           WHERE DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')  \n" +
-            "           UNION ALL       \n" +
-            "           SELECT payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount       \n" +
-            "           FROM        \n" +
-            "           tb_payrecord       \n" +
-            "           WHERE payRecordTime<=CONCAT(CURDATE(),' 24:00:00')        \n" +
-            "           GROUP BY payRecordTime       \n" +
-            "       ) a       \n" +
-            "       GROUP BY ddate) AS allPayCount      \n" +
-            "ON allActiveUser.ddate = allPayCount.ddate")
+    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+            "FROM\n" +
+            "(\n" +
+            "    SELECT    \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,     \n" +
+            "    IFNULL(incomeCount,0) AS incomeCount, \n" +
+            "    IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney    \n" +
+            "    FROM      \n" +
+            "    (    \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,     \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,     \n" +
+            "        COUNT(DISTINCT payRecordTime) AS incomeCount     \n" +
+            "        FROM tb_payrecord      \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1' \n" +
+            "        GROUP BY DATE(payRecordTime)  \n" +
+            "    UNION    \n" +
+            "       (     \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,     \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,     \n" +
+            "        incomeCount AS incomeCount     \n" +
+            "        FROM tb_income      \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') \n" +
+            "       )      \n" +
+            "    ) AS b     \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payIncomeCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(userActiveCount,0) AS userActiveCount     \n" +
+            "    FROM      \n" +
+            "    (  \n" +
+            "       SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,     \n" +
+            "       COUNT(DISTINCT userId) AS userActiveCount      \n" +
+            "       FROM tb_user_caculator      \n" +
+            "       WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL \n" +
+            "       GROUP BY userLoginTime     \n" +
+            "    UNION     \n" +
+            "    (     \n" +
+            "       SELECT datelist AS StatisticsDate,     \n" +
+            "       payRecordTotalAmount AS userActiveCount     \n" +
+            "       FROM tb_income      \n" +
+            "       WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')     \n" +
+            "    ) \n" +
+            "    ) AS b   \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS userActiveCount\n" +
+            "ON payIncomeCount.StatisticsDate=userActiveCount.StatisticsDate")
     List<StatisticsRateResponse> allArpu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义日期的ARPPU统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
+    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE  CONCAT(#{beginTime},' 00:00:00')<= DATE(datelist)&&DATE(datelist)<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime>=CONCAT(#{beginTime},' 00:00:00') && payRecordTime<=CONCAT(#{endTime},' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
+            "(\n" +
+            "    SELECT    \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,     \n" +
+            "    IFNULL(incomeCount,0) AS incomeCount, \n" +
+            "    IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney    \n" +
+            "    FROM      \n" +
+            "    (    \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,     \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,     \n" +
+            "        COUNT(DISTINCT payRecordTime) AS incomeCount     \n" +
+            "        FROM tb_payrecord      \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} AND payRecordStatus='1' \n" +
+            "        GROUP BY DATE(payRecordTime)  \n" +
+            "    UNION    \n" +
+            "       (     \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,     \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,     \n" +
+            "        incomeCount AS incomeCount     \n" +
+            "        FROM tb_income      \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') \n" +
+            "       )      \n" +
+            "    ) AS b     \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payIncomeCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT     \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,      \n" +
+            "    IFNULL(payCount,0) AS payCount \n" +
+            "    FROM       \n" +
+            "    (     \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,      \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,      \n" +
+            "        COUNT(DISTINCT payRecordUser) AS payCount      \n" +
+            "        FROM tb_payrecord       \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} AND payRecordStatus='1'  \n" +
+            "        GROUP BY DATE(payRecordTime)   \n" +
+            "    UNION     \n" +
+            "       (      \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,      \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,      \n" +
+            "        incomeCount AS payCount      \n" +
+            "        FROM tb_income       \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')  \n" +
+            "       )       \n" +
+            "    ) AS b      \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payPlayerCount\n" +
+            "ON payIncomeCount.StatisticsDate=payPlayerCount.StatisticsDate")
     List<StatisticsRateResponse> customArppuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部ARPPU统计*/
-    @Select("SELECT\n" +
-            "    DATE(dday) ddate,\n" +
-            "    SUM(payRecordTotalAmount)/(COUNT(*) - 2) AS payCount\n" +
+    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
-            "    (\n" +
-            "        SELECT\n" +
-            "            datelist AS dday,payRecordTotalAmount\n" +
-            "        FROM\n" +
-            "            tb_income \n" +
-            "            -- 这里是限制返回最近30天的数据\n" +
-            "            -- where  DATE_SUB(CURDATE(), INTERVAL 1 DAY) <= date(datelist)&&date(datelist)<=CURDATE() \n" +
-            "            WHERE DATE(datelist)<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "        UNION ALL\n" +
-            "            SELECT\n" +
-            "                payRecordTime,SUM(payRecordTotalAmount) AS payRecordTotalAmount\n" +
-            "            FROM\n" +
-            "                tb_payrecord\n" +
-            "            WHERE  payRecordTime<=CONCAT(CURDATE(),' 24:00:00')\n" +
-            "            GROUP BY payRecordTime\n" +
-            "    ) a\n" +
-            "GROUP BY ddate")
+            "(\n" +
+            "    SELECT    \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,     \n" +
+            "    IFNULL(incomeCount,0) AS incomeCount, \n" +
+            "    IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney    \n" +
+            "    FROM      \n" +
+            "    (    \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,     \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,     \n" +
+            "        COUNT(DISTINCT payRecordTime) AS incomeCount     \n" +
+            "        FROM tb_payrecord      \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1' \n" +
+            "        GROUP BY DATE(payRecordTime)  \n" +
+            "    UNION    \n" +
+            "       (     \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,     \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,     \n" +
+            "        incomeCount AS incomeCount     \n" +
+            "        FROM tb_income      \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') \n" +
+            "       )      \n" +
+            "    ) AS b     \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payIncomeCount\n" +
+            "INNER JOIN\n" +
+            "(\n" +
+            "    SELECT     \n" +
+            "    DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,      \n" +
+            "    IFNULL(payCount,0) AS payCount \n" +
+            "    FROM       \n" +
+            "    (     \n" +
+            "        SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,      \n" +
+            "        SUM(payRecordTotalAmount) AS incomeTotalMoney,      \n" +
+            "        COUNT(DISTINCT payRecordUser) AS payCount      \n" +
+            "        FROM tb_payrecord       \n" +
+            "        WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1'  \n" +
+            "        GROUP BY DATE(payRecordTime)   \n" +
+            "    UNION     \n" +
+            "       (      \n" +
+            "        SELECT DISTINCT datelist AS StatisticsDate,      \n" +
+            "        payRecordTotalAmount AS incomeTotalMoney,      \n" +
+            "        incomeCount AS payCount      \n" +
+            "        FROM tb_income       \n" +
+            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')  \n" +
+            "       )       \n" +
+            "    ) AS b      \n" +
+            "    GROUP BY StatisticsDate\n" +
+            ") AS payPlayerCount\n" +
+            "ON payIncomeCount.StatisticsDate=payPlayerCount.StatisticsDate")
     List<StatisticsRateResponse> allArppu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现任意日期支付玩家统计*/
