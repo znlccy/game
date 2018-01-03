@@ -9,16 +9,16 @@ package com.youda.response.statistics;
 
 public class StatisticsRateResponse {
 
-    private String statisticsRate;
+    private String StatisticsRate;
 
     private String StatisticsDate;
 
     public String getStatisticsRate() {
-        return statisticsRate;
+        return StatisticsRate;
     }
 
     public void setStatisticsRate(String statisticsRate) {
-        this.statisticsRate = statisticsRate;
+        StatisticsRate = statisticsRate;
     }
 
     public String getStatisticsDate() {
