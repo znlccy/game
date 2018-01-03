@@ -19,7 +19,7 @@ import java.util.List;
 public interface PayMapper {
 
     /*实现自定义日期付费率统计*/
-    @Select("SELECT IFNULL((payPlayerCount.payCount/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payPlayerCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payPlayerCount.payCount/userActiveCount.userActiveCount),2),0.00) AS StatisticsRate,payPlayerCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(payCount,0) AS payCount\n" +
@@ -66,7 +66,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> customPayRateTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的付费率统计*/
-    @Select("SELECT IFNULL((payPlayerCount.payCount/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payPlayerCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payPlayerCount.payCount/userActiveCount.userActiveCount),2),0.00) AS StatisticsRate,payPlayerCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(payCount,0) AS payCount\n" +
@@ -113,7 +113,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义的ARPU的统计*/
-    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),2),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT    \n" +
@@ -163,7 +163,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
-    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/userActiveCount.userActiveCount),2),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT    \n" +
@@ -213,7 +213,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> allArpu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义日期的ARPPU统计*/
-    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),2),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT    \n" +
@@ -267,7 +267,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> customArppuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部ARPPU统计*/
-    @Select("SELECT IFNULL((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
+    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/payPlayerCount.payCount),2),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate\n" +
             "FROM\n" +
             "(\n" +
             "    SELECT    \n" +
