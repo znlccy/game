@@ -4,6 +4,7 @@ import com.youda.dao.statistics.PayMapper;
 import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.statistics.PayResponse;
+import com.youda.response.statistics.StatisticsRateResponse;
 import com.youda.service.statistics.PayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,42 +29,42 @@ public class PayServiceImpl implements PayService {
     /*实现任意日期支付率统计*/
     @Override
     public ResponseEntity customPayRateTime(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.customPayRateTime(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.customPayRateTime(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 
     /*实现全部支付率统计*/
     @Override
     public ResponseEntity allPayRate(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.allPayRate(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.allPayRate(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 
     /*实现任意日期的arpu统计*/
     @Override
     public ResponseEntity customArpuTime(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.customArpuTime(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.customArpuTime(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 
     /*实现全部arpu统计*/
     @Override
     public ResponseEntity allArpu(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.allArpu(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.allArpu(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 
     /*实现任意日期的arppu统计*/
     @Override
     public ResponseEntity customArppuTime(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.customArppuTime(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.customArppuTime(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 
     /*实现全部的arppu统计*/
     @Override
     public ResponseEntity allArppu(StatisticsRequest statisticsRequest) {
-        List<PayResponse> payRespons = payMapper.allArppu(statisticsRequest);
+        List<StatisticsRateResponse> payRespons = payMapper.allArppu(statisticsRequest);
         return ResponseStatusCode.putOrGetSuccess(payRespons);
     }
 

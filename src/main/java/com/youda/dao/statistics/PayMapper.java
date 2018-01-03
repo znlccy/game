@@ -2,6 +2,7 @@ package com.youda.dao.statistics;
 
 import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.statistics.PayResponse;
+import com.youda.response.statistics.StatisticsRateResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -78,7 +79,7 @@ public interface PayMapper {
             "GROUP BY ddate\n" +
             ") AS activeUserCount\n" +
             "ON payPlayerCount.ddate=activeUserCount.ddate")
-    List<PayResponse> customPayRateTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> customPayRateTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的付费率统计*/
     @Select("SELECT (payPlayerCount.payCount/activeUserCount.userActiveCount)*100 AS payCount, payPlayerCount.ddate AS ddate FROM \n" +
@@ -141,7 +142,7 @@ public interface PayMapper {
             "GROUP BY ddate\n" +
             ") AS activeUserCount\n" +
             "ON payPlayerCount.ddate=activeUserCount.ddate")
-    List<PayResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> allPayRate(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义的ARPU的统计*/
     @Select("SELECT customActiveUser.ddate AS ddate,(customPayCount.payCount/customActiveUser.activeUserCount) AS payCount      \n" +
@@ -182,7 +183,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS customPayCount      \n" +
             "ON customActiveUser.ddate = customPayCount.ddate")
-    List<PayResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
     @Select("SELECT (allPayCount.payCount/allActiveUser.activeUserCount) AS payCount,allActiveUser.ddate AS ddate \n" +
@@ -223,7 +224,7 @@ public interface PayMapper {
             "       ) a       \n" +
             "       GROUP BY ddate) AS allPayCount      \n" +
             "ON allActiveUser.ddate = allPayCount.ddate")
-    List<PayResponse> allArpu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> allArpu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现自定义日期的ARPPU统计*/
     @Select("SELECT\n" +
@@ -247,7 +248,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> customArppuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> customArppuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部ARPPU统计*/
     @Select("SELECT\n" +
@@ -271,7 +272,7 @@ public interface PayMapper {
             "            GROUP BY payRecordTime\n" +
             "    ) a\n" +
             "GROUP BY ddate")
-    List<PayResponse> allArppu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+    List<StatisticsRateResponse> allArppu(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现任意日期支付玩家统计*/
     @Select("SELECT    \n" +
