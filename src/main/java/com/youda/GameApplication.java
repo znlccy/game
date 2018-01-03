@@ -27,6 +27,7 @@ public class GameApplication {
     public static void main(String[] args) {
         SpringApplication.run(GameApplication.class, args);
     }
+
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("*");
@@ -34,6 +35,7 @@ public class GameApplication {
         corsConfiguration.addAllowedMethod("*");
         return corsConfiguration;
     }
+
     /**
      * 跨域过滤器
      * @return

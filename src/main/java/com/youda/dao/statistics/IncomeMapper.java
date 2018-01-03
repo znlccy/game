@@ -21,19 +21,21 @@ public interface IncomeMapper {
     /*定义任意日期的收入统计*/
     @Select("SELECT   \n" +
             "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
-            "     IFNULL(COUNT(*)-1,0) AS incomeCount,\n" +
-            "     IFNULL(incomeTotalMoney,0.00)*(COUNT(*)-1)  AS incomeTotalMoney   \n" +
+            "     IFNULL(incomeCount,0) AS incomeCount,\n" +
+            "     IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney   \n" +
             "FROM     \n" +
             "(   \n" +
             "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney    \n" +
+            "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
+            "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
             "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} AND payRecordStatus='1'\n" +
-            "    GROUP BY payRecordTime \n" +
+            "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +
             "    SELECT DISTINCT datelist AS StatisticsDate,    \n" +
-            "    payRecordTotalAmount AS incomeTotalMoney    \n" +
+            "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
+            "    incomeCount AS incomeCount    \n" +
             "    FROM tb_income     \n" +
             "    WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')\n" +
             "   )     \n" +
@@ -44,19 +46,21 @@ public interface IncomeMapper {
     /*定义全部的收入统计*/
     @Select("SELECT   \n" +
             "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
-            "     IFNULL(COUNT(*)-1,0) AS incomeCount,\n" +
-            "     IFNULL(incomeTotalMoney,0.00)*(COUNT(*)-1) AS incomeTotalMoney   \n" +
+            "     IFNULL(incomeCount,0) AS incomeCount,\n" +
+            "     IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney   \n" +
             "FROM     \n" +
             "(   \n" +
             "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney    \n" +
+            "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
+            "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
             "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1'\n" +
-            "    GROUP BY payRecordTime \n" +
+            "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +
             "    SELECT DISTINCT datelist AS StatisticsDate,    \n" +
-            "    payRecordTotalAmount AS incomeTotalMoney    \n" +
+            "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
+            "    incomeCount AS incomeCount    \n" +
             "    FROM tb_income     \n" +
             "    WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')\n" +
             "   )     \n" +
