@@ -1,9 +1,8 @@
 package com.youda.model;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.*;
 
 /**
  * @author chencongye
@@ -128,7 +127,7 @@ public class Game {
 
 	*//**
 	 * 实现游戏和订单之间一对多关系的set方法
-	 * @param orders
+	 * @param
 	 *//*
 	public void setOrders(Set<Order> orders) {
 		this.orders = orders;

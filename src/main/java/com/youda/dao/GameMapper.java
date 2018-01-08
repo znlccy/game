@@ -1,15 +1,9 @@
 package com.youda.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.youda.model.Game;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * @author chencongye
@@ -25,7 +19,8 @@ public interface GameMapper {
 	 * 定义创建游戏的规范
 	 * @return
 	 */
-	@Insert("insert into tb_game(gameId,gameName,gamePackage) values(#{game.gameId},#{game.gameName},#{game.gamePackage})")
+	@Insert("insert into tb_game(gameName,gamePackage) values(#{game.gameName},#{game.gamePackage})")
+	@Options(useGeneratedKeys = true, keyProperty = "game.gameId")
 	boolean addGame(@Param("game") Game game);
 	
 	/**
