@@ -1,6 +1,7 @@
 package com.youda.interceptor;
 
 import com.alibaba.fastjson.JSONObject;
+import com.youda.annotation.CurrentAdmin;
 import com.youda.annotation.CurrentChannel;
 import com.youda.model.ChannelUser;
 import com.youda.service.ChannelService;
@@ -45,11 +46,14 @@ public class ChannelInterceptor extends HandlerInterceptorAdapter {
         }
         String channelId = request.getHeader("channelId");
         String token = request.getHeader("token");
+        String channelUserId = request.getHeader("channelUserId");
 
         if (channelId != null && token != null) {
-            ChannelUser user = channelService.findUserById(Long.valueOf(channelId));
+            ChannelUser user = channelService.findUserById(Long.valueOf(channelUserId));
             if (user != null && user.getToken().equals(token)) {
-                return true;
+                if ((method.getAnnotation(CurrentAdmin.class) == null && Long.valueOf(channelId) == user.getChannelId()) || user.getIsRoot() == 1) {
+                    return true;
+                }
             }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

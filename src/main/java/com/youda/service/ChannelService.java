@@ -27,4 +27,6 @@ public interface ChannelService {
 
     ChannelUser findUserById(Long channelId);
 
+    ResponseEntity getChannels();
+
 }

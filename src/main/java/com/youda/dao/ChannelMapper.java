@@ -85,7 +85,7 @@ public interface ChannelMapper {
      *
      * @return
      */
-    @Select("select * from tb_channel")
+    @Select("select * from tb_channel where channelId != 1")
     List<Channel> findAllChannel();
 
     @Insert("insert into tb_channel_user(phone,password,createTime,channelId,token) " +
@@ -96,8 +96,8 @@ public interface ChannelMapper {
     @Select("select * from tb_channel_user where phone = #{phone}")
     ChannelUser findAllChannelUser(@Param("phone") String phone);
 
-    @Select("select * from tb_channel_user where channelId = #{channelId}")
-    ChannelUser findChannelById(@Param("channelId") Long id);
+    @Select("select * from tb_channel_user where channelUserId = #{channelUserId}")
+    ChannelUser findChannelById(@Param("channelUserId") Long id);
 
     @Update("update tb_channel_user set token = #{user.token} where channelUserId = #{user.channelUserId}")
     void updateToken(@Param("user") ChannelUser user);

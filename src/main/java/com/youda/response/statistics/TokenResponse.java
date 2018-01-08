@@ -9,7 +9,25 @@ import com.youda.response.BaseResponse;
 public class TokenResponse implements BaseResponse {
     private Long channelId;
     private String token;
+    private int isRoot;
     private String userName;
+    private Long channelUserId;
+
+    public Long getChannelUserId() {
+        return channelUserId;
+    }
+
+    public void setChannelUserId(Long channelUserId) {
+        this.channelUserId = channelUserId;
+    }
+
+    public int getIsRoot() {
+        return isRoot;
+    }
+
+    public void setIsRoot(int isRoot) {
+        this.isRoot = isRoot;
+    }
 
     public String getUserName() {
         return userName;

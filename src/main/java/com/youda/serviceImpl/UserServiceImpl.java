@@ -20,8 +20,6 @@ import com.youda.response.ResponseStatusCode;
 import com.youda.response.api.TokenResponse;
 import com.youda.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -52,16 +50,16 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserCaculatorMapper userCaculatorMapper;
 
-    /**
-     * 实现自动依赖注入字符型Redis模板
-     */
-    @Autowired
-    public StringRedisTemplate stringRedisTemplate;
-    /**
-     * 实现RedisTemplate模板自动依赖注入
-     */
-    @Autowired
-    private RedisTemplate redisTemplate;
+//    /**
+//     * 实现自动依赖注入字符型Redis模板
+//     */
+//    @Autowired
+//    public StringRedisTemplate stringRedisTemplate;
+//    /**
+//     * 实现RedisTemplate模板自动依赖注入
+//     */
+//    @Autowired
+//    private RedisTemplate redisTemplate;
 
     /**
      * 实现用户登录功能

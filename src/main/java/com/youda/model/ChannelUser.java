@@ -30,6 +30,9 @@ public class ChannelUser {
     @Column(name = "token")
     private String token;
 
+    @Column(name = "isRoot")
+    private int isRoot;
+
     public long getChannelUserId() {
         return channelUserId;
     }
@@ -76,5 +79,13 @@ public class ChannelUser {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getIsRoot() {
+        return isRoot;
+    }
+
+    public void setIsRoot(int isRoot) {
+        this.isRoot = isRoot;
     }
 }

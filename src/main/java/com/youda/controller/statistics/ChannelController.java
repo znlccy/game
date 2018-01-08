@@ -1,5 +1,6 @@
 package com.youda.controller.statistics;
 
+import com.youda.annotation.CurrentAdmin;
 import com.youda.annotation.CurrentChannel;
 import com.youda.request.channel.GameRequest;
 import com.youda.request.channel.LoginRequest;
@@ -53,12 +54,23 @@ public class ChannelController {
 
     @CurrentChannel
     @RequestMapping(value = "add/game", method = RequestMethod.POST)
-    public ResponseEntity getAllGames(@RequestHeader("channelId") Long channelId,@RequestBody GameRequest gameRequest) {
-        return channelService.addGame(channelId,gameRequest);
+    public ResponseEntity addGames(@RequestHeader("channelId") Long channelId, @RequestBody GameRequest gameRequest) {
+        if (gameRequest.isEmpty()) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return channelService.addGame(channelId, gameRequest);
     }
+
     @CurrentChannel
     @RequestMapping(value = "games", method = RequestMethod.GET)
     public ResponseEntity getAllGames(@RequestHeader("channelId") Long channelId) {
         return channelService.getAllGame(channelId);
+    }
+
+    @CurrentAdmin
+    @CurrentChannel
+    @RequestMapping(value = "channels", method = RequestMethod.GET)
+    public ResponseEntity getChannels() {
+        return channelService.getChannels();
     }
 }

@@ -59,11 +59,17 @@ public class ChannelServiceImpl implements ChannelService {
             user.setPhone(request.getPhone());
             user.setToken(UUID.randomUUID().toString());
             channelMapper.addChannelUser(user);
-            TokenResponse tokenResponse = new TokenResponse();
-            tokenResponse.setChannelId(channel.getChannelId());
-            tokenResponse.setToken(user.getToken());
-            tokenResponse.setUserName(channel.getChannelName());
-            return ResponseStatusCode.postSuccess(tokenResponse);
+            if (user.getChannelUserId() != 0L) {
+                TokenResponse tokenResponse = new TokenResponse();
+                tokenResponse.setChannelId(channel.getChannelId());
+                tokenResponse.setToken(user.getToken());
+                tokenResponse.setUserName(channel.getChannelName());
+                tokenResponse.setIsRoot(user.getIsRoot());
+                tokenResponse.setChannelUserId(user.getChannelUserId());
+                return ResponseStatusCode.postSuccess(tokenResponse);
+
+            }
+
 
         }
         return ResponseStatusCode.conflictError();
@@ -82,6 +88,8 @@ public class ChannelServiceImpl implements ChannelService {
             tokenResponse.setChannelId(channel.getChannelId());
             tokenResponse.setToken(user.getToken());
             tokenResponse.setUserName(channel.getChannelName());
+            tokenResponse.setChannelUserId(user.getChannelUserId());
+            tokenResponse.setIsRoot(user.getIsRoot());
             return ResponseStatusCode.putOrGetSuccess(tokenResponse);
 
         }
@@ -122,7 +130,12 @@ public class ChannelServiceImpl implements ChannelService {
     }
 
     @Override
-    public ChannelUser findUserById(Long channelId) {
-        return channelMapper.findChannelById(channelId);
+    public ChannelUser findUserById(Long channelUserId) {
+        return channelMapper.findChannelById(channelUserId);
+    }
+
+    @Override
+    public ResponseEntity getChannels() {
+        return ResponseStatusCode.putOrGetSuccess(channelMapper.findAllChannel());
     }
 }
