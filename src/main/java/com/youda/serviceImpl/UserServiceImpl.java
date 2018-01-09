@@ -77,7 +77,7 @@ public class UserServiceImpl implements UserService {
             UserCaculator userCaculator = new UserCaculator();
             userCaculator.setGameChannelId(gameChannelId);
             userCaculator.setUserId(userById.getUserId());
-            userCaculator.setUserLoginTime(userById.getUserLoginTime());
+            userCaculator.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
             userCaculator.setUserRegistedTime(userById.getUserRegisteredTime());
             userCaculator.setUserUseDevice(userById.getUserUseDevice());
             userCaculatorMapper.addUserCaculator(userCaculator);
