@@ -21,7 +21,7 @@ public interface PayRecordMapper {
 	 * @param payRecord
 	 * @return
 	 */
-	@Insert("insert into tb_payrecord(payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser) values(#{payRecord.payRecordId},#{payRecord.payRecordTime},#{payRecord.payRecordStyle},#{payRecord.payRecordStatus},#{payRecord.payRecordTotalAmount},#{payRecord.payRecordOrderId},#{payRecord.outTradeNo},#{payRecord.payRecordUser})")
+	@Insert("insert into tb_payrecord(payRecordId,payRecordTime,payRecordStyle,payRecordStatus,payRecordTotalAmount,payRecordOrderId,outTradeNo,payRecordUser,gameChannelId,userUseDevice) values(#{payRecord.payRecordId},#{payRecord.payRecordTime},#{payRecord.payRecordStyle},#{payRecord.payRecordStatus},#{payRecord.payRecordTotalAmount},#{payRecord.payRecordOrderId},#{payRecord.outTradeNo},#{payRecord.payRecordUser},#{payrecord.gameChannelId},#{payrecord.userUseDevice})")
 	boolean addPayRecord(@Param("payRecord") PayRecord payRecord);
 	
 	/**

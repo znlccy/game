@@ -97,7 +97,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public ResponseEntity createOrder(OrderRequest request) {
         Order order = new Order();
-
         Order order_new = orderMapper.findByOtherOrderId(request.getOtherOrderId());
         if (order_new == null)
         {
@@ -501,7 +500,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
@@ -526,7 +525,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
@@ -599,7 +598,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = weChatConf.getNOTIFY_URL();
@@ -625,7 +624,7 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else
                 {
-                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
                 }
                 /*实现通知第三方服务器*/
                 String notifyUrl = weChatConf.getNOTIFY_URL();
@@ -712,7 +711,7 @@ public class OrderServiceImpl implements OrderService {
                             }
                             else
                             {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
                             PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
@@ -734,7 +733,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
@@ -780,7 +779,7 @@ public class OrderServiceImpl implements OrderService {
                             }
                             else
                             {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
                             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
@@ -801,7 +800,7 @@ public class OrderServiceImpl implements OrderService {
             }
             else
             {
-                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
             }
             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
             order.setIsPushed("1");

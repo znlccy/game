@@ -29,7 +29,7 @@ public interface IncomeMapper {
             "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
             "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} AND payRecordStatus='1'\n" +
+            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1'\n" +
             "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +
@@ -54,7 +54,7 @@ public interface IncomeMapper {
             "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
             "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1'\n" +
+            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1'\n" +
             "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +

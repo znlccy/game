@@ -48,7 +48,7 @@ public interface UserRetainedMapper {
             "        SELECT DISTINCT DATE(userRegistedTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS userNewCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userRegistedTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userRegistedTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} and userUseDevice=#{statisticsRequest.userUseDevice}    \n" +
+            "        WHERE userRegistedTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userRegistedTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId}  \n" +
             "        GROUP BY userRegistedTime    \n" +
             "    UNION        \n" +
             "    (        \n" +
@@ -74,7 +74,7 @@ public interface UserRetainedMapper {
             "        SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS userActiveCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} and userUseDevice IS NOT NULL \n" +
+            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} \n" +
             "        GROUP BY userLoginTime        \n" +
             "    UNION        \n" +
             "    (        \n" +
