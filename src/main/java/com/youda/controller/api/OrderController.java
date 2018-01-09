@@ -35,13 +35,13 @@ public class OrderController {
     @CurrentUser
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createOrder(@RequestBody OrderRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader("userId") String userId) {
+    public ResponseEntity createOrder(@RequestBody OrderRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader("userId") String userId,@RequestHeader String userUseDevice) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         request.setUserId(Long.valueOf(userId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return orderService.createOrder(request);
+        return orderService.createOrder(request,userUseDevice);
     }
 
     /*实现支付宝支付的功能*/

@@ -78,6 +78,9 @@ public class Order {
 
     @Column(name = "gameChannelId")
     private long gameChannelId;
+
+    @Column(name = "userUseDevice")
+    private String userUseDevice;
     /**
      * 定义用户和订单之间的一对多关系映射
      */
@@ -322,6 +325,14 @@ public class Order {
 
     public void setGameChannelId(long gameChannelId) {
         this.gameChannelId = gameChannelId;
+    }
+
+    public String getUserUseDevice() {
+        return userUseDevice;
+    }
+
+    public void setUserUseDevice(String userUseDevice) {
+        this.userUseDevice = userUseDevice;
     }
 
     /**

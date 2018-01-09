@@ -47,12 +47,12 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
+    public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId,@RequestHeader String userUseDevice) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return userService.login(request,Long.valueOf(gameChannelId));
+        return userService.login(request,Long.valueOf(gameChannelId),userUseDevice);
     }
 
     @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)

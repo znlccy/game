@@ -19,7 +19,7 @@ import java.io.IOException;
 public interface OrderService {
 
     /*定义创建订单*/
-    ResponseEntity createOrder(OrderRequest orderRequest);
+    ResponseEntity createOrder(OrderRequest orderRequest,String userUseDevice);
 
     /*定义支付宝支付*/
     ResponseEntity alipay(Long orderId,String token,String gameChannelId);

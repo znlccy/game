@@ -22,7 +22,7 @@ public interface OrderMapper {
      * @return
      */
     @Options(useGeneratedKeys = true, keyProperty = "order.orderId")
-    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId,gameChannelId) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId},#{order.gameChannelId})")
+    @Insert("insert into tb_order(orderTotalAmount,orderSubject,createOrderTime,otherOrderId,userId,gameId,gameChannelId,userUseDevice) values(#{order.orderTotalAmount},#{order.orderSubject},#{order.createOrderTime},#{order.otherOrderId},#{order.userId},#{order.gameId},#{order.gameChannelId},#{order.userUseDevice})")
 
     public void createOrder(@Param("order") Order order);
 

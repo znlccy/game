@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService
      */
     @Override
-    public ResponseEntity login(LoginRequest loginRequest,Long gameChannelId) {
+    public ResponseEntity login(LoginRequest loginRequest,Long gameChannelId,String userUseDevice) {
         User user = userMapper.findByUserName(loginRequest.getUserName());
 
         if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService {
             userCaculator.setUserId(userById.getUserId());
             userCaculator.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
             userCaculator.setUserRegistedTime(userById.getUserRegisteredTime());
-            userCaculator.setUserUseDevice(userById.getUserUseDevice());
+            userCaculator.setUserUseDevice(userUseDevice);
             userCaculatorMapper.addUserCaculator(userCaculator);
             return ResponseStatusCode.putOrGetSuccess(addToken(user.getUserId(), loginRequest.getGameChannelId()));
         }

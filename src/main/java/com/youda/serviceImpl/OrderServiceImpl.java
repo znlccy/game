@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
     GooglePayConfMapper googlePayConfMapper;
 
     @Override
-    public ResponseEntity createOrder(OrderRequest request) {
+    public ResponseEntity createOrder(OrderRequest request,String userUseDevice) {
         Order order = new Order();
         Order order_new = orderMapper.findByOtherOrderId(request.getOtherOrderId());
         if (order_new == null)
@@ -103,6 +103,7 @@ public class OrderServiceImpl implements OrderService {
             order.setOtherOrderId(request.getOtherOrderId());
             order.setOrderTotalAmount(request.getOrderTotalAmount());
             order.setCreateOrderTime(new Timestamp(System.currentTimeMillis()));
+            order.setUserUseDevice(userUseDevice);
             GameChannel gameChannel = channelService.findByIds(request.getGameChannelId());
             if (gameChannel == null) {
                 return ResponseStatusCode.nullPointerError();
@@ -179,7 +180,7 @@ public class OrderServiceImpl implements OrderService {
                         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
                         if(response.getBody()!=null) {
 
-                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
 
                             aliPayResponse.setGoodName(subject);
                             aliPayResponse.setGoodPrice(total_amount);
@@ -225,7 +226,7 @@ public class OrderServiceImpl implements OrderService {
                         AlipayTradeAppPayResponse response = alipayClient.sdkExecute(request);
                         if(response.getBody()!=null) {
 
-                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                            payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),total_amount,out_trade_no,"支付宝APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
 
                             aliPayResponse.setGoodName(subject);
                             aliPayResponse.setGoodPrice(total_amount);
@@ -295,7 +296,7 @@ public class OrderServiceImpl implements OrderService {
                 String form = "";
                 try {
                     form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
-                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝H5支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),total_amount,out_trade_no,"支付宝H5支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
 
                     aliPayResponse.setGoodName(subject);
                     aliPayResponse.setGoodPrice(total_amount);
@@ -344,7 +345,7 @@ public class OrderServiceImpl implements OrderService {
                 String form = "";
                 try {
                     form = alipayClient.pageExecute(alipayRequest).getBody(); //调用SDK生成表单
-                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),total_amount,out_trade_no,"支付宝H5支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),total_amount,out_trade_no,"支付宝H5支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
 
                     aliPayResponse.setGoodName(subject);
                     aliPayResponse.setGoodPrice(total_amount);
@@ -434,7 +435,7 @@ public class OrderServiceImpl implements OrderService {
                         weChatPayResponse.setGoodPrice(TOTAL_FEE);
                         weChatPayResponse.setOtherOrderId(OUT_TRADE_NO);
                         /*生成支付记录*/
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",user.getUserName(),TOTAL_FEE,OUT_TRADE_NO,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),TOTAL_FEE,OUT_TRADE_NO,"微信APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -500,7 +501,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
@@ -525,7 +526,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = aliPayConf.getNOTIFY_URL();
@@ -598,7 +599,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),orderId,"微信APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     String notifyUrl = weChatConf.getNOTIFY_URL();
@@ -624,7 +625,7 @@ public class OrderServiceImpl implements OrderService {
                 }
                 else
                 {
-                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"微信APP支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"微信APP支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                 }
                 /*实现通知第三方服务器*/
                 String notifyUrl = weChatConf.getNOTIFY_URL();
@@ -711,7 +712,7 @@ public class OrderServiceImpl implements OrderService {
                             }
                             else
                             {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
                             PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
@@ -733,7 +734,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     else
                     {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
                     PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
@@ -779,7 +780,7 @@ public class OrderServiceImpl implements OrderService {
                             }
                             else
                             {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
                             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName()));
@@ -800,7 +801,7 @@ public class OrderServiceImpl implements OrderService {
             }
             else
             {
-                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),user.getUserUseDevice()));
+                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
             }
             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName()));
             order.setIsPushed("1");
