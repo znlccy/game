@@ -32,7 +32,7 @@ public interface UserActiveMapper {
             "   SELECT datelist AS StatisticsDate,    \n" +
             "   payRecordTotalAmount AS userActiveCount    \n" +
             "   FROM tb_income     \n" +
-            "   WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
+            "   WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
             ")\n" +
             ") AS b  \n" +
             "GROUP BY StatisticsDate")
