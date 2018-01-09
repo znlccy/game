@@ -22,14 +22,14 @@ public interface IncomeMapper {
     @Select("SELECT   \n" +
             "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
             "     IFNULL(incomeCount,0) AS incomeCount,\n" +
-            "     IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney   \n" +
+            "     IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS incomeTotalMoney   \n" +
             "FROM     \n" +
             "(   \n" +
             "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
             "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
             "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1'\n" +
+            "    WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1' AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
             "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +
@@ -37,7 +37,7 @@ public interface IncomeMapper {
             "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
             "    incomeCount AS incomeCount    \n" +
             "    FROM tb_income     \n" +
-            "    WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')\n" +
+            "    WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
             "   )     \n" +
             ") AS b    \n" +
             "GROUP BY StatisticsDate")
@@ -47,14 +47,14 @@ public interface IncomeMapper {
     @Select("SELECT   \n" +
             "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
             "     IFNULL(incomeCount,0) AS incomeCount,\n" +
-            "     IFNULL(incomeTotalMoney,0.00) AS incomeTotalMoney   \n" +
+            "     IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS incomeTotalMoney   \n" +
             "FROM     \n" +
             "(   \n" +
             "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
             "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
             "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
             "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && payRecordTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1'\n" +
+            "    WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1'\n" +
             "    GROUP BY DATE(payRecordTime) \n" +
             "UNION   \n" +
             "   (    \n" +
@@ -62,7 +62,7 @@ public interface IncomeMapper {
             "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
             "    incomeCount AS incomeCount    \n" +
             "    FROM tb_income     \n" +
-            "    WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')\n" +
+            "    WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
             "   )     \n" +
             ") AS b    \n" +
             "GROUP BY StatisticsDate")
