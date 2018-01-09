@@ -28,14 +28,14 @@ public interface EquipmentRetainedMapper {
             "        SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS equipmentActiveCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} \n" +
+            "        WHERE userLoginTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && userLoginTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice} \n" +
             "        GROUP BY userLoginTime        \n" +
             "    UNION        \n" +
             "    (        \n" +
             "        SELECT datelist AS StatisticsDate,        \n" +
             "        payRecordTotalAmount AS equipmentActiveCount        \n" +
             "        FROM tb_income         \n" +
-            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')        \n" +
+            "        WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')  \n" +
             "    )    \n" +
             ") AS b      \n" +
             "GROUP BY StatisticsDate\n" +
@@ -48,14 +48,14 @@ public interface EquipmentRetainedMapper {
             "        SELECT DISTINCT DATE(userRegistedTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS equipmentNewCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userRegistedTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userRegistedTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} \n" +
+            "        WHERE userRegistedTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && userRegistedTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
             "        GROUP BY userRegistedTime    \n" +
             "    UNION        \n" +
             "    (        \n" +
             "        SELECT DISTINCT datelist AS StatisticsDate,        \n" +
             "        payRecordTotalAmount AS equipmentNewCount        \n" +
             "        FROM tb_income         \n" +
-            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')        \n" +
+            "        WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
             "    )         \n" +
             ") AS b        \n" +
             "GROUP BY StatisticsDate\n" +
@@ -74,14 +74,14 @@ public interface EquipmentRetainedMapper {
             "        SELECT DISTINCT DATE(userLoginTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS equipmentActiveCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userLoginTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userLoginTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} \n" +
+            "        WHERE userLoginTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && userLoginTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL \n" +
             "        GROUP BY userLoginTime        \n" +
             "    UNION        \n" +
             "    (        \n" +
             "        SELECT datelist AS StatisticsDate,        \n" +
             "        payRecordTotalAmount AS equipmentActiveCount        \n" +
             "        FROM tb_income         \n" +
-            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d')        \n" +
+            "        WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')  \n" +
             "    )    \n" +
             ") AS b      \n" +
             "GROUP BY StatisticsDate\n" +
@@ -94,14 +94,14 @@ public interface EquipmentRetainedMapper {
             "        SELECT DISTINCT DATE(userRegistedTime) AS StatisticsDate,        \n" +
             "        COUNT(DISTINCT userId) AS equipmentNewCount         \n" +
             "        FROM tb_user_caculator         \n" +
-            "        WHERE userRegistedTime>=DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d') && userRegistedTime<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') AND gameChannelId=#{statisticsRequest.gameChannelId} \n" +
+            "        WHERE userRegistedTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && userRegistedTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL \n" +
             "        GROUP BY userRegistedTime    \n" +
             "    UNION        \n" +
             "    (        \n" +
             "        SELECT DISTINCT datelist AS StatisticsDate,        \n" +
             "        payRecordTotalAmount AS equipmentNewCount        \n" +
             "        FROM tb_income         \n" +
-            "        WHERE DATE_FORMAT(#{statisticsRequest.beginTime},'%Y-%m-%d')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(#{statisticsRequest.endTime},'%Y-%m-%d') \n" +
+            "        WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
             "    )         \n" +
             ") AS b        \n" +
             "GROUP BY StatisticsDate\n" +
