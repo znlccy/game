@@ -68,22 +68,25 @@ public class UserServiceImpl implements UserService {
      * @see com.youda.service.UserService
      */
     @Override
-    public ResponseEntity login(LoginRequest loginRequest,Long gameChannelId,String userUseDevice) {
+    public ResponseEntity login(LoginRequest loginRequest, Long gameChannelId, String userUseDevice) {
         User user = userMapper.findByUserName(loginRequest.getUserName());
 
         if (user != null && SHAEncrpt.SHAEncrption(loginRequest.getUserPassword()).equals(user.getUserPassword())) {
-            Long userId = user.getUserId();
-            User userById = userMapper.findByUserId(userId);
-            UserCaculator userCaculator = new UserCaculator();
-            userCaculator.setGameChannelId(gameChannelId);
-            userCaculator.setUserId(userById.getUserId());
-            userCaculator.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
-            userCaculator.setUserRegistedTime(userById.getUserRegisteredTime());
-            userCaculator.setUserUseDevice(userUseDevice);
-            userCaculatorMapper.addUserCaculator(userCaculator);
+
+            initUserCaculator(gameChannelId, user, userUseDevice);
             return ResponseStatusCode.putOrGetSuccess(addToken(user.getUserId(), loginRequest.getGameChannelId()));
         }
         return ResponseStatusCode.verifyError();
+    }
+
+    private void initUserCaculator(Long gameChannelId, User user, String userUseDevice) {
+        UserCaculator userCaculator = new UserCaculator();
+        userCaculator.setGameChannelId(gameChannelId);
+        userCaculator.setUserId(user.getUserId());
+        userCaculator.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
+        userCaculator.setUserRegistedTime(user.getUserRegisteredTime());
+        userCaculator.setUserUseDevice(userUseDevice);
+        userCaculatorMapper.addUserCaculator(userCaculator);
     }
 
     @Override
@@ -126,7 +129,7 @@ public class UserServiceImpl implements UserService {
 
     /*实现新增用户统计*/
     @Override
-    public ResponseEntity signUser(SignRequest request) {
+    public ResponseEntity signUser(SignRequest request, String userUseDevice) {
         SignUser signUser = signUserMapper.findBySign(request.getSignWith(), request.getSign());
         Long id;
         if (signUser == null) {
@@ -139,10 +142,10 @@ public class UserServiceImpl implements UserService {
             signUser.setUserId(user.getUserId());
             signUserMapper.addSignUser(signUser);
             id = user.getUserId();
-
         } else {
             id = signUser.getUserId();
         }
+        initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
         return ResponseStatusCode.putOrGetSuccess(addToken(id, request.getGameChannelId()));
     }
 

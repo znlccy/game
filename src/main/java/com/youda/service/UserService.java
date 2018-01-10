@@ -47,6 +47,6 @@ public interface UserService {
     /**
      * 第三方授权
      */
-    ResponseEntity signUser(SignRequest request);
+    ResponseEntity signUser(SignRequest request, String userUseDevice);
 
 }

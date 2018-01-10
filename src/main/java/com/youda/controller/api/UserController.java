@@ -47,12 +47,12 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId,@RequestHeader String userUseDevice) {
+    public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader String userUseDevice) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return userService.login(request,Long.valueOf(gameChannelId),userUseDevice);
+        return userService.login(request, Long.valueOf(gameChannelId), userUseDevice);
     }
 
     @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)
@@ -79,12 +79,12 @@ public class UserController {
     @RequestMapping(value = "/sign", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity sign(@RequestBody SignRequest request,
-                               @RequestHeader("gameChannelId") Long gameChannelId) {
+                               @RequestHeader("gameChannelId") Long gameChannelId, @RequestHeader("userUseDevice") String userUseDevice) {
         request.setGameChannelId(gameChannelId);
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();
         }
-        return userService.signUser(request);
+        return userService.signUser(request,userUseDevice);
     }
 
 }
