@@ -699,7 +699,7 @@ public class OrderServiceImpl implements OrderService {
                 String resultStr = sb.toString();
                 JSONObject result = JSONObject.parseObject(resultStr);
                 /*沙箱环境，返回码是21007，正式生产环境是21008*/
-                if (result != null && result.getInteger("status") == 21007) {
+                if (result != null && result.getInteger("status") == 0) {
                     String isPushed = order.getIsPushed();
                     //通知第三方服务器支付情况，支付成功，通知发货
                     if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
