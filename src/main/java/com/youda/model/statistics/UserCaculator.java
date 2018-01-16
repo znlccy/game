@@ -41,6 +41,9 @@ public class UserCaculator {
     @Column(name = "userRegistedTime")
     private Timestamp userRegistedTime;
 
+    @Column(name = "useModels")
+    private String useModels;
+
     /*实现用户统计主键的get方法*/
     public Long getUserCaculatorId() {
         return userCaculatorId;
@@ -99,5 +102,15 @@ public class UserCaculator {
     /*实现用户统计用户注册时间的set方法*/
     public void setUserRegistedTime(Timestamp userRegistedTime) {
         this.userRegistedTime = userRegistedTime;
+    }
+
+    /*实现使用设备的get方法*/
+    public String getUseModels() {
+        return useModels;
+    }
+
+    /*实现使用设备的set方法*/
+    public void setUseModels(String useModels) {
+        this.useModels = useModels;
     }
 }
