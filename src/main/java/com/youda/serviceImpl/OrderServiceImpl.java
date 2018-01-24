@@ -702,6 +702,7 @@ public class OrderServiceImpl implements OrderService {
                 if (result != null && result.getInteger("status") == 0) {
                     String isPushed = order.getIsPushed();
                     //通知第三方服务器支付情况，支付成功，通知发货
+
                     if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
                         try {
                             PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
