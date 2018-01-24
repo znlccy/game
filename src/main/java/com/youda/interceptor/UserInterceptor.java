@@ -1,9 +1,6 @@
 package com.youda.interceptor;
 
 import com.youda.annotation.CurrentUser;
-import com.youda.model.Token;
-import com.youda.service.TokenService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -23,8 +20,6 @@ import java.lang.reflect.Method;
 @Component
 public class UserInterceptor extends HandlerInterceptorAdapter {
 
-    @Autowired
-    private TokenService tokenService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
@@ -42,13 +37,15 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
             return true;
         }
         String id = request.getHeader("userId");
-        String tokenText = request.getHeader("token");
-        String channelGameId = request.getHeader("gameChannelId");
-        if (id != null && tokenText != null) {
-            Token token = tokenService.findTokenByIDs(Long.valueOf(id), Long.valueOf(channelGameId));
-            if (token != null && token.getAccessToken().equals(tokenText)) {
-                return true;
-            }
+//        String tokenText = request.getHeader("token");
+//        String channelGameId = request.getHeader("gameChannelId");
+        if (id != null
+//                && tokenText != null
+                ) {
+//            Token token = tokenService.findTokenByIDs(Long.valueOf(id), Long.valueOf(channelGameId));
+//            if (token != null && token.getAccessToken().equals(tokenText)) {
+            return true;
+//            }
         }
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setCharacterEncoding("UTF-8");

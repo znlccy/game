@@ -1,8 +1,6 @@
 package com.youda.configure;
 
 import com.youda.interceptor.ChannelInterceptor;
-import com.youda.interceptor.SignInterceptor;
-import com.youda.interceptor.UserInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -17,16 +15,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 public class WebConfiguration extends WebMvcConfigurerAdapter {
-    @Autowired
-    private SignInterceptor signInterceptor;
+//    @Autowired
+//    private SignInterceptor signInterceptor;
     @Autowired
     private ChannelInterceptor channelInterceptor;
-    @Autowired
-    private UserInterceptor userInterceptor;
+//    @Autowired
+//    private UserInterceptor userInterceptor;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userInterceptor);
+//        registry.addInterceptor(userInterceptor);
         registry.addInterceptor(channelInterceptor);
     }
 
