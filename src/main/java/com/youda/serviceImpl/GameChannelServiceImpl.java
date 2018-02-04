@@ -56,10 +56,15 @@ public class GameChannelServiceImpl implements GameChannelService {
         Game game = new Game();
         Long gameId;
         Long channelId;
+        Long gameChannelId;
         String gameName = gameChannelRequest.getGameName();
         String gamePackage = gameChannelRequest.getGamePackage();
         game.setGameName(gameName);
         game.setGamePackage(gamePackage);
+        String appKey = MD5Util.MD5Encode(gameName+gameChannelRequest.getChannelName(),"utf8");
+        GameChannelResponse gameChannelResponse = new GameChannelResponse();
+        gameChannelResponse.setAppKey(appKey);
+        gameChannelResponse.setNotifyUrl(gameChannelRequest.getNotifyUrl());
         if (gameMapper.findByGameName(gameName)!=null)
         {
             gameId = gameMapper.findByGameName(gameName).getGameId();
@@ -83,12 +88,20 @@ public class GameChannelServiceImpl implements GameChannelService {
             channelId = channel.getChannelId();
         }
 
-        String appKey = MD5Util.MD5Encode(gameName+gameChannelRequest.getChannelName(),"utf8");
+
         GameChannel gameChannel = new GameChannel();
         gameChannel.setGameId(gameId);
         gameChannel.setChannelId(channelId);
         gameChannel.setAppKey(appKey);
-        gameChannelMapper.add(gameChannel);
+        if (gameChannelMapper.findByIds(gameId,channelId)!=null) {
+            gameChannelId = gameChannelMapper.findByIds(gameId,channelId).getGameChannelId();
+            gameChannelResponse.setGameChannelId(gameChannelId);
+        }
+        else
+        {
+            gameChannelMapper.add(gameChannel);
+            gameChannel.getGameChannelId();
+        }
 
         ApplePayConf applePayConf = new ApplePayConf();
         applePayConf.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -102,11 +115,6 @@ public class GameChannelServiceImpl implements GameChannelService {
         googlePayConf.setNotifyUrl(gameChannelRequest.getNotifyUrl());
         googlePayConf.setSignNature(" ");
         googlePayConfMapper.addGooglePayConf(googlePayConf);
-
-        GameChannelResponse gameChannelResponse = new GameChannelResponse();
-        gameChannelResponse.setAppKey(appKey);
-        gameChannelResponse.setGameChannelId(gameChannel.getGameChannelId());
-        gameChannelResponse.setNotifyUrl(gameChannelRequest.getNotifyUrl());
 
         return gameChannelResponse;
     }
