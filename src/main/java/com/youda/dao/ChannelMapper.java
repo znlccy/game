@@ -41,7 +41,7 @@ public interface ChannelMapper {
      * @param channelName
      * @return
      */
-    @Select("select channelId,channelName,channelWebSite,platformNature,platformClass,channelLabel,channelRegion from tb_channel where channelName=#{channelName}")
+    @Select("select * from tb_channel where channelName=#{channalName}")
     Channel findByChannelName(@Param("channalName") String channelName);
 
     /**
