@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.TreeMap;
 
 import static com.youda.util.media.SimpleTokenBuilder.Role.*;
-import static io.agora.media.AccessToken.Privileges.*;
-import static io.agora.media.SimpleTokenBuilder.Role.*;
+import static com.youda.util.media.AccessToken.Privileges.*;
+import static com.youda.util.media.SimpleTokenBuilder.Role.*;
 
 public class SimpleTokenBuilder {
     private String appId;

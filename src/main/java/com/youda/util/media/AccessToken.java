@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.TreeMap;
 
-import static io.agora.media.Utils.crc32;
+import static com.youda.util.media.Utils.crc32;
 
 public class AccessToken {
 
