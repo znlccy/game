@@ -1,5 +1,7 @@
 package com.youda.controller.api;
 
+import com.youda.service.VoiceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/api")
 public class ChannelKeyController {
+
+    /**
+     * 声明语音服务的自动依赖注入
+     */
+    @Autowired
+    private VoiceService voiceService;
 
     /**
      * @comment: getChannelKey
