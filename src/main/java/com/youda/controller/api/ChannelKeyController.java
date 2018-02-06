@@ -58,6 +58,7 @@ public class ChannelKeyController {
             map.put("status","0200");
             map.put("message","生成Channel Key成功");
             map.put("channelKey",channelKey);
+            map.put("appId",appId);
         }
         return map;
     }
