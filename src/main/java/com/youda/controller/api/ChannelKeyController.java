@@ -46,7 +46,7 @@ public class ChannelKeyController {
             String channel = channelKeyRequest.getChannel();
             int ts = (int)(new Date().getTime()/1000);
             int r = new Random().nextInt();
-            long uid = Long.valueOf(gameChannelId);
+            long uid = Long.valueOf(channelKeyRequest.getUid());
             int expiredTs = 0;
 
             String channelKey="";

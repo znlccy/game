@@ -17,6 +17,11 @@ public class ChannelKeyRequest {
     private String channel;
 
     /**
+     * 声明加入的用户账号
+     */
+    private String uid;
+
+    /**
      * @comment: getChannel实现获取语音频道
      * @param: []
      * @return: java.lang.String
@@ -32,5 +37,23 @@ public class ChannelKeyRequest {
      */
     public void setChannel(String channel) {
         this.channel = channel;
+    }
+
+    /**
+     * @comment: getUid实现获取用户主键
+     * @param: []
+     * @return: java.lang.String
+     */
+    public String getUid() {
+        return uid;
+    }
+
+    /**
+     * @comment: setUid实现设置用户主键
+     * @param: [uid]
+     * @return: void
+     */
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
