@@ -27,10 +27,6 @@ public class Voice {
     @Column(name = "gameChannelId")
     private String gameChannelId;
 
-    /*声明门禁卡*/
-    @Column(name = "channelKey")
-    private String channelKey;
-
     /*声明应用证书*/
     @Column(name = "appCertificate")
     private String appCertificate;
@@ -63,16 +59,6 @@ public class Voice {
     /*声明设置项目主键*/
     public void setGameChannelId(String gameChannelId) {
         this.gameChannelId = gameChannelId;
-    }
-
-    /*声明获取门禁*/
-    public String getChannelKey() {
-        return channelKey;
-    }
-
-    /*声明设置门禁*/
-    public void setChannelKey(String channelKey) {
-        this.channelKey = channelKey;
     }
 
     /*声明获取应用证书*/

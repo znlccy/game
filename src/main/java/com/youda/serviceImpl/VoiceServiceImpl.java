@@ -31,7 +31,7 @@ public class VoiceServiceImpl implements VoiceService {
      */
     @Override
     public Voice findById(Long voiceId) {
-        return null;
+        return voiceMapper.findById(voiceId);
     }
 
     /**

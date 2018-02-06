@@ -11,32 +11,25 @@ import com.youda.model.Channel;
 
 public class ChannelKeyRequest {
 
-    private String appId;
-
-    private Long gameChannelId;
-
+    /**
+     * 声明加入语音频道
+     */
     private String channel;
 
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public Long getGameChannelId() {
-        return gameChannelId;
-    }
-
-    public void setGameChannelId(Long gameChannelId) {
-        this.gameChannelId = gameChannelId;
-    }
-
+    /**
+     * @comment: getChannel实现获取语音频道
+     * @param: []
+     * @return: java.lang.String
+     */
     public String getChannel() {
         return channel;
     }
 
+    /**
+     * @comment: setChannel实现设置语音频道
+     * @param: [channel]
+     * @return: void
+     */
     public void setChannel(String channel) {
         this.channel = channel;
     }

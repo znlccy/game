@@ -32,11 +32,12 @@ public interface VoiceMapper {
     Voice findByAppCertificate(@Param("appCertificate") String appCertificate);
 
     /*声明并实现添加语音*/
-    @Insert("insert into tb_voice(appCertificate,appId,channelKey,gameChannelId) values(#{voice.appCertificate},#{voice.appId},#{voice.channelKey},#{voice.gameChannelId})")
+    @Insert("insert into tb_voice(appCertificate,appId,gameChannelId) values(#{voice.appCertificate},#{voice.appId},#{voice.gameChannelId})")
+    @Options(useGeneratedKeys = true, keyProperty = "voice.voiceId")
     void addVoice(@Param("voice") Voice voice);
 
     /*声明并实现更新语音*/
-    @Update("update tb_voice set appCertificate=#{voice.appCertificate},appId=#{voice.appId},channelKey=#{voice.channelKey},gameChannelId=#{voice.gameChannelId}")
+    @Update("update tb_voice set appCertificate=#{voice.appCertificate},appId=#{voice.appId},gameChannelId=#{voice.gameChannelId} where voiceId=#{voice.voiceId}")
     void updateVoice(@Param("voice") Voice voice);
 
     /*声明并实现删除语音*/
