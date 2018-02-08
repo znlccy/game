@@ -59,10 +59,9 @@ public class GameChannelController {
      */
     @RequestMapping(value = "/add/google",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addGoogle(@RequestBody GooglePayConf googlePayConf,@RequestHeader String gameChannelId) {
+    public Map<String, Object> addGoogle(@RequestBody GooglePayConf googlePayConf) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if(googlePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)) == null) {
-            googlePayConf.setGameChannelId(Long.valueOf(gameChannelId));
+        if(googlePayConfService.findByGameChannelId(googlePayConf.getGameChannelId()) == null) {
             googlePayConfService.addGoogle(googlePayConf);
             map.put("status","0200");
             map.put("message","添加成功！");
@@ -71,7 +70,7 @@ public class GameChannelController {
         else {
             map.put("status","0208");
             map.put("message","该Google配置已经存在了！");
-            map.put("googlePayConfId",googlePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)).getGooglePayConfId());
+            map.put("googlePayConfId",googlePayConfService.findByGameChannelId(googlePayConf.getGameChannelId()).getGooglePayConfId());
         }
         return map;
     }
@@ -160,10 +159,9 @@ public class GameChannelController {
      */
     @RequestMapping(value = "/add/apple",method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> addApple(@RequestBody ApplePayConf applePayConf,@RequestHeader String gameChannelId) {
+    public Map<String, Object> addApple(@RequestBody ApplePayConf applePayConf) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (applePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)) == null) {
-            applePayConf.setGameChannelId(Long.valueOf(gameChannelId));
+        if (applePayConfService.findByGameChannelId(applePayConf.getGameChannelId()) == null) {
             applePayConfService.addApple(applePayConf);
             map.put("status","0200");
             map.put("message","添加成功！");
@@ -171,7 +169,7 @@ public class GameChannelController {
         } else {
             map.put("status","0208");
             map.put("message","该Apple配置已经存在了！");
-            map.put("applePayConfId",applePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)).getApplePayConfId());
+            map.put("applePayConfId",applePayConfService.findByGameChannelId(applePayConf.getGameChannelId()).getApplePayConfId());
         }
         return map;
     }
