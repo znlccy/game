@@ -17,7 +17,7 @@ public interface ApplePayConfMapper {
 
     /*添加苹果支付配置*/
     @Insert("insert into tb_applepayconf(createTime,gameChannelId,notifyUrl) values(now(),#{applePayConf.gameChannelId},#{applePayConf.notifyUrl})")
-    @Options(useGeneratedKeys = true,keyProperty = "applePayConfId")
+    @Options(useGeneratedKeys = true,keyProperty = "applePayConf.applePayConfId")
     boolean addApplePayConf(@Param("applePayConf") ApplePayConf applePayConf);
 
     /*根据配置的Id删除苹果支付配置*/
@@ -29,7 +29,7 @@ public interface ApplePayConfMapper {
     boolean deleteByGameChannelId(@Param("gameChannelId") Long gameChannelId);
 
     /*修改苹果支付配置信息*/
-    @Update("update tb_applepayconf set gameChannelId=#{applePayConf.gameChannelId},notifyUrl=#{applePayConf.notifyUrl}")
+    @Update("update tb_applepayconf set gameChannelId=#{applePayConf.gameChannelId},notifyUrl=#{applePayConf.notifyUrl} where applePayConfId=#{applePayConf.applePayConfId}")
     boolean modifyApplePayConf(@Param("applePayConf") ApplePayConf applePayConf);
 
     /*通过苹果支付主键来获取苹果支付配置信息*/

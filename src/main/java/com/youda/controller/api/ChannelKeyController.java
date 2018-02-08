@@ -103,7 +103,7 @@ public class ChannelKeyController {
         else
         {
             voiceService.updateVoice(voice);
-            map.put("status","0200");
+            map.put("status","0201");
             map.put("message","更新成功");
             map.put("voiceId",voiceService.findById(voice.getVoiceId()).getVoiceId());
         }
@@ -126,7 +126,7 @@ public class ChannelKeyController {
         else
         {
             voiceService.deleteVoice(voiceId);
-            map.put("status","0200");
+            map.put("status","0202");
             map.put("message","删除成功");
         }
         return map;
@@ -143,7 +143,7 @@ public class ChannelKeyController {
         List<Voice> voices = new ArrayList<Voice>();
         voices = voiceService.findAll();
         Map<String,Object> map = new HashMap<String,Object>();
-        map.put("status","0200");
+        map.put("status","0203");
         map.put("message","遍历成功");
         map.put("data",voices);
         return map;

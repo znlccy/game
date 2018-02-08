@@ -17,7 +17,7 @@ public interface GooglePayConfMapper {
 
     /*实现添加google支付配置表*/
     @Insert("insert into tb_googlepayconf(createTime,gameChannelId,notifyUrl,signNature) values(now(),#{googlePayConf.gameChannelId},#{googlePayConf.notifyUrl},#{googlePayConf.signNature})")
-    @Options(useGeneratedKeys = true,keyProperty = "googlePayConfId")
+    @Options(useGeneratedKeys = true,keyProperty = "googlePayConf.googlePayConfId")
     boolean addGooglePayConf(@Param("googlePayConf")GooglePayConf googlePayConf);
 
     /*通过google支付配置主键来删除google支付配置*/
@@ -29,7 +29,7 @@ public interface GooglePayConfMapper {
     boolean deleteByGameChannelId(@Param("gameChannelId") Long gameChannelId);
 
     /*修改google支付的配置信息*/
-    @Update("update tb_googlepayconf set gameChannelId=#{googlePayConf.gameChannelId},notifyUrl=#{googlePayConf.notifyUrl}")
+    @Update("update tb_googlepayconf set gameChannelId=#{googlePayConf.gameChannelId},notifyUrl=#{googlePayConf.notifyUrl} where googlePayConfId=#{googlePayConf.googlePayConfId}")
     boolean modifyGooglePayConf(@Param("googlePayConf") GooglePayConf googlePayConf);
 
     /*通过google配置主键来获取google支付配置信息*/
