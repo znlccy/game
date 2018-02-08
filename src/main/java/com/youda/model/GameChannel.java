@@ -30,6 +30,9 @@ public class GameChannel {
     @Transient
     private Game game;
 
+    @Transient
+    private GooglePayConf googlePayConf;
+
     public Game getGame() {
         return game;
     }
@@ -68,5 +71,13 @@ public class GameChannel {
 
     public void setChannelId(Long channelId) {
         this.channelId = channelId;
+    }
+
+    public GooglePayConf getGooglePayConf() {
+        return googlePayConf;
+    }
+
+    public void setGooglePayConf(GooglePayConf googlePayConf) {
+        this.googlePayConf = googlePayConf;
     }
 }

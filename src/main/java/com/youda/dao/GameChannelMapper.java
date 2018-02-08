@@ -29,7 +29,10 @@ public interface GameChannelMapper {
     @Results({
             @Result(property = "game",
                     column = "gameId",
-                    one = @One(select = "com.youda.dao.GameMapper.findByGameId"))
+                    one = @One(select = "com.youda.dao.GameMapper.findByGameId")),
+            @Result(property = "googlePayConf",column = "gameChannelId",
+                    one = @One(select = "")
+            )
     })
     List<GameChannel> findByChannel(@Param("channelId") Long channelId);
 }
