@@ -1,4 +1,4 @@
-package com.youda.controller.api;
+package com.youda.controller.statistics;
 
 import com.youda.dao.ApplePayConfMapper;
 import com.youda.dao.GooglePayConfMapper;
@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/statics")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class GameChannelController {
 
