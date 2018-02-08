@@ -30,12 +30,16 @@ public interface GameChannelMapper {
             @Result(property = "game",
                     column = "gameId",
                     one = @One(select = "com.youda.dao.GameMapper.findByGameId")),
-            @Result(property = "googlePayConf",column = "gameChannelId",
+            @Result(property = "googlePayConf",
+                    column = "gameChannelId",
                     one = @One(select = "com.youda.dao.GooglePayConfMapper.findByGameChannelId")
             ),
-            @Result(property = "applePayConf",column = "gameChannelId",
+            @Result(property = "applePayConf",
+                    column = "gameChannelId",
                     one = @One(select = "com.youda.dao.ApplePayConfMapper.findByGameChannelId")
-            )
+            ),
+            @Result(property = "gameChannelId",column = "gameChannelId"),
+            @Result(property = "gameId",column = "gameId")
     })
     List<GameChannel> findByChannel(@Param("channelId") Long channelId);
 }

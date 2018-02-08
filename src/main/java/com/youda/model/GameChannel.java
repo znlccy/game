@@ -91,4 +91,5 @@ public class GameChannel {
     public void setApplePayConf(ApplePayConf applePayConf) {
         this.applePayConf = applePayConf;
     }
+
 }
