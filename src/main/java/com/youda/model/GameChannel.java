@@ -36,7 +36,6 @@ public class GameChannel {
     @Transient
     private ApplePayConf applePayConf;
 
-
     public Game getGame() {
         return game;
     }
