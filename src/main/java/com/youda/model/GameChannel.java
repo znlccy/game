@@ -33,6 +33,10 @@ public class GameChannel {
     @Transient
     private GooglePayConf googlePayConf;
 
+    @Transient
+    private ApplePayConf applePayConf;
+
+
     public Game getGame() {
         return game;
     }
@@ -79,5 +83,13 @@ public class GameChannel {
 
     public void setGooglePayConf(GooglePayConf googlePayConf) {
         this.googlePayConf = googlePayConf;
+    }
+
+    public ApplePayConf getApplePayConf() {
+        return applePayConf;
+    }
+
+    public void setApplePayConf(ApplePayConf applePayConf) {
+        this.applePayConf = applePayConf;
     }
 }
