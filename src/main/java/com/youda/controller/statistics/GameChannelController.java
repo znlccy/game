@@ -97,26 +97,6 @@ public class GameChannelController {
     }
 
     /**
-     * @comment: findOneGoogle查找单独一个Google配置
-     * @param: [gameChannelId]
-     * @return: java.util.Map<java.lang.String,java.lang.Object>
-     */
-    @RequestMapping(value = "/one/google/{gameChannelId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> findOneGoogle(@PathVariable String gameChannelId) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (googlePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)) == null) {
-            map.put("status","0404");
-            map.put("message","该Google配置不存在！");
-        } else {
-            map.put("status","0204");
-            map.put("message","查询成功！");
-            map.put("data",googlePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)));
-        }
-        return map;
-    }
-
-    /**
      * @comment: deleteGoogle删除google配置
      * @param: [googlePayConfId]
      * @return: java.util.Map<java.lang.String,java.lang.Object>
@@ -170,26 +150,6 @@ public class GameChannelController {
             map.put("status","0208");
             map.put("message","该Apple配置已经存在了！");
             map.put("applePayConfId",applePayConfService.findByGameChannelId(applePayConf.getGameChannelId()).getApplePayConfId());
-        }
-        return map;
-    }
-
-    /**
-     * @comment: findOneApple查找一个单独的Apple配置
-     * @param: [gameChannelId]
-     * @return: java.util.Map<java.lang.String,java.lang.Object>
-     */
-    @RequestMapping(value = "/one/apple/{gameChannelId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Map<String, Object> findOneApple(@PathVariable String gameChannelId) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (applePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)) == null) {
-            map.put("status","0404");
-            map.put("message","该Google配置不存在！");
-        } else {
-            map.put("status","0204");
-            map.put("message","查询成功！");
-            map.put("data",applePayConfService.findByGameChannelId(Long.valueOf(gameChannelId)));
         }
         return map;
     }
