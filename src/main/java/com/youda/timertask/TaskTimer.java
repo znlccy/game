@@ -50,8 +50,5 @@ public class TaskTimer {
 			e.printStackTrace();
 		}
 	}
-	
-	public void timeTask() {
-		
-	}
+
 }

@@ -27,7 +27,7 @@ public class ReadConfiguration {
 	/*@Value("yd123456")
 	private String password;*/
 	
-	@Value("127.0.0.1")
+	@Value("${spring.backhost}")
 	private String host;
 
 	/**

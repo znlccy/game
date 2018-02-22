@@ -33,7 +33,7 @@ public class DatabaseBackup {
 	String backupTime = dateFormat.format(new Date());
 	
 	//设置备份地址
-	String backupDir = "d:/";
+	String backupDir = "/home/backup";
 	
 	/**
 	 * 定义并实现数据库备份
@@ -59,6 +59,7 @@ public class DatabaseBackup {
 			{
 				System.out.println(line+"-------");
 			}
+			System.out.println("数据库密码："+readConfiguration.getPassword());
 			System.out.println("备份成功");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
