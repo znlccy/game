@@ -25,6 +25,12 @@ public class AttestationResponse {
     /*定义返回给客户端支付验签的商品名*/
     private String goodName;
 
+    /*返回用户主键*/
+    private String userId;
+
+    /*返回订单金额*/
+    private String totalAmount;
+
     public String getOutTradeNo() {
         return outTradeNo;
     }
@@ -62,5 +68,25 @@ public class AttestationResponse {
     /*实现返回商品名的set方法*/
     public void setGoodName(String goodName) {
         this.goodName = goodName;
+    }
+
+    /*实现返回用户主键的get方法*/
+    public String getUserId() {
+        return userId;
+    }
+
+    /*实现返回用户主键的set方法*/
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    /*实现返回用户订单金额的get方法*/
+    public String getTotalAmount() {
+        return totalAmount;
+    }
+
+    /*实现返回用户订单金额的set方法*/
+    public void setTotalAmount(String totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

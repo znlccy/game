@@ -31,6 +31,8 @@ public class PostData {
             obj.put("responseTime", attestationResponse.getResponseTime());
             obj.put("result", attestationResponse.getResult());
             obj.put("goodName", attestationResponse.getGoodName());
+            obj.put("userId", attestationResponse.getUserId());
+            obj.put("totalAmount", attestationResponse.getTotalAmount());
 
             out.writeBytes(obj.toString());
             out.flush();

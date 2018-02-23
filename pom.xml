@@ -151,6 +151,20 @@
 			<version>1.1.1</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.clojars.aaroniba/javapns -->
+		<dependency>
+			<groupId>org.clojars.aaroniba</groupId>
+			<artifactId>javapns</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.fernandospr/javapns-jdk16 -->
+		<dependency>
+			<groupId>com.github.fernandospr</groupId>
+			<artifactId>javapns-jdk16</artifactId>
+			<version>2.4.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

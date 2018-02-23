@@ -16,12 +16,14 @@ import java.util.Date;
 public class PayResult {
 
     /*实现返回验签结果*/
-    public static AttestationResponse getAttestationResponse(String orderId,String result,String goodName) {
+    public static AttestationResponse getAttestationResponse(String orderId,String result,String goodName,String userId, String totalAmount) {
         AttestationResponse attestationResponse = new AttestationResponse();
         attestationResponse.setOutTradeNo(orderId);
         attestationResponse.setResponseTime(new Date());
         attestationResponse.setResult(result);
         attestationResponse.setGoodName(goodName);
+        attestationResponse.setUserId(userId);
+        attestationResponse.setTotalAmount(totalAmount);
         return attestationResponse;
     }
 
