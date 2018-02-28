@@ -4,12 +4,16 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.annotation.MultipartConfig;
 import java.util.TimerTask;
 
 /**
@@ -51,6 +55,20 @@ public class GameApplication {
         source.registerCorsConfiguration("/**", buildConfig()); // 4
         return new CorsFilter(source);
     }
+
+    /**
+     * 文件上传配置
+     */
+    public MultipartConfigElement multipartConfigElement() {
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        //单个文件最大上传量
+        factory.setMaxFileSize("10240KB"); //KB,MB->这句对应是10M
+        //设置总上传数据大小
+        factory.setMaxRequestSize("102400KB"); //最大是100M
+        return factory.createMultipartConfig();
+    }
+
+
 	/*@Bean
 	public EmbeddedServletContainerCustomizer containerCustomizer() {
 

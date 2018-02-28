@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 /*import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;*/
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 /*import org.springframework.test.context.junit4.SpringRunner;*/
 
 /**
@@ -33,7 +34,7 @@ public class DatabaseBackup {
 	String backupTime = dateFormat.format(new Date());
 	
 	//设置备份地址
-	String backupDir = "/home/backup";
+	String backupDir = "src/resoubackup";
 	
 	/**
 	 * 定义并实现数据库备份

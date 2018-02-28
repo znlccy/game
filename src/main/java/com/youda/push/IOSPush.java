@@ -10,7 +10,9 @@ import javapns.notification.PushedNotification;
 import org.codehaus.plexus.util.StringUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ResourceUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class IOSPush {
         List<String> tokens = new ArrayList<String>();
         tokens.add(deviceToken);
         String certificatePath = "D:/ZshPush.p12";
+        /*File file = ResourceUtils.getFile("classpath:push/ZshPush.p12");*/
         String certificatePassword = "123456";//此处注意导出的证书密码不能为空因为空密码会报错
         boolean sendCount = true;
 

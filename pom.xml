@@ -172,6 +172,12 @@
 			<version>20171018</version>
 		</dependency>
 
+		<!-- 热部署模块 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
 
 	</dependencies>
 

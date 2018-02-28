@@ -14,10 +14,6 @@ public class IOSPayRequest extends BaseRequest {
     /*声明凭证变量*/
     private String receipt;
 
-    /*声明通知第三方服务器通知地址*/
-    private String notifyUrl;
-
-
     /*设置获取凭证的get方法*/
     public String getReceipt() {
         return receipt;
@@ -28,15 +24,6 @@ public class IOSPayRequest extends BaseRequest {
         this.receipt = receipt;
     }
 
-    /*声明通知第三方服务器地址的get方法*/
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    /*声明通知第三方服务器地址的set方法*/
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
-    }
 
     /*判断是否为空*/
     @Override
