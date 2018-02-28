@@ -1,4 +1,4 @@
-package com.youda.service;
+package com.youda.push;
 
 import javapns.Push;
 import javapns.devices.Device;
@@ -8,14 +8,24 @@ import javapns.notification.PushNotificationManager;
 import javapns.notification.PushNotificationPayload;
 import javapns.notification.PushedNotification;
 import org.codehaus.plexus.util.StringUtils;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PushService {
+/**
+ * @CreateTime:2018/2/25 10:35
+ * @Author:Administrator
+ * @Version:v-1.0.0
+ * @Comment: IOS推送
+ */
 
-    public static void main(String[] args) {
-        /*String deviceToken = "d4b3c5f3d497554f56f6f9791872666ae06e3b4e7abad6f4792dcd030007db91";
+@Component
+public class IOSPush {
+
+    public void sendPush() {
+        String deviceToken = "d4b3c5f3d497554f56f6f9791872666ae06e3b4e7abad6f4792dcd030007db91";
         String alert = "给你发信息了";//push的内容
         int badge = 3;//图标小红圈的数值
         String sound = "default";//铃音
@@ -62,6 +72,7 @@ public class PushService {
         catch (Exception e)
         {
             e.printStackTrace();
-        }*/
+        }
     }
+
 }

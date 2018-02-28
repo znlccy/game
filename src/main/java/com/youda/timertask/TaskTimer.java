@@ -1,7 +1,6 @@
 package com.youda.timertask;
 
-import java.util.TimerTask;
-
+import com.youda.push.IOSPush;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,9 @@ public class TaskTimer {
 	 */
 	@Autowired
 	private DatabaseBackup databaseBackup;
+
+	@Autowired
+	private IOSPush iosPush;
 	
 	/**
 	 * 每100秒执行一次
@@ -47,6 +49,18 @@ public class TaskTimer {
 			databaseBackup.BackupDatabase();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 每天08:30:00时执行推送
+	 */
+	@Scheduled(cron = "0 30 08 * * ? ")
+	public void sendIOSPush() {
+		try {
+			iosPush.sendPush();
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

@@ -80,9 +80,9 @@
           <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.38" />
           <element id="library" level="project" name="Maven: com.vaadin.external.google:android-json:0.0.20131108.vaadin1" />
           <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.1" />
-          <element id="library" level="project" name="Maven: org.clojars.aaroniba:javapns:2.2" />
           <element id="library" level="project" name="Maven: com.github.fernandospr:javapns-jdk16:2.4.0" />
           <element id="library" level="project" name="Maven: log4j:log4j:1.2.12" />
+          <element id="library" level="project" name="Maven: org.json:json:20171018" />
         </element>
       </element>
       <element id="directory" name="META-INF">
