@@ -94,10 +94,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     GooglePayConfMapper googlePayConfMapper;
 
-    /*实现发送数据的自动依赖注入*/
-    @Autowired
-    PostData postData;
-
     @Override
     public ResponseEntity createOrder(OrderRequest request,String userUseDevice) {
         Order order = new Order();
@@ -537,7 +533,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed == null|| isPushed.isEmpty() ) {
                         try {
-                            postData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败!",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                            PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败!",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                             order.setIsPushed("1");
                             orderMapper.modifyByOrderId(order);
                         } catch (Exception e) {
@@ -610,7 +606,7 @@ public class OrderServiceImpl implements OrderService {
                     String isPushed = order.getIsPushed();
                     if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                         try {
-                            postData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签成功！",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                            PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签成功！",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                             order.setIsPushed("1");
                             orderMapper.modifyByOrderId(order);
                         } catch (Exception e) {
@@ -636,7 +632,7 @@ public class OrderServiceImpl implements OrderService {
                 String isPushed = order.getIsPushed();
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
-                        postData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败！",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                        PostData.sendData(notifyUrl,PayResult.getAttestationResponse(orderId,"验签失败！",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                         order.setIsPushed("1");
                         orderMapper.modifyByOrderId(order);
                     } catch (Exception e) {
@@ -720,7 +716,7 @@ public class OrderServiceImpl implements OrderService {
                                 payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
-                            postData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                            PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
                             System.out.println("Apple支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(orderId)+"\nresult:"+"验签成功!"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
                             order.setIsPushed("1");
                             orderMapper.modifyByOrderId(order);
@@ -743,7 +739,7 @@ public class OrderServiceImpl implements OrderService {
                         payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
                     }
                     /*实现通知第三方服务器*/
-                    postData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                    PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                     order.setIsPushed("1");
                     orderMapper.modifyByOrderId(order);
                     return ResponseStatusCode.putOrGetFailed(null);
@@ -789,7 +785,7 @@ public class OrderServiceImpl implements OrderService {
                                 payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
-                            postData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                             order.setIsPushed("1");
                             orderMapper.modifyByOrderId(order);
                             return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(orderId),"验签成功！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
@@ -809,7 +805,7 @@ public class OrderServiceImpl implements OrderService {
             {
                 payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
             }
-            postData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(orderId),"验签失败！",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
             order.setIsPushed("1");
             orderMapper.modifyByOrderId(order);
             return ResponseStatusCode.verifyError();
