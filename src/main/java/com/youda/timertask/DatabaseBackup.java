@@ -1,5 +1,6 @@
 package com.youda.timertask;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;*/
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
+
+import javax.servlet.ServletContext;
 /*import org.springframework.test.context.junit4.SpringRunner;*/
 
 /**
@@ -25,16 +28,24 @@ import org.springframework.util.ResourceUtils;
 /*@RunWith(SpringRunner.class)
 @SpringBootTest*/
 public class DatabaseBackup {
-	
+
+	/*实现读取配置的自定依赖注入*/
 	@Autowired
 	private ReadConfiguration readConfiguration;
+
+	/*实现ServletContext的自动依赖注入*/
+	@Autowired
+	private ServletContext servletContext;
 	
 	//设置备份时间记录
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	String backupTime = dateFormat.format(new Date());
-	
+
+	String realPath = servletContext.getRealPath("/");
+	String backupDir = realPath + "WEB-INF"+ File.separator + "classes" + File.separator +"static" + File.separator+"backup";
+
 	//设置备份地址
-	String backupDir = "src/resoubackup";
+	/*String backupDir = "src/resoubackup";*/
 	
 	/**
 	 * 定义并实现数据库备份
