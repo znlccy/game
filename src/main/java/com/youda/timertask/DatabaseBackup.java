@@ -34,18 +34,18 @@ public class DatabaseBackup {
 	private ReadConfiguration readConfiguration;
 
 	/*实现ServletContext的自动依赖注入*/
-	@Autowired
-	private ServletContext servletContext;
+	/*@Autowired
+	private ServletContext servletContext;*/
 	
 	//设置备份时间记录
 	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 	String backupTime = dateFormat.format(new Date());
 
-	String realPath = servletContext.getRealPath("/");
-	String backupDir = realPath + "WEB-INF"+ File.separator + "classes" + File.separator +"static" + File.separator+"backup";
+	/*String realPath = servletContext.getRealPath("/");
+	String backupDir = realPath + "WEB-INF"+ File.separator + "classes" + File.separator +"static" + File.separator+"backup";*/
 
 	//设置备份地址
-	/*String backupDir = "src/resoubackup";*/
+	String backupDir = "src/resource/backup";
 	
 	/**
 	 * 定义并实现数据库备份
