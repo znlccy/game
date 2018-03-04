@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="6f485c93-65b3-40d7-8a0a-be40464993f2" name="ContinentSDK" url="http://47.91.106.59">
+        <fileTransfer host="47.100.106.59" port="22" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+      <webServer id="5b8ca438-fc19-456d-be55-7aad0851291f" name="DubaiSDK" url="http://47.91.105.120">
+        <fileTransfer host="47.91.105.120" port="22" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
