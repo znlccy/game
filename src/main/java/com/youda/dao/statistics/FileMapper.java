@@ -2,7 +2,6 @@ package com.youda.dao.statistics;
 
 import com.youda.model.FileOS;
 import org.apache.ibatis.annotations.*;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -21,7 +20,8 @@ public interface FileMapper {
      * @param: [fileOS]
      * @return: void
      */
-    @Insert("insert into tb_file values(#{fileOS.fileUrl},#{fileOS.fileName},#{fileOS.createTime},#{fileOS.gameChannelId})")
+    @Insert("insert into tb_file(fileUrl,fileName,createTime,gameChannelId) values(#{fileOS.fileUrl},#{fileOS.fileName},#{fileOS.createTime},#{fileOS.gameChannelId})")
+    @Options(useGeneratedKeys = true, keyProperty = "fileOS.fileId")
     void addFile(@Param("fileOS") FileOS fileOS);
 
     /**

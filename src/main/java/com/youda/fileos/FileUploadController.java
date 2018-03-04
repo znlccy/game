@@ -105,7 +105,7 @@ public class FileUploadController {
      * @param: [request]
      * @return: java.lang.String
      */
-    @RequestMapping(value = "/multi/upload", method = RequestMethod.POST)
+    @RequestMapping(value = "/batch/upload", method = RequestMethod.POST)
     @ResponseBody
     public String multiFileUpload(HttpServletRequest request) {
         List<MultipartFile> files = ((MultipartHttpServletRequest)request).getFiles("fileName");

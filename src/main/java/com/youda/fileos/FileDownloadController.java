@@ -44,6 +44,10 @@ public class FileDownloadController {
         File file = new File(filePath + "/" + fileName);
         /*判断文件父目录是否存在*/
         if (file.exists()) {
+
+            //设置文件输出类型
+            /*response.setContentType("application/octet-stream");*/
+            //设置输出长度
             response.setContentType("application/force-download");
             response.setHeader("Content-Disposition", "attachment:fileName="+fileName);
 
@@ -78,8 +82,11 @@ public class FileDownloadController {
                 e.printStackTrace();
             }
 
+        } else {
+
+            System.out.println("文件下载失败");
         }
-        return null;
+        return "文件下载成功";
     }
 
 
