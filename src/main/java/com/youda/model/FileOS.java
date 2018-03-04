@@ -41,6 +41,12 @@ public class FileOS {
     private Date createTime;
 
     /**
+     * 声明游戏渠道
+     */
+    @Column(name = "gameChannelId")
+    private String gameChannelId;
+
+    /**
      * @comment: getFileId 实现获得文件主键
      * @param: []
      * @return: java.lang.Long
@@ -110,5 +116,23 @@ public class FileOS {
      */
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    /**
+     * @comment: getGameChannelId实现获得游戏渠道主键
+     * @param: []
+     * @return: java.lang.String
+     */
+    public String getGameChannelId() {
+        return gameChannelId;
+    }
+
+    /**
+     * @comment: setGameChannelId实现设置游戏渠道主键
+     * @param: [gameChannelId]
+     * @return: void
+     */
+    public void setGameChannelId(String gameChannelId) {
+        this.gameChannelId = gameChannelId;
     }
 }

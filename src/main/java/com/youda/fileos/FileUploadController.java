@@ -1,10 +1,10 @@
 package com.youda.fileos;
 
+import com.youda.model.FileOS;
+import com.youda.service.statistics.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.ContextLoader;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,8 +30,17 @@ import java.util.List;
 @RequestMapping(value = "/file")
 public class FileUploadController {
 
+    /**
+     * 声明ServletContext的自动依赖注入
+     */
     @Autowired
     private ServletContext servletContext;
+
+    /**
+     * 声明文件服务的自动依赖注入
+     */
+    @Autowired
+    private FileService fileService;
 
     /**
      * @comment: fileUpload实现文件上传功能
@@ -70,6 +80,15 @@ public class FileUploadController {
         try {
             //保存文件
             file.transferTo(dest);
+
+            //保存文件信息到数据库中
+            FileOS fileOS = new FileOS();
+            fileOS.setCreateTime(new Date());
+            fileOS.setFileName(fileName);
+            fileOS.setFileUrl(filePath);
+            fileOS.setGameChannelId("21");
+            fileService.addFile(fileOS);
+
             return "true";
         } catch (IllegalStateException e) {
             e.printStackTrace();

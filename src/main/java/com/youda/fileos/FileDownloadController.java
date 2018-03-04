@@ -2,10 +2,7 @@ package com.youda.fileos;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +32,7 @@ public class FileDownloadController {
      * @param: [response]
      * @return: java.lang.String
      */
-    @RequestMapping(value = "/download")
+    @GetMapping(value = "/download")
     @ResponseBody
     public String fileDownload(HttpServletResponse response, @RequestParam("fileName") String fileName) {
 

@@ -3,7 +3,7 @@ spring:
     throw-exception-if-no-handler-found: true
   profiles:
     #使用的开发环境为dev:开发环境 qa:测试环境 prod:生产环境
-    active: foreign
+    active: dev
   datasource:
     #数据库驱动类
     driver-class-name: com.mysql.jdbc.Driver
