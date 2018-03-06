@@ -33,7 +33,6 @@ public class FileDownloadController {
      * @return: java.lang.String
      */
     @GetMapping(value = "/download")
-    @ResponseBody
     public String fileDownload(HttpServletResponse response, @RequestParam("fileName") String fileName) {
 
         /*获取真实路径*/
@@ -49,7 +48,8 @@ public class FileDownloadController {
             /*response.setContentType("application/octet-stream");*/
             //设置输出长度
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment:fileName="+fileName);
+            String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
+            response.setHeader("Content-Disposition", "attachment:fileName="+fileName+"."+suffix);
 
             byte[] buffer = new byte[1024];
             //文件输入流

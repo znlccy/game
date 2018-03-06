@@ -179,6 +179,13 @@
 			<optional>true</optional>
 		</dependency>
 
+		<!-- 添加POI用于导出Excel -->
+		<dependency>
+			<groupId>poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.1-FINAL</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
