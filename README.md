@@ -37,3 +37,10 @@ webapps web部署目录(或者子目录)
 │  ├─mvnw.cmd maven的命令行
 │  ├─pom.xml maven第三方添加依赖包的位置
 │  ├─README.md 说明文档
+~~~
+
+> GameSDK 在命令行里直接输入mvn spring-boot:run（前提配置好环境）
+> GameSDK 也可以直接运行
+> 上述目录是可以改变的，这取决你的项目
+
+## 命名规范
