@@ -69,7 +69,7 @@ public class SendEmailUtils {
     public void sendRegisterCode(final String email, String code) {
         /*实例化一个StringBuffer实例*/
         final StringBuffer sb = new StringBuffer();
-        sb.append("<h2>"+email+",您好!</h2>").append("<p style='color:red'>此次的验证码是:"+code+"</p>");
+        sb.append("<h2>"+email+",您好!</h2>").append("<p ><hr>&nbsp;&nbsp;&nbsp;&nbsp;此次的验证码是:<strong style='color:red;font-size:14px;'>"+code+"</strong></p>");
         new Thread(new Runnable() {
             @Override
             public void run() {
