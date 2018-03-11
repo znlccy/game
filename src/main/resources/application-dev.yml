@@ -3,6 +3,20 @@ name: game
 server:
   port: 8080
 spring:
+  mail:
+      host: smtp.163.com
+      username: znlccy0603@163.com
+      password: znlccy06030704
+      port: 25
+      default-encoding: UTF-8
+      protocol: smtp
+      properties:
+        mail:
+          smth:
+            auth: true
+            starttls:
+              enable: true
+              required: true
   datasource:
       #数据库驱动类
       driver-class-name: com.mysql.jdbc.Driver

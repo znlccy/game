@@ -23,4 +23,20 @@ spring:
         testWhileIdle: true
         testOnBorrow: false
         testOnReturn: false
+  mail:
+    host: smtp.163.com
+    username: znlccy0603@163.com
+    password: chencongye818824
+    port: 25
+    default-encoding: UTF-8
+    protocol: smtp
+    properties:
+      mail:
+        smth:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
   backhost: 47.91.105.120
+
