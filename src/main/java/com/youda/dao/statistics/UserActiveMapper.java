@@ -1,6 +1,8 @@
 package com.youda.dao.statistics;
 
+import com.youda.request.statistics.PeriodRequest;
 import com.youda.request.statistics.StatisticsRequest;
+import com.youda.response.statistics.PeriodResponse;
 import com.youda.response.statistics.UserActiveResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -63,4 +65,25 @@ public interface UserActiveMapper {
             ") AS b     \n" +
             "GROUP BY StatisticsDate")
     List<UserActiveResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+
+    @Select("SELECT\n" +
+            "    period,amount\n" +
+            "FROM\n" +
+            "    (\n" +
+            "\tSELECT\n" +
+            "            HOUR(userLoginTime) AS period, COUNT(*) AS amount \n" +
+            "            FROM\n" +
+            "                tb_user_caculator \n" +
+            "            WHERE gameChannelId = #{periodRequest.gameChannelId} AND \n" +
+            "            userLoginTime BETWEEN DATE_FORMAT(CONCAT(#{periodRequest.statisticsDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') \n" +
+            "            AND DATE_FORMAT(CONCAT(#{periodRequest.statisticsDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
+            "            GROUP BY period\n" +
+            "        UNION ALL\n" +
+            "        SELECT\n" +
+            "            period, amount\n" +
+            "        FROM\n" +
+            "            tb_time \n" +
+            "    ) a\n" +
+            "GROUP BY period")
+    List<PeriodResponse> periodStatistics(@Param("periodRequest") PeriodRequest periodRequest);
 }

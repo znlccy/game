@@ -1,8 +1,10 @@
 package com.youda.serviceImpl.statistics;
 
 import com.youda.dao.statistics.UserActiveMapper;
+import com.youda.request.statistics.PeriodRequest;
 import com.youda.request.statistics.StatisticsRequest;
 import com.youda.response.ResponseStatusCode;
+import com.youda.response.statistics.PeriodResponse;
 import com.youda.response.statistics.UserActiveResponse;
 import com.youda.service.statistics.UserActiveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +41,10 @@ public class UserActiveServiceImpl implements UserActiveService {
         return ResponseStatusCode.putOrGetSuccess(userActiveRespons);
     }
 
+    /*实现一天24小时用户统计*/
+    @Override
+    public ResponseEntity period(PeriodRequest periodRequest) {
+        List<PeriodResponse> periodResponses = userActiveMapper.periodStatistics(periodRequest);
+        return ResponseStatusCode.putOrGetSuccess(periodResponses);
+    }
 }

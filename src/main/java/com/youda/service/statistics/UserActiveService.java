@@ -1,5 +1,6 @@
 package com.youda.service.statistics;
 
+import com.youda.request.statistics.PeriodRequest;
 import com.youda.request.statistics.StatisticsRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -17,5 +18,7 @@ public interface UserActiveService {
 
     /*定义所有活跃用户统计*/
     ResponseEntity all(StatisticsRequest statisticsRequest);
-    
+
+    /*定义一天24小时时间段统计*/
+    ResponseEntity period(PeriodRequest periodRequest);
 }
