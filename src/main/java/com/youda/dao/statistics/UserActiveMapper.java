@@ -71,11 +71,11 @@ public interface UserActiveMapper {
             "FROM\n" +
             "    (\n" +
             "\tSELECT\n" +
-            "            HOUR(userLoginTime) AS period, COUNT(*) AS amount \n" +
+            "            HOUR(userRegistedTime) AS period, COUNT(DISTINCT userId) AS amount \n" +
             "            FROM\n" +
             "                tb_user_caculator \n" +
             "            WHERE gameChannelId = #{periodRequest.gameChannelId} AND \n" +
-            "            userLoginTime BETWEEN DATE_FORMAT(CONCAT(#{periodRequest.statisticsDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') \n" +
+            "            userRegistedTime BETWEEN DATE_FORMAT(CONCAT(#{periodRequest.statisticsDate},' 00:00:00'),'%Y-%m-%d %H:%i:%s') \n" +
             "            AND DATE_FORMAT(CONCAT(#{periodRequest.statisticsDate},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
             "            GROUP BY period\n" +
             "        UNION ALL\n" +

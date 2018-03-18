@@ -1,6 +1,7 @@
 package com.youda.controller.api;
 
 import com.youda.annotation.CurrentUser;
+import com.youda.annotation.RequestLimit;
 import com.youda.request.api.GoogleRequest;
 import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
@@ -35,6 +36,7 @@ public class OrderController {
     @CurrentUser
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity createOrder(@RequestBody OrderRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader("userId") String userId,@RequestHeader String userUseDevice) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         request.setUserId(Long.valueOf(userId));
@@ -96,6 +98,7 @@ public class OrderController {
     @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/iosattestation", method = RequestMethod.POST)
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity iosAttestation(@RequestBody IOSPayRequest request,@RequestHeader String gameChannelId,@PathVariable Long orderId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty())
@@ -109,6 +112,7 @@ public class OrderController {
     @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/google/pay", method = RequestMethod.PUT)
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity googlePay(@RequestBody GoogleRequest request,@RequestHeader("gameChannelId") String gameChannelId, @PathVariable int orderId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {

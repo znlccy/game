@@ -1,5 +1,6 @@
 package com.youda.controller.api;
 
+import com.youda.annotation.RequestLimit;
 import com.youda.request.channel.SignRequest;
 import com.youda.request.api.ForgetFirstRequest;
 import com.youda.request.api.ForgetSecondRequest;
@@ -33,6 +34,7 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity userRegistered(@RequestBody RegisterRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
@@ -47,6 +49,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     @ResponseBody
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity userLogin(@RequestBody LoginRequest request, @RequestHeader("gameChannelId") String gameChannelId, @RequestHeader String userUseDevice) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
@@ -57,6 +60,7 @@ public class UserController {
 
     @RequestMapping(value = "/forget/first", method = RequestMethod.PUT)
     @ResponseBody
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity forgetFirst(@RequestBody ForgetFirstRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
@@ -67,6 +71,7 @@ public class UserController {
 
     @RequestMapping(value = "/forget/second", method = RequestMethod.PUT)
     @ResponseBody
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity forgetSecond(@RequestBody ForgetSecondRequest request, @RequestHeader("gameChannelId") String gameChannelId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
 
@@ -78,6 +83,7 @@ public class UserController {
 
     @RequestMapping(value = "/sign", method = RequestMethod.PUT)
     @ResponseBody
+    @RequestLimit(count = 10, time = 5000)
     public ResponseEntity sign(@RequestBody SignRequest request,
                                @RequestHeader("gameChannelId") Long gameChannelId, @RequestHeader("userUseDevice") String userUseDevice) {
         request.setGameChannelId(gameChannelId);
