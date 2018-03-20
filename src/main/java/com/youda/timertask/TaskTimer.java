@@ -21,8 +21,8 @@ public class TaskTimer {
 	@Autowired
 	private DatabaseBackup databaseBackup;
 
-	@Autowired
-	private IOSPush iosPush;
+	/*@Autowired
+	private IOSPush iosPush;*/
 	
 	/**
 	 * 每100秒执行一次
@@ -46,7 +46,8 @@ public class TaskTimer {
 	@Scheduled(cron = "0 30 02 * * ? ")
 	public void timeCron() {
 		try {
-			databaseBackup.BackupDatabase();
+			/*databaseBackup.BackupDatabase();*/
+			System.out.println("进行数据库备份");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,13 +57,13 @@ public class TaskTimer {
 	/**
 	 * 每天08:30:00时执行推送
 	 */
-	@Scheduled(cron = "0 30 08 * * ? ")
+	/*@Scheduled(cron = "0 30 08 * * ? ")
 	public void sendIOSPush() {
 		try {
 			iosPush.sendPush();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 }

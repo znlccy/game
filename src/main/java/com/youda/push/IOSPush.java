@@ -23,10 +23,10 @@ import java.util.List;
  * @Comment: IOS推送
  */
 
-@Component
+/*@Component*/
 public class IOSPush {
 
-    public void sendPush() {
+    /*public void sendPush() {
         String deviceToken = "d4b3c5f3d497554f56f6f9791872666ae06e3b4e7abad6f4792dcd030007db91";
         String alert = "给你发信息了";//push的内容
         int badge = 3;//图标小红圈的数值
@@ -35,7 +35,7 @@ public class IOSPush {
         List<String> tokens = new ArrayList<String>();
         tokens.add(deviceToken);
         String certificatePath = "D:/ZshPush.p12";
-        /*File file = ResourceUtils.getFile("classpath:push/ZshPush.p12");*/
+        *//*File file = ResourceUtils.getFile("classpath:push/ZshPush.p12");*//*
         String certificatePassword = "123456";//此处注意导出的证书密码不能为空因为空密码会报错
         boolean sendCount = true;
 
@@ -76,6 +76,6 @@ public class IOSPush {
         {
             e.printStackTrace();
         }
-    }
+    }*/
 
 }
