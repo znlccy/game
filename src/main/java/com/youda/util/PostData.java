@@ -10,6 +10,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import javax.net.ssl.HttpsURLConnection;
+
 public class PostData {
 
     /*public static void main(String[] args) {
@@ -93,6 +95,30 @@ public class PostData {
 
         return sb.toString();
 
+    }
+
+    public static String sendRequest(String url,String receipt) {
+        String resultStr = null;
+        try {
+            HttpsURLConnection connection = (HttpsURLConnection) new URL(url).openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setAllowUserInteraction(false);
+            PrintStream ps = new PrintStream(connection.getOutputStream());
+            ps.print("{\"receipt-data\": \"" + receipt + "\"}");
+            ps.close();
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String str;
+            StringBuffer sb = new StringBuffer();
+            while ((str = br.readLine()) != null) {
+                sb.append(str);
+            }
+            br.close();
+            resultStr = sb.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return resultStr;
     }
 
 }

@@ -666,7 +666,7 @@ public class OrderServiceImpl implements OrderService {
     public ResponseEntity iosAttestation(IOSPayRequest request, Long orderId,String gameChannelId) {
 
         /*这是测试沙箱环境，url:"https://sandbox.itunes.apple.com/verifyReceipt",正式生产环境url:"https://buy.itunes.apple.com/verifyReceiptw"*/
-        String  url = "https://sandbox.itunes.apple.com/verifyReceipt";
+        String  url = "https://buy.itunes.apple.com/verifyReceipt";
         Order order = orderMapper.findByOrderId(orderId);
         if (order==null)
         {
@@ -700,29 +700,67 @@ public class OrderServiceImpl implements OrderService {
                 JSONObject result = JSONObject.parseObject(resultStr);
                 System.out.println("返回结果是:"+result);
                 /*沙箱环境，返回码是21007，正式生产环境是21008*/
-                if (result != null && result.getInteger("status") == 0) {
-                    String isPushed = order.getIsPushed();
-                    //通知第三方服务器支付情况，支付成功，通知发货
-                    if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
-                        try {
-                            PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
-                            if (payRecord != null)
-                            {
-                                payRecord.setPayRecordStatus("1");
-                                payRecordMapper.modifyPayRecordInfo(payRecord);
+                if (result != null && result.getInteger("status") == 21007) {
+                    String sandBoxUrl = "https://sandbox.itunes.apple.com/verifyReceipt";
+                    String iosSandboxResult = PostData.sendRequest(sandBoxUrl,request.getReceipt());
+                    JSONObject finalSandboxResult = JSONObject.parseObject(iosSandboxResult);
+                    System.out.println("沙箱环境验证:"+finalSandboxResult);
+                    if (finalSandboxResult != null && finalSandboxResult.getInteger("status") == 0) {
+                        System.out.println("进入沙箱环境进行保存支付记录");
+                        String isPushed = order.getIsPushed();
+                        //通知第三方服务器支付情况，支付成功，通知发货
+                        if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                            try {
+                                PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                                if (payRecord != null)
+                                {
+                                    payRecord.setPayRecordStatus("1");
+                                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                                }
+                                else
+                                {
+                                    payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                                }
+                                /*实现通知第三方服务器*/
+                                PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                                System.out.println("Apple沙箱支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
+                                order.setIsPushed("1");
+                                orderMapper.modifyByOrderId(order);
+                                return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            else
-                            {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                        }
+                    }
+                } else if (result != null && result.getInteger("status") == 21008) {
+                    String iosProdResult = PostData.sendRequest(url,request.getReceipt());
+                    JSONObject finalProdReusult = JSONObject.parseObject(iosProdResult);
+                    System.out.println("正式环境验证:"+finalProdReusult);
+                    if (finalProdReusult != null && finalProdReusult.getInteger("status") == 0) {
+                        System.out.println("进入正式环境进行保存支付记录");
+                        String isPushed = order.getIsPushed();
+                        //通知第三方服务器支付情况，支付成功，通知发货
+                        if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                            try {
+                                PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                                if (payRecord != null)
+                                {
+                                    payRecord.setPayRecordStatus("1");
+                                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                                }
+                                else
+                                {
+                                    payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                                }
+                                /*实现通知第三方服务器*/
+                                PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                                System.out.println("Apple正式支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
+                                order.setIsPushed("1");
+                                orderMapper.modifyByOrderId(order);
+                                return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            /*实现通知第三方服务器*/
-                            PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
-                            System.out.println("Apple支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
-                            order.setIsPushed("1");
-                            orderMapper.modifyByOrderId(order);
-                            return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
                     }
                 }

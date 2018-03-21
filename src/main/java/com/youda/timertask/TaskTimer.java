@@ -43,7 +43,7 @@ public class TaskTimer {
 	/**
 	 * 每天02:30:00时执行数据库备份
 	 */
-	@Scheduled(cron = "0 30 02 * * ? ")
+	@Scheduled(cron = "0 54 18 * * ? ")
 	public void timeCron() {
 		try {
 			/*databaseBackup.BackupDatabase();*/

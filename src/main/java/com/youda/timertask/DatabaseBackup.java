@@ -45,7 +45,7 @@ public class DatabaseBackup {
 	String backupDir = realPath + "WEB-INF"+ File.separator + "classes" + File.separator +"static" + File.separator+"backup";*/
 
 	//设置备份地址
-	String backupDir = "src/resource/backup";
+	String backupDir = "/home/database_backup/";
 	
 	/**
 	 * 定义并实现数据库备份
@@ -59,10 +59,13 @@ public class DatabaseBackup {
 		
 		Runtime runtime = Runtime.getRuntime();
 		System.out.println("-----备份数据库开始了-----");
-		String cmd = "mysqldump -h"+readConfiguration.getHost()+" -u"+readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">"+backupDir+backupTime+readConfiguration.getDatabase()+".sql";
-		
+		/*String[] cmd = new String[]{"/bin/sh ","-c ","/usr/bin/mysqldump -h" + readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">"+backupDir+backupTime+readConfiguration.getDatabase()+".sql"};*/
+		/*String cmd = "mysqldump -h"+readConfiguration.getHost()+" -u"+readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">"+backupDir+backupTime+readConfiguration.getDatabase()+".sql"; -- Windows*/
+		String cmd ="mysqldump -h"+readConfiguration.getHost()+" -u"+readConfiguration.getUsername()+" -p"+readConfiguration.getPassword()+" "+readConfiguration.getDatabase()+">"+backupDir+backupTime+readConfiguration.getDatabase()+".sql";
+
 		try {
-			Process process = runtime.exec("cmd /c"+cmd);
+			/*Process process = runtime.exec("cmd /c"+cmd); --Windows*/
+			Process process = runtime.exec("mysqldump -uroot  -pyd123456 db_ydgame > /home/database_backup/"+backupTime+".sql");
 			InputStreamReader inputStreamReader = 
 					new InputStreamReader(process.getErrorStream());
 			LineNumberReader lineNumberReader = new LineNumberReader(inputStreamReader);
