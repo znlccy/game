@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "tb_game", catalog = "db_ydgame")
-public class Game {
+public class Game implements Serializable {
 	
 	/**
 	 * 定义游戏的主键Id

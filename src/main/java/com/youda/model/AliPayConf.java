@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author chencongye
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_alipayconf",catalog="db_ydgame")
-public class AliPayConf {
+public class AliPayConf implements Serializable {
 	
 	/**
 	 * 定义支付宝支付表的主键

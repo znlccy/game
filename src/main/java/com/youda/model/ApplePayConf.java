@@ -3,6 +3,7 @@ package com.youda.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -13,7 +14,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "tb_applepayconf",catalog = "db_ydgame")
-public class ApplePayConf {
+public class ApplePayConf implements Serializable {
 
     /*声明苹果支付的主键*/
     @Id

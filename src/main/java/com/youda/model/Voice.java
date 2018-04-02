@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @CreateTime:2018/2/4 19:17
@@ -11,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_voice",catalog = "db_ydgame")
-public class Voice {
+public class Voice implements Serializable {
 
     /*声明语音主键*/
     @Id

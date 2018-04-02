@@ -633,7 +633,7 @@ public class OrderServiceImpl implements OrderService {
                 if (isPushed.equals("") || isPushed.isEmpty() || isPushed == null) {
                     try {
                         PostData.sendData(notifyUrl,PayResult.getAttestationResponse(order.getOtherOrderId(),"10401",gameName, String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                        order.setIsPushed("1");
+                        order.setIsPushed("2");
                         orderMapper.modifyByOrderId(order);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -769,7 +769,7 @@ public class OrderServiceImpl implements OrderService {
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
                     if (payRecord != null)
                     {
-                        payRecord.setPayRecordStatus("0");
+                        payRecord.setPayRecordStatus("1");
                         payRecordMapper.modifyPayRecordInfo(payRecord);
                     }
                     else
@@ -778,7 +778,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     /*实现通知第三方服务器*/
                     PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                    order.setIsPushed("1");
+                    order.setIsPushed("2");
                     orderMapper.modifyByOrderId(order);
                     return ResponseStatusCode.putOrGetFailed(null);
                 }
@@ -836,7 +836,7 @@ public class OrderServiceImpl implements OrderService {
             PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
             if (payRecord != null)
             {
-                payRecord.setPayRecordStatus("0");
+                payRecord.setPayRecordStatus("1");
                 payRecordMapper.modifyPayRecordInfo(payRecord);
             }
             else
@@ -844,7 +844,7 @@ public class OrderServiceImpl implements OrderService {
                 payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
             }
             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-            order.setIsPushed("1");
+            order.setIsPushed("2");
             orderMapper.modifyByOrderId(order);
             return ResponseStatusCode.verifyError();
         }

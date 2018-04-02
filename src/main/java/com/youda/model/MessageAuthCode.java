@@ -1,5 +1,6 @@
 package com.youda.model;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 import javax.persistence.CascadeType;
@@ -22,7 +23,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "tb_macode", catalog = "db_ydgame")
-public class MessageAuthCode {
+public class MessageAuthCode implements Serializable {
 
 	/**
 	 * 定义短信验证码的主键

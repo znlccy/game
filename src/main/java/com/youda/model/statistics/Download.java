@@ -1,6 +1,7 @@
 package com.youda.model.statistics;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tb_download", catalog = "db_ydgame")
-public class Download {
+public class Download implements Serializable {
 
     /**
      * 声明主键

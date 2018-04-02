@@ -3,6 +3,7 @@ package com.youda.dao;
 import com.youda.model.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.List;
 

@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by chenshengyu
@@ -8,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "tb_sign_with", catalog = "db_ydgame")
-public class SignWith {
+public class SignWith implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

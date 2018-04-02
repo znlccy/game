@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_file", catalog = "db_ydgame")
-public class FileOS {
+public class FileOS implements Serializable {
 
     /**
      * 声明上传文件主键

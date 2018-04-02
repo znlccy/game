@@ -1,6 +1,7 @@
 package com.youda.model.statistics;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_user_caculator",catalog = "db_ydgame")
-public class UserCaculator {
+public class UserCaculator implements Serializable {
 
     /*声明用户统计主键*/
     @Id

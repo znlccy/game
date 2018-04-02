@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -20,7 +21,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tb_payrecord", catalog = "db_ydgame")
-public class PayRecord {
+public class PayRecord implements Serializable{
 	
 	/**
 	 * 定义支付记录的主键Id

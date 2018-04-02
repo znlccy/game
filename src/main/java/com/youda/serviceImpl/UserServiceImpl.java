@@ -135,6 +135,7 @@ public class UserServiceImpl implements UserService {
         if (signUser == null) {
             User user = new User();
             user.setUserRegisteredTime(new Timestamp(System.currentTimeMillis()));
+            user.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
             userMapper.addUser(user);
             signUser = new SignUser();
             signUser.setSign(request.getSign());
@@ -142,10 +143,15 @@ public class UserServiceImpl implements UserService {
             signUser.setUserId(user.getUserId());
             signUserMapper.addSignUser(signUser);
             id = user.getUserId();
+            initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
         } else {
             id = signUser.getUserId();
+            long userId = signUser.getUserId();
+            User user = userMapper.findByUserId(userId);
+            user.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
+            userMapper.modifyUserInfo(user);
+            initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
         }
-        initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
         return ResponseStatusCode.putOrGetSuccess(addToken(id, request.getGameChannelId()));
     }
 

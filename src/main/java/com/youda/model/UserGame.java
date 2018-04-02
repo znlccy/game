@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * @Author Chencongye
@@ -11,7 +12,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_usergame")
-public class UserGame {
+public class UserGame implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

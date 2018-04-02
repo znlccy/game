@@ -52,7 +52,4 @@ spring:
       max-active: -1
       #连接池最大阻塞等待时间(使用负值标示没有限制)
       max-wait: -1
-    sentinel:
-      master:
-      nodes:
   backhost: 47.100.106.59

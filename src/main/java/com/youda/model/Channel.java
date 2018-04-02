@@ -1,5 +1,6 @@
 package com.youda.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,7 +19,7 @@ import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "tb_channel",catalog = "db_ydgame")
-public class Channel {
+public class Channel implements Serializable {
 	
 	/**
 	 * 定义游戏渠道主键Id

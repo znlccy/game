@@ -40,5 +40,4 @@ public class PayResult {
         payRecord.setUserUseDevice(userUseDevice);
         return payRecord;
     }
-
 }

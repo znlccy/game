@@ -1,6 +1,7 @@
 package com.youda.model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -12,7 +13,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "tb_token", catalog = "db_ydgame")
-public class Token {
+public class Token implements Serializable {
 
     /**
      * 定义token的主键

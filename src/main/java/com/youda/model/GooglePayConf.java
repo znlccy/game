@@ -3,6 +3,7 @@ package com.youda.model;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "tb_googlepayconf",catalog = "db_ydgame")
-public class GooglePayConf {
+public class GooglePayConf implements Serializable {
 
     /*声明google配置的主键*/
     @Id

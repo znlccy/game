@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 /**
  * @author chencongye
@@ -16,7 +17,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tb_wechatconf",catalog="db_ydgame")
-public class WeChatConf {
+public class WeChatConf implements Serializable {
 	
 	/**
 	 * 定义微信支付配置表的主键
