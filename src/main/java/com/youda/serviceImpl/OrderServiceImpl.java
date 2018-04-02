@@ -769,7 +769,7 @@ public class OrderServiceImpl implements OrderService {
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
                     if (payRecord != null)
                     {
-                        payRecord.setPayRecordStatus("1");
+                        payRecord.setPayRecordStatus("0");
                         payRecordMapper.modifyPayRecordInfo(payRecord);
                     }
                     else
@@ -778,7 +778,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                     /*实现通知第三方服务器*/
                     PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                    order.setIsPushed("2");
+                    order.setIsPushed("0");
                     orderMapper.modifyByOrderId(order);
                     return ResponseStatusCode.putOrGetFailed(null);
                 }
@@ -836,7 +836,7 @@ public class OrderServiceImpl implements OrderService {
             PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
             if (payRecord != null)
             {
-                payRecord.setPayRecordStatus("1");
+                payRecord.setPayRecordStatus("0");
                 payRecordMapper.modifyPayRecordInfo(payRecord);
             }
             else
@@ -844,7 +844,7 @@ public class OrderServiceImpl implements OrderService {
                 payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
             }
             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-            order.setIsPushed("2");
+            order.setIsPushed("0");
             orderMapper.modifyByOrderId(order);
             return ResponseStatusCode.verifyError();
         }
