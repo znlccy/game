@@ -732,7 +732,19 @@ public class OrderServiceImpl implements OrderService {
                             }
                         }
                     }
-                } else if (result != null && result.getInteger("status") == 21008) {
+                } else if (result != null && result.getInteger("status") == 21000) {
+                    System.out.println("App Store不能读取你提供的JSON对象");
+                } else if (result != null && result.getInteger("status") == 21002) {
+                    System.out.println("receipt-data域的数据有问题");
+                } else if (result != null && result.getInteger("status") == 21003) {
+                    System.out.println("receipt无法通过验证");
+                } else if (result != null && result.getInteger("status") == 21004) {
+                    System.out.println("提供的shared secret不匹配你账号中的shared secret");
+                } else if (result != null && result.getInteger("status") == 21005) {
+                    System.out.println("receipt服务器当前不可用");
+                } else if (result != null && result.getInteger("status") == 21006) {
+                    System.out.println("receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送 ");
+                } else if (result != null && result.getInteger("status") == 0) {
                     String iosProdResult = PostData.sendRequest(url,request.getReceipt());
                     JSONObject finalProdReusult = JSONObject.parseObject(iosProdResult);
                     System.out.println("正式环境验证:"+finalProdReusult);
@@ -764,24 +776,6 @@ public class OrderServiceImpl implements OrderService {
                         }
                     }
                 }
-                /*else
-                {
-                    PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
-                    if (payRecord != null)
-                    {
-                        payRecord.setPayRecordStatus("0");
-                        payRecordMapper.modifyPayRecordInfo(payRecord);
-                    }
-                    else
-                    {
-                        payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
-                    }
-                    *//*实现通知第三方服务器*//*
-                    PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                    order.setIsPushed("0");
-                    orderMapper.modifyByOrderId(order);
-                    return ResponseStatusCode.putOrGetFailed(null);
-                }*/
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -820,7 +814,7 @@ public class OrderServiceImpl implements OrderService {
                             }
                             else
                             {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google内购支付成功",Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google内购支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
                             }
                             /*实现通知第三方服务器*/
                             PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));

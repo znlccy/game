@@ -85,13 +85,16 @@ public class ChannelServiceImpl implements ChannelService {
             Channel channel = channelMapper.findByChannelId(user.getChannelId());
             channelMapper.updateToken(user);
             TokenResponse tokenResponse = new TokenResponse();
-            tokenResponse.setChannelId(channel.getChannelId());
-            tokenResponse.setToken(user.getToken());
-            tokenResponse.setUserName(channel.getChannelName());
-            tokenResponse.setChannelUserId(user.getChannelUserId());
-            tokenResponse.setIsRoot(user.getIsRoot());
-            return ResponseStatusCode.putOrGetSuccess(tokenResponse);
-
+            if (channel.getChannelId() == 0) {
+                return ResponseStatusCode.nullPointerError();
+            } else {
+                tokenResponse.setChannelId(channel.getChannelId());
+                tokenResponse.setToken(user.getToken());
+                tokenResponse.setUserName(channel.getChannelName());
+                tokenResponse.setChannelUserId(user.getChannelUserId());
+                tokenResponse.setIsRoot(user.getIsRoot());
+                return ResponseStatusCode.putOrGetSuccess(tokenResponse);
+            }
         }
         return ResponseStatusCode.verifyError();
     }
