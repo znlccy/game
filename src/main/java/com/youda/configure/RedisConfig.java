@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jredis.JredisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -26,14 +27,14 @@ import java.lang.reflect.Method;
  * Comment: Redis缓存配置
  *//*
 
+
+
 @Configuration
 @EnableCaching
 public class RedisConfig extends CachingConfigurerSupport {
 
     */
-/**
-     * 定义缓存数据 key 生成策略的bean包名+类名+方法名+所有参数
-     *//*
+/*定义缓存数据 key 生成策略的bean包名+类名+方法名+所有参数*//*
 
     @Bean
     public KeyGenerator wiselyKeyGenerator() {

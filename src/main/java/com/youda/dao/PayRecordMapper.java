@@ -47,6 +47,14 @@ public interface PayRecordMapper {
 	 */
 	@Select("select * from tb_payrecord where outTradeNo=#{outTradeNo}")
 	PayRecord findOutTradeNo(@Param("outTradeNo") String outTradeNo);
+
+	/**
+	 * 定义通过苹果transaction_id来查找是否支付过
+	 * @param payRecordOrderId
+	 * @return
+	 */
+	@Select("select * from tb_payrecord where payRecordOrderId=#{payRecordOrderId}")
+	PayRecord findByPayRecordOrderId(@Param("payRecordOrderId") String payRecordOrderId);
 	
 	/**
 	 * 定义通过支付记录主键Id来删除支付记录的规范
