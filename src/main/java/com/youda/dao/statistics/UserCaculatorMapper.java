@@ -18,7 +18,12 @@ public interface UserCaculatorMapper {
     /*添加用户统计记录*/
     @Insert("insert into tb_user_caculator(gameChannelId,userId,userLoginTime,userRegistedTime,userUseDevice) values(#{userCaculator.gameChannelId},#{userCaculator.userId},#{userCaculator.userLoginTime},#{userCaculator.userRegistedTime},#{userCaculator.userUseDevice})")
     @Options(useGeneratedKeys = true,keyProperty = "userCaculator.userCaculatorId")
-    boolean addUserCaculator(@Param("userCaculator") UserCaculator userCaculator);
+    boolean saveUserCaculator(@Param("userCaculator") UserCaculator userCaculator);
+
+    /*添加用户统计记录*/
+    @Insert("insert into tb_user_caculator(gameChannelId,userId,userLoginTime,userRegistedTime,userUseDevice) values(#{userCaculator.gameChannelId},#{userCaculator.userId},#{userCaculator.userLoginTime},#{userCaculator.userRegistedTime},#{userCaculator.userUseDevice})")
+    @Options(useGeneratedKeys = true,keyProperty = "userCaculator.userCaculatorId")
+    void addUserCaculator(@Param("userCaculator") UserCaculator userCaculator);
 
     /*根据游戏渠道主键删除用户统计*/
     @Delete("delete from tb_user_caculator where gameChannelId=#{gameChannelId}")

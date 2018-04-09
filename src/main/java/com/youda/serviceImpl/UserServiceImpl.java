@@ -79,14 +79,14 @@ public class UserServiceImpl implements UserService {
         return ResponseStatusCode.verifyError();
     }
 
-    private void initUserCaculator(Long gameChannelId, User user, String userUseDevice) {
+    public void initUserCaculator(Long gameChannelId, User user, String userUseDevice) {
         UserCaculator userCaculator = new UserCaculator();
         userCaculator.setGameChannelId(gameChannelId);
         userCaculator.setUserId(user.getUserId());
         userCaculator.setUserLoginTime(new Timestamp(System.currentTimeMillis()));
         userCaculator.setUserRegistedTime(user.getUserRegisteredTime());
         userCaculator.setUserUseDevice(userUseDevice);
-        userCaculatorMapper.addUserCaculator(userCaculator);
+        userCaculatorMapper.saveUserCaculator(userCaculator);
     }
 
     @Override
@@ -144,6 +144,7 @@ public class UserServiceImpl implements UserService {
             signUserMapper.addSignUser(signUser);
             id = user.getUserId();
             initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
+            System.out.println("实现签名统计一");
         } else {
             id = signUser.getUserId();
             long userId = signUser.getUserId();

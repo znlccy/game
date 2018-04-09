@@ -704,17 +704,12 @@ public class OrderServiceImpl implements OrderService {
                 JSONObject result1 = JSONObject.parseObject(result.getString("receipt"));
                 System.out.println("返回结果是:"+result);
                 System.out.println("返回状态码:"+result.getInteger("status"));
-                JSONArray jsonArray = result1.getJSONArray("in_app");
-                JSONObject jsonObject = JSONObject.parseObject(jsonArray.getJSONObject(0).toString());
-                System.out.println("transaction_id："+jsonObject.getString("transaction_id"));
-                String transaction_id = jsonObject.getString("transaction_id").toString();
-                if (payRecordMapper.findByPayRecordOrderId(transaction_id) == null) {
-                    /*沙箱环境，返回码是21007，正式生产环境是21008*/
+                if (result1 == null) {
+                    System.out.println("验证苹果支付失败");
                     if (result != null && result.getInteger("status") == 21007) {
-                        String sandBoxUrl = "https://sandbox.itunes.apple.com/verifyReceipt";
-                        String iosSandboxResult = PostData.sendRequest(sandBoxUrl,request.getReceipt());
-                        JSONObject finalSandboxResult = JSONObject.parseObject(iosSandboxResult);
-                        System.out.println("沙箱环境验证:"+finalSandboxResult);
+                        String sandBoxUrl1 = "https://sandbox.itunes.apple.com/verifyReceipt";
+                        String iosSandboxResult1 = PostData.sendRequest(sandBoxUrl1,request.getReceipt());
+                        JSONObject finalSandboxResult = JSONObject.parseObject(iosSandboxResult1);
                         if (finalSandboxResult != null && finalSandboxResult.getInteger("status") == 0) {
                             System.out.println("进入沙箱环境进行保存支付记录");
                             String isPushed = order.getIsPushed();
@@ -733,51 +728,8 @@ public class OrderServiceImpl implements OrderService {
                                     }
                                     /*实现通知第三方服务器*/
                                     PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                                    order.setIsPushed("1");
                                     System.out.println("Apple沙箱支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
-                                    order.setIsPushed("1");
-                                    orderMapper.modifyByOrderId(order);
-                                    return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    } else if (result != null && result.getInteger("status") == 21000) {
-                        System.out.println("App Store不能读取你提供的JSON对象");
-                    } else if (result != null && result.getInteger("status") == 21002) {
-                        System.out.println("receipt-data域的数据有问题");
-                    } else if (result != null && result.getInteger("status") == 21003) {
-                        System.out.println("receipt无法通过验证");
-                    } else if (result != null && result.getInteger("status") == 21004) {
-                        System.out.println("提供的shared secret不匹配你账号中的shared secret");
-                    } else if (result != null && result.getInteger("status") == 21005) {
-                        System.out.println("receipt服务器当前不可用");
-                    } else if (result != null && result.getInteger("status") == 21006) {
-                        System.out.println("receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送 ");
-                    } else if (result != null && result.getInteger("status") == 0) {
-                        String iosProdResult = PostData.sendRequest(url,request.getReceipt());
-                        JSONObject finalProdReusult = JSONObject.parseObject(iosProdResult);
-                        System.out.println("正式环境验证:"+finalProdReusult);
-                        if (finalProdReusult != null && finalProdReusult.getInteger("status") == 0) {
-                            System.out.println("进入正式环境进行保存支付记录");
-                            String isPushed = order.getIsPushed();
-                            //通知第三方服务器支付情况，支付成功，通知发货
-                            if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
-                                try {
-                                    PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
-                                    if (payRecord != null)
-                                    {
-                                        payRecord.setPayRecordStatus("1");
-                                        payRecordMapper.modifyPayRecordInfo(payRecord);
-                                    }
-                                    else
-                                    {
-                                        payRecordMapper.addPayRecord(PayResult.setPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),transaction_id,String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
-                                    }
-                                    /*实现通知第三方服务器*/
-                                    PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
-                                    System.out.println("Apple正式支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
-                                    order.setIsPushed("1");
                                     orderMapper.modifyByOrderId(order);
                                     return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
                                 } catch (Exception e) {
@@ -786,9 +738,93 @@ public class OrderServiceImpl implements OrderService {
                             }
                         }
                     }
-                }
-                else {
-                    System.out.println("已经验签过了，防止刷单");
+                } else {
+                    JSONArray jsonArray = result1.getJSONArray("in_app");
+                    JSONObject jsonObject = JSONObject.parseObject(jsonArray.getJSONObject(0).toString());
+                    System.out.println("transaction_id："+jsonObject.getString("transaction_id"));
+                    String transaction_id = jsonObject.getString("transaction_id").toString();
+                    if (payRecordMapper.findByPayRecordOrderId(transaction_id) == null) {
+                        /*沙箱环境，返回码是21007，正式生产环境是21008*/
+                        if (result != null && result.getInteger("status") == 21007) {
+                            String sandBoxUrl = "https://sandbox.itunes.apple.com/verifyReceipt";
+                            String iosSandboxResult = PostData.sendRequest(sandBoxUrl,request.getReceipt());
+                            JSONObject finalSandboxResult = JSONObject.parseObject(iosSandboxResult);
+                            System.out.println("沙箱环境验证:"+finalSandboxResult);
+                            if (finalSandboxResult != null && finalSandboxResult.getInteger("status") == 0) {
+                                System.out.println("进入沙箱环境进行保存支付记录");
+                                String isPushed = order.getIsPushed();
+                                //通知第三方服务器支付情况，支付成功，通知发货
+                                if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                                    try {
+                                        PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                                        if (payRecord != null)
+                                        {
+                                            payRecord.setPayRecordStatus("1");
+                                            payRecordMapper.modifyPayRecordInfo(payRecord);
+                                        }
+                                        else
+                                        {
+                                            payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                                        }
+                                        /*实现通知第三方服务器*/
+                                        PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                                        System.out.println("Apple沙箱支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
+                                        order.setIsPushed("1");
+                                        orderMapper.modifyByOrderId(order);
+                                        return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        } else if (result != null && result.getInteger("status") == 21000) {
+                            System.out.println("App Store不能读取你提供的JSON对象");
+                        } else if (result != null && result.getInteger("status") == 21002) {
+                            System.out.println("receipt-data域的数据有问题");
+                        } else if (result != null && result.getInteger("status") == 21003) {
+                            System.out.println("receipt无法通过验证");
+                        } else if (result != null && result.getInteger("status") == 21004) {
+                            System.out.println("提供的shared secret不匹配你账号中的shared secret");
+                        } else if (result != null && result.getInteger("status") == 21005) {
+                            System.out.println("receipt服务器当前不可用");
+                        } else if (result != null && result.getInteger("status") == 21006) {
+                            System.out.println("receipt合法，但是订阅已过期。服务器接收到这个状态码时，receipt数据仍然会解码并一起发送 ");
+                        } else if (result != null && result.getInteger("status") == 0) {
+                            String iosProdResult = PostData.sendRequest(url,request.getReceipt());
+                            JSONObject finalProdReusult = JSONObject.parseObject(iosProdResult);
+                            System.out.println("正式环境验证:"+finalProdReusult);
+                            if (finalProdReusult != null && finalProdReusult.getInteger("status") == 0) {
+                                System.out.println("进入正式环境进行保存支付记录");
+                                String isPushed = order.getIsPushed();
+                                //通知第三方服务器支付情况，支付成功，通知发货
+                                if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                                    try {
+                                        PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                                        if (payRecord != null)
+                                        {
+                                            payRecord.setPayRecordStatus("1");
+                                            payRecordMapper.modifyPayRecordInfo(payRecord);
+                                        }
+                                        else
+                                        {
+                                            payRecordMapper.addPayRecord(PayResult.setPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),transaction_id,String.valueOf(orderId),request.getReceipt(),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                                        }
+                                        /*实现通知第三方服务器*/
+                                        PostData.sendData(applePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(),String.valueOf(user.getUserId()),order.getOrderTotalAmount()));
+                                        System.out.println("Apple正式支付通知第三方:\nurl:"+applePayConf.getNotifyUrl()+"\noutTradeNo:"+String.valueOf(order.getOtherOrderId())+"\nresult:"+"10200"+"\ngoodName:"+game.getGameName()+"\nuserId:"+String.valueOf(user.getUserId())+"\ntotalAmount:"+order.getOrderTotalAmount());
+                                        order.setIsPushed("1");
+                                        orderMapper.modifyByOrderId(order);
+                                        return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else {
+                        System.out.println("已经验签过了，防止刷单");
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
