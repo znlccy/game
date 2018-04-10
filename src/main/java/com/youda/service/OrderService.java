@@ -45,4 +45,7 @@ public interface OrderService {
     /*实现google内购验签*/
     ResponseEntity googleAttestation(GoogleRequest request,Long orderId,String gameChannelId);
 
+    /*实现IOS单击游戏验签*/
+    ResponseEntity iosSingleGame(IOSPayRequest request, Long orderId, String gameChannelId);
+
 }

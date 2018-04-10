@@ -163,7 +163,7 @@ public interface PayMapper {
     List<StatisticsRateResponse> customArpuTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*实现全部的ARPU统计*/
-    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/(userActiveCount.userActiveCount)*100),2),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate    \n" +
+    @Select("SELECT IFNULL(FORMAT((payIncomeCount.incomeTotalMoney/(userActiveCount.userActiveCount)*1),6),0.00) AS StatisticsRate,payIncomeCount.StatisticsDate AS StatisticsDate    \n" +
             " FROM    \n" +
             " (    \n" +
             "     SELECT        \n" +

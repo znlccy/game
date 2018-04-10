@@ -12,6 +12,7 @@ import com.youda.request.api.GoogleRequest;
 import com.youda.request.api.IOSPayRequest;
 import com.youda.request.api.OrderRequest;
 import com.youda.response.api.AttestationResponse;
+import com.youda.response.api.IOSResponse;
 import com.youda.response.api.OrderResponse;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
@@ -660,6 +661,100 @@ public class OrderServiceImpl implements OrderService {
         {
             iosAttestation(request,orderId,gameChannelId);
             return ResponseStatusCode.uploadSuccess();
+        }
+    }
+
+    /**
+     * @comment: iosSingleGame 实现IOS单击游戏验签
+     * @param: [request, orderId, gameChannelId]
+     * @return: org.springframework.http.ResponseEntity
+     */
+    @Override
+    public ResponseEntity iosSingleGame(IOSPayRequest request, Long orderId, String gameChannelId) {
+        Order order = orderMapper.findByOrderId(orderId);
+        if (order == null) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        String url = "https://buy.itunes.apple.com/verifyReceipt";
+        ApplePayConf applePayConf = applePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
+        if (applePayConf == null) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        JSONObject js = new JSONObject();
+        js.put("receipt-data", request.getReceipt());
+        IOSResponse iosResult = sendApple(url, js.toString(), order, gameChannelId);
+        if (iosResult.getStatus().equals("0")) {
+            return ResponseStatusCode.putOrGetSuccess(iosResult);
+        }
+        else {
+            return ResponseStatusCode.postOrGetFailed(iosResult);
+        }
+    }
+
+    /**
+     * @comment: sendApple 发送苹果验签
+     * @param: [url, json]
+     * @return: com.youda.response.api.IOSResponse
+     */
+    private IOSResponse sendApple(String url, String json, Order order,String gameChannelId) {
+        User user = userMapper.findByUserId(order.getUserId());
+        String sandbox = "https://sandbox.itunes.apple.com/verifyReceipt";
+        String data = new RestTemplate().postForObject(url, json, String.class);
+        IOSResponse iosResult = JSONObject.parseObject(data, IOSResponse.class);
+        System.out.println("-------获取状态码:"+iosResult.getStatus());
+        switch (iosResult.getStatus()) {
+            case "0":
+                JSONObject realReuslt = JSONObject.parseObject(data);
+                JSONObject getReceipt = JSONObject.parseObject(realReuslt.getString("receipt").toString());
+                JSONArray jsonArray = getReceipt.getJSONArray("in_app");
+                /*System.out.println("Json数组"+jsonArray);*/
+                JSONObject jsonObject = JSONObject.parseObject(jsonArray.getJSONObject(0).toString());
+                System.out.println("transaction_id："+jsonObject.getString("transaction_id"));
+                String transaction_id = jsonObject.getString("transaction_id").toString();
+                JSONObject jsonData = JSONObject.parseObject(json);
+                if (payRecordMapper.findByPayRecordOrderId(transaction_id) == null) {
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(order.getOrderId()));
+                    if (payRecord != null)
+                    {
+                        payRecord.setPayRecordStatus("1");
+                        payRecord.setPayRecordOrderId(transaction_id);
+                        payRecord.setPayRecordStyle(jsonData.getString("receipt-data"));
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.setPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),transaction_id,String.valueOf(order.getOrderId()),jsonData.getString("receipt-data"),Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                    }
+                    return iosResult;
+                } else {
+                    return new IOSResponse("1401");
+                }
+            case "21007":
+                IOSResponse iosSandboxResult = sendApple(sandbox, json, order, gameChannelId);
+                /*JSONObject realSandReuslt = JSONObject.parseObject(data);
+                JSONObject getSandReceipt = JSONObject.parseObject(realSandReuslt.getString("receipt").toString());
+                JSONArray jsonSandArray = getSandReceipt.getJSONArray("in_app");
+                *//*System.out.println("Json数组"+jsonArray);*//*
+                JSONObject jsonSandObject = JSONObject.parseObject(jsonSandArray.getJSONObject(0).toString());
+                System.out.println("transaction_id："+jsonSandObject.getString("transaction_id"));
+                String sand_transaction_id = jsonSandObject.getString("transaction_id").toString();*/
+                if (iosSandboxResult.getStatus().equals("0")) {
+                    PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(order.getOrderId()));
+                    if (payRecord != null)
+                    {
+                        System.out.println("沙箱环境");
+                        payRecord.setPayRecordStatus("1");
+                        payRecordMapper.modifyPayRecordInfo(payRecord);
+                    }
+                    else
+                    {
+                        payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(order.getOrderId()),json,Long.valueOf(gameChannelId),order.getUserUseDevice()));
+                        /*payRecordMapper.addPayRecord(PayResult.setPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),sand_transaction_id,String.valueOf(order.getOrderId()),json,Long.valueOf(gameChannelId),order.getUserUseDevice()));*/
+                    }
+                }
+                return iosSandboxResult;
+            default:
+                return null;
         }
     }
 

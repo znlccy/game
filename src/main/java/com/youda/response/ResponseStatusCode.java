@@ -37,6 +37,18 @@ public class ResponseStatusCode {
                 .body(new ResponseResult("200", "操作成功", bean));
     }
 
+    /**
+     * 实现验签失败
+     *
+     * @param bean
+     * @return
+     */
+    public static ResponseEntity postOrGetFailed(Object bean) {
+        return ResponseEntity
+                .status(200)
+                .body(new ResponseResult("1401", "验签失败", bean));
+    }
+
     /*实现操作失败*/
     public static ResponseEntity putOrGetFailed(Object bean) {
         return ResponseEntity

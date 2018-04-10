@@ -120,4 +120,20 @@ public class OrderController {
         }
         return orderService.googleAttestation(request, (long) orderId,gameChannelId);
     }
+
+    /**
+     * @comment: iosSingleGame IOS单个游戏验签
+     * @param: [request, gameChannelId, orderId]
+     * @return: org.springframework.http.ResponseEntity
+     */
+    @CurrentUser
+    @ResponseBody
+    @RequestMapping(value = "{orderId}/ios/single", method = RequestMethod.POST)
+    public ResponseEntity iosSingleGame(@RequestBody IOSPayRequest request, @RequestHeader String gameChannelId,@PathVariable Long orderId) {
+        request.setGameChannelId(Long.valueOf(gameChannelId));
+        if (request.isEmpty()) {
+            return ResponseStatusCode.nullPointerError();
+        }
+        return orderService.iosSingleGame(request,(long) orderId, gameChannelId);
+    }
 }
