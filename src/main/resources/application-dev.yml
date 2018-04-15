@@ -21,11 +21,11 @@ spring:
       #数据库驱动类
       driver-class-name: com.mysql.jdbc.Driver
       #数据库URL地址
-      url: jdbc:mysql://47.100.106.59:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
+      url: jdbc:mysql://***************:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
       #数据库用户名
-      username: root
+      username: *************
       #数据库密码
-      password: yd123456
+      password: *************
       tomcat:
         initialSize: 1
         min-idle: 1
