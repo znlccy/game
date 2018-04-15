@@ -11,9 +11,9 @@ spring:
     #数据库URL地址
     url: jdbc:mysql://localhost:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
     #数据库用户名
-    username: root
+    username: **************
     #数据库密码
-    password: root
+    password: **************
     tomcat:
       initialSize: 1
       min-idle: 1
@@ -77,8 +77,8 @@ spring:
   #生成qq邮箱
   mail:
       host: stmp.qq.com
-      username: 12345678@163.com
-      password: 123456
+      username: **************
+      password: **************
       port: 25
       default-encoding: utf-8
       #test-connection: true
