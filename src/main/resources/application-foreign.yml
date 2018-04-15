@@ -11,7 +11,7 @@ spring:
       #数据库用户名
       username: root
       #数据库密码
-      password: YdSdk-123456
+      password: ***********
       tomcat:
         initialSize: 1
         min-idle: 1

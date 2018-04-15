@@ -701,7 +701,6 @@ public class OrderServiceImpl implements OrderService {
         String sandbox = "https://sandbox.itunes.apple.com/verifyReceipt";
         String data = new RestTemplate().postForObject(url, json, String.class);
         IOSResponse iosResult = JSONObject.parseObject(data, IOSResponse.class);
-        System.out.println("-------获取状态码:"+iosResult.getStatus());
         switch (iosResult.getStatus()) {
             case "0":
                 JSONObject realReuslt = JSONObject.parseObject(data);
@@ -709,7 +708,7 @@ public class OrderServiceImpl implements OrderService {
                 JSONArray jsonArray = getReceipt.getJSONArray("in_app");
                 /*System.out.println("Json数组"+jsonArray);*/
                 JSONObject jsonObject = JSONObject.parseObject(jsonArray.getJSONObject(0).toString());
-                System.out.println("transaction_id："+jsonObject.getString("transaction_id"));
+                /*System.out.println("transaction_id："+jsonObject.getString("transaction_id"));*/
                 String transaction_id = jsonObject.getString("transaction_id").toString();
                 JSONObject jsonData = JSONObject.parseObject(json);
                 if (payRecordMapper.findByPayRecordOrderId(transaction_id) == null) {
@@ -731,25 +730,17 @@ public class OrderServiceImpl implements OrderService {
                 }
             case "21007":
                 IOSResponse iosSandboxResult = sendApple(sandbox, json, order, gameChannelId);
-                /*JSONObject realSandReuslt = JSONObject.parseObject(data);
-                JSONObject getSandReceipt = JSONObject.parseObject(realSandReuslt.getString("receipt").toString());
-                JSONArray jsonSandArray = getSandReceipt.getJSONArray("in_app");
-                *//*System.out.println("Json数组"+jsonArray);*//*
-                JSONObject jsonSandObject = JSONObject.parseObject(jsonSandArray.getJSONObject(0).toString());
-                System.out.println("transaction_id："+jsonSandObject.getString("transaction_id"));
-                String sand_transaction_id = jsonSandObject.getString("transaction_id").toString();*/
                 if (iosSandboxResult.getStatus().equals("0")) {
                     PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(order.getOrderId()));
                     if (payRecord != null)
                     {
-                        System.out.println("沙箱环境");
+                        /*System.out.println("沙箱环境");*/
                         payRecord.setPayRecordStatus("1");
                         payRecordMapper.modifyPayRecordInfo(payRecord);
                     }
                     else
                     {
                         payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(order.getOrderId()),json,Long.valueOf(gameChannelId),order.getUserUseDevice()));
-                        /*payRecordMapper.addPayRecord(PayResult.setPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),sand_transaction_id,String.valueOf(order.getOrderId()),json,Long.valueOf(gameChannelId),order.getUserUseDevice()));*/
                     }
                 }
                 return iosSandboxResult;
