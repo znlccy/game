@@ -5,8 +5,8 @@ server:
 spring:
   mail:
       host: smtp.163.com
-      username: znlccy0603@163.com
-      password: znlccy06030704
+      username: ***************
+      password: ***************
       port: 25
       default-encoding: UTF-8
       protocol: smtp

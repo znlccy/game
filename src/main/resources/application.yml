@@ -77,8 +77,8 @@ spring:
   #生成qq邮箱
   mail:
       host: stmp.qq.com
-      username: znlccy0603@163.com
-      password: znlccy06030704
+      username: **************
+      password: **************
       port: 25
       default-encoding: utf-8
       #test-connection: true
