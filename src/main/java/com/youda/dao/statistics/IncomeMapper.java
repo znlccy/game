@@ -19,52 +19,27 @@ import java.util.List;
 public interface IncomeMapper {
 
     /*定义任意日期的收入统计*/
-    @Select("SELECT   \n" +
-            "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
-            "     IFNULL(incomeCount,0) AS incomeCount,\n" +
-            "     IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS incomeTotalMoney   \n" +
-            "FROM     \n" +
-            "(   \n" +
-            "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
-            "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
-            "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1' AND userUseDevice=#{statisticsRequest.userUseDevice}\n" +
-            "    GROUP BY DATE(payRecordTime) \n" +
-            "UNION   \n" +
-            "   (    \n" +
-            "    SELECT DISTINCT datelist AS StatisticsDate,    \n" +
-            "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
-            "    incomeCount AS incomeCount    \n" +
-            "    FROM tb_income     \n" +
-            "    WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
-            "   )     \n" +
-            ") AS b    \n" +
-            "GROUP BY StatisticsDate")
+    @Select("SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(incomeCount,0) AS incomeCount,IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS \n" +
+            "incomeTotalMoney FROM \n" +
+            "(SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,SUM(payRecordTotalAmount) AS incomeTotalMoney,COUNT(DISTINCT payRecordTime) AS incomeCount FROM \n" +
+            "tb_payrecord \n" +
+            "WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#\n" +
+            "{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND payRecordStatus='1' AND \n" +
+            "userUseDevice=#{statisticsRequest.userUseDevice} GROUP BY DATE(payRecordTime)\n" +
+            "UNION \n" +
+            "(SELECT DISTINCT datelist AS StatisticsDate,payRecordTotalAmount AS incomeTotalMoney,incomeCount AS incomeCount FROM tb_income \n" +
+            "WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#\n" +
+            "{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
+            ")) AS b GROUP BY StatisticsDate")
     List<IncomeResponse> customTime(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 
     /*定义全部的收入统计*/
-    @Select("SELECT   \n" +
-            "     DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,    \n" +
-            "     IFNULL(incomeCount,0) AS incomeCount,\n" +
-            "     IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS incomeTotalMoney   \n" +
-            "FROM     \n" +
-            "(   \n" +
-            "    SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,    \n" +
-            "    SUM(payRecordTotalAmount) AS incomeTotalMoney,    \n" +
-            "    COUNT(DISTINCT payRecordTime) AS incomeCount    \n" +
-            "    FROM tb_payrecord     \n" +
-            "    WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1'\n" +
-            "    GROUP BY DATE(payRecordTime) \n" +
-            "UNION   \n" +
-            "   (    \n" +
-            "    SELECT DISTINCT datelist AS StatisticsDate,    \n" +
-            "    payRecordTotalAmount AS incomeTotalMoney,    \n" +
-            "    incomeCount AS incomeCount    \n" +
-            "    FROM tb_income     \n" +
-            "    WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s')\n" +
-            "   )     \n" +
-            ") AS b    \n" +
-            "GROUP BY StatisticsDate")
+    @Select("SELECT DISTINCT DATE_FORMAT(StatisticsDate,'%Y-%m-%d') AS StatisticsDate,IFNULL(incomeCount,0) AS incomeCount,IFNULL(FORMAT(incomeTotalMoney,2),0.00) AS incomeTotalMoney FROM \n" +
+            "( SELECT DISTINCT DATE(payRecordTime) AS StatisticsDate,SUM(payRecordTotalAmount) AS incomeTotalMoney,COUNT(DISTINCT payRecordTime) AS incomeCount FROM tb_payrecord \n" +
+            "WHERE payRecordTime>=DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s') && payRecordTime<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') AND gameChannelId=#{statisticsRequest.gameChannelId} AND userUseDevice IS NOT NULL AND payRecordStatus='1' GROUP BY DATE(payRecordTime) \n" +
+            "UNION \n" +
+            "(SELECT DISTINCT datelist AS StatisticsDate,payRecordTotalAmount AS incomeTotalMoney,incomeCount AS incomeCount FROM tb_income \n" +
+            "WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
+            ")) AS b GROUP BY StatisticsDate")
     List<IncomeResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }

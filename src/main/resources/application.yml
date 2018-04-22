@@ -5,26 +5,26 @@ spring:
     #使用的开发环境为dev:开发环境 qa:测试环境 prod:生产环境
     active: foreign
 
-  datasource:
+  #datasource:
     #数据库驱动类
-    driver-class-name: com.mysql.jdbc.Driver
+    #driver-class-name: com.mysql.jdbc.Driver
     #数据库URL地址
-    url: jdbc:mysql://localhost:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
+    #url: jdbc:mysql://localhost:3306/db_ydgame?useUnicode=true&characterEncoding=utf8&useSSL=false
     #数据库用户名
-    username: *****
+    #username: root
     #数据库密码
-    password: *****
-    tomcat:
-      initialSize: 1
-      min-idle: 1
-      max-idle: 20
-      max-wait: 60000
-      timeBetweenEvictionRunsMillis: 60000
-      minEvictableIdleTimeMillis: 30000
-      validationQuery: SELECT 1
-      testWhileIdle: true
-      testOnBorrow: false
-      testOnReturn: false
+    #password: root
+    #tomcat:
+      #initialSize: 1
+      #min-idle: 1
+      #max-idle: 20
+      #max-wait: 60000
+      #timeBetweenEvictionRunsMillis: 60000
+      #minEvictableIdleTimeMillis: 30000
+      #validationQuery: SELECT 1
+      #testWhileIdle: true
+      #testOnBorrow: false
+      #testOnReturn: false
   jpa:
     properties:
       hibernate:
@@ -77,8 +77,8 @@ spring:
   #生成qq邮箱
   mail:
       host: stmp.qq.com
-      username: *****
-      password: *****
+      username: znlccy0603@163.com
+      password: znlccy06030704
       port: 25
       default-encoding: utf-8
       #test-connection: true
