@@ -108,12 +108,10 @@ public class OrderController {
         return orderService.iosUploadReceipt(request,orderId,gameChannelId);
     }
 
-    /*使用google内购进行验签*/
     @CurrentUser
     @ResponseBody
     @RequestMapping(value = "/{orderId}/google/pay", method = RequestMethod.PUT)
-    @RequestLimit(count = 10, time = 5000)
-    public ResponseEntity googlePay(@RequestBody GoogleRequest request,@RequestHeader("gameChannelId") String gameChannelId, @PathVariable int orderId) {
+    public ResponseEntity googleCheck(@RequestBody GoogleRequest request,@RequestHeader("gameChannelId") String gameChannelId, @PathVariable int orderId) {
         request.setGameChannelId(Long.valueOf(gameChannelId));
         if (request.isEmpty()) {
             return ResponseStatusCode.nullPointerError();

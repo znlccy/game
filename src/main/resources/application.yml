@@ -75,20 +75,20 @@ spring:
                 #enable: true 
                 #required: true
   #生成qq邮箱
-  mail:
-      host: stmp.qq.com
-      username: **************
-      password: **************
-      port: 25
-      default-encoding: utf-8
+  #mail:
+      #host: stmp.qq.com
+      #username: **************
+      #password: **************
+      #port: 25
+      #default-encoding: utf-8
       #test-connection: true
-      properties:
-        mail:
-          smtp:
-            auth: true
-            starttls:
-                enable: true
-                required: true
+      #properties:
+        #mail:
+          #smtp:
+            #auth: true
+            #starttls:
+                #enable: true
+                #required: true
 #logging:
 #  file: logs/logback-${spring.profiles.active}.log
 #  config: classpath:log-${spring.profiles.active}.log

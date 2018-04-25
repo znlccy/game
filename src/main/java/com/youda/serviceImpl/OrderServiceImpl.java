@@ -659,7 +659,10 @@ public class OrderServiceImpl implements OrderService {
         }
         else
         {
+            System.out.println("调用之前");
             iosAttestation(request,orderId,gameChannelId);
+            System.out.println(iosAttestation(request,orderId,gameChannelId));
+            System.out.println("调用此处");
             return ResponseStatusCode.uploadSuccess();
         }
     }
@@ -766,6 +769,7 @@ public class OrderServiceImpl implements OrderService {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
             ApplePayConf applePayConf = applePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
+            System.out.println("通知地址:"+applePayConf.getNotifyUrl());
             if(applePayConf==null)
             {
                 return ResponseStatusCode.nullPointerError();
@@ -829,6 +833,7 @@ public class OrderServiceImpl implements OrderService {
                     JSONObject jsonObject = JSONObject.parseObject(jsonArray.getJSONObject(0).toString());
                     System.out.println("transaction_id："+jsonObject.getString("transaction_id"));
                     String transaction_id = jsonObject.getString("transaction_id").toString();
+                    System.out.println("查询出来的结果:"+ transaction_id);
                     if (payRecordMapper.findByPayRecordOrderId(transaction_id) == null) {
                         /*沙箱环境，返回码是21007，正式生产环境是21008*/
                         if (result != null && result.getInteger("status") == 21007) {
@@ -933,7 +938,7 @@ public class OrderServiceImpl implements OrderService {
         {
             Game game = gameMapper.findByGameId(order.getGameId());
             User user = userMapper.findByUserId(order.getUserId());
-
+            System.out.println(Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature()));
             if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
                 // TODO: 2017/12/25 标记订单号为  orderId 已经支付
                 // TODO: 2017/12/25 通知游戏方发货
@@ -962,6 +967,7 @@ public class OrderServiceImpl implements OrderService {
                     }
                 }
             }
+
             /*实现通知第三方服务器*/
             /*PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
             if (payRecord != null)

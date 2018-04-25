@@ -144,7 +144,6 @@ public class UserServiceImpl implements UserService {
             signUserMapper.addSignUser(signUser);
             id = user.getUserId();
             initUserCaculator(request.getGameChannelId(), userMapper.findByUserId(signUser.getUserId()), userUseDevice);
-            System.out.println("实现签名统计一");
         } else {
             id = signUser.getUserId();
             long userId = signUser.getUserId();

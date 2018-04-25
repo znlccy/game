@@ -56,4 +56,6 @@ public interface UserRetainedMapper {
             "WHERE DATE_FORMAT(CONCAT(#{statisticsRequest.beginTime},' 00:00:00'),'%Y-%m-%d %H:%i:%s')<= DATE(datelist)&&DATE(datelist)<=DATE_FORMAT(CONCAT(#{statisticsRequest.endTime},' 23:59:59'),'%Y-%m-%d %H:%i:%s') \n" +
             ")) AS b GROUP BY StatisticsDate) AS userNew ON userActive.StatisticsDate=userNew.StatisticsDate GROUP BY userActive.StatisticsDate")
     List<UserRetainedResponse> all(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
+
+    List<UserRetainedResponse> retain(@Param("statisticsRequest") StatisticsRequest statisticsRequest);
 }
