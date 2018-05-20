@@ -26,6 +26,7 @@ import com.youda.response.AliPayResponse;
 import com.youda.response.ResponseStatusCode;
 import com.youda.response.WeChatPayResponse;
 import com.youda.service.GameChannelService;
+import com.youda.service.GoogleOrderService;
 import com.youda.util.*;
 import org.jdom.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,9 @@ public class OrderServiceImpl implements OrderService {
     /*实现GooglePayConfMapper的自动依赖注入*/
     @Autowired
     GooglePayConfMapper googlePayConfMapper;
+
+    @Autowired
+    GoogleOrderService googleOrderService;
 
     @Override
     public ResponseEntity createOrder(OrderRequest request,String userUseDevice) {
@@ -925,64 +929,40 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public ResponseEntity googleAttestation(GoogleRequest request, Long orderId,String gameChannelId) {
+    public ResponseEntity googleAttestation(GoogleRequest request, Long orderId, String gameChannelId) {
         GooglePayConf googlePayConf = googlePayConfMapper.findByGameChannelId(Long.valueOf(gameChannelId));
-        String mSignatureBase64 = googlePayConf.getSignNature();
-        /*String mSignatureBase64 = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoctgqPeEe6W+3mPyBlgD9BbFgPHiwwA4jxEggqqObLYnmTKLIqfO5sxP0SjjeRbbCAA5aCbbVb/B/4g2FFgx7ZDsV/U0n4WzCFOXk5n56/xep/De2A7UD2bWHtI3Jgt59B8J2G8MJ+wHOjVv6wmjHVIGfbAKcc+eJPOlXdMf9dV42j0TFEEcASaje4g7fto/AssVwSnzGrVTlM1xztyrrL4YlegPppliP7rqccGZZbI6z10Z7AK9nduV41SUm9aEUs6mVysw3pNKc568Yj1+Pi+B9XpSv7MK+DDcbDdpqRaQXHOV/inkRCIi8glug81kxSq8CfAU67YGsB2G3VtZewIDAQAB";*/
         Order order = orderMapper.findByOrderId(orderId);
-        if (order == null)
-        {
+        if (order == null) {
             return ResponseStatusCode.nullPointerError();
         }
-        else
-        {
-            Game game = gameMapper.findByGameId(order.getGameId());
-            User user = userMapper.findByUserId(order.getUserId());
-            System.out.println(Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature()));
-            if (Security.verifyPurchase(mSignatureBase64, request.getSignedData(), request.getSignature())) {
-                // TODO: 2017/12/25 标记订单号为  orderId 已经支付
-                // TODO: 2017/12/25 通知游戏方发货
-                String isPushed = order.getIsPushed();
-                //通知第三方服务器支付情况，支付成功，通知发货
-                if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
-                    try {
-                            /*实现更新支付记录信息*/
-                            PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
-                            if (payRecord != null)
-                            {
-                                payRecord.setPayRecordStatus("1");
-                                payRecordMapper.modifyPayRecordInfo(payRecord);
-                            }
-                            else
-                            {
-                                payRecordMapper.addPayRecord(PayResult.getPayRecord("1",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google内购支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
-                            }
-                            /*实现通知第三方服务器*/
-                            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                            order.setIsPushed("1");
-                            orderMapper.modifyByOrderId(order);
-                            return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
 
-            /*实现通知第三方服务器*/
-            /*PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
-            if (payRecord != null)
-            {
-                payRecord.setPayRecordStatus("0");
-                payRecordMapper.modifyPayRecordInfo(payRecord);
+        String js = request.getSignedData().replace("\\","");
+        GoogleOrder googleOrder = (GoogleOrder) JSON.parseObject(js, GoogleOrder.class);
+
+        Game game = gameMapper.findByGameId(order.getGameId());
+        User user = userMapper.findByUserId(order.getUserId());
+
+        GoogleOrderService.PayStatus payStatus = googleOrderService.isPay(googleOrder, true);
+        if (payStatus == GoogleOrderService.PayStatus.SUCCESS || (payStatus == GoogleOrderService.PayStatus.NO_SUPPORT &&
+                Security.verifyPurchase(googlePayConf.getSignNature(), request.getSignedData(), request.getSignature())
+        )) {
+            String isPushed = order.getIsPushed();
+            if (isPushed == null || isPushed.equals("") || isPushed.isEmpty()) {
+                /*实现更新支付记录信息*/
+                PayRecord payRecord = payRecordMapper.findOutTradeNo(String.valueOf(orderId));
+                if (payRecord != null) {
+                    payRecord.setPayRecordStatus("1");
+                    payRecordMapper.modifyPayRecordInfo(payRecord);
+                } else {
+                    payRecordMapper.addPayRecord(PayResult.getPayRecord("1", String.valueOf(user.getUserId()), order.getOrderTotalAmount(), String.valueOf(orderId), "Google内购支付", Long.valueOf(gameChannelId), order.getUserUseDevice()));
+                }
+                /*实现通知第三方服务器*/
+                PostData.sendData(googlePayConf.getNotifyUrl(), PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()), "10200", game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
+                order.setIsPushed("1");
+                orderMapper.modifyByOrderId(order);
+                return ResponseStatusCode.putOrGetSuccess(PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10200",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
             }
-            else
-            {
-                payRecordMapper.addPayRecord(PayResult.getPayRecord("0",String.valueOf(user.getUserId()),order.getOrderTotalAmount(),String.valueOf(orderId),"Google支付",Long.valueOf(gameChannelId),order.getUserUseDevice()));
-            }
-            PostData.sendData(googlePayConf.getNotifyUrl(),PayResult.getAttestationResponse(String.valueOf(order.getOtherOrderId()),"10401",game.getGameName(), String.valueOf(user.getUserId()), order.getOrderTotalAmount()));
-            order.setIsPushed("0");
-            orderMapper.modifyByOrderId(order);*/
-            return ResponseStatusCode.verifyError();
         }
+        return ResponseStatusCode.verifyError();
     }
 }
